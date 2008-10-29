@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM.Core", "SharpTM.Core\SharpTM.Core.csproj", "{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM", "SharpTM.Core\SharpTM.csproj", "{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMAPI.Net", "TMAPI.Net\TMAPI.Net.csproj", "{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}"
 EndProject

@@ -6,7 +6,7 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SharpTM Core")]
+[assembly: AssemblyTitle("SharpTM")]
 [assembly: AssemblyDescription("Topic Maps Engine")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pixelplastic")]
