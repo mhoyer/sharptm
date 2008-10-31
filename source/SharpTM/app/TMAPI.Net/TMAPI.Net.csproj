@@ -8,12 +8,14 @@
     <ProjectGuid>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>org.tmapi</RootNamespace>
-    <AssemblyName>org.tmapi</AssemblyName>
+    <RootNamespace>TMAPI.Net</RootNamespace>
+    <AssemblyName>TMAPI.Net</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>TMAPI.Net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\org.tmapi.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\TMAPI.Net.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\org.tmapi.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\TMAPI.Net.xml</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -43,33 +45,40 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="core\FactoryConfigurationException.cs" />
-    <Compile Include="core\FeatureNotRecognizedException.cs" />
-    <Compile Include="core\FeatureNotSupportedException.cs" />
-    <Compile Include="core\IAssociation.cs" />
-    <Compile Include="core\IConstruct.cs" />
-    <Compile Include="core\IDatatypeAware.cs" />
-    <Compile Include="core\IdentityConstraintException.cs" />
-    <Compile Include="core\ILocator.cs" />
-    <Compile Include="core\IName.cs" />
-    <Compile Include="core\IOccurrence.cs" />
-    <Compile Include="core\IReifiable.cs" />
-    <Compile Include="core\IRole.cs" />
-    <Compile Include="core\IScoped.cs" />
-    <Compile Include="core\ITopic.cs" />
-    <Compile Include="core\ITopicMap.cs" />
-    <Compile Include="core\ITopicMapSystem.cs" />
-    <Compile Include="core\ITyped.cs" />
-    <Compile Include="core\IVariant.cs" />
-    <Compile Include="core\ModelConstraintException.cs" />
-    <Compile Include="core\TMAPIException.cs" />
-    <Compile Include="core\TMAPIRuntimeException.cs" />
-    <Compile Include="core\TopicInUseException.cs" />
-    <Compile Include="core\TopicMapExistsException.cs" />
-    <Compile Include="core\TopicMapSystemFactory.cs" />
-    <Compile Include="index\IIndex.cs" />
-    <Compile Include="index\ILiteralIndex.cs" />
-    <Compile Include="index\IScopedIndex.cs" />
-    <Compile Include="index\ITypeInstanceIndex.cs" />
+    <Compile Include="Core\FactoryConfigurationException.cs" />
+    <Compile Include="Core\FeatureNotRecognizedException.cs" />
+    <Compile Include="Core\FeatureNotSupportedException.cs" />
+    <Compile Include="Core\IAssociation.cs" />
+    <Compile Include="Core\IConstruct.cs" />
+    <Compile Include="Core\IDatatypeAware.cs" />
+    <Compile Include="Core\IdentityConstraintException.cs" />
+    <Compile Include="Core\ILocator.cs" />
+    <Compile Include="Core\IName.cs" />
+    <Compile Include="Core\IOccurrence.cs" />
+    <Compile Include="Core\IReifiable.cs" />
+    <Compile Include="Core\IRole.cs" />
+    <Compile Include="Core\IScoped.cs" />
+    <Compile Include="Core\ITopic.cs" />
+    <Compile Include="Core\ITopicMap.cs" />
+    <Compile Include="Core\ITopicMapSystem.cs" />
+    <Compile Include="Core\ITyped.cs" />
+    <Compile Include="Core\IVariant.cs" />
+    <Compile Include="Core\ModelConstraintException.cs" />
+    <Compile Include="Core\TMAPIException.cs" />
+    <Compile Include="Core\TMAPIRuntimeException.cs" />
+    <Compile Include="Core\TopicInUseException.cs" />
+    <Compile Include="Core\TopicMapExistsException.cs" />
+    <Compile Include="Core\TopicMapSystemFactory.cs" />
+    <Compile Include="Index\IIndex.cs" />
+    <Compile Include="Index\ILiteralIndex.cs" />
+    <Compile Include="Index\IScopedIndex.cs" />
+    <Compile Include="Index\ITypeInstanceIndex.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TMAPI.Net.snk" />
   </ItemGroup>
 </Project>
