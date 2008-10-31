@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM", "app\SharpTM.Core\SharpTM.csproj", "{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM", "app\SharpTM\SharpTM.csproj", "{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMAPI.Net", "app\TMAPI.Net\TMAPI.Net.csproj", "{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMAPI.Net.Tests", "test\TMAPI.Net\TMAPI.Net.Tests.csproj", "{5FBFC5C7-D5A1-4428-8C49-C42ACBCDDB4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMAPI.Net.Tests", "test\TMAPI.Net.Tests\TMAPI.Net.Tests.csproj", "{5FBFC5C7-D5A1-4428-8C49-C42ACBCDDB4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM.Tests", "test\SharpTM.Tests\SharpTM.Tests.csproj", "{FF32126E-7227-4242-948F-A8A4171ACD2A}"
 EndProject

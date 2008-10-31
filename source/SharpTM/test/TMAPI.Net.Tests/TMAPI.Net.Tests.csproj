@@ -39,7 +39,7 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\SharpTM.Core\SharpTM.csproj">
+    <ProjectReference Include="..\..\app\SharpTM\SharpTM.csproj">
       <Project>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</Project>
       <Name>SharpTM</Name>
     </ProjectReference>
