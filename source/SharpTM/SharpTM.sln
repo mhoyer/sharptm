@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMAPI.Net.Tests", "test\TMA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM.Tests", "test\SharpTM.Tests\SharpTM.Tests.csproj", "{FF32126E-7227-4242-948F-A8A4171ACD2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{0CE9798F-E975-4EC5-BE31-C8E85D5C539E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{DB4AF96D-7F6F-4A53-A8F7-FD1B68D969B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +38,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC} = {0CE9798F-E975-4EC5-BE31-C8E85D5C539E}
+		{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F} = {0CE9798F-E975-4EC5-BE31-C8E85D5C539E}
+		{5FBFC5C7-D5A1-4428-8C49-C42ACBCDDB4C} = {DB4AF96D-7F6F-4A53-A8F7-FD1B68D969B1}
+		{FF32126E-7227-4242-948F-A8A4171ACD2A} = {DB4AF96D-7F6F-4A53-A8F7-FD1B68D969B1}
 	EndGlobalSection
 EndGlobal

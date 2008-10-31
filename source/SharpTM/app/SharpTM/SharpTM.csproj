@@ -8,8 +8,8 @@
     <ProjectGuid>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.Core</RootNamespace>
-    <AssemblyName>Pixelplastic.TopicMaps.SharpTM.Core</AssemblyName>
+    <RootNamespace>Pixelplastic.TopicMaps.SharpTM</RootNamespace>
+    <AssemblyName>Pixelplastic.TopicMaps.SharpTM</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -68,6 +68,7 @@
     <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Locator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,5 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SharpTM.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Index\" />
   </ItemGroup>
 </Project>
