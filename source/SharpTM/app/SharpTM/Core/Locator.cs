@@ -30,8 +30,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (absoluteReference == null)
 			{
-				throw new TMAPIException("Referenced IRI cannot be null.", 
-					new ArgumentNullException("absoluteReference"));
+				throw new TMAPIException("Referenced IRI cannot be null.",
+				                         new ArgumentNullException("absoluteReference"));
 			}
 
 			try
@@ -104,6 +104,49 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
+		/// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Locator"/>.
+		/// </summary>
+		/// <param name="locator">The <see cref="object"/> to compare with the current <see cref="Locator"/>.</param>
+		/// <returns>true if the specified <see cref="object"/> is equal to the current <see cref="Locator"/> otherwise, false</returns>
+		public override bool Equals(object locator)
+		{
+			if (locator != null && locator is ILocator)
+			{
+				return Equals(locator as ILocator);
+			}
+
+			return base.Equals(locator);
+		}
+
+		/// <summary>
+		/// Serves as a hash function for a particular type.
+		/// </summary>
+		/// <returns>
+		/// A hash code for the current <see cref="Locator"/>.
+		/// </returns>
+		public override int GetHashCode()
+		{
+			return (reference != null ? reference.GetHashCode() : 0);
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Determines whether the specified <see cref="ILocator"/> is equal to the current <see cref="Locator"/>.
+		/// </summary>
+		/// <param name="locator">The <see cref="ILocator"/> to compare with the current <see cref="Locator"/>.</param>
+		/// <returns>true if the specified <see cref="ILocator"/> is equal to the current <see cref="Locator"/> otherwise, false</returns>
+		public bool Equals(ILocator locator)
+		{
+			if (locator.Reference == Reference)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Resolves the <paramref name="relativeReference"/> against this <see cref="ILocator">locator</see>.
 		/// The returned <c>Locator</c> represents an absolute IRI.
 		/// </summary>
@@ -117,7 +160,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			return new Locator(new Uri(reference, relativeReference));
 		}
-
 		#endregion
 	}
 }
