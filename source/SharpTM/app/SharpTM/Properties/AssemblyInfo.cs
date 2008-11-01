@@ -1,7 +1,13 @@
-ï»¿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+// <copyright file="AssemblyInfo.cs" company="Pixelplastic">
+// Copyright (©) Marcel Hoyer 2008. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
+
+using System;
+using System.Reflection;
 using System.Resources;
+using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -11,7 +17,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pixelplastic")]
 [assembly: AssemblyProduct("SharpTM")]
-[assembly: AssemblyCopyright("Copyright Â© Marcel Hoyer 2008")]
+[assembly: AssemblyCopyright("Copyright © Marcel Hoyer 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,7 +35,8 @@ using System.Resources;
 //      Minor Version 
 //      Build Number
 //      Revision
-//
+
 [assembly: AssemblyVersion("0.1.0.0")]
 [assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: CLSCompliant(true)]

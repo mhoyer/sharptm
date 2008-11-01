@@ -1,19 +1,64 @@
+// <copyright file="Locator.cs" company="Pixelplastic">
+// Copyright (©) Marcel Hoyer 2008. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
+
 using System;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
 {
 	/// <summary>
-	/// An imutable representation of any IRI addressing scheme.
+	/// An immutable representation of an IRI.
 	/// </summary>
-	/// <remarks>
-	/// In this representation, an address (reference) is defined using a string and the 
-	/// reference string is specified in a particular notation. For example, the majority 
-	/// of network addresses are specified using the "URI" notation, and so the reference 
-	/// string must conform to this notation specification.
-	/// </remarks>
 	public class Locator : ILocator
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the current <see cref="Uri"/> of this <see cref="Locator"/>.
+		/// </summary>
+		private readonly Uri reference;
+		#endregion
+
+		#region constructor logic
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Locator"/> class using a <see cref="string"/>.
+		/// </summary>
+		/// <param name="absoluteReference">The absolute reference.</param>
+		public Locator(string absoluteReference)
+		{
+			if (absoluteReference == null)
+			{
+				throw new TMAPIException("Referenced IRI cannot be null.", 
+					new ArgumentNullException("absoluteReference"));
+			}
+
+			try
+			{
+				reference = new Uri(absoluteReference, UriKind.Absolute);
+			}
+			catch (UriFormatException ex)
+			{
+				throw new TMAPIException("Referenced IRI should be a valid absolute IRI.", ex);
+			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Locator"/> class.
+		/// </summary>
+		/// <param name="absoluteReference">The absolute reference.</param>
+		public Locator(Uri absoluteReference)
+		{
+			if (!absoluteReference.IsAbsoluteUri)
+			{
+				throw new TMAPIException("Referenced IRI should be a valid absolute IRI.");
+			}
+
+			reference = absoluteReference;
+		}
+		#endregion
+
 		#region ILocator properties
 		/// <summary>
 		/// Gets the external form of the IRI.
@@ -24,8 +69,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public string ExternalForm
 		{
-			get;
-			private set;
+			get
+			{
+				return reference.AbsoluteUri;
+			}
 		}
 
 		/// <summary>
@@ -33,40 +80,44 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public string Reference
 		{
-			get;
-			private set;
+			get
+			{
+				return reference.OriginalString;
+			}
 		}
 		#endregion
 
 		#region ILocator methods
 		/// <summary>
-		/// Resolves the <paramref name="reference"/> against this <see cref="ILocator">locator</see>.
+		/// Resolves the <paramref name="relativeReference"/> against this <see cref="ILocator">locator</see>.
 		/// The returned <c>Locator</c> represents an absolute IRI.
 		/// </summary>
-		/// <param name="reference">
+		/// <param name="relativeReference">
 		/// The reference which should be resolved against this locator.
 		/// </param>
 		/// <returns>
 		/// A locator representing an absolute IRI.
 		/// </returns>
-		public ILocator Resolve(string reference)
+		public ILocator Resolve(string relativeReference)
 		{
-			throw new NotImplementedException();
+			return Resolve(new Uri(relativeReference, UriKind.Relative));
 		}
-		#endregion
 
-		#region constructor logic
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Locator"/> class.
+		/// Resolves the <paramref name="relativeReference"/> against this <see cref="ILocator">locator</see>.
+		/// The returned <c>Locator</c> represents an absolute IRI.
 		/// </summary>
-		/// <param name="address">The address.</param>
-		/// <param name="notation">The notation.</param>
-		public Locator(string address, string notation)
+		/// <param name="relativeReference">
+		/// The reference which should be resolved against this locator.
+		/// </param>
+		/// <returns>
+		/// A locator representing an absolute IRI.
+		/// </returns>
+		public ILocator Resolve(Uri relativeReference)
 		{
-			Reference = address;
-			Notation = notation;
+			return new Locator(new Uri(reference, relativeReference));
 		}
-		#endregion
 
+		#endregion
 	}
 }
