@@ -68,7 +68,10 @@
     <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Construct.cs" />
     <Compile Include="Core\Locator.cs" />
+    <Compile Include="Core\Reifiable.cs" />
+    <Compile Include="Core\TopicMap.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\TopicMapSystemFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
