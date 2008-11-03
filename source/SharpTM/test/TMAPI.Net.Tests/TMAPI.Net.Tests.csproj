@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\LocatorTest.cs" />
+    <Compile Include="Core\TopicMapSystemTest.cs"/>
     <Compile Include="TMAPITestCase.cs" />
   </ItemGroup>
   <ItemGroup>
