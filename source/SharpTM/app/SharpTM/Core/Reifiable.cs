@@ -12,11 +12,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Reifiable"/> class.
 		/// </summary>
-		/// <param name="topicMapSystem"></param>
-		/// <param name="parent"></param>
-		/// <param name="topicMap"></param>
-		protected Reifiable(ITopicMapSystem topicMapSystem, IConstruct parent, ITopicMap topicMap)
-			: base(topicMapSystem, parent, topicMap)
+		/// <param name="parent">The parent <see cref="IConstruct"/> containing this instance.</param>
+		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
+		/// <param name="initialIdentifier">The initial <see cref="ILocator"/> for this instance.</param>
+		protected Reifiable(IConstruct parent, ITopicMap topicMap, ILocator initialIdentifier)
+			: base(parent, topicMap, initialIdentifier)
 		{
 		}
 		#endregion
