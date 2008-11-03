@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TMAPI.Net.Core;
@@ -22,9 +23,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	{
 		#region readonly & static fields
 		/// <summary>
-		/// Represents the list of <see cref="ILocator">locators</see> for the current <see cref="TopicMapSystem"/>.
+		/// Represents a list of <see cref="ILocator">topic maps</see> for the current <see cref="TopicMapSystem"/>.
 		/// </summary>
-		private readonly List<ILocator> locators;
+		private readonly List<ITopicMap> topicMaps;
 		#endregion
 
 		#region constructor logic
@@ -33,7 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public TopicMapSystem()
 		{
-			locators = new List<ILocator>();
+			topicMaps = new List<ITopicMap>();
 		}
 		#endregion
 
@@ -51,7 +52,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return locators.AsReadOnly();
+				List<ILocator> locators = new List<ILocator>();
+
+				foreach (ITopicMap topicMap in topicMaps)
+				{
+					locators.AddRange(topicMap.ItemIdentifiers);
+				}
+
+				return new ReadOnlyCollection<ILocator>(locators);
 			}
 		}
 		#endregion
@@ -85,19 +93,36 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
-		///     Creates a new <see cref="T:TMAPI.Net.Core.ITopicMap"/> and stores it within the system under the 
-		///     specified <paramref name="iri"/>.
+		/// Creates a new <see cref="T:TMAPI.Net.Core.ITopicMap"/> and stores it within the system under the
+		/// specified <paramref name="iri"/>.
 		/// </summary>
-		/// <param name="iri">
-		///     The address which should be used to store the <see cref="T:TMAPI.Net.Core.ITopicMap"/>.
-		///		<seealso href="http://www.ietf.org/rfc/rfc3987.txt">RFC: Internationalized Resource Identifiers (IRIs)</seealso>
-		/// </param>
+		/// <param name="iri">The address which should be used to store the <see cref="T:TMAPI.Net.Core.ITopicMap"/>.
+		/// <seealso href="http://www.ietf.org/rfc/rfc3987.txt">RFC: Internationalized Resource Identifiers (IRIs)</seealso></param>
 		/// <returns>
-		///     The newly created <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance.
+		/// The newly created <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance.
 		/// </returns>
+		/// <exception cref="TopicMapExistsException">
+		/// If this <see cref="ITopicMapSystem"/> already manages a <see cref="ITopicMap"/> under the specified IRI.
+		/// </exception>
 		public ITopicMap CreateTopicMap(ILocator iri)
 		{
-			throw new System.NotImplementedException();
+			foreach (ITopicMap currentTopicMap in topicMaps)
+			{
+				if (currentTopicMap.ItemIdentifiers.Contains(iri))
+				{
+					string message = string.Format(
+						"A topic map with locator {0} still exists in this topic map system.",
+						iri.Reference);
+
+					throw new TopicMapExistsException(message);
+				}
+			}
+
+			TopicMap topicMap = new TopicMap(this, iri);
+			topicMap.OnRemove += TopicMap_OnRemove;
+			topicMaps.Add(topicMap);
+
+			return topicMap;
 		}
 
 		/// <summary>
@@ -113,7 +138,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap CreateTopicMap(string iri)
 		{
-			throw new System.NotImplementedException();
+			return CreateTopicMap(CreateLocator(iri));
 		}
 
 		/// <summary>
@@ -121,8 +146,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     A list of the core properties defined by TMAPI can be found at 
 		///     <a href="http://tmapi.org/properties/">http://tmapi.org/properties/</a>. An implementation is free to 
 		///     support properties other than the core ones.
-		///     The properties supported by the TopicMapSystem and the value for each property is set when the 
-		///     TopicMapSystem is created by a call to <see cref="TMAPI.Net.Core.TopicMapSystemFactory.NewTopicMapSystem"/> and 
+		///     The properties supported by the <see cref="TopicMapSystem"/> and the value for each property is set when the 
+		///     <see cref="TopicMapSystem" /> is created by a call to <see cref="TMAPI.Net.Core.TopicMapSystemFactory.NewTopicMapSystem"/> and 
 		///     cannot be modified subsequently.
 		/// </summary>
 		/// <param name="propertyName">
@@ -150,7 +175,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap GetTopicMap(string iri)
 		{
-			throw new System.NotImplementedException();
+			if (iri == null)
+			{
+				return null;
+			}
+
+			if (String.IsNullOrEmpty(iri))
+			{
+				return null;
+			}
+
+			return GetTopicMap(CreateLocator(iri));
 		}
 
 		/// <summary>
@@ -167,7 +202,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap GetTopicMap(ILocator iri)
 		{
-			throw new System.NotImplementedException();
+			if (iri == null)
+			{
+				return null;
+			}
+
+			foreach (ITopicMap topicMap in topicMaps)
+			{
+				if (topicMap.ItemIdentifiers.Contains(iri))
+				{
+					return topicMap;
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>
@@ -187,6 +235,43 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public bool HasFeature(string featureName)
 		{
 			throw new System.NotImplementedException();
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Removes a topic map identified by a <see cref="ILocator"/>.
+		/// </summary>
+		/// <param name="locator">The locator of the topic map to be removed.</param>
+		public void RemoveTopicMap(ILocator locator)
+		{
+			if (locator == null)
+			{
+				return;
+			}
+
+			foreach (ITopicMap topicMap in topicMaps)
+			{
+				if (topicMap.ItemIdentifiers.Contains(locator))
+				{
+					topicMaps.Remove(topicMap);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Handles the <see cref="TopicMap.OnRemove"/> event of a <see cref="TopicMap"/>.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void TopicMap_OnRemove(object sender, EventArgs e)
+		{
+			ITopicMap topicMap = sender as ITopicMap;
+
+			if (topicMap != null)
+			{
+				topicMaps.Remove(topicMap);
+			}
 		}
 		#endregion
 	}
