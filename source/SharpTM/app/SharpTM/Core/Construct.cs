@@ -21,12 +21,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
-		protected Construct(ITopicMapSystem topicMapSystem, IConstruct parent, ITopicMap topicMap)
+		protected Construct(IConstruct parent, ITopicMap topicMap, ILocator initialIdentifier)
 		{
-			if (topicMapSystem == null)
-			{
-				throw new ArgumentNullException("topicMapSystem");
-			}
+			itemIdentifiers = new List<ILocator>();
+			Id = Guid.NewGuid().ToString();
 
 			if (topicMap == null)
 			{
@@ -40,12 +38,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			TopicMapSystem = topicMapSystem;
+			if (initialIdentifier == null)
+			{
+				if (!(this is ITopic))
+				{
+					throw new ArgumentNullException("initialIdentifier");
+				}
+			}
+			else
+			{
+				itemIdentifiers.Add(initialIdentifier);
+			}
+
 			Parent = parent;
 			TopicMap = topicMap ?? TopicMap;
-
-			Id = Guid.NewGuid().ToString();
-			itemIdentifiers = new List<ILocator>();
 		}
 		#endregion
 
@@ -114,18 +120,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region properties
-		/// <summary>
-		/// Gets the <see cref="TopicMapSystem"/> that contains this <see cref="TopicMap"/>.
-		/// </summary>
-		/// <value>The topic map system.</value>
-		public ITopicMapSystem TopicMapSystem
-		{
-			get;
-			private set;
-		}
-		#endregion
-
 		#region IConstruct methods
 		/// <summary>
 		///     Adds an item identifier.
@@ -152,11 +146,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				                                   new ArgumentNullException("itemIdentifier"));
 			}
 
-			if (TopicMapSystem.Locators.Contains(itemIdentifier))
+			if (TopicMap.ItemIdentifiers.Contains(itemIdentifier))
 			{
 				String message = String.Format(
-					"Construct with item identifier {0} still exists in topic map system.",
-					itemIdentifier.Reference);
+					"Construct with item identifier {0} still exists in this topic map ({1}).",
+					itemIdentifier.Reference,
+					TopicMap.Id);
 
 				throw new IdentityConstraintException(message);
 			}
