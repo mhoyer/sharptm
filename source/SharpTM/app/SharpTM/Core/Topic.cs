@@ -5,7 +5,10 @@ using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
 {
-	public class Topic : Reifiable, ITopic
+	/// <summary>
+	/// Implements the <see cref="ITopic"/> interface.
+	/// </summary>
+	public class Topic : Construct, ITopic
 	{
 		#region readonly & static fields
 		/// <summary>
@@ -35,7 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
 		public Topic(ITopicMap topicMap)
-			: base(topicMap, topicMap, null)
+			: base(topicMap, topicMap)
 		{
 			names = new List<IName>();
 			occurrences = new List<IOccurrence>();
@@ -169,7 +172,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Adds a subject identifier to this topic.
 		/// If adding the specified subject identifier would make this topic represent the same subject
-		/// as another topic and the feature "automerge" (http://tmapi.org/features/automerge) is disabled,
+		/// as another topic and the feature "<c>automerge</c>" (http://tmapi.org/features/automerge) is disabled,
 		/// an <see cref="IdentityConstraintException"/> is thrown.
 		/// </summary>
 		/// <param name="subjectIdentifier">The subject identifier to be added; must not be <c>null</c>.</param>
@@ -178,13 +181,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		/// <exception cref="IdentityConstraintException">
 		/// If adding <paramref name="subjectIdentifier"/> would make this topic represent the same subject
-		/// as another topic and the feature "automerge" (http://tmapi.org/features/automerge) is disabled.
+		/// as another topic and the feature "<c>automerge</c>" (http://tmapi.org/features/automerge) is disabled.
 		/// </exception>
 		public void AddSubjectIdentifier(ILocator subjectIdentifier)
 		{
 			if (subjectIdentifier == null)
 			{
-				throw new ArgumentNullException("subjectIdentifier");
+				throw new ModelConstraintException(
+					"A subject identifier MUST NOT be null.",
+					new ArgumentNullException("subjectIdentifier"));
 			}
 
 			subjectIdentifiers.Add(subjectIdentifier);
@@ -195,7 +200,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Adds a subject locator to this topic.
 		/// If adding the specified subject locator would make this topic represent the same subject
-		/// as another topic and the feature "automerge" (http://tmapi.org/features/automerge) is disabled,
+		/// as another topic and the feature "<c>automerge</c>" (http://tmapi.org/features/automerge) is disabled,
 		/// an <see cref="IdentityConstraintException"/> is thrown.
 		/// </summary>
 		/// <param name="subjectLocator">The subject locator to be added; must not be <c>null</c>.</param>
@@ -204,13 +209,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		/// <exception cref="IdentityConstraintException">
 		/// If adding <paramref name="subjectLocator"/> would make this topic represent the same subject
-		/// as another topic and the feature "automerge" (http://tmapi.org/features/automerge) is disabled.
+		/// as another topic and the feature "<c>automerge</c>" (http://tmapi.org/features/automerge) is disabled.
 		/// </exception>
 		public void AddSubjectLocator(ILocator subjectLocator)
 		{
 			if (subjectLocator == null)
 			{
-				throw new ArgumentNullException("subjectLocator");
+				throw new ModelConstraintException(
+					"A subject locator MUST NOT be null.",
+					new ArgumentNullException("subjectLocator"));
 			}
 
 			subjectLocators.Add(subjectLocator);
@@ -606,7 +613,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveSubjectIdentifier(ILocator subjectIdentifier)
 		{
-			throw new System.NotImplementedException();
+			if (subjectIdentifier == null)
+			{
+				return;
+			}
+
+			subjectIdentifiers.Remove(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -617,7 +629,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveSubjectLocator(ILocator subjectLocator)
 		{
-			throw new System.NotImplementedException();
+			if (subjectLocator == null)
+			{
+				return;
+			}
+
+			subjectLocators.Remove(subjectLocator);
 		}
 
 		/// <summary>

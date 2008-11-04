@@ -21,7 +21,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
-		protected Construct(IConstruct parent, ITopicMap topicMap, ILocator initialIdentifier)
+		/// <param name="parent">The parent of this instance.</param>
+		/// <param name="topicMap">The topic map this instance is part of.</param>
+		protected Construct(IConstruct parent, ITopicMap topicMap)
 		{
 			itemIdentifiers = new List<ILocator>();
 			Id = Guid.NewGuid().ToString();
@@ -36,18 +38,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				{
 					throw new ArgumentNullException("topicMap");
 				}
-			}
-
-			if (initialIdentifier == null)
-			{
-				if (!(this is ITopic))
-				{
-					throw new ArgumentNullException("initialIdentifier");
-				}
-			}
-			else
-			{
-				itemIdentifiers.Add(initialIdentifier);
 			}
 
 			Parent = parent;
@@ -181,5 +171,122 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			itemIdentifiers.Remove(itemIdentifier);
 		}
 		#endregion
+
+		#region properties for intenal usage only
+		/// <summary>
+		///     Gets or sets the reifier of this construct.
+		/// </summary>
+		/// <remarks>
+		///     <list type="bullet">
+		///         <item>If this construct is not reified <c>null</c> is returned.</item>
+		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
+		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
+		///     </list>
+		/// </remarks>
+		protected ITopic Reifier
+		{
+			get
+			{
+				return reifier;
+			}
+			set
+			{
+				reifier = value;
+				throw new NotImplementedException();
+				// TODO implement the dependency between Reifier and Reified properties
+			}
+		}
+
+		/// <summary>
+		/// Represents the current reifier of this construct.
+		/// </summary>
+		private ITopic reifier;
+
+		/// <summary>
+		///     Gets or sets the type of this construct.
+		/// </summary>
+		/// <exception cref="ModelConstraintException">
+		///     If the type is <c>null</c>.
+		/// </exception>
+		/// <remarks>
+		///     Any previous type is overridden.
+		/// </remarks>
+		protected ITopic Type
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		///     An empty set represents the unconstrained scope.
+		///     The return value may be empty but must never be <c>null</c>.
+		/// </summary>
+		/// <returns>
+		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		/// </returns>
+		protected ReadOnlyCollection<ITopic> Scope
+		{
+			get
+			{
+				InitializeScope();
+
+				return scope.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		/// Initializes the scope with new <see cref="List{T}"/> if it is null.
+		/// </summary>
+		private void InitializeScope()
+		{
+			if (scope == null)
+			{
+				scope = new List<ITopic>();
+			}
+		}
+
+		/// <summary>
+		/// Represents the list of topics that scope a construct.
+		/// </summary>
+		protected List<ITopic> scope;
+
+		/// <summary>
+		///     Adds a <see cref="T:TMAPI.Net.Core.ITopic"/> to the scope.
+		/// </summary>
+		/// <param name="theme">
+		///     The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be added to the scope.
+		/// </param>
+		/// <exception cref="ModelConstraintException">
+		///     If the <paramref name="theme"/> is <c>null</c>.
+		/// </exception>
+		protected void AddTheme(ITopic theme)
+		{
+			if (theme == null)
+			{
+				throw new ModelConstraintException("Themes cannot be null when adding to scope.", new ArgumentNullException("theme"));
+			}
+
+			InitializeScope();
+			scope.Add(theme);
+		}
+
+		/// <summary>
+		///     Removes a <see cref="T:TMAPI.Net.Core.ITopic"/> from the scope.
+		/// </summary>
+		/// <param name="theme">
+		///     The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be removed from the scope.
+		/// </param>
+		protected void RemoveTheme(ITopic theme)
+		{
+			if (theme == null || scope == null)
+			{
+				return;
+			}
+
+			InitializeScope();
+			scope.Remove(theme);
+		}
+		#endregion		
 	}
 }
