@@ -543,7 +543,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ReadOnlyCollection<IOccurrence> GetOccurrencesByTopicType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				throw new ArgumentException("type");
+			}
+
+			List<IOccurrence> foundOccurrences = new List<IOccurrence>();
+
+			foreach (IOccurrence occurrence in occurrences)
+			{
+				if (occurrence.Type == type)
+				{
+					foundOccurrences.Add(occurrence);
+				}
+			}
+
+			return foundOccurrences.AsReadOnly();
 		}
 
 		/// <summary>
