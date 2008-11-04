@@ -22,21 +22,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
 		/// </summary>
-		/// <param name="topicMapSystem">The topic map system.</param>
-		/// <param name="iri">The iri.</param>
-		internal TopicMap(ITopicMapSystem topicMapSystem, ILocator iri)
-			: base(topicMapSystem, null, null)
+		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
+		/// <param name="itemIdentifier">The item identifier.</param>
+		internal TopicMap(ITopicMapSystem topicMapSystem, ILocator itemIdentifier)
+			: base(null, null, itemIdentifier)
 		{
-			if (topicMapSystem == null)
-			{
-				throw new ArgumentNullException("topicMapSystem");
-			}
-
 			associations = new List<IAssociation>();
 			topics = new List<ITopic>();
 			constructs = new List<IConstruct>();
 
-			AddItemIdentifier(iri);
+			TopicMapSystem = topicMapSystem;
 		}
 		#endregion
 
@@ -83,6 +78,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				return topics.AsReadOnly();
 			}
+		}
+		#endregion
+
+		#region properties
+		/// <summary>
+		/// Gets the <see cref="ITopicMapSystem"/> containing this instance.
+		/// </summary>
+		/// <value>The topic map system.</value>
+		public ITopicMapSystem TopicMapSystem
+		{
+			get;
+			private set;
 		}
 		#endregion
 
@@ -169,17 +176,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic CreateTopic()
 		{
-			throw new System.NotImplementedException();
+			ILocator initialTopicMapItemIdentifier = itemIdentifiers[0];
+			ILocator uniqueTopicItemIdentifier = initialTopicMapItemIdentifier.Resolve(Guid.NewGuid().ToString());
+
+			return CreateTopicByItemIdentifier(uniqueTopicItemIdentifier);
 		}
 
 		/// <summary>
-		///     Returns a <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified item identifier.
-		///     This method returns either an existing <see cref="T:TMAPI.Net.Core.ITopic"/> or creates a new 
-		///     <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified item identifier.
-		///     If a topic with the specified item identifier exists in the topic map, that topic is returned. If a topic 
-		///     with a subject identifier equals to the specified item identifier exists, the specified item identifier 
-		///     is added to that topic and the topic is returned. If neither a topic with the specified item identifier 
-		///     nor with a subject identifier equals to the item identifier exists, a topic with the item identifier is created.
+		/// Returns a <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified item identifier.
+		/// This method returns either an existing <see cref="T:TMAPI.Net.Core.ITopic"/> or creates a new 
+		/// <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified item identifier.
+		/// If a topic with the specified item identifier exists in the topic map, that topic is returned. 
+		/// 
+		/// If a topic with a subject identifier equals to the specified item identifier exists, the specified item identifier 
+		/// is added to that topic and the topic is returned. 
+		/// 
+		/// If neither a topic with the specified item identifier nor with a subject identifier equals to the item identifier 
+		/// exists, a topic with the item identifier is created.
 		/// </summary>
 		/// <param name="itemIdentifier">
 		///     The item identifier the topic should contain.
@@ -196,22 +209,70 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ITopic CreateTopicByItemIdentifier(ILocator itemIdentifier)
 		{
-			throw new System.NotImplementedException();
+			if (itemIdentifier == null)
+			{
+				throw new ModelConstraintException(
+					"Topics need at least one item identifier, subject identifier or subject locator.",
+					new ArgumentNullException("itemIdentifier"));
+			}
+
+			// lookup constructs by item identifier
+			IConstruct construct = GetConstructByItemIdentifier(itemIdentifier);
+
+			if (construct != null)
+			{
+				if (construct is ITopic)
+				{
+					return construct as ITopic;
+				}
+
+				string message = String.Format(
+					"Another construct of type {0} with item identifier {1} still exists in topic map ({2}).",
+					construct.GetType().Name,
+					itemIdentifier.Reference,
+					Id);
+
+				throw new IdentityConstraintException(message);
+			}
+
+			// lookup topics by subject identifier
+			ITopic foundTopicBySubjectIdentifier = GetTopicBySubjectIdentifier(itemIdentifier);
+
+			if (foundTopicBySubjectIdentifier != null)
+			{
+				foundTopicBySubjectIdentifier.AddItemIdentifier(itemIdentifier);
+
+				return foundTopicBySubjectIdentifier;
+			}
+
+			// create new topic with this item identifier
+			Topic topic = new Topic(this);
+			topic.OnRemove += Topic_OnRemove;
+			topic.AddItemIdentifier(itemIdentifier);
+
+			topics.Add(topic);
+			constructs.Add(topic);
+
+			return topic;
 		}
 
 		/// <summary>
-		///     Returns a <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified subject identifier.
-		///     This method returns either an existing <see cref="T:TMAPI.Net.Core.ITopic"/> or creates a new 
-		///     <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified subject identifier.
-		///     If a topic with the specified subject identifier exists in the topic map, that topic is returned. If a topic 
-		///     with an item identifier equals to the specified subject identifier exists, the specified subject identifier 
-		///     is added to that topic and the topic is returned. If neither a topic with the specified subject identifier 
-		///     nor with an item identifier equals to the subject identifier exists, a topic with the subject identifier is created.
+		/// Returns a <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified subject identifier.
+		/// This method returns either an existing <see cref="T:TMAPI.Net.Core.ITopic"/> or creates a new 
+		/// <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified subject identifier.
+		/// 
+		/// If a topic with the specified subject identifier exists in the topic map, that topic is returned. 
+		/// 
+		/// If a topic with an item identifier equals to the specified subject identifier exists, the specified 
+		/// subject identifier is added to that topic and the topic is returned. 
+		/// 
+		/// If neither a topic with the specified subject identifier nor with an item identifier equals to the
+		/// subject identifier exists, a topic with the subject identifier is created.
 		/// </summary>
 		/// <param name="subjectIdentifier">
 		///     The subject identifier the topic should contain.
 		/// </param>
-		///  <returns>
+		/// <returns>
 		///     A <see cref="T:TMAPI.Net.Core.ITopic"/> instance with the specified subject identifier.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
@@ -219,7 +280,40 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ITopic CreateTopicBySubjectIdentifier(ILocator subjectIdentifier)
 		{
-			throw new System.NotImplementedException();
+			if (subjectIdentifier == null)
+			{
+				throw new ModelConstraintException(
+					"Topics need at least one item identifier, subject identifier or subject locator.",
+					new ArgumentNullException("subjectIdentifier"));
+			}
+
+			// lookup topics by subject identifier
+			ITopic foundTopicBySubjectIdentifier = GetTopicBySubjectIdentifier(subjectIdentifier);
+
+			if (foundTopicBySubjectIdentifier != null)
+			{
+				return foundTopicBySubjectIdentifier;
+			}
+
+			// lookup constructs by item identifier
+			ITopic foundTopicByItemIdentifier = GetTopicByItemIdentifier(subjectIdentifier);
+
+			if (foundTopicByItemIdentifier != null)
+			{
+				foundTopicByItemIdentifier.AddSubjectIdentifier(subjectIdentifier);
+
+				return foundTopicByItemIdentifier;
+			}
+
+			// create new topic with this item identifier
+			Topic topic = new Topic(this);
+			topic.OnRemove += Topic_OnRemove;
+			topic.AddSubjectIdentifier(subjectIdentifier);
+
+			topics.Add(topic);
+			constructs.Add(topic);
+
+			return topic;
 		}
 
 		/// <summary>
@@ -238,7 +332,30 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ITopic CreateTopicBySubjectLocator(ILocator subjectLocator)
 		{
-			throw new System.NotImplementedException();
+			if (subjectLocator == null)
+			{
+				throw new ModelConstraintException(
+					"Topics need at least one item identifier, subject identifier or subject locator.",
+					new ArgumentNullException("subjectLocator"));
+			}
+
+			// lookup topics by subject locator
+			ITopic foundTopicBySubjectLocator = GetTopicBySubjectLocator(subjectLocator);
+
+			if (foundTopicBySubjectLocator != null)
+			{
+				return foundTopicBySubjectLocator;
+			}
+
+			// create new topic with this item identifier
+			Topic topic = new Topic(this);
+			topic.OnRemove += Topic_OnRemove;
+			topic.AddSubjectLocator(subjectLocator);
+
+			topics.Add(topic);
+			constructs.Add(topic);
+
+			return topic;
 		}
 
 		/// <summary>
@@ -323,7 +440,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic GetTopicBySubjectIdentifier(ILocator subjectIdentifier)
 		{
-			throw new System.NotImplementedException();
+			foreach (ITopic topic in topics)
+			{
+				if (topic.SubjectIdentifiers.Contains(subjectIdentifier))
+				{
+					return topic;
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>
@@ -337,7 +462,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic GetTopicBySubjectLocator(ILocator subjectLocator)
 		{
-			throw new System.NotImplementedException();
+			foreach (ITopic topic in topics)
+			{
+				if (topic.SubjectLocators.Contains(subjectLocator))
+				{
+					return topic;
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>
@@ -354,6 +487,45 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public void MergeIn(ITopicMap other)
 		{
 			throw new System.NotImplementedException();
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Gets the topic by item identifier.
+		/// </summary>
+		/// <remarks>
+		/// Should be used instead of <see cref="GetConstructByItemIdentifier"/> for better performance if 
+		/// construct to search for is a <see cref="ITopic"/>.
+		/// </remarks>
+		/// <param name="itemIdentifier">The item identifier.</param>
+		/// <returns></returns>
+		public ITopic GetTopicByItemIdentifier(ILocator itemIdentifier)
+		{
+			foreach (ITopic topic in topics)
+			{
+				if (topic.ItemIdentifiers.Contains(itemIdentifier))
+				{
+					return topic;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Construct.OnRemove"/> event of <see cref="IConstruct"/>.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void Topic_OnRemove(object sender, EventArgs e)
+		{
+			ITopic topic = sender as ITopic;
+
+			if (topic != null)
+			{
+				topics.Remove(topic);
+			}
 		}
 		#endregion
 	}
