@@ -232,7 +232,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     <c>true</c> if the named feature is enabled this TopicMapSystem instance; 
 		///     <c>false</c> if the named feature is disabled for this instance.
 		/// </returns>
-		public bool HasFeature(string featureName)
+		public bool GetFeature(string featureName)
 		{
 			throw new System.NotImplementedException();
 		}
