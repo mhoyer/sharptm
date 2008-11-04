@@ -10,7 +10,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	///     Represents a 
 	///     <a href="http://www.isotopicmaps.org/sam/sam-model/#d0e657">topic map item</a>.
 	/// </summary>
-	public class TopicMap : Reifiable, ITopicMap
+	public class TopicMap : Construct, ITopicMap
 	{
 		#region readonly & static fields
 		private readonly List<IAssociation> associations;
@@ -25,12 +25,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
 		/// <param name="itemIdentifier">The item identifier.</param>
 		internal TopicMap(ITopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: base(null, null, itemIdentifier)
+			: base(null, null)
 		{
 			associations = new List<IAssociation>();
 			topics = new List<ITopic>();
 			constructs = new List<IConstruct>();
-
+			
+			itemIdentifiers.Add(itemIdentifier);
 			TopicMapSystem = topicMapSystem;
 		}
 		#endregion
@@ -108,12 +109,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates an <see cref="T:TMAPI.Net.Core.IAssociation"/> in this topic map with the specified 
-		///     <paramref name="type"/> and <paramref name="scope"/>.
+		///     <paramref name="associationType"/> and <paramref name="initialThemes"/>.
 		/// </summary>
-		/// <param name="type">
+		/// <param name="associationType">
 		///     The association type, MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="initialThemes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the association will be in the unconstrained scope.
 		/// </param>
@@ -121,32 +122,42 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     The newly created <see cref="T:TMAPI.Net.Core.IAssociation"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If either the <paramref name="type"/> or <paramref name="scope"/> is <c>null</c>.
+		///     If either the <paramref name="associationType"/> or <paramref name="initialThemes"/> is <c>null</c>.
 		/// </exception>
-		public IAssociation CreateAssociation(ITopic type, params ITopic[] scope)
+		public IAssociation CreateAssociation(ITopic associationType, params ITopic[] initialThemes)
 		{
-			throw new System.NotImplementedException();
+			if (initialThemes == null)
+			{
+				throw new ModelConstraintException(
+					"The optional initial themes of an association MUST NOT be null.",
+					new ArgumentNullException("initialThemes"));
+			}
+
+			return CreateAssociation(associationType, new List<ITopic>(initialThemes));
 		}
 
 		/// <summary>
 		///     Creates an <see cref="T:TMAPI.Net.Core.IAssociation"/> in this topic map with the specified 
-		///     <paramref name="type"/> and <paramref name="scope"/>.
+		///     <paramref name="associationType"/> and <paramref name="initialThemes"/>.
 		/// </summary>
-		/// <param name="type">
+		/// <param name="associationType">
 		///     The association type, MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="initialThemes">
 		///     A collection of themes or <c>null</c> if the association should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
 		///     The newly created <see cref="T:TMAPI.Net.Core.IAssociation"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If the <paramref name="type"/> is <c>null</c>.
+		///     If the <paramref name="associationType"/> is <c>null</c>.
 		/// </exception>
-		public IAssociation CreateAssociation(ITopic type, IList<ITopic> scope)
+		public IAssociation CreateAssociation(ITopic associationType, IList<ITopic> initialThemes)
 		{
-			throw new System.NotImplementedException();
+			Association association = new Association(this, associationType, initialThemes);
+			associations.Add(association);
+
+			return association;
 		}
 
 		/// <summary>
@@ -528,5 +539,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 		}
 		#endregion
+
+		/// <summary>
+		///     Gets or sets the reifier of this construct.
+		/// </summary>
+		/// <remarks>
+		///     <list type="bullet">
+		///         <item>If this construct is not reified <c>null</c> is returned.</item>
+		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
+		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
+		///     </list>
+		/// </remarks>
+		public new ITopic Reifier
+		{
+			get
+			{
+				return base.Reifier;
+			}
+			set
+			{
+				base.Reifier = value;
+			}
+		}
 	}
 }
