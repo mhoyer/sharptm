@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TMAPI.Net.Core;
@@ -30,6 +31,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the list of subject locators for this topic.
 		/// </summary>
 		private readonly List<ILocator> subjectLocators;
+
+		/// <summary>
+		/// Represents the list of roles played by this topic.
+		/// </summary>
+		private readonly List<IRole> rolesPlayed;
 		#endregion
 
 		#region constructor logic
@@ -44,6 +50,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			occurrences = new List<IOccurrence>();
 			subjectIdentifiers = new List<ILocator>();
 			subjectLocators = new List<ILocator>();
+			rolesPlayed = new List<IRole>();
 		}
 		#endregion
 
@@ -62,8 +69,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return names.AsReadOnly();
 			}
 		}
-
-
+        
 		/// <summary>
 		///     Gets the <see cref="T:TMAPI.Net.Core.IOccurrence"/>s of this topic.
 		///     The return value may be empty but must never be <c>null</c>.
@@ -115,8 +121,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> RolesPlayed
 		{
-			get;
-			private set;
+			get
+			{
+				return rolesPlayed.AsReadOnly();
+			}
 		}
 
 		/// <summary>
@@ -576,31 +584,66 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ReadOnlyCollection<IRole> GetRolesPlayedByTopicType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				throw new ArgumentNullException("type");
+			}
+
+			List<IRole> foundRolesPlayed = new List<IRole>();
+
+			foreach (IRole role in rolesPlayed)
+			{
+				if (role.Type == type)
+				{
+					foundRolesPlayed.Add(role);
+				}
+			}
+
+			return foundRolesPlayed.AsReadOnly();
 		}
 
 		/// <summary>
-		///     Returns the <see cref="T:TMAPI.Net.Core.IRole">roles</see> played by this topic where the role type is <paramref name="type"/> 
-		///     and the <see cref="T:TMAPI.Net.Core.IAssociation"/> type is <paramref name="assocType"/>.
+		///     Returns the <see cref="T:TMAPI.Net.Core.IRole">roles</see> played by this topic where the role type is <paramref name="roleType"/> 
+		///     and the <see cref="T:TMAPI.Net.Core.IAssociation"/> type is <paramref name="associationType"/>.
 		///     The return value may be empty but must never be <c>null</c>.
 		/// </summary>
-		/// <param name="type">
+		/// <param name="roleType">
 		///     The type of the <see cref="T:TMAPI.Net.Core.IRole">roles</see> to be returned; must not be <c>null</c>.
 		/// </param>
-		/// <param name="assocType">
+		/// <param name="associationType">
 		///     The type of the <see cref="T:TMAPI.Net.Core.IAssociation"/> from which the returned roles must be part of; 
 		///     must not be <c>null</c>.
 		/// </param>
 		/// <returns>
-		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.IRole">roles</see> with the specified <paramref name="type"/> 
-		///     which are part of <see cref="T:TMAPI.Net.Core.IAssociation">associations</see> with the specified <paramref name="assocType"/>.
+		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.IRole">roles</see> with the specified <paramref name="roleType"/> 
+		///     which are part of <see cref="T:TMAPI.Net.Core.IAssociation">associations</see> with the specified <paramref name="associationType"/>.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		///     If the <paramref name="type"/> or <paramref name="assocType"/> is <c>null</c>.
+		///     If the <paramref name="roleType"/> or <paramref name="associationType"/> is <c>null</c>.
 		/// </exception>
-		public ReadOnlyCollection<IRole> GetRolesPlayedByTopicTypeAndAssociationType(ITopic type, ITopic assocType)
+		public ReadOnlyCollection<IRole> GetRolesPlayedByTopicTypeAndAssociationType(ITopic roleType, ITopic associationType)
 		{
-			throw new System.NotImplementedException();
+			if (roleType == null)
+			{
+				throw new ArgumentNullException("roleType");
+			}
+			
+			if (associationType == null)
+			{
+				throw new ArgumentNullException("associationType");
+			}
+
+			List<IRole> foundRolesPlayed = new List<IRole>();
+
+			foreach (IRole role in rolesPlayed)
+			{
+				if (role.Type == roleType && role.Parent.Type == associationType)
+				{
+					foundRolesPlayed.Add(role);
+				}
+			}
+
+			return foundRolesPlayed.AsReadOnly();
 		}
 
 		/// <summary>
