@@ -31,7 +31,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			topics = new List<ITopic>();
 			constructs = new List<IConstruct>();
 
-			itemIdentifiers.Add(itemIdentifier);
+			AddItemIdentifier(itemIdentifier);
 			TopicMapSystem = topicMapSystem;
 		}
 		#endregion
@@ -210,7 +210,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic CreateTopic()
 		{
-			ILocator initialTopicMapItemIdentifier = itemIdentifiers[0];
+			ILocator initialTopicMapItemIdentifier = ItemIdentifiers[0];
 			ILocator uniqueTopicItemIdentifier = initialTopicMapItemIdentifier.Resolve(Guid.NewGuid().ToString());
 
 			return CreateTopicByItemIdentifier(uniqueTopicItemIdentifier);
@@ -430,7 +430,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct GetConstructByItemIdentifier(ILocator itemIdentifier)
 		{
-			if (itemIdentifiers.Contains(itemIdentifier))
+			if (ItemIdentifiers.Contains(itemIdentifier))
 			{
 				return this;
 			}
