@@ -233,6 +233,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			Role role = new Role(this, TopicMap, player, roleType);
 			role.OnRemove += Role_OnRemove;
 			roles.Add(role);
+			
+			// Add role type
+			if (!roleTypes.Contains(roleType))
+			{
+				roleTypes.Add(roleType);
+			}
 
 			return role;
 		}
@@ -271,6 +277,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ReadOnlyCollection<IRole> GetRolesByTopicType(ITopic type)
 		{
+			if (type == null)
+			{
+				throw new ArgumentNullException("type");
+			}
+
 			List<IRole> foundRoles = new List<IRole>();
 
 			foreach (IRole role in roles)
@@ -295,7 +306,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender != null && sender is IRole)
 			{
-				roles.Remove((IRole) sender);
+				IRole removedRole = sender as IRole;
+
+				roles.Remove(removedRole);
+
+				// Cleanup role types collection, if no more role exists with role type of removed role.
+				foreach (IRole role in roles)
+				{
+					if (role.Type == removedRole.Type)
+					{
+						return;
+					}
+				}
+
+				roleTypes.Remove(removedRole.Type);
 			}
 		}
 		#endregion
