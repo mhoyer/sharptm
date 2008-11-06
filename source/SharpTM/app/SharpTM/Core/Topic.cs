@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TMAPI.Net.Core;
@@ -23,6 +22,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private readonly List<IOccurrence> occurrences;
 
 		/// <summary>
+		/// Represents the list of roles played by this topic.
+		/// </summary>
+		private readonly List<IRole> rolesPlayed;
+
+		/// <summary>
 		/// Represents the list of subject identifiers for this topic.
 		/// </summary>
 		private readonly List<ILocator> subjectIdentifiers;
@@ -33,9 +37,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private readonly List<ILocator> subjectLocators;
 
 		/// <summary>
-		/// Represents the list of roles played by this topic.
+		/// Represents the list of types this topic is an instance of.
 		/// </summary>
-		private readonly List<IRole> rolesPlayed;
+		private readonly List<ITopic> types;
 		#endregion
 
 		#region constructor logic
@@ -47,10 +51,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			: base(topicMap, topicMap)
 		{
 			names = new List<IName>();
+			Names = names.AsReadOnly();
+
 			occurrences = new List<IOccurrence>();
+			Occurrences = occurrences.AsReadOnly();
+
 			subjectIdentifiers = new List<ILocator>();
+			SubjectIdentifiers = subjectIdentifiers.AsReadOnly();
+
 			subjectLocators = new List<ILocator>();
+			SubjectLocators = subjectLocators.AsReadOnly();
+
 			rolesPlayed = new List<IRole>();
+			RolesPlayed = rolesPlayed.AsReadOnly();
+
+			types = new List<ITopic>();
+			Types = types.AsReadOnly();
 		}
 		#endregion
 
@@ -64,12 +80,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IName> Names
 		{
-			get
-			{
-				return names.AsReadOnly();
-			}
+			get;
+			private set;
 		}
-        
+
 		/// <summary>
 		///     Gets the <see cref="T:TMAPI.Net.Core.IOccurrence"/>s of this topic.
 		///     The return value may be empty but must never be <c>null</c>.
@@ -79,10 +93,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> Occurrences
 		{
-			get
-			{
-				return occurrences.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -121,10 +133,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> RolesPlayed
 		{
-			get
-			{
-				return rolesPlayed.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -136,10 +146,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectIdentifiers
 		{
-			get
-			{
-				return subjectIdentifiers.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -151,10 +159,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectLocators
 		{
-			get
-			{
-				return subjectLocators.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -242,12 +248,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="type">
 		///     The type of which this topic should become an instance of; must not be <c>null</c>.
 		/// </param>
-		/// <exception cref="ArgumentNullException">
+		/// <exception cref="ModelConstraintException">
 		///     If the <paramref name="type"/> is <c>null</c>.
 		/// </exception>
 		public void AddType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				throw new ModelConstraintException(
+					"A type MUST NOT be null.",
+					new ArgumentNullException("type"));
+			}
+
+			types.Add(type);
 		}
 
 		/// <summary>
@@ -570,30 +583,30 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
-		///     Returns the <see cref="T:TMAPI.Net.Core.IRole">roles</see> played by this topic where the role type is <paramref name="type"/>.
+		///     Returns the <see cref="T:TMAPI.Net.Core.IRole">roles</see> played by this topic where the role type is <paramref name="roleType"/>.
 		///     The return value may be empty but must never be <c>null</c>.
 		/// </summary>
-		/// <param name="type">
+		/// <param name="roleType">
 		///     The type of the <see cref="T:TMAPI.Net.Core.IRole">roles</see> to be returned; must not be <c>null</c>.
 		/// </param>
 		/// <returns>
-		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.IRole">roles</see> with the specified <paramref name="type"/>.
+		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.IRole">roles</see> with the specified <paramref name="roleType"/>.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		///     If the <paramref name="type"/> is <c>null</c>.
+		///     If the <paramref name="roleType"/> is <c>null</c>.
 		/// </exception>
-		public ReadOnlyCollection<IRole> GetRolesPlayedByTopicType(ITopic type)
+		public ReadOnlyCollection<IRole> GetRolesPlayedByTopicType(ITopic roleType)
 		{
-			if (type == null)
+			if (roleType == null)
 			{
-				throw new ArgumentNullException("type");
+				throw new ArgumentNullException("roleType");
 			}
 
 			List<IRole> foundRolesPlayed = new List<IRole>();
 
 			foreach (IRole role in rolesPlayed)
 			{
-				if (role.Type == type)
+				if (role.Type == roleType)
 				{
 					foundRolesPlayed.Add(role);
 				}
@@ -627,7 +640,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				throw new ArgumentNullException("roleType");
 			}
-			
+
 			if (associationType == null)
 			{
 				throw new ArgumentNullException("associationType");
@@ -703,7 +716,81 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				return;
+			}
+
+			types.Remove(type);
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Adds a role to the <see cref="RolesPlayed"/> list if this instance is a player of the role.
+		/// </summary>
+		/// <param name="role">The role this instance plays.</param>
+		internal void AddRolePlayed(IRole role)
+		{
+			if (role == null)
+			{
+				throw new ArgumentNullException("role");
+			}
+
+			if (role is Role)
+			{
+				((Role) role).OnRemove += RolePlayed_OnRemove;
+				((Role) role).OnRolePlayerChanges += RolePlayed_OnRolePlayerChanges;
+			}
+
+			rolesPlayed.Add(role);
+		}
+
+		/// <summary>
+		/// Removes the role from the <see cref="RolesPlayed"/> list if this instance is a player of the role..
+		/// </summary>
+		/// <param name="role">The role.</param>
+		private void RemoveRolePlayed(IRole role)
+		{
+			if (role == null)
+			{
+				return;
+			}
+
+			if (role is Role)
+			{
+				((Role) role).OnRolePlayerChanges -= RolePlayed_OnRolePlayerChanges;
+				((Role) role).OnRemove -= RolePlayed_OnRemove;
+			}
+
+			rolesPlayed.Remove(role);
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Construct.OnRemove"/> event of the RolePlayed control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void RolePlayed_OnRemove(object sender, EventArgs e)
+		{
+			if (sender != null && sender is IRole)
+			{
+				RemoveRolePlayed((IRole) sender);
+			}
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Role.OnRolePlayerChanges"/> event of the RolePlayed control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="RolePlayerChangedEventArgs"/> instance containing the event data.</param>
+		private void RolePlayed_OnRolePlayerChanges(object sender, RolePlayerChangedEventArgs e)
+		{
+			if (sender != null && sender is IRole &&
+			    e != null && e.OldPlayer == this)
+			{
+				RemoveRolePlayed((IRole) sender);
+			}
 		}
 		#endregion
 	}
