@@ -22,7 +22,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent.</param>
 		/// <param name="topicMap">The topic map.</param>
 		/// <param name="initialPlayer">The initial player playing this role.</param>
-		internal Role(IAssociation parent, ITopicMap topicMap, ITopic initialPlayer)
+		/// <param name="roleType">Type of the role. MUST NOT be null.</param>
+		internal Role(IAssociation parent, ITopicMap topicMap, ITopic initialPlayer, ITopic roleType)
 			: base(parent, topicMap)
 		{
 			if (initialPlayer == null)
@@ -32,8 +33,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("initialPlayer"));
 			}
 
+			if (roleType == null)
+			{
+				throw new ModelConstraintException(
+					"A role MUST NOT be untyped.",
+					new ArgumentNullException("roleType"));
+			}
+
 			Player = initialPlayer;
+			Type = roleType;
 		}
+		#endregion
+
+		#region events
+		/// <summary>
+		/// Occurs when the <see cref="Player"/> property changes.
+		/// </summary>
+		public event EventHandler<RolePlayerChangedEventArgs> OnRolePlayerChanges;
 		#endregion
 
 		#region IRole properties
@@ -68,6 +84,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (value == null)
 				{
 					throw new ModelConstraintException("The role player MUST NOT be null.");
+				}
+
+				// notify the player changes event
+				if (OnRolePlayerChanges != null)
+				{
+					OnRolePlayerChanges(this, new RolePlayerChangedEventArgs(player, value));
+				}
+
+				// notify the new player about it played role
+				if (value is Topic)
+				{
+					((Topic) value).AddRolePlayed(this);
 				}
 
 				player = value;
