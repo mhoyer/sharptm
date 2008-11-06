@@ -47,14 +47,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			roles = new List<IRole>();
+			Roles = roles.AsReadOnly();
+
 			roleTypes = new List<ITopic>();
-			scope = new List<ITopic>();
+			RoleTypes = roleTypes.AsReadOnly();
 
 			Type = associationType;
-			
+
 			if (initialThemes != null)
 			{
-				scope.AddRange(initialThemes);
+				AddScopes(initialThemes);
 			}
 		}
 		#endregion
@@ -107,10 +109,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> Roles
 		{
-			get
-			{
-				return roles.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -122,10 +122,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ITopic> RoleTypes
 		{
-			get
-			{
-				return roleTypes.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -231,7 +229,31 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("player"));
 			}
 
-			throw new NotImplementedException();
+			// Create new role
+			Role role = new Role(this, TopicMap, player, roleType);
+			role.OnRemove += Role_OnRemove;
+			roles.Add(role);
+
+			return role;
+		}
+
+		/// <summary>
+		/// Deletes this association from its parent container.
+		/// </summary>
+		/// <remarks>
+		/// Clears the list of roles and the list of role types.
+		/// </remarks>
+		public new void Remove()
+		{
+			for (int i = roles.Count; i > 0; i--)
+			{
+				roles[i - 1].Remove();
+			}
+
+			roles.Clear();
+			roleTypes.Clear();
+
+			base.Remove();
 		}
 
 		/// <summary>
@@ -249,7 +271,32 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ReadOnlyCollection<IRole> GetRolesByTopicType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			List<IRole> foundRoles = new List<IRole>();
+
+			foreach (IRole role in roles)
+			{
+				if (role.Type == type)
+				{
+					foundRoles.Add(role);
+				}
+			}
+
+			return foundRoles.AsReadOnly();
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Handles the <see cref="Construct.OnRemove"/> event of the <see cref="Role"/>.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void Role_OnRemove(object sender, EventArgs e)
+		{
+			if (sender != null && sender is IRole)
+			{
+				roles.Remove((IRole) sender);
+			}
 		}
 		#endregion
 	}

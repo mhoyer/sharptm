@@ -14,7 +14,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the list of item identifiers for this construct.
 		/// </summary>
-		protected readonly List<ILocator> itemIdentifiers;
+		private readonly List<ILocator> itemIdentifiers;
+		#endregion
+
+		#region fields
+		/// <summary>
+		/// Represents the list of topics that scope a construct.
+		/// </summary>
+		protected List<ITopic> scope;
+
+		/// <summary>
+		/// Represents the current reifier of this construct.
+		/// </summary>
+		private ITopic reifier;
 		#endregion
 
 		#region constructor logic
@@ -26,6 +38,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		protected Construct(IConstruct parent, ITopicMap topicMap)
 		{
 			itemIdentifiers = new List<ILocator>();
+			ItemIdentifiers = itemIdentifiers.AsReadOnly();
+
 			Id = Guid.NewGuid().ToString();
 
 			if (topicMap == null)
@@ -75,10 +89,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> ItemIdentifiers
 		{
-			get
-			{
-				return itemIdentifiers.AsReadOnly();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -107,6 +119,65 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get;
 			private set;
+		}
+		#endregion
+
+		#region properties
+		/// <summary>
+		///     Gets or sets the reifier of this construct.
+		/// </summary>
+		/// <remarks>
+		///     <list type="bullet">
+		///         <item>If this construct is not reified <c>null</c> is returned.</item>
+		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
+		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
+		///     </list>
+		/// </remarks>
+		protected ITopic Reifier
+		{
+			get
+			{
+				return reifier;
+			}
+			set
+			{
+				reifier = value;
+				throw new NotImplementedException();
+				// TODO implement the dependency between Reifier and Reified properties
+			}
+		}
+
+		/// <summary>
+		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		///     An empty set represents the unconstrained scope.
+		///     The return value may be empty but must never be <c>null</c>.
+		/// </summary>
+		/// <returns>
+		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		/// </returns>
+		protected ReadOnlyCollection<ITopic> Scope
+		{
+			get
+			{
+				InitializeScope();
+
+				return scope.AsReadOnly();
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the type of this construct.
+		/// </summary>
+		/// <exception cref="ModelConstraintException">
+		///     If the type is <c>null</c>.
+		/// </exception>
+		/// <remarks>
+		///     Any previous type is overridden.
+		/// </remarks>
+		protected ITopic Type
+		{
+			get;
+			set;
 		}
 		#endregion
 
@@ -172,84 +243,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region properties for intenal usage only
+		#region methods
 		/// <summary>
-		///     Gets or sets the reifier of this construct.
+		/// Adds a set of themes to the scope of this <see cref="Construct"/>.
 		/// </summary>
-		/// <remarks>
-		///     <list type="bullet">
-		///         <item>If this construct is not reified <c>null</c> is returned.</item>
-		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
-		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
-		///     </list>
-		/// </remarks>
-		protected ITopic Reifier
+		/// <param name="themes">The themes.</param>
+		protected void AddScopes(IEnumerable<ITopic> themes)
 		{
-			get
-			{
-				return reifier;
-			}
-			set
-			{
-				reifier = value;
-				throw new NotImplementedException();
-				// TODO implement the dependency between Reifier and Reified properties
-			}
+			InitializeScope();
+			scope.AddRange(themes);
 		}
-
-		/// <summary>
-		/// Represents the current reifier of this construct.
-		/// </summary>
-		private ITopic reifier;
-
-		/// <summary>
-		///     Gets or sets the type of this construct.
-		/// </summary>
-		/// <exception cref="ModelConstraintException">
-		///     If the type is <c>null</c>.
-		/// </exception>
-		/// <remarks>
-		///     Any previous type is overridden.
-		/// </remarks>
-		protected ITopic Type
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
-		///     An empty set represents the unconstrained scope.
-		///     The return value may be empty but must never be <c>null</c>.
-		/// </summary>
-		/// <returns>
-		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
-		/// </returns>
-		protected ReadOnlyCollection<ITopic> Scope
-		{
-			get
-			{
-				InitializeScope();
-
-				return scope.AsReadOnly();
-			}
-		}
-
-		/// <summary>
-		/// Initializes the scope with new <see cref="List{T}"/> if it is null.
-		/// </summary>
-		private void InitializeScope()
-		{
-			if (scope == null)
-			{
-				scope = new List<ITopic>();
-			}
-		}
-
-		/// <summary>
-		/// Represents the list of topics that scope a construct.
-		/// </summary>
-		protected List<ITopic> scope;
 
 		/// <summary>
 		///     Adds a <see cref="T:TMAPI.Net.Core.ITopic"/> to the scope.
@@ -287,6 +290,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			InitializeScope();
 			scope.Remove(theme);
 		}
-		#endregion		
+
+		/// <summary>
+		/// Initializes the scope with new <see cref="List{T}"/> if it is null.
+		/// </summary>
+		private void InitializeScope()
+		{
+			if (scope == null)
+			{
+				scope = new List<ITopic>();
+			}
+		}
+		#endregion
 	}
 }
