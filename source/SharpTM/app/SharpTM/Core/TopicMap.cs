@@ -30,7 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			associations = new List<IAssociation>();
 			topics = new List<ITopic>();
 			constructs = new List<IConstruct>();
-			
+
 			itemIdentifiers.Add(itemIdentifier);
 			TopicMapSystem = topicMapSystem;
 		}
@@ -63,6 +63,28 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get
 			{
 				return null;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the reifier of this construct.
+		/// </summary>
+		/// <remarks>
+		///     <list type="bullet">
+		///         <item>If this construct is not reified <c>null</c> is returned.</item>
+		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
+		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
+		///     </list>
+		/// </remarks>
+		public new ITopic Reifier
+		{
+			get
+			{
+				return base.Reifier;
+			}
+			set
+			{
+				base.Reifier = value;
 			}
 		}
 
@@ -156,6 +178,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			Association association = new Association(this, associationType, initialThemes);
 			associations.Add(association);
+			association.OnRemove += Association_OnRemove;
 
 			return association;
 		}
@@ -525,7 +548,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
-		/// Handles the <see cref="Construct.OnRemove"/> event of <see cref="IConstruct"/>.
+		/// Handles the <see cref="Construct.OnRemove"/> event of an <see cref="Association"/> instance.
+		/// </summary>
+		/// <param name="sender">The source association that triggers the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void Association_OnRemove(object sender, EventArgs e)
+		{
+			if (sender is IAssociation)
+			{
+				associations.Remove((IAssociation) sender);
+			}
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Construct.OnRemove"/> event of a <see cref="Topic"/> instance.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
@@ -539,27 +575,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 		}
 		#endregion
-
-		/// <summary>
-		///     Gets or sets the reifier of this construct.
-		/// </summary>
-		/// <remarks>
-		///     <list type="bullet">
-		///         <item>If this construct is not reified <c>null</c> is returned.</item>
-		///         <item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
-		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
-		///     </list>
-		/// </remarks>
-		public new ITopic Reifier
-		{
-			get
-			{
-				return base.Reifier;
-			}
-			set
-			{
-				base.Reifier = value;
-			}
-		}
 	}
 }
