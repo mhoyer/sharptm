@@ -275,6 +275,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
+		///     Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the scope.
+		/// </summary>
+		/// <param name="themes">
+		///     The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.
+		/// </param>
+		protected void AddThemes(IEnumerable<ITopic> themes)
+		{
+			if (themes == null)
+			{
+				return;
+			}
+
+			InitializeScope();
+			scope.AddRange(themes);
+		}
+
+
+		/// <summary>
 		///     Removes a <see cref="T:TMAPI.Net.Core.ITopic"/> from the scope.
 		/// </summary>
 		/// <param name="theme">
