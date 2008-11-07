@@ -364,7 +364,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, and <paramref name="scope"/>.
+		///     string <paramref name="value"/>, and <paramref name="themes"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#string">xsd:string</a>.
 		/// </summary>
@@ -374,7 +374,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the occurrence.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -383,18 +383,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="scope"/> is <c>null</c>.
+		///     or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, params ITopic[] scope)
+		public IOccurrence CreateOccurrence(ITopic type, string value, params ITopic[] themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The scopes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			return CreateOccurrence(type, value, new List<ITopic>(themes));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, and <paramref name="scope"/>.
+		///     string <paramref name="value"/>, and <paramref name="themes"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
-		///     <a href="http://www.w3.org/TR/xmlschema-2/#string">xsd:string</a>.
+		///     <a href="http://www.w3.org/TR/xmlschema-2/#string"><c>xsd:string</c></a>.
 		/// </summary>
 		/// <param name="type">
 		///     The occurrence type; MUST NOT be <c>null</c>.
@@ -402,7 +409,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the occurrence.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -411,14 +418,31 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, IList<ITopic> scope)
+		public IOccurrence CreateOccurrence(ITopic type, string value, IList<ITopic> themes)
 		{
-			throw new System.NotImplementedException();
+			if (value == null)
+			{
+				throw new ModelConstraintException(
+					"An occurrence value MUST NOT be null.",
+					new ArgumentNullException("value"));
+			}
+
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The themes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			Occurrence occurrence = CreateOccurrence(type, themes);
+			occurrence.Value = value;
+
+			return occurrence;
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     IRI <paramref name="value"/>, and <paramref name="scope"/>.
+		///     IRI <paramref name="value"/>, and <paramref name="themes"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#anyURI">xsd:anyURI</a>.
 		/// </summary>
@@ -428,7 +452,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> which represents an IRI.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -437,18 +461,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="scope"/> is <c>null</c>.
+		///     or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, ILocator value, params ITopic[] scope)
+		public IOccurrence CreateOccurrence(ITopic type, ILocator value, params ITopic[] themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The scopes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			return CreateOccurrence(type, value, new List<ITopic>(themes));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     IRI <paramref name="value"/>, and <paramref name="scope"/>.
-		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
-		///     <a href="http://www.w3.org/TR/xmlschema-2/#anyURI">xsd:anyURI</a>.
+		///     IRI <paramref name="value"/>, and <paramref name="themes"/>.
+		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the <c>datatype</c> 
+		///     <a href="http://www.w3.org/TR/xmlschema-2/#anyURI"><c>xsd:anyURI</c></a>.
 		/// </summary>
 		/// <param name="type">
 		///     The occurrence type; MUST NOT be <c>null</c>.
@@ -456,23 +487,41 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> which represents an IRI.
 		/// </param>
-		/// <param name="scope">
-		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
+		/// <param name="themes">
+		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained themes.
 		/// </param>
 		/// <returns>
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
+		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
+		///     or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, ILocator value, IList<ITopic> scope)
+		public IOccurrence CreateOccurrence(ITopic type, ILocator value, IList<ITopic> themes)
 		{
-			throw new System.NotImplementedException();
+			if (value == null)
+			{
+				throw new ModelConstraintException(
+					"An occurrence locator value MUST NOT be null.",
+					new ArgumentNullException("value"));
+			}
+
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The themes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			Occurrence occurrence = CreateOccurrence(type, themes);
+			occurrence.LocatorValue = value;
+
+			return occurrence;
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="scope"/>.
+		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="themes"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     specified by <paramref name="datatype"/>.
 		/// </summary>
@@ -485,7 +534,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="datatype">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> indicating the datatype of the <paramref name="value"/>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -494,16 +543,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c>.
+		///     the <paramref name="datatype"/> or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, params ITopic[] scope)
+		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, params ITopic[] themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The themes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			return CreateOccurrence(type, value, datatype, new List<ITopic>(themes));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="scope"/>.
+		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="themes"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     specified by <paramref name="datatype"/>.
 		/// </summary>
@@ -516,19 +572,29 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="datatype">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> indicating the datatype of the <paramref name="value"/>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If either the <paramref name="type"/>, the <paramref name="value"/> 
-		///     or the <paramref name="datatype"/> is <c>null</c>.
+		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
+		///     the <paramref name="datatype"/> or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, IList<ITopic> scope)
+		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, IList<ITopic> themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The themes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			Occurrence occurrence = CreateOccurrence(type, themes);
+			occurrence.SetValue(value, datatype);
+
+			return occurrence;
 		}
 
 		/// <summary>
@@ -566,7 +632,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (type == null)
 			{
-				throw new ArgumentException("type");
+				throw new ArgumentNullException("type");
 			}
 
 			List<IOccurrence> foundOccurrences = new List<IOccurrence>();
@@ -744,6 +810,39 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			rolesPlayed.Add(role);
+		}
+
+		/// <summary>
+		/// Creates a simple occurrence.
+		/// </summary>
+		/// <param name="type">The type of this occurrence.</param>
+		/// <param name="themes">The themes to added to scope.</param>
+		/// <returns></returns>
+		private Occurrence CreateOccurrence(ITopic type, IList<ITopic> themes)
+		{
+			Occurrence occurrence = new Occurrence(this, type);
+			occurrence.OnRemove += Occurrence_OnRemove;
+			occurrences.Add(occurrence);
+
+			if (themes != null)
+			{
+				occurrence.AddThemes(themes);
+			}
+
+			return occurrence;
+		}
+
+		/// <summary>
+		/// Handles the OnRemove event of the Occurrence control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void Occurrence_OnRemove(object sender, EventArgs e)
+		{
+			if (sender is IOccurrence)
+			{
+				occurrences.Remove((IOccurrence) sender);
+			}
 		}
 
 		/// <summary>
