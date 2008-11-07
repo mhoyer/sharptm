@@ -1,3 +1,4 @@
+using System;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -12,9 +13,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="Occurrence"/> class.
 		/// </summary>
 		/// <param name="parent">The parent of this instance.</param>
-		internal Occurrence(ITopic parent)
+		/// <param name="type">The type of this instance.</param>
+		internal Occurrence(ITopic parent, ITopic type)
 			: base(parent, parent.TopicMap)
 		{
+			if (type == null)
+			{
+				throw new ModelConstraintException(
+					"An occurrence type MUST NOT be null.",
+					new ArgumentNullException("type"));
+			}
+
+			Type = type;
 		}
 		#endregion
 
