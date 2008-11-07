@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TMAPI.Net.Core;
 
@@ -6,15 +8,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// <summary>
 	/// Implements the <see cref="IDatatypeAware"/> interface.
 	/// </summary>
-	public class DatatypeAware : Construct, IDatatypeAware
+	public abstract class DatatypeAware : Construct, IDatatypeAware
 	{
+		#region fields
+		private decimal decimalValue;
+		private float floatValue;
+		private int intValue;
+		private ILocator locatorValue;
+		private long longValue;
+		private string stringValue;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DatatypeAware"/> class.
 		/// </summary>
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
-		public DatatypeAware(IConstruct parent, ITopicMap topicMap)
+		protected DatatypeAware(IConstruct parent, ITopicMap topicMap)
 			: base(parent, topicMap)
 		{
 		}
@@ -29,10 +40,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ILocator Datatype
 		{
-			get
-			{
-				throw new System.NotImplementedException();
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -47,11 +56,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				if (Datatype.Reference != Datatypes.DECIMAL)
+				{
+					return decimal.Parse(stringValue);
+				}
+
+				return decimalValue;
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				decimalValue = value;
+				stringValue = value.ToString();
+				Datatype = new Locator(Datatypes.DECIMAL);
 			}
 		}
 
@@ -67,11 +83,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				if (Datatype.Reference != Datatypes.FLOAT)
+				{
+					return float.Parse(stringValue);
+				}
+
+				return floatValue;
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				floatValue = value;
+				stringValue = value.ToString();
+				Datatype = new Locator(Datatypes.FLOAT);
 			}
 		}
 
@@ -87,11 +110,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				if (Datatype.Reference != Datatypes.INT)
+				{
+					return int.Parse(stringValue);
+				}
+
+				return intValue;
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				intValue = value;
+				stringValue = value.ToString();
+				Datatype = new Locator(Datatypes.INT);
 			}
 		}
 
@@ -108,11 +138,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				if (locatorValue == null)
+				{
+					throw new InvalidOperationException("Trying to access the LocalValue property, but it's null.");
+				}
+
+				return locatorValue;
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				if (value == null)
+				{
+					throw new ModelConstraintException("LocatorValue cannot be set to null.");
+				}
+
+				locatorValue = value;
+				stringValue = value.Reference;
+				Datatype = new Locator(Datatypes.ANY_URI);
 			}
 		}
 
@@ -128,11 +170,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				if (Datatype.Reference != Datatypes.LONG)
+				{
+					return long.Parse(stringValue);
+				}
+
+				return longValue;
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				longValue = value;
+				stringValue = value.ToString();
+				Datatype = new Locator(Datatypes.LONG);
 			}
 		}
 
@@ -190,11 +239,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				switch (Datatype.Reference)
+				{
+					case Datatypes.ANY_URI:
+						return locatorValue.Reference;
+					default:
+						return stringValue;
+				}
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				if (value == null)
+				{
+					throw new ModelConstraintException("The value MUST NOT be null.");
+				}
+
+				stringValue = value;
+				Datatype = new Locator(Datatypes.STRING);
 			}
 		}
 		#endregion
@@ -242,7 +303,78 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void SetValue(string value, ILocator datatype)
 		{
-			throw new System.NotImplementedException();
+			if (value == null)
+			{
+				throw new ModelConstraintException(
+					"An DatatypeAware value MUST NOT be null.",
+					new ArgumentNullException("value"));
+			}
+
+			if (datatype == null)
+			{
+				throw new ModelConstraintException(
+					"An DatatypeAware datatype MUST NOT be null.",
+					new ArgumentNullException("datatype"));
+			}
+
+			switch (datatype.Reference)
+			{
+				case Datatypes.STRING:
+					{
+						Value = value;
+						break;
+					}
+				case Datatypes.ANY_URI:
+					{
+						try
+						{
+							LocatorValue = new Locator(value);
+						}
+						catch (Exception ex)
+						{
+							throw new FormatException("Unable to convert string to Locator.", ex);
+						}
+
+						break;
+					}
+				case Datatypes.DECIMAL:
+					{
+						DecimalValue = decimal.Parse(value);
+						break;
+					}
+				case Datatypes.FLOAT:
+					{
+						FloatValue = float.Parse(value);
+						break;
+					}
+				case Datatypes.INT:
+					{
+						IntValue = int.Parse(value);
+						break;
+					}
+				case Datatypes.LONG:
+					{
+						LongValue = long.Parse(value);
+						break;
+					}
+				default:
+					{
+						Value = value;
+						Datatype = datatype;
+						break;
+					}
+			}
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the scope.
+		/// </summary>
+		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
+		public new void AddThemes(IEnumerable<ITopic> themes)
+		{
+			base.AddThemes(themes);
 		}
 		#endregion
 	}
