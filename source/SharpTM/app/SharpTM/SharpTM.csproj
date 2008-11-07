@@ -71,6 +71,7 @@
     <Compile Include="Core\Association.cs" />
     <Compile Include="Core\Construct.cs" />
     <Compile Include="Core\DatatypeAware.cs" />
+    <Compile Include="Core\Datatypes.cs" />
     <Compile Include="Core\Locator.cs" />
     <Compile Include="Core\Occurrence.cs" />
     <Compile Include="Core\Role.cs" />
