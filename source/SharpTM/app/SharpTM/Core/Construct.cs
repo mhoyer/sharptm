@@ -27,6 +27,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current reifier of this construct.
 		/// </summary>
 		private ITopic reifier;
+
+		/// <summary>
+		/// Represents the current type of a <see cref="ITyped"/> construct.
+		/// </summary>
+		private ITopic type;
 		#endregion
 
 		#region constructor logic
@@ -141,9 +146,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
+				if (reifier != null)
+				{
+					if (reifier is Topic)
+					{
+						((Topic) reifier).Reified = null;
+					}
+				}
+
+				if (value != null)
+				{
+					if (value is Topic)
+					{
+						((Topic) value).Reified = this as IReifiable;
+					}
+				}
+
 				reifier = value;
-				throw new NotImplementedException();
-				// TODO implement the dependency between Reifier and Reified properties
 			}
 		}
 
@@ -176,8 +195,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		protected ITopic Type
 		{
-			get;
-			set;
+			get
+			{
+				return type;
+			}
+			set
+			{
+				if (value == null)
+				{
+					throw new ModelConstraintException("Type MUST NOT be null.");
+				}
+
+				type = value;
+			}
 		}
 		#endregion
 
@@ -244,6 +274,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		#endregion
 
 		#region methods
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		public override string ToString()
+		{
+			if (itemIdentifiers.Count > 0)
+			{
+				return String.Format("{0} ({1})",
+				                     Id,
+				                     itemIdentifiers[0]);
+			}
+
+			return Id;
+		}
+
 		/// <summary>
 		/// Adds a set of themes to the scope of this <see cref="Construct"/>.
 		/// </summary>
