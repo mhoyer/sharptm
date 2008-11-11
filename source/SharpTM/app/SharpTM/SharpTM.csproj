@@ -73,6 +73,7 @@
     <Compile Include="Core\DatatypeAware.cs" />
     <Compile Include="Core\Datatypes.cs" />
     <Compile Include="Core\Locator.cs" />
+    <Compile Include="Core\Name.cs" />
     <Compile Include="Core\Occurrence.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="Core\RolePlayerChangedEventArgs.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Core\TopicMap.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\TopicMapSystemFactory.cs" />
+    <Compile Include="Core\Variant.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
