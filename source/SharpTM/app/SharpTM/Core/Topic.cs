@@ -121,7 +121,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public IReifiable Reified
 		{
 			get;
-			private set;
+			internal set;
 		}
 
 		/// <summary>
@@ -265,7 +265,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="type"/>, 
-		///     <paramref name="value"/>, and <paramref name="scope"/>.
+		///     <paramref name="value"/>, and <paramref name="themes"/>.
 		/// </summary>
 		/// <param name="type">
 		///     The name type; MUST NOT be <c>null</c>.
@@ -273,7 +273,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the name will be in the unconstrained scope.
 		/// </param>
@@ -282,16 +282,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="scope"/> is <c>null</c>.
+		///     or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(ITopic type, string value, params ITopic[] scope)
+		public IName CreateName(ITopic type, string value, params ITopic[] themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The scope themes for a name instance MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			return CreateName(type, value, new List<ITopic>(themes));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="type"/>, 
-		///     <paramref name="value"/>, and <paramref name="scope"/>.
+		///     <paramref name="value"/>, and <paramref name="themes"/>.
 		/// </summary>
 		/// <param name="type">
 		///     The name type; MUST NOT be <c>null</c>.
@@ -299,7 +306,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -308,14 +315,33 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(ITopic type, string value, IList<ITopic> scope)
+		public IName CreateName(ITopic type, string value, IList<ITopic> themes)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				throw new ModelConstraintException(
+					"The type of a Name MUST NOT be null.",
+					new ArgumentNullException("type"));
+			}
+
+			Name name = new Name(this);
+			name.Value = value;
+			name.Type = type;
+			name.OnRemove += Name_OnRemove;
+
+			if (themes != null)
+			{
+				name.AddThemes(themes);
+			}
+
+			names.Add(name);
+
+			return name;
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="value"/> 
-		///     and <paramref name="scope"/>.
+		///     and <paramref name="themes"/>.
 		///     The created <see cref="T:TMAPI.Net.Core.IName"/> will have the default name type 
 		///     (a <see cref="T:TMAPI.Net.Core.ITopic"/> with the subject identifier 
 		///     <a href="http://psi.topicmaps.org/iso13250/model/topic-name">http://psi.topicmaps.org/iso13250/model/topic-name</a>).
@@ -323,7 +349,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the name will be in the unconstrained scope.
 		/// </param>
@@ -331,16 +357,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     The newly created <see cref="T:TMAPI.Net.Core.IName"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If either the <paramref name="value"/> or the <paramref name="scope"/> is <c>null</c>.
+		///     If either the <paramref name="value"/> or the <paramref name="themes"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(string value, params ITopic[] scope)
+		public IName CreateName(string value, params ITopic[] themes)
 		{
-			throw new System.NotImplementedException();
+			if (themes == null)
+			{
+				throw new ModelConstraintException(
+					"The scopes can be empty but MUST NOT be null.",
+					new ArgumentNullException("themes"));
+			}
+
+			return CreateName(value, new List<ITopic>(themes));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="value"/> 
-		///     and <paramref name="scope"/>.
+		///     and <paramref name="themes"/>.
 		///     The created <see cref="T:TMAPI.Net.Core.IName"/> will have the default name type 
 		///     (a <see cref="T:TMAPI.Net.Core.ITopic"/> with the subject identifier 
 		///     <a href="http://psi.topicmaps.org/iso13250/model/topic-name">http://psi.topicmaps.org/iso13250/model/topic-name</a>).
@@ -348,7 +381,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="scope">
+		/// <param name="themes">
 		///     A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -357,9 +390,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(string value, IList<ITopic> scope)
+		public IName CreateName(string value, IList<ITopic> themes)
 		{
-			throw new System.NotImplementedException();
+			if (value == null)
+			{
+				throw new ModelConstraintException(
+					"The value for a name MUST NOT be null.",
+					new ArgumentNullException("value"));
+			}
+
+			return
+				CreateName(
+					Parent.CreateTopicBySubjectIdentifier(Parent.CreateLocator("http://psi.topicmaps.org/iso13250/model/topic-name")),
+					value,
+					themes);
 		}
 
 		/// <summary>
@@ -612,7 +656,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ReadOnlyCollection<IName> GetNamesByTopicType(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			if (type == null)
+			{
+				throw new ArgumentNullException("type");
+			}
+
+			List<IName> foundNames = new List<IName>();
+
+			foreach (IName name in names)
+			{
+				if (name.Type == type)
+				{
+					foundNames.Add(name);
+				}
+			}
+
+			return foundNames.AsReadOnly();
 		}
 
 		/// <summary>
@@ -789,6 +848,120 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			types.Remove(type);
 		}
+
+		/// <summary>
+		/// Deletes this topic from its parent container.
+		/// </summary>
+		/// <exception cref="TopicInUseException">
+		/// If this instance is used as <see cref="Type"/>, <see cref="IRole.Player"/>,
+		/// <see cref="IScoped.Scope">theme</see> or <see cref="IReifiable.Reifier"/>.
+		/// </exception>
+		public new void Remove()
+		{
+			if (Reified != null)
+			{
+				throw new TopicInUseException("Removing a topic used for reification");
+			}
+
+			// HACK: could be a bottleneck
+			if (rolesPlayed.Count > 0)
+			{
+				throw new TopicInUseException("Removing a topic used as player is not allowed.");
+			}
+
+			foreach (ITopic topic in Parent.Topics)
+			{
+				if (topic.Types.Contains(this))
+				{
+					// TODO: ask tmapi mailing list if this is allowed or not
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as type for topic {0} is not allowed.",
+							topic));
+				}
+
+				if (topic.GetOccurrencesByTopicType(this).Count > 0)
+				{
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as type for occurrence of topic {0} is not allowed.",
+							topic));
+				}
+
+				if (topic.GetNamesByTopicType(this).Count > 0)
+				{
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as type for name of topic {0} is not allowed.",
+							topic));
+				}
+
+				if (topic.GetRolesPlayedByTopicType(this).Count > 0)
+				{
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as type for a role of topic {0} is not allowed.",
+							topic));
+				}
+
+				foreach (IName name in topic.Names)
+				{
+					if (name.Scope.Contains(this))
+					{
+						throw new TopicInUseException(
+							String.Format(
+								"Removing a topic used as scope theme for the name {0} of topic {1} is not allowed.",
+								name,
+								topic));
+					}
+
+					foreach (IVariant variant in name.Variants)
+					{
+						if (variant.Scope.Contains(this))
+						{
+							throw new TopicInUseException(
+								String.Format(
+									"Removing a topic used as scope theme for a variant of name {0} of topic {1} is not allowed.",
+									name,
+									topic));
+						}
+					}
+				}
+
+				foreach (IOccurrence occurrence in topic.Occurrences)
+				{
+					if (occurrence.Scope.Contains(this))
+					{
+						throw new TopicInUseException(
+							String.Format(
+								"Removing a topic used as scope theme for the occurrence {0} of topic {1} is not allowed.",
+								occurrence,
+								topic));
+					}
+				}
+			}
+
+			foreach (IAssociation association in Parent.Associations)
+			{
+				if (association.Type == this)
+				{
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as type for association {0} is not allowed.",
+							association));
+				}
+
+				if (association.Scope.Contains(this))
+				{
+					throw new TopicInUseException(
+						String.Format(
+							"Removing a topic used as scope theme for the association {0} is not allowed.",
+							association));
+				}
+			}
+
+			base.Remove();
+		}
 		#endregion
 
 		#region methods
@@ -830,6 +1003,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return occurrence;
+		}
+
+		private void Name_OnRemove(object sender, EventArgs e)
+		{
+			IName name = sender as IName;
+
+			if (name != null)
+			{
+				names.Remove(name);
+			}
 		}
 
 		/// <summary>
