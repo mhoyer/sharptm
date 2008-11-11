@@ -27,11 +27,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current reifier of this construct.
 		/// </summary>
 		private ITopic reifier;
-
-		/// <summary>
-		/// Represents the current type of a <see cref="ITyped"/> construct.
-		/// </summary>
-		private ITopic type;
 		#endregion
 
 		#region constructor logic
@@ -189,32 +184,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				InitializeScope();
 
 				return scope.AsReadOnly();
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets the type of this construct.
-		/// </summary>
-		/// <exception cref="ModelConstraintException">
-		///     If the type is <c>null</c>.
-		/// </exception>
-		/// <remarks>
-		///     Any previous type is overridden.
-		/// </remarks>
-		protected ITopic Type
-		{
-			get
-			{
-				return type;
-			}
-			set
-			{
-				if (value == null)
-				{
-					throw new ModelConstraintException("Type MUST NOT be null.");
-				}
-
-				type = value;
 			}
 		}
 		#endregion

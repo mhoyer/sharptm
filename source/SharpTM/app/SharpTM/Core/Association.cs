@@ -20,6 +20,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the list of role types this association is involved.
 		/// </summary>
 		private readonly List<ITopic> roleTypes;
+
+		/// <summary>
+		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// </summary>
+		private readonly Typed typed;
 		#endregion
 
 		#region constructor logic
@@ -52,7 +57,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			roleTypes = new List<ITopic>();
 			RoleTypes = roleTypes.AsReadOnly();
 
-			Type = associationType;
+			typed = new Typed(associationType);
 
 			if (initialThemes != null)
 			{
@@ -151,15 +156,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <remarks>
 		///     Any previous type is overridden.
 		/// </remarks>
-		public new ITopic Type
+		public ITopic Type
 		{
 			get
 			{
-				return base.Type;
+				return typed.Type;
 			}
 			set
 			{
-				base.Type = value;
+				typed.Type = value;
 			}
 		}
 		#endregion
@@ -233,7 +238,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			Role role = new Role(this, TopicMap, player, roleType);
 			role.OnRemove += Role_OnRemove;
 			roles.Add(role);
-			
+
 			// Add role type
 			if (!roleTypes.Contains(roleType))
 			{

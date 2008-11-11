@@ -324,9 +324,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("type"));
 			}
 
-			Name name = new Name(this);
+			Name name = new Name(this, type);
 			name.Value = value;
-			name.Type = type;
 			name.OnRemove += Name_OnRemove;
 
 			if (themes != null)

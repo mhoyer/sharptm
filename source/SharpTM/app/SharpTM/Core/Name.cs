@@ -12,6 +12,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	{
 		#region readonly & static fields
 		/// <summary>
+		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// </summary>
+		private readonly Typed typed;
+
+		/// <summary>
 		/// Represents the list of variants for this <see cref="IName"/> instance.
 		/// </summary>
 		private readonly List<IVariant> variants;
@@ -26,9 +31,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="Name"/> class.
 		/// </summary>
 		/// <param name="parent">The parent topic for this instance.</param>
-		internal Name(ITopic parent)
+		/// <param name="nameType">Type for this name instance.</param>
+		internal Name(ITopic parent, ITopic nameType)
 			: base(parent, parent.TopicMap)
 		{
+			if (nameType == null)
+			{
+				throw new ModelConstraintException(
+					"The type of a name MUST NOT be null.",
+					new ArgumentNullException("nameType"));
+			}
+
+			typed = new Typed(nameType);
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
 		}
@@ -96,15 +110,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <remarks>
 		///     Any previous type is overridden.
 		/// </remarks>
-		public new ITopic Type
+		public ITopic Type
 		{
 			get
 			{
-				return base.Type;
+				return typed.Type;
 			}
 			set
 			{
-				base.Type = value;
+				typed.Type = value;
 			}
 		}
 

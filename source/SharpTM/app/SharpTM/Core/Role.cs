@@ -8,6 +8,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Role : Construct, IRole
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// </summary>
+		private readonly Typed typed;
+		#endregion
+
 		#region fields
 		/// <summary>
 		/// Represents the current topic playing this role.
@@ -40,8 +47,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("roleType"));
 			}
 
+			typed = new Typed(roleType);
 			Player = initialPlayer;
-			Type = roleType;
 		}
 		#endregion
 
@@ -133,15 +140,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <remarks>
 		///     Any previous type is overridden.
 		/// </remarks>
-		public new ITopic Type
+		public ITopic Type
 		{
 			get
 			{
-				return base.Type;
+				return typed.Type;
 			}
 			set
 			{
-				base.Type = value;
+				typed.Type = value;
 			}
 		}
 		#endregion

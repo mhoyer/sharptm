@@ -8,6 +8,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Occurrence : DatatypeAware, IOccurrence
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// </summary>
+		private readonly Typed typed;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Occurrence"/> class.
@@ -24,7 +31,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("type"));
 			}
 
-			Type = type;
+			typed = new Typed(type);
 		}
 		#endregion
 
@@ -52,15 +59,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <remarks>
 		///     Any previous type is overridden.
 		/// </remarks>
-		public new ITopic Type
+		public ITopic Type
 		{
 			get
 			{
-				return base.Type;
+				return typed.Type;
 			}
 			set
 			{
-				base.Type = value;
+				typed.Type = value;
 			}
 		}
 		#endregion
