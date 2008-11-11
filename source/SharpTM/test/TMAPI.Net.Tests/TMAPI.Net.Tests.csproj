@@ -75,8 +75,9 @@
     <Compile Include="Core\RoleTest.cs" />
     <Compile Include="Core\ScopedTest.cs" />
     <Compile Include="Core\TopicMapSystemTest.cs" />
-	<Compile Include="Core\TopicTest.cs"/>
+    <Compile Include="Core\TopicTest.cs" />
     <Compile Include="Core\TypedTest.cs" />
+    <Compile Include="Core\VariantTest.cs" />
     <Compile Include="TMAPITestCase.cs" />
   </ItemGroup>
   <ItemGroup>
