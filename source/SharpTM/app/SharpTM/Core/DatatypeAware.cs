@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -58,7 +59,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.DECIMAL)
 				{
-					return decimal.Parse(stringValue);
+					return decimal.Parse(stringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
 				return decimalValue;
@@ -85,7 +86,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.FLOAT)
 				{
-					return float.Parse(stringValue);
+					return float.Parse(stringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
 				return floatValue;
@@ -93,7 +94,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			set
 			{
 				floatValue = value;
-				stringValue = value.ToString();
+				stringValue = value.ToString("F", CultureInfo.CreateSpecificCulture("en"));
 				Datatype = new Locator(Datatypes.FLOAT);
 			}
 		}
@@ -112,7 +113,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.INT)
 				{
-					return int.Parse(stringValue);
+					return int.Parse(stringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
 				return intValue;
