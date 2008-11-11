@@ -66,9 +66,12 @@
     <None Include="TMAPI.Net.Tests.snk" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AssociationTest.cs" />
     <Compile Include="Core\LocatorTest.cs" />
     <Compile Include="Core\RoleTest.cs" />
     <Compile Include="Core\TopicMapSystemTest.cs" />
+	<Compile Include="Core\TopicTest.cs"/>
+    <Compile Include="Core\TypedTest.cs" />
     <Compile Include="TMAPITestCase.cs" />
   </ItemGroup>
   <ItemGroup>
