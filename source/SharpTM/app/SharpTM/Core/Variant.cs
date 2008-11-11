@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -37,6 +39,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get;
 			private set;
+		}
+
+		/// <summary>
+		/// Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		/// An empty set represents the unconstrained scope.
+		/// The return value may be empty but must never be <c>null</c>.
+		/// </summary>
+		/// <value></value>
+		/// <returns>
+		/// An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
+		/// </returns>
+		public new ReadOnlyCollection<ITopic> Scope
+		{
+			get
+			{
+				List<ITopic> mergedScope = new List<ITopic>(base.Scope);
+				mergedScope.AddRange(Parent.Scope);
+
+				return mergedScope.AsReadOnly();
+			}
 		}
 		#endregion
 	}
