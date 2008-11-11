@@ -425,8 +425,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			Variant variant = new Variant(this, TopicMap);
 			variant.AddThemes(scope);
+			variant.OnRemove += Variant_OnRemove;
 			variants.Add(variant);
 			return variant;
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Construct.OnRemove"/> event of a <see cref="Variant"/> construct.
+		/// </summary>
+		/// <param name="sender">The source <see cref="IVariant"/> of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void Variant_OnRemove(object sender, EventArgs e)
+		{
+			if (sender is IVariant)
+			{
+				variants.Remove((IVariant) sender);
+			}
 		}
 		#endregion
 	}
