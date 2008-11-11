@@ -17,13 +17,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private readonly List<ILocator> itemIdentifiers;
 		#endregion
 
-		#region fields
-		/// <summary>
-		/// Represents the list of topics that scope a construct.
-		/// </summary>
-		protected List<ITopic> scope;
-		#endregion
-
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
@@ -117,26 +110,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region properties
-		/// <summary>
-		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
-		///     An empty set represents the unconstrained scope.
-		///     The return value may be empty but must never be <c>null</c>.
-		/// </summary>
-		/// <returns>
-		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
-		/// </returns>
-		protected ReadOnlyCollection<ITopic> Scope
-		{
-			get
-			{
-				InitializeScope();
-
-				return scope.AsReadOnly();
-			}
-		}
-		#endregion
-
 		#region IConstruct methods
 		/// <summary>
 		///     Adds an item identifier.
@@ -216,87 +189,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return Id;
-		}
-
-		/// <summary>
-		/// Adds a set of themes to the scope of this <see cref="Construct"/>.
-		/// </summary>
-		/// <param name="themes">The themes.</param>
-		protected void AddScopes(IEnumerable<ITopic> themes)
-		{
-			InitializeScope();
-			scope.AddRange(themes);
-		}
-
-		/// <summary>
-		///     Adds a <see cref="T:TMAPI.Net.Core.ITopic"/> to the scope.
-		/// </summary>
-		/// <param name="theme">
-		///     The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be added to the scope.
-		/// </param>
-		/// <exception cref="ModelConstraintException">
-		///     If the <paramref name="theme"/> is <c>null</c>.
-		/// </exception>
-		protected void AddTheme(ITopic theme)
-		{
-			if (theme == null)
-			{
-				throw new ModelConstraintException("Themes cannot be null when adding to scope.", new ArgumentNullException("theme"));
-			}
-
-			if (scope != null && scope.Contains(theme))
-			{
-				return;
-			}
-
-			InitializeScope();
-			scope.Add(theme);
-		}
-
-		/// <summary>
-		///     Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the scope.
-		/// </summary>
-		/// <param name="themes">
-		///     The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.
-		/// </param>
-		protected void AddThemes(IEnumerable<ITopic> themes)
-		{
-			if (themes == null)
-			{
-				return;
-			}
-
-			InitializeScope();
-			scope.AddRange(themes);
-		}
-
-
-		/// <summary>
-		///     Removes a <see cref="T:TMAPI.Net.Core.ITopic"/> from the scope.
-		/// </summary>
-		/// <param name="theme">
-		///     The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be removed from the scope.
-		/// </param>
-		protected void RemoveTheme(ITopic theme)
-		{
-			if (theme == null || scope == null)
-			{
-				return;
-			}
-
-			InitializeScope();
-			scope.Remove(theme);
-		}
-
-		/// <summary>
-		/// Initializes the scope with new <see cref="List{T}"/> if it is null.
-		/// </summary>
-		private void InitializeScope()
-		{
-			if (scope == null)
-			{
-				scope = new List<ITopic>();
-			}
 		}
 		#endregion
 	}

@@ -27,6 +27,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private readonly List<ITopic> roleTypes;
 
 		/// <summary>
+		/// Represents the current instance of <see cref="Scoped"/> construct helper.
+		/// </summary>
+		private readonly Scoped scoped;
+
+		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
 		private readonly Typed typed;
@@ -64,10 +69,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			typed = new Typed(associationType);
 			reifiable = new Reifiable(this);
+			scoped = new Scoped();
 
 			if (initialThemes != null)
 			{
-				AddScopes(initialThemes);
+				scoped.AddThemes(initialThemes);
 			}
 		}
 		#endregion
@@ -145,11 +151,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <returns>
 		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
 		/// </returns>
-		public new ReadOnlyCollection<ITopic> Scope
+		public ReadOnlyCollection<ITopic> Scope
 		{
 			get
 			{
-				return base.Scope;
+				return scoped.Scope;
 			}
 		}
 
@@ -185,9 +191,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If the <paramref name="theme"/> is <c>null</c>.
 		/// </exception>
-		public new void AddTheme(ITopic theme)
+		public void AddTheme(ITopic theme)
 		{
-			base.AddTheme(theme);
+			scoped.AddTheme(theme);
 		}
 
 		/// <summary>
@@ -196,9 +202,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="theme">
 		///     The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be removed from the scope.
 		/// </param>
-		public new void RemoveTheme(ITopic theme)
+		public void RemoveTheme(ITopic theme)
 		{
-			base.RemoveTheme(theme);
+			scoped.RemoveTheme(theme);
 		}
 
 		/// <summary>
