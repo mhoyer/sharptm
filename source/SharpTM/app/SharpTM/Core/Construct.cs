@@ -326,6 +326,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				throw new ModelConstraintException("Themes cannot be null when adding to scope.", new ArgumentNullException("theme"));
 			}
 
+			if (scope != null && scope.Contains(theme))
+			{
+				return;
+			}
+
 			InitializeScope();
 			scope.Add(theme);
 		}
