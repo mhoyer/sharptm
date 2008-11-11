@@ -421,6 +421,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="scope">A non empty list of scope themes.</param>
 		/// <returns>The created instance of a Variant.</returns>
+		/// <exception cref="ModelConstraintException">
+		///     If the <see cref="scope" /> of the variant would not be 
+		///     a true superset of the name's scope.
+		/// </exception>
 		private Variant CreateVariant(IList<ITopic> scope)
 		{
 			if (scope == null)
@@ -437,23 +441,45 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentException("scope"));
 			}
 
-			foreach (ITopic theme in Scope)
-			{
-				if (scope.Contains(theme))
-				{
-					throw new ModelConstraintException(
-						String.Format(
-							"The scope of a variant MUST NOT be in be in the scope of its parent name {0}.",
-							this),
-						new ArgumentException("scope"));
-				}
-			}
+			IsSuperSet(scope);
 
 			Variant variant = new Variant(this, TopicMap);
 			variant.AddThemes(scope);
 			variant.OnRemove += Variant_OnRemove;
 			variants.Add(variant);
 			return variant;
+		}
+
+		/// <summary>
+		/// Determines whether the given <paramref name="scope"/> is a super set 
+		/// of the <see cref="Scope"/> of this <see cref="IName"/> instance.
+		/// </summary>
+		/// <param name="scope">The scope to be checked.</param>
+		/// <exception cref="ModelConstraintException">
+		///     If the <see cref="scope" /> of the variant would not be 
+		///     a true superset of the name's scope.
+		/// </exception>
+		private void IsSuperSet(IList<ITopic> scope)
+		{
+			bool variantScopeHasDifferentTheme = false;
+
+			foreach (ITopic theme in scope)
+			{
+				if (!Scope.Contains(theme))
+				{
+					variantScopeHasDifferentTheme = true;
+					break;
+				}
+			}
+
+			if (!variantScopeHasDifferentTheme)
+			{
+				throw new ModelConstraintException(
+					String.Format(
+						"The scope of a variant MUST be a true super set of its parent name {0}.",
+						this),
+					new ArgumentException("scope"));
+			}
 		}
 
 		/// <summary>
