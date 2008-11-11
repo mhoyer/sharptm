@@ -11,6 +11,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class DatatypeAware : Construct, IDatatypeAware
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the current <see cref="Reifiable"/> of a <see cref="IReifiable"/> construct.
+		/// </summary>
+		private readonly Reifiable reifiable;
+		#endregion
+
 		#region fields
 		private decimal decimalValue;
 		private float floatValue;
@@ -29,6 +36,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		protected DatatypeAware(IConstruct parent, ITopicMap topicMap)
 			: base(parent, topicMap)
 		{
+			reifiable = new Reifiable(this);
 		}
 		#endregion
 
@@ -196,15 +204,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
 		///     </list>
 		/// </remarks>
-		public new ITopic Reifier
+		public ITopic Reifier
 		{
 			get
 			{
-				return base.Reifier;
+				return reifiable.Reifier;
 			}
 			set
 			{
-				base.Reifier = value;
+				reifiable.Reifier = value;
 			}
 		}
 

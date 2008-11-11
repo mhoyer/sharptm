@@ -15,6 +15,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		#region readonly & static fields
 		private readonly List<IAssociation> associations;
 		private readonly List<IConstruct> constructs;
+
+		/// <summary>
+		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
+		/// </summary>
+		private readonly Reifiable reifiable;
+
 		private readonly List<ITopic> topics;
 		#endregion
 
@@ -33,6 +39,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			AddItemIdentifier(itemIdentifier);
 			TopicMapSystem = topicMapSystem;
+			reifiable = new Reifiable(this);
 		}
 		#endregion
 
@@ -76,15 +83,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
 		///     </list>
 		/// </remarks>
-		public new ITopic Reifier
+		public ITopic Reifier
 		{
 			get
 			{
-				return base.Reifier;
+				return reifiable.Reifier;
 			}
 			set
 			{
-				base.Reifier = value;
+				reifiable.Reifier = value;
 			}
 		}
 

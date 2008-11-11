@@ -12,6 +12,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	{
 		#region readonly & static fields
 		/// <summary>
+		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
+		/// </summary>
+		private readonly Reifiable reifiable;
+
+		/// <summary>
 		/// Represents the list of current roles played by this association.
 		/// </summary>
 		private readonly List<IRole> roles;
@@ -58,6 +63,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			RoleTypes = roleTypes.AsReadOnly();
 
 			typed = new Typed(associationType);
+			reifiable = new Reifiable(this);
 
 			if (initialThemes != null)
 			{
@@ -91,15 +97,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
 		///     </list>
 		/// </remarks>
-		public new ITopic Reifier
+		public ITopic Reifier
 		{
 			get
 			{
-				return base.Reifier;
+				return reifiable.Reifier;
 			}
 			set
 			{
-				base.Reifier = value;
+				reifiable.Reifier = value;
 			}
 		}
 

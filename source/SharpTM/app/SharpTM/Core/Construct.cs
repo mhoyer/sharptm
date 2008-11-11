@@ -22,11 +22,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the list of topics that scope a construct.
 		/// </summary>
 		protected List<ITopic> scope;
-
-		/// <summary>
-		/// Represents the current reifier of this construct.
-		/// </summary>
-		private ITopic reifier;
 		#endregion
 
 		#region constructor logic
@@ -123,52 +118,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		#endregion
 
 		#region properties
-		/// <summary>
-		/// Gets or sets the reifier of this construct.
-		/// </summary>
-		/// <value>The reifier.</value>
-		/// <remarks>
-		/// 	<list type="bullet">
-		/// 		<item>If this construct is not reified <c>null</c> is returned.</item>
-		/// 		<item>If the reifier is set to <c>null</c> an existing reifier should be removed.</item>
-		/// 		<item>The reifier of this construct MUST NOT reify another information item.</item>
-		/// 	</list>
-		/// </remarks>
-		/// <exception cref="ModelConstraintException">If the specified <tt>reifier</tt> reifies another construct.</exception>
-		protected ITopic Reifier
-		{
-			get
-			{
-				return reifier;
-			}
-			set
-			{
-				if (reifier != null)
-				{
-					if (reifier is Topic)
-					{
-						((Topic) reifier).Reified = null;
-					}
-				}
-
-				if (value != null)
-				{
-					if (value.Reified != null)
-					{
-						throw new ModelConstraintException(
-							"The specified reifier reifies another construct.");
-					}
-
-					if (value is Topic)
-					{
-						((Topic) value).Reified = this as IReifiable;
-					}
-				}
-
-				reifier = value;
-			}
-		}
-
 		/// <summary>
 		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
 		///     An empty set represents the unconstrained scope.

@@ -12,6 +12,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	{
 		#region readonly & static fields
 		/// <summary>
+		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
+		/// </summary>
+		private readonly Reifiable reifiable;
+
+		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
 		private readonly Typed typed;
@@ -43,6 +48,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			typed = new Typed(nameType);
+			reifiable = new Reifiable(this);
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
 		}
@@ -73,15 +79,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///         <item>The reifier of this construct MUST NOT reify another information item.</item>
 		///     </list>
 		/// </remarks>
-		public new ITopic Reifier
+		public ITopic Reifier
 		{
 			get
 			{
-				return base.Reifier;
+				return reifiable.Reifier;
 			}
 			set
 			{
-				base.Reifier = value;
+				reifiable.Reifier = value;
 			}
 		}
 
