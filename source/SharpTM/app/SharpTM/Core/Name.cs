@@ -411,6 +411,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentException("scope"));
 			}
 
+			foreach (ITopic theme in Scope)
+			{
+				if (scope.Contains(theme))
+				{
+					throw new ModelConstraintException(
+						String.Format(
+							"The scope of a variant MUST NOT be in be in the scope of its parent name {0}.",
+							this),
+						new ArgumentException("scope"));
+				}
+			}
+
 			Variant variant = new Variant(this, TopicMap);
 			variant.AddThemes(scope);
 			variants.Add(variant);
