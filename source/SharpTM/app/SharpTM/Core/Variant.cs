@@ -10,6 +10,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Variant : DatatypeAware, IVariant
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the current scope themes.
+		/// </summary>
+		private readonly List<ITopic> mergedScope;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Variant"/> class.
@@ -25,6 +32,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			Parent = parent;
+			mergedScope = new List<ITopic>();
+			MergedScope = mergedScope.AsReadOnly();
+			MergeScopes();
 		}
 		#endregion
 
@@ -44,7 +54,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
 		/// An empty set represents the unconstrained scope.
-		/// The return value may be empty but must never be <c>null</c>.
+		/// The return value may be empty but must never be <c>null</c>. 
 		/// </summary>
 		/// <value></value>
 		/// <returns>
@@ -54,10 +64,43 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				List<ITopic> mergedScope = new List<ITopic>(base.Scope);
-				mergedScope.AddRange(Parent.Scope);
+				MergeScopes();
+				return MergedScope;
+			}
+		}
+		#endregion
 
-				return mergedScope.AsReadOnly();
+		#region properties
+		/// <summary>
+		/// Gets the merged scope as <see cref="ReadOnlyCollection{T}"/>.
+		/// </summary>
+		/// <value>The merged scope.</value>
+		internal ReadOnlyCollection<ITopic> MergedScope
+		{
+			get;
+			private set;
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Merges the scopes of <see cref="Parent"/> name construct and the current themes 
+		/// of this <see cref="IVariant"/> instance.
+		/// </summary>
+		private void MergeScopes()
+		{
+			// TODO introduce a dirty flag to reduce unnecessary merging.
+			mergedScope.Clear();
+			mergedScope.AddRange(Parent.Scope);
+
+			foreach (ITopic theme in base.Scope)
+			{
+				if (mergedScope.Contains(theme))
+				{
+					continue;
+				}
+
+				mergedScope.Add(theme);
 			}
 		}
 		#endregion
