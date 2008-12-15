@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Association">
+    <Position X="6.75" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAIAAIAAAAEAADAAAAAiRBAAAgAAAAEAAQAAAAASAAA=</HashCode>
+      <FileName>Core\Association.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Construct">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAEARIBAAAAARAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Construct.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DatatypeAware">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAACAIAAAgMAAjAmgEAgBABAAAAAAAEAAAAgACAAAAA=</HashCode>
+      <FileName>Core\DatatypeAware.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Datatypes">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAJAQgIAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Datatypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Locator" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAACAgAAEgAAAAAAAAAAAAIAAAAAAAAEAAAA=</HashCode>
+      <FileName>Core\Locator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Name">
+    <Position X="4.5" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAJAAAAEQADAAAAAgQAABAAgAACEAAQAgAAAAAAA=</HashCode>
+      <FileName>Core\Name.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Occurrence">
+    <Position X="4.5" Y="10" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAQAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\Occurrence.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Reifiable">
+    <Position X="13" Y="8.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAEAAAABAAAAAAA=</HashCode>
+      <FileName>Core\Reifiable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Role">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAABAAAAAAQAAAAAAAAAEBAQAAAQAAAAA=</HashCode>
+      <FileName>Core\Role.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.RolePlayerChangedEventArgs">
+    <Position X="13" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\RolePlayerChangedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Scoped">
+    <Position X="13" Y="10.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAEAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Scoped.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Topic">
+    <Position X="0.5" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAAhCAYIIAAEAAAgARARAAEAEAABYgAgARAgMIAEoA=</HashCode>
+      <FileName>Core\Topic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.TopicMap">
+    <Position X="9" Y="5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>YAIJBACAAABwABEQAEAAQEAAEIAAAQkAAAAAICCAAYA=</HashCode>
+      <FileName>Core\TopicMap.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.TopicMapSystem" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EQBACAAAAAAAAAEAAAAAACAAQAAAAEAAAAQAAACAAAA=</HashCode>
+      <FileName>Core\TopicMapSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.TopicMapSystemFactory">
+    <Position X="1.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAACAQAIAAAAAAAAAAAAAAAAAEAgAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Core\TopicMapSystemFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Typed">
+    <Position X="11.25" Y="10.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\Typed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Variant">
+    <Position X="2.75" Y="10" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAACAAAAAAQCAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Core\Variant.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -249,6 +249,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			// Create new role
 			Role role = new Role(this, TopicMap, player, roleType);
 			role.OnRemove += Role_OnRemove;
+			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
 			roles.Add(role);
 
 			// Add role type
@@ -258,6 +259,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return role;
+		}
+
+		private void Role_OnRoleTypeChanges(object sender, RoleTypeChangesEventArgs e)
+		{
+			if (e != null && e.OldRoleType != null)
+			{
+				roleTypes.Remove(e.OldRoleType);
+			}
+
+			if (e != null && e.NewRoleType != null)
+			{
+				roleTypes.Add(e.NewRoleType);
+			}
 		}
 
 		/// <summary>

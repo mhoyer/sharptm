@@ -63,6 +63,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Occurs when the <see cref="Player"/> property changes.
 		/// </summary>
 		public event EventHandler<RolePlayerChangedEventArgs> OnRolePlayerChanges;
+
+		/// <summary>
+		/// Occurs when the <see cref="Type"/> property changes.
+		/// </summary>
+		public event EventHandler<RoleTypeChangesEventArgs> OnRoleTypeChanges;
 		#endregion
 
 		#region IRole properties
@@ -154,7 +159,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
+				RoleTypeChanges(typed.Type, value);
 				typed.Type = value;
+			}
+		}
+		#endregion
+
+		#region methods
+		private void RoleTypeChanges(ITopic oldRoleType, ITopic newRoleType)
+		{
+			if (OnRoleTypeChanges != null && oldRoleType != newRoleType)
+			{
+				OnRoleTypeChanges(this, new RoleTypeChangesEventArgs(oldRoleType, newRoleType));
 			}
 		}
 		#endregion

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Index;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -12,6 +13,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMap : Construct, ITopicMap
 	{
+		private readonly ILiteralIndex literalIndex;
+		private readonly IScopedIndex scopedIndex;
+		private readonly ITypeInstanceIndex typedIndex;
+
 		#region readonly & static fields
 		private readonly List<IAssociation> associations;
 		private readonly List<IConstruct> constructs;
@@ -40,6 +45,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			AddItemIdentifier(itemIdentifier);
 			TopicMapSystem = topicMapSystem;
 			reifiable = new Reifiable(this);
+
+			// TODO How to handle enableAutoUpdate parameter? app.config?
+			literalIndex = new LiteralIndex(topicMapSystem, false);
+			scopedIndex = new ScopedIndex(topicMapSystem, false);
+			typedIndex = new TypedInstanceIndex(topicMapSystem, false);
 		}
 		#endregion
 
@@ -467,7 +477,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public T GetIndex<T>() where T : IIndex
 		{
-			throw new System.NotImplementedException();
+			if (typeof(ILiteralIndex).IsAssignableFrom(typeof(T)))
+			{
+				return (T)literalIndex;
+			}
+
+			if (typeof(IScopedIndex).IsAssignableFrom(typeof(T)))
+			{
+				return (T)scopedIndex;
+			}
+
+			if (typeof(ITypeInstanceIndex).IsAssignableFrom(typeof(T)))
+			{
+				return (T)typedIndex;
+			}
+
+            throw new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T)));
 		}
 
 		/// <summary>

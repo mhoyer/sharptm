@@ -65,6 +65,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
     <Compile Include="Core\Reifiable.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="Core\RolePlayerChangedEventArgs.cs" />
+    <Compile Include="Core\RoleTypeChangesEventArgs.cs" />
     <Compile Include="Core\Scoped.cs" />
     <Compile Include="Core\Topic.cs" />
     <Compile Include="Core\TopicMap.cs" />
@@ -86,6 +88,10 @@
     <Compile Include="Core\Typed.cs" />
     <Compile Include="Core\Variant.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Index\Index.cs" />
+    <Compile Include="Index\LiteralIndex.cs" />
+    <Compile Include="Index\ScopedIndex.cs" />
+    <Compile Include="Index\TypedInstanceIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,8 +126,5 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SharpTM.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Index\" />
   </ItemGroup>
 </Project>
