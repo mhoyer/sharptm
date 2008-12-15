@@ -270,7 +270,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 
 				stringValue = value;
-				Datatype = new Locator(Datatypes.STRING);
+
+				if (Datatype == null)
+				{
+					Datatype = new Locator(Datatypes.STRING);
+				}
 			}
 		}
 		#endregion
