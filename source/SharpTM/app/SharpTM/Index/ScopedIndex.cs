@@ -11,9 +11,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	public class ScopedIndex : Index, IScopedIndex
 	{
 		#region readonly & static fields
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IAssociation"/> scope.
+		/// </summary>
 		private readonly List<ITopic> associationThemes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> scope.
+		/// </summary>
 		private readonly List<ITopic> nameThemes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> scope.
+		/// </summary>
 		private readonly List<ITopic> occurrenceThemes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IVariant"/> scope.
+		/// </summary>
 		private readonly List<ITopic> variantThemes;
 		#endregion
 
@@ -108,36 +123,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			nameThemes.Clear();
 			occurrenceThemes.Clear();
 			variantThemes.Clear();
-            
+
 			foreach (ILocator locator in TopicMapSystem.Locators)
 			{
 				ReindexTopicMap(TopicMapSystem.GetTopicMap(locator));
-			}
-		}
-
-		private void ReindexTopicMap(ITopicMap topicMap)
-		{
-			foreach (ITopic topic in topicMap.Topics)
-			{
-				foreach (IName name in topic.Names)
-				{
-					nameThemes.AddRange(name.Scope);
-
-					foreach (IVariant variant in name.Variants)
-					{
-						variantThemes.AddRange(variant.Scope);
-					}
-				}
-
-				foreach (IOccurrence occurrence in topic.Occurrences)
-				{
-					occurrenceThemes.AddRange(occurrence.Scope);
-				}
-			}
-
-			foreach (IAssociation association in topicMap.Associations)
-			{
-				associationThemes.AddRange(association.Scope);
 			}
 		}
 
@@ -259,36 +248,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			return foundNames.AsReadOnly();
 		}
 
-		private static bool AreThemesMatchingScoped<T>(T scoped, ITopic[] themes, bool matchAll)
-			where T : IScoped
-		{
-			bool matches = matchAll;
-
-			foreach (ITopic theme in themes)
-			{
-				if (matchAll)
-				{
-					if ((theme != null && !scoped.Scope.Contains(theme)) ||
-						(theme == null && scoped.Scope.Count > 0))
-					{
-						matches = false;
-						break;
-					}
-				}
-				else
-				{
-					if ((theme == null && scoped.Scope.Count == 0) ||
-						(theme != null && scoped.Scope.Contains(theme)))
-					{
-						matches = true;
-						break;
-					}
-				}
-			}
-
-			return matches;
-		}
-
 		/// <summary>
 		///     Returns the <see cref="T:TMAPI.Net.Core.IOccurrence"/>s in the topic map whose 
 		///     scope property contains the specified <paramref name="theme"/>. 
@@ -400,7 +359,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 					{
 						foreach (IVariant variant in name.Variants)
 						{
-                            if (AreThemesMatchingScoped(variant, themes, matchAll))
+							if (AreThemesMatchingScoped(variant, themes, matchAll))
 							{
 								foundVariants.Add(variant);
 							}
@@ -410,6 +369,64 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			}
 
 			return foundVariants.AsReadOnly();
+		}
+		#endregion
+
+		#region methods
+		private static bool AreThemesMatchingScoped<T>(T scoped, ITopic[] themes, bool matchAll)
+			where T : IScoped
+		{
+			bool matches = matchAll;
+
+			foreach (ITopic theme in themes)
+			{
+				if (matchAll)
+				{
+					if ((theme != null && !scoped.Scope.Contains(theme)) ||
+					    (theme == null && scoped.Scope.Count > 0))
+					{
+						matches = false;
+						break;
+					}
+				}
+				else
+				{
+					if ((theme == null && scoped.Scope.Count == 0) ||
+					    (theme != null && scoped.Scope.Contains(theme)))
+					{
+						matches = true;
+						break;
+					}
+				}
+			}
+
+			return matches;
+		}
+
+		private void ReindexTopicMap(ITopicMap topicMap)
+		{
+			foreach (ITopic topic in topicMap.Topics)
+			{
+				foreach (IName name in topic.Names)
+				{
+					nameThemes.AddRange(name.Scope);
+
+					foreach (IVariant variant in name.Variants)
+					{
+						variantThemes.AddRange(variant.Scope);
+					}
+				}
+
+				foreach (IOccurrence occurrence in topic.Occurrences)
+				{
+					occurrenceThemes.AddRange(occurrence.Scope);
+				}
+			}
+
+			foreach (IAssociation association in topicMap.Associations)
+			{
+				associationThemes.AddRange(association.Scope);
+			}
 		}
 		#endregion
 	}

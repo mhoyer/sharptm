@@ -261,19 +261,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			return role;
 		}
 
-		private void Role_OnRoleTypeChanges(object sender, RoleTypeChangesEventArgs e)
-		{
-			if (e != null && e.OldRoleType != null)
-			{
-				roleTypes.Remove(e.OldRoleType);
-			}
-
-			if (e != null && e.NewRoleType != null)
-			{
-				roleTypes.Add(e.NewRoleType);
-			}
-		}
-
 		/// <summary>
 		/// Deletes this association from its parent container.
 		/// </summary>
@@ -351,6 +338,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 
 				roleTypes.Remove(removedRole.Type);
+			}
+		}
+
+		/// <summary>
+		/// Handles the <see cref="Role.OnRoleTypeChanges"/> event of the <see cref="Role"/>.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="Pixelplastic.TopicMaps.SharpTM.Core.RoleTypeChangesEventArgs"/> instance containing the event data.</param>
+		private void Role_OnRoleTypeChanges(object sender, RoleTypeChangesEventArgs e)
+		{
+			if (e != null && e.OldRoleType != null)
+			{
+				roleTypes.Remove(e.OldRoleType);
+			}
+
+			if (e != null && e.NewRoleType != null)
+			{
+				roleTypes.Add(e.NewRoleType);
 			}
 		}
 		#endregion

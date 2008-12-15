@@ -58,7 +58,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			names.Clear();
 			occurrences.Clear();
 			variants.Clear();
-			
+
 			foreach (ILocator locator in TopicMapSystem.Locators)
 			{
 				ReindexTopicMap(TopicMapSystem.GetTopicMap(locator));
@@ -66,24 +66,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 
 		/// <summary>
-		/// Synchronize a single topic map.
-		/// </summary>
-		/// <param name="topicMap">The topic map.</param>
-		private void ReindexTopicMap(ITopicMap topicMap)
-		{
-			foreach (ITopic topic in topicMap.Topics)
-			{
-				names.AddRange(topic.Names);
-                occurrences.AddRange(topic.Occurrences);
-
-				foreach (IName name in topic.Names)
-				{
-					variants.AddRange(name.Variants);
-				}
-			}
-		}
-
-        /// <summary>
 		///     Retrieves the <see cref="T:TMAPI.Net.Core.IName"/>s in the topic map 
 		///     which have a value equal to <paramref name="value"/>. 
 		///     The return value may be empty but must never be <c>null</c>.
@@ -143,8 +125,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 			for (int i = 0; i < occurrences.Count; i++)
 			{
-				if (occurrences[i].Value == value && 
-					occurrences[i].Datatype.Reference == Datatypes.STRING)
+				if (occurrences[i].Value == value &&
+				    occurrences[i].Datatype.Reference == Datatypes.STRING)
 				{
 					foundOccurrences.Add(occurrences[i]);
 				}
@@ -254,7 +236,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			for (int i = 0; i < variants.Count; i++)
 			{
 				if (variants[i].Value == value &&
-					variants[i].Datatype.Reference == Datatypes.STRING)
+				    variants[i].Datatype.Reference == Datatypes.STRING)
 				{
 					foundVariants.Add(variants[i]);
 				}
@@ -341,6 +323,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			}
 
 			return foundVariants.AsReadOnly();
+		}
+		#endregion
+
+		#region methods
+		/// <summary>
+		/// Synchronize a single topic map.
+		/// </summary>
+		/// <param name="topicMap">The topic map.</param>
+		private void ReindexTopicMap(ITopicMap topicMap)
+		{
+			foreach (ITopic topic in topicMap.Topics)
+			{
+				names.AddRange(topic.Names);
+				occurrences.AddRange(topic.Occurrences);
+
+				foreach (IName name in topic.Names)
+				{
+					variants.AddRange(name.Variants);
+				}
+			}
 		}
 		#endregion
 	}

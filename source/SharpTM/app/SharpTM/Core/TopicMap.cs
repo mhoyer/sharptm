@@ -13,20 +13,41 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMap : Construct, ITopicMap
 	{
-		private readonly ILiteralIndex literalIndex;
-		private readonly IScopedIndex scopedIndex;
-		private readonly ITypeInstanceIndex typedIndex;
-
 		#region readonly & static fields
+		/// <summary>
+		/// Represents the current list of <see cref="IAssociation">associations</see>.
+		/// </summary>
 		private readonly List<IAssociation> associations;
+	
+		/// <summary>
+		/// Represents the current list of <see cref="IConstruct">constructs</see>.
+		/// </summary>
 		private readonly List<IConstruct> constructs;
+
+		/// <summary>
+		/// Represents the current instance of <see cref="ILiteralIndex"/>.
+		/// </summary>
+		private readonly ILiteralIndex literalIndex;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
 		private readonly Reifiable reifiable;
 
+		/// <summary>
+		/// Represents the current instance of <see cref="IScopedIndex"/>.
+		/// </summary>
+		private readonly IScopedIndex scopedIndex;
+
+		/// <summary>
+		/// Represents the current list of <see cref="ITopic">topics</see>.
+		/// </summary>
 		private readonly List<ITopic> topics;
+
+		/// <summary>
+		/// Represents the current instance of <see cref="ITypeInstanceIndex"/>.
+		/// </summary>
+		private readonly ITypeInstanceIndex typedIndex;
 		#endregion
 
 		#region constructor logic
@@ -479,20 +500,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (typeof(ILiteralIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T)literalIndex;
+				return (T) literalIndex;
 			}
 
 			if (typeof(IScopedIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T)scopedIndex;
+				return (T) scopedIndex;
 			}
 
 			if (typeof(ITypeInstanceIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T)typedIndex;
+				return (T) typedIndex;
 			}
 
-            throw new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T)));
+			throw new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T)));
 		}
 
 		/// <summary>

@@ -10,11 +10,32 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public class TypedInstanceIndex : Index, ITypeInstanceIndex
 	{
+		#region readonly & static fields
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IAssociation"/> types.
+		/// </summary>
 		private readonly List<ITopic> associationTypes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> types.
+		/// </summary>
 		private readonly List<ITopic> nameTypes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> types.
+		/// </summary>
 		private readonly List<ITopic> occurrenceTypes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="IRole"/> types.
+		/// </summary>
 		private readonly List<ITopic> roleTypes;
+
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/>s for <see cref="ITopic"/> types.
+		/// </summary>
 		private readonly List<ITopic> topicTypes;
+		#endregion
 
 		#region constructor logic
 		/// <summary>
@@ -30,7 +51,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 			nameTypes = new List<ITopic>();
 			NameTypes = nameTypes.AsReadOnly();
-			
+
 			occurrenceTypes = new List<ITopic>();
 			OccurrenceTypes = occurrenceTypes.AsReadOnly();
 
@@ -139,52 +160,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			}
 		}
 
-		private void ReindexTopicMap(ITopicMap topicMap)
-		{
-			foreach (ITopic topic in topicMap.Topics)
-			{
-				foreach (ITopic type in topic.Types)
-				{
-					if (!topicTypes.Contains(type))
-					{
-						topicTypes.Add(type);
-					}
-				}
-
-				foreach (IName name in topic.Names)
-				{
-					if (!nameTypes.Contains(name.Type))
-					{
-						nameTypes.Add(name.Type);
-					}
-				}
-
-				foreach (IOccurrence occurrence in topic.Occurrences)
-				{
-					if (!occurrenceTypes.Contains(occurrence.Type))
-					{
-						occurrenceTypes.Add(occurrence.Type);
-					}
-				}
-			}
-
-			foreach (IAssociation association in topicMap.Associations)
-			{
-				if(!associationTypes.Contains(association.Type))
-				{
-					associationTypes.Add(association.Type);
-				}
-
-				foreach (ITopic type in association.RoleTypes)
-				{
-					if (!roleTypes.Contains(type))
-					{
-						roleTypes.Add(type);
-					}
-				}
-			}
-		}
-
 		/// <summary>
 		///     Returns the <see cref="T:TMAPI.Net.Core.IAssociation"/>s in the topic map whose 
 		///     type property equals <paramref name="type"/>. 
@@ -254,7 +229,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				{
 					foreach (IRole role in association.Roles)
 					{
-                        if (role.Type == type)
+						if (role.Type == type)
 						{
 							foundRoles.Add(role);
 						}
@@ -320,7 +295,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				{
 					if (AreTypesMatchingTypes(topic.Types, types, matchAll))
 					{
-
 					}
 				}
 			}
@@ -329,6 +303,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 		#endregion
 
+		#region methods
 		private static bool AreTypesMatchingTypes(ICollection<ITopic> source, ITopic[] lookupTypes, bool matchAll)
 		{
 			bool matches = matchAll;
@@ -338,7 +313,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				if (matchAll)
 				{
 					if ((type != null && source.Contains(type)) ||
-						(type == null && source.Count > 0))
+					    (type == null && source.Count > 0))
 					{
 						matches = false;
 						break;
@@ -347,7 +322,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				else
 				{
 					if ((type == null && source.Count == 0) ||
-						(type != null && source.Contains(type)))
+					    (type != null && source.Contains(type)))
 					{
 						matches = true;
 						break;
@@ -357,5 +332,52 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 			return matches;
 		}
+
+		private void ReindexTopicMap(ITopicMap topicMap)
+		{
+			foreach (ITopic topic in topicMap.Topics)
+			{
+				foreach (ITopic type in topic.Types)
+				{
+					if (!topicTypes.Contains(type))
+					{
+						topicTypes.Add(type);
+					}
+				}
+
+				foreach (IName name in topic.Names)
+				{
+					if (!nameTypes.Contains(name.Type))
+					{
+						nameTypes.Add(name.Type);
+					}
+				}
+
+				foreach (IOccurrence occurrence in topic.Occurrences)
+				{
+					if (!occurrenceTypes.Contains(occurrence.Type))
+					{
+						occurrenceTypes.Add(occurrence.Type);
+					}
+				}
+			}
+
+			foreach (IAssociation association in topicMap.Associations)
+			{
+				if (!associationTypes.Contains(association.Type))
+				{
+					associationTypes.Add(association.Type);
+				}
+
+				foreach (ITopic type in association.RoleTypes)
+				{
+					if (!roleTypes.Contains(type))
+					{
+						roleTypes.Add(type);
+					}
+				}
+			}
+		}
+		#endregion
 	}
 }
