@@ -79,6 +79,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Reifiable.cd" />
+    <None Include="Scoped.cd" />
+    <None Include="Typed.cd" />
+    <None Include="Index.cd" />
     <None Include="TMAPI.Net.snk" />
   </ItemGroup>
 </Project>

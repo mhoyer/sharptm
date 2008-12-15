@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="TMAPI.Net.Core.IScoped">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IScoped.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IAssociation">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Core\IAssociation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IDatatypeAware">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAgAGgEAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\IDatatypeAware.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IName">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAQAAAAAgAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\IName.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IOccurrence" Collapsed="true">
+    <Position X="1.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IOccurrence.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IVariant" Collapsed="true">
+    <Position X="4" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IVariant.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

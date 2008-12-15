@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="TMAPI.Net.Core.IReifiable">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IReifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IAssociation">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Core\IAssociation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IDatatypeAware">
+    <Position X="2.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAgAGgEAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\IDatatypeAware.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IName">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAQAAAAAgAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\IName.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IRole">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Core\IRole.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.ITopicMap">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIABAAAAAAgAAEQAEAAQEAAEIAAAAgAAAAAICCAAQA=</HashCode>
+      <FileName>Core\ITopicMap.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IOccurrence">
+    <Position X="1.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IOccurrence.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TMAPI.Net.Core.IVariant">
+    <Position X="4" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IVariant.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
