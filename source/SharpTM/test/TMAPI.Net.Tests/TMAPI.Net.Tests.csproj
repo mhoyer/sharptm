@@ -78,9 +78,9 @@
     <Compile Include="Core\TopicTest.cs" />
     <Compile Include="Core\TypedTest.cs" />
     <Compile Include="Core\VariantTest.cs" />
+    <Compile Include="Index\LiteralIndexTest.cs" />
+    <Compile Include="Index\ScopedIndexTest.cs" />
+    <Compile Include="Index\TypeInstanceIndexTest.cs" />
     <Compile Include="TMAPITestCase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Index\" />
   </ItemGroup>
 </Project>
