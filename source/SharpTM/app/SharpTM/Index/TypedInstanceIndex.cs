@@ -173,7 +173,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IAssociation> GetAssociations(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			List<IAssociation> foundAssociations = new List<IAssociation>();
+
+			foreach (ILocator locator in TopicMapSystem.Locators)
+			{
+				ITopicMap topicMap = TopicMapSystem.GetTopicMap(locator);
+
+				foreach (IAssociation association in topicMap.Associations)
+				{
+					if (association.Type == type)
+					{
+						foundAssociations.Add(association);
+					}
+				}
+			}
+
+			return foundAssociations.AsReadOnly();
 		}
 
 		/// <summary>
@@ -189,7 +204,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IName> GetNames(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			List<IName> foundNames = new List<IName>();
+
+			foreach (ILocator locator in TopicMapSystem.Locators)
+			{
+				ITopicMap topicMap = TopicMapSystem.GetTopicMap(locator);
+
+				foreach (ITopic topic in topicMap.Topics)
+				{
+					foreach (IName name in topic.Names)
+					{
+						if (name.Type == type)
+						{
+							foundNames.Add(name);
+						}
+					}
+				}
+			}
+
+			return foundNames.AsReadOnly();
 		}
 
 		/// <summary>
@@ -205,7 +238,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> GetOccurrences(ITopic type)
 		{
-			throw new System.NotImplementedException();
+			List<IOccurrence> foundOccurrences = new List<IOccurrence>();
+
+			foreach (ILocator locator in TopicMapSystem.Locators)
+			{
+				ITopicMap topicMap = TopicMapSystem.GetTopicMap(locator);
+
+				foreach (ITopic topic in topicMap.Topics)
+				{
+					foreach (IOccurrence occurrence in topic.Occurrences)
+					{
+						if (occurrence.Type == type)
+						{
+							foundOccurrences.Add(occurrence);
+						}
+					}
+				}
+			}
+
+			return foundOccurrences.AsReadOnly();
 		}
 
 		/// <summary>
@@ -295,6 +346,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				{
 					if (AreTypesMatchingTypes(topic.Types, types, matchAll))
 					{
+						foundTopics.Add(topic);
 					}
 				}
 			}
@@ -312,7 +364,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			{
 				if (matchAll)
 				{
-					if ((type != null && source.Contains(type)) ||
+					if ((type != null && !source.Contains(type)) ||
 					    (type == null && source.Count > 0))
 					{
 						matches = false;
