@@ -1,0 +1,20 @@
+<Combine name="SharpTM" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="SharpTM" configuration="Debug" />
+      <Entry build="True" name="TMAPI.Net" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="SharpTM" configuration="Release" />
+      <Entry build="True" name="TMAPI.Net" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="SharpTM" single="True">
+    <Execute type="None" entry="SharpTM" />
+    <Execute type="None" entry="TMAPI.Net" />
+  </StartMode>
+  <Entries>
+    <Entry filename="app/SharpTM/SharpTM.mono.mdp" />
+    <Entry filename="app/TMAPI.Net/TMAPI.Net.mono.mdp" />
+  </Entries>
+</Combine>
