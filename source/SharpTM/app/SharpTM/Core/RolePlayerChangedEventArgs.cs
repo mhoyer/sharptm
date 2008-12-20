@@ -8,6 +8,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class RolePlayerChangedEventArgs : EventArgs
 	{
+		#region readonly & static fields
+		private readonly ITopic newPlayer;
+
+		private readonly ITopic oldPlayer;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RolePlayerChangedEventArgs"/> class.
@@ -16,8 +22,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="newPlayer">The new player.</param>
 		public RolePlayerChangedEventArgs(ITopic oldPlayer, ITopic newPlayer)
 		{
-			OldPlayer = oldPlayer;
-			NewPlayer = newPlayer;
+			this.oldPlayer = oldPlayer;
+			this.newPlayer = newPlayer;
 		}
 		#endregion
 
@@ -28,8 +34,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The new player.</value>
 		public ITopic NewPlayer
 		{
-			get;
-			private set;
+			get
+			{
+				return newPlayer;
+			}
 		}
 
 		/// <summary>
@@ -38,8 +46,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The old player.</value>
 		public ITopic OldPlayer
 		{
-			get;
-			private set;
+			get
+			{
+				return oldPlayer;
+			}
 		}
 		#endregion
 	}

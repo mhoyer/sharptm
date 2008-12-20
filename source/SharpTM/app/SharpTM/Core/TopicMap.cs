@@ -18,7 +18,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current list of <see cref="IAssociation">associations</see>.
 		/// </summary>
 		private readonly List<IAssociation> associations;
-	
+
+		private readonly ReadOnlyCollection<IAssociation> associationsReadOnly;
+
 		/// <summary>
 		/// Represents the current list of <see cref="IConstruct">constructs</see>.
 		/// </summary>
@@ -39,10 +41,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		private readonly IScopedIndex scopedIndex;
 
+		private readonly ITopicMapSystem topicMapSystem;
+
 		/// <summary>
 		/// Represents the current list of <see cref="ITopic">topics</see>.
 		/// </summary>
 		private readonly List<ITopic> topics;
+
+		private readonly ReadOnlyCollection<ITopic> topicsReadOnly;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="ITypeInstanceIndex"/>.
@@ -60,11 +66,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			: base(null, null)
 		{
 			associations = new List<IAssociation>();
+			associationsReadOnly = associations.AsReadOnly();
+
 			topics = new List<ITopic>();
+			topicsReadOnly = topics.AsReadOnly();
+
 			constructs = new List<IConstruct>();
 
 			AddItemIdentifier(itemIdentifier);
-			TopicMapSystem = topicMapSystem;
+			this.topicMapSystem = topicMapSystem;
 			reifiable = new Reifiable(this);
 
 			// TODO How to handle enableAutoUpdate parameter? app.config?
@@ -86,7 +96,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return associations.AsReadOnly();
+				return associationsReadOnly;
 			}
 		}
 
@@ -137,7 +147,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topics.AsReadOnly();
+				return topicsReadOnly;
 			}
 		}
 		#endregion
@@ -149,8 +159,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The topic map system.</value>
 		public ITopicMapSystem TopicMapSystem
 		{
-			get;
-			private set;
+			get
+			{
+				return topicMapSystem;
+			}
 		}
 		#endregion
 

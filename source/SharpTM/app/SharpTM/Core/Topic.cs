@@ -16,30 +16,46 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		private readonly List<IName> names;
 
+		private readonly ReadOnlyCollection<IName> namesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="IOccurrence">occurrences</see> attached to this topic.
 		/// </summary>
 		private readonly List<IOccurrence> occurrences;
+
+		private readonly ReadOnlyCollection<IOccurrence> occurrencesReadOnly;
 
 		/// <summary>
 		/// Represents the list of roles played by this topic.
 		/// </summary>
 		private readonly List<IRole> rolesPlayed;
 
+		private readonly ReadOnlyCollection<IRole> rolesPlayedReadOnly;
+
 		/// <summary>
 		/// Represents the list of subject identifiers for this topic.
 		/// </summary>
 		private readonly List<ILocator> subjectIdentifiers;
+
+		private readonly ReadOnlyCollection<ILocator> subjectIdentifiersReadOnly;
 
 		/// <summary>
 		/// Represents the list of subject locators for this topic.
 		/// </summary>
 		private readonly List<ILocator> subjectLocators;
 
+		private readonly ReadOnlyCollection<ILocator> subjectLocatorsReadOnly;
+
 		/// <summary>
 		/// Represents the list of types this topic is an instance of.
 		/// </summary>
 		private readonly List<ITopic> types;
+
+		private readonly ReadOnlyCollection<ITopic> typesReadOnly;
+		#endregion
+
+		#region fields
+		private IReifiable reified;
 		#endregion
 
 		#region constructor logic
@@ -51,22 +67,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			: base(topicMap, topicMap)
 		{
 			names = new List<IName>();
-			Names = names.AsReadOnly();
+			namesReadOnly = names.AsReadOnly();
 
 			occurrences = new List<IOccurrence>();
-			Occurrences = occurrences.AsReadOnly();
+			occurrencesReadOnly = occurrences.AsReadOnly();
 
 			subjectIdentifiers = new List<ILocator>();
-			SubjectIdentifiers = subjectIdentifiers.AsReadOnly();
+			subjectIdentifiersReadOnly = subjectIdentifiers.AsReadOnly();
 
 			subjectLocators = new List<ILocator>();
-			SubjectLocators = subjectLocators.AsReadOnly();
+			subjectLocatorsReadOnly = subjectLocators.AsReadOnly();
 
 			rolesPlayed = new List<IRole>();
-			RolesPlayed = rolesPlayed.AsReadOnly();
+			rolesPlayedReadOnly = rolesPlayed.AsReadOnly();
 
 			types = new List<ITopic>();
-			Types = types.AsReadOnly();
+			typesReadOnly = types.AsReadOnly();
 		}
 		#endregion
 
@@ -80,8 +96,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IName> Names
 		{
-			get;
-			private set;
+			get
+			{
+				return namesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -93,8 +111,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> Occurrences
 		{
-			get;
-			private set;
+			get
+			{
+				return occurrencesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -120,8 +140,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IReifiable Reified
 		{
-			get;
-			internal set;
+			get
+			{
+				return reified;
+			}
+			internal set
+			{
+				reified = value;
+			}
 		}
 
 		/// <summary>
@@ -133,8 +159,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> RolesPlayed
 		{
-			get;
-			private set;
+			get
+			{
+				return rolesPlayedReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -146,8 +174,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectIdentifiers
 		{
-			get;
-			private set;
+			get
+			{
+				return subjectIdentifiersReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -159,8 +189,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectLocators
 		{
-			get;
-			private set;
+			get
+			{
+				return subjectLocatorsReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -177,8 +209,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public ReadOnlyCollection<ITopic> Types
 		{
-			get;
-			private set;
+			get
+			{
+				return typesReadOnly;
+			}
 		}
 		#endregion
 

@@ -14,6 +14,13 @@
 // "In Project Suppression File". 
 // You do not need to add suppressions to this file manually. 
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Pixelplastic", Scope = "namespace", Target = "Pixelplastic.TopicMaps.SharpTM.Core")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Pixelplastic")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Scope = "member", Target = "Pixelplastic.TopicMaps.SharpTM.Core.Locator.#.ctor(System.String)", Justification = "Impossible to implement trough TMAPI specification.")]
+[assembly:
+	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
+		MessageId = "Pixelplastic", Scope = "namespace", Target = "Pixelplastic.TopicMaps.SharpTM.Core")]
+[assembly:
+	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
+		MessageId = "Pixelplastic")]
+[assembly:
+	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads",
+		Scope = "member", Target = "Pixelplastic.TopicMaps.SharpTM.Core.Locator.#.ctor(System.String)",
+		Justification = "Impossible to implement trough TMAPI specification.")]

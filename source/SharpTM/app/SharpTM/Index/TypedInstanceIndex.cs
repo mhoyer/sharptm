@@ -16,25 +16,35 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		private readonly List<ITopic> associationTypes;
 
+		private readonly ReadOnlyCollection<ITopic> associationTypesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> types.
 		/// </summary>
 		private readonly List<ITopic> nameTypes;
+
+		private readonly ReadOnlyCollection<ITopic> nameTypesReadOnly;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> types.
 		/// </summary>
 		private readonly List<ITopic> occurrenceTypes;
 
+		private readonly ReadOnlyCollection<ITopic> occurrenceTypesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IRole"/> types.
 		/// </summary>
 		private readonly List<ITopic> roleTypes;
 
+		private readonly ReadOnlyCollection<ITopic> roleTypesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="ITopic"/> types.
 		/// </summary>
 		private readonly List<ITopic> topicTypes;
+
+		private readonly ReadOnlyCollection<ITopic> topicTypesReadOnly;
 		#endregion
 
 		#region constructor logic
@@ -47,19 +57,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			: base(topicMapSystem, enableAutoUpdate)
 		{
 			associationTypes = new List<ITopic>();
-			AssociationTypes = associationTypes.AsReadOnly();
+			associationTypesReadOnly = associationTypes.AsReadOnly();
 
 			nameTypes = new List<ITopic>();
-			NameTypes = nameTypes.AsReadOnly();
+			nameTypesReadOnly = nameTypes.AsReadOnly();
 
 			occurrenceTypes = new List<ITopic>();
-			OccurrenceTypes = occurrenceTypes.AsReadOnly();
+			occurrenceTypesReadOnly = occurrenceTypes.AsReadOnly();
 
 			roleTypes = new List<ITopic>();
-			RoleTypes = roleTypes.AsReadOnly();
+			roleTypesReadOnly = roleTypes.AsReadOnly();
 
 			topicTypes = new List<ITopic>();
-			TopicTypes = topicTypes.AsReadOnly();
+			topicTypesReadOnly = topicTypes.AsReadOnly();
 		}
 		#endregion
 
@@ -74,8 +84,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> AssociationTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return associationTypesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -88,8 +100,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> NameTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return nameTypesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -102,8 +116,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> OccurrenceTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return occurrenceTypesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -116,8 +132,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> RoleTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return roleTypesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -137,8 +155,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </remarks>
 		public ReadOnlyCollection<ITopic> TopicTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return topicTypesReadOnly;
+			}
 		}
 		#endregion
 
@@ -311,7 +331,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </remarks>
 		public ReadOnlyCollection<ITopic> GetTopics(ITopic type)
 		{
-			return GetTopics(new[] { type }, true);
+			return GetTopics(new ITopic[1] { type }, true);
 		}
 
 		/// <summary>

@@ -15,6 +15,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current scope themes.
 		/// </summary>
 		private readonly List<ITopic> mergedScope;
+
+		private readonly ReadOnlyCollection<ITopic> mergedScopeReadOnly;
+
+		private readonly IName parent;
 		#endregion
 
 		#region constructor logic
@@ -31,9 +35,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				throw new ArgumentNullException("parent");
 			}
 
-			Parent = parent;
+			this.parent = parent;
 			mergedScope = new List<ITopic>();
-			MergedScope = mergedScope.AsReadOnly();
+			mergedScopeReadOnly = mergedScope.AsReadOnly();
+
 			MergeScopes();
 		}
 		#endregion
@@ -47,8 +52,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public new IName Parent
 		{
-			get;
-			private set;
+			get
+			{
+				return parent;
+			}
 		}
 
 		/// <summary>
@@ -77,8 +84,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The merged scope.</value>
 		internal ReadOnlyCollection<ITopic> MergedScope
 		{
-			get;
-			private set;
+			get
+			{
+				return mergedScopeReadOnly;
+			}
 		}
 		#endregion
 

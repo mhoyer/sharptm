@@ -16,20 +16,28 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		private readonly List<ITopic> associationThemes;
 
+		private readonly ReadOnlyCollection<ITopic> associationThemesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> scope.
 		/// </summary>
 		private readonly List<ITopic> nameThemes;
+
+		private readonly ReadOnlyCollection<ITopic> nameThemesReadOnly;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> scope.
 		/// </summary>
 		private readonly List<ITopic> occurrenceThemes;
 
+		private readonly ReadOnlyCollection<ITopic> occurrenceThemesReadOnly;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IVariant"/> scope.
 		/// </summary>
 		private readonly List<ITopic> variantThemes;
+
+		private readonly ReadOnlyCollection<ITopic> variantThemesReadOnly;
 		#endregion
 
 		#region constructor logic
@@ -42,16 +50,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			: base(topicMapSystem, enableAutoUpdate)
 		{
 			associationThemes = new List<ITopic>();
-			AssociationThemes = associationThemes.AsReadOnly();
+			associationThemesReadOnly = associationThemes.AsReadOnly();
 
 			nameThemes = new List<ITopic>();
-			NameThemes = nameThemes.AsReadOnly();
+			nameThemesReadOnly = nameThemes.AsReadOnly();
 
 			occurrenceThemes = new List<ITopic>();
-			OccurrenceThemes = occurrenceThemes.AsReadOnly();
+			occurrenceThemesReadOnly = occurrenceThemes.AsReadOnly();
 
 			variantThemes = new List<ITopic>();
-			VariantThemes = variantThemes.AsReadOnly();
+			variantThemesReadOnly = variantThemes.AsReadOnly();
 		}
 		#endregion
 
@@ -66,8 +74,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> AssociationThemes
 		{
-			get;
-			private set;
+			get
+			{
+				return associationThemesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -80,8 +90,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> NameThemes
 		{
-			get;
-			private set;
+			get
+			{
+				return nameThemesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -94,8 +106,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> OccurrenceThemes
 		{
-			get;
-			private set;
+			get
+			{
+				return occurrenceThemesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -108,8 +122,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<ITopic> VariantThemes
 		{
-			get;
-			private set;
+			get
+			{
+				return variantThemesReadOnly;
+			}
 		}
 		#endregion
 
@@ -145,7 +161,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IAssociation> GetAssociations(ITopic theme)
 		{
-			return GetAssociations(new[] { theme }, true);
+			return GetAssociations(new ITopic[1] { theme }, true);
 		}
 
 		/// <summary>
@@ -204,7 +220,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IName> GetNames(ITopic theme)
 		{
-			return GetNames(new[] { theme }, true);
+			return GetNames(new ITopic[1] { theme }, true);
 		}
 
 		/// <summary>
@@ -263,7 +279,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> GetOccurrences(ITopic theme)
 		{
-			return GetOccurrences(new[] { theme }, true);
+			return GetOccurrences(new ITopic[1] { theme }, true);
 		}
 
 		/// <summary>
@@ -324,7 +340,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </exception>
 		public ReadOnlyCollection<IVariant> GetVariants(ITopic theme)
 		{
-			return GetVariants(new[] { theme }, true);
+			return GetVariants(new ITopic[1] { theme }, true);
 		}
 
 		/// <summary>

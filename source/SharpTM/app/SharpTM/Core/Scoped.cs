@@ -15,6 +15,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
 		/// </summary>
 		private readonly List<ITopic> scope;
+
+		private readonly ReadOnlyCollection<ITopic> scopeReadOnly;
 		#endregion
 
 		#region constructor logic
@@ -24,7 +26,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal Scoped()
 		{
 			scope = new List<ITopic>();
-			Scope = scope.AsReadOnly();
+			scopeReadOnly = scope.AsReadOnly();
 		}
 		#endregion
 
@@ -39,8 +41,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		internal ReadOnlyCollection<ITopic> Scope
 		{
-			get;
-			private set;
+			get
+			{
+				return scopeReadOnly;
+			}
 		}
 		#endregion
 
