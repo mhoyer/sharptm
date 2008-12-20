@@ -1,0 +1,47 @@
+<Project name="TMAPI.Net" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assembly="TMAPI.Net" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="TMAPI.Net" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="core/FactoryConfigurationException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/FeatureNotRecognizedException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/FeatureNotSupportedException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IAssociation.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IConstruct.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IDatatypeAware.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IdentityConstraintException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ILocator.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IName.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IOccurrence.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IReifiable.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IRole.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IScoped.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ITopic.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ITopicMap.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ITopicMapSystem.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ITyped.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/IVariant.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/ModelConstraintException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/TMAPIException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/TMAPIRuntimeException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/TopicInUseException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/TopicMapExistsException.cs" subtype="Code" buildaction="Compile" />
+    <File name="core/TopicMapSystemFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="index/IIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="index/ILiteralIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="index/IScopedIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="index/ITypeInstanceIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Properties/AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+</Project>

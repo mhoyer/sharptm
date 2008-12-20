@@ -1,0 +1,45 @@
+<Project name="SharpTM" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assemblyKeyFile="." assembly="SharpTM" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="SharpTM" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="Core/Association.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Construct.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/DatatypeAware.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Datatypes.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Locator.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Name.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Occurrence.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Reifiable.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Role.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/RolePlayerChangedEventArgs.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/RoleTypeChangesEventArgs.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Scoped.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Topic.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/TopicMap.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/TopicMapSystem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/TopicMapSystemFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Typed.cs" subtype="Code" buildaction="Compile" />
+    <File name="Core/Variant.cs" subtype="Code" buildaction="Compile" />
+    <File name="Index/Index.cs" subtype="Code" buildaction="Compile" />
+    <File name="Index/LiteralIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Index/ScopedIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Index/TypedInstanceIndex.cs" subtype="Code" buildaction="Compile" />
+    <File name="Properties/AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Project" localcopy="True" refto="TMAPI.Net" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  </References>
+</Project>
