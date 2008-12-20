@@ -24,6 +24,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		#endregion
 
 		#region fields
+		private ILocator datatype;
+
 		private decimal decimalValue;
 		private float floatValue;
 		private int intValue;
@@ -55,8 +57,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ILocator Datatype
 		{
-			get;
-			private set;
+			get
+			{
+				return datatype;
+			}
+			private set
+			{
+				datatype = value;
+			}
 		}
 
 		/// <summary>

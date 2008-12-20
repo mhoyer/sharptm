@@ -21,10 +21,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		private readonly List<IRole> roles;
 
+		private readonly ReadOnlyCollection<IRole> rolesReadOnly;
+
 		/// <summary>
 		/// Represents the list of role types this association is involved.
 		/// </summary>
 		private readonly List<ITopic> roleTypes;
+
+		private readonly ReadOnlyCollection<ITopic> roleTypesReadOnly;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
@@ -62,10 +66,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			roles = new List<IRole>();
-			Roles = roles.AsReadOnly();
+			rolesReadOnly = roles.AsReadOnly();
 
 			roleTypes = new List<ITopic>();
-			RoleTypes = roleTypes.AsReadOnly();
+			roleTypesReadOnly = roleTypes.AsReadOnly();
 
 			typed = new Typed(associationType);
 			reifiable = new Reifiable(this);
@@ -126,8 +130,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> Roles
 		{
-			get;
-			private set;
+			get
+			{
+				return rolesReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -139,8 +145,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ITopic> RoleTypes
 		{
-			get;
-			private set;
+			get
+			{
+				return roleTypesReadOnly;
+			}
 		}
 
 		/// <summary>

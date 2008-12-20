@@ -132,6 +132,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		#region methods
 		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		public override string ToString()
+		{
+			return Reference;
+		}
+
+		/// <summary>
 		/// Determines whether the specified <see cref="ILocator"/> is equal to the current <see cref="Locator"/>.
 		/// </summary>
 		/// <param name="locator">The <see cref="ILocator"/> to compare with the current <see cref="Locator"/>.</param>
@@ -159,17 +170,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public ILocator Resolve(Uri relativeReference)
 		{
 			return new Locator(new Uri(reference, relativeReference));
-		}
-
-		/// <summary>
-		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-		/// </returns>
-		public override string ToString()
-		{
-			return Reference;
 		}
 		#endregion
 	}

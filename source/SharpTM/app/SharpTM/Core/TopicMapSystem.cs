@@ -59,7 +59,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					locators.AddRange(topicMap.ItemIdentifiers);
 				}
 
-				return new ReadOnlyCollection<ILocator>(locators);
+				return locators.AsReadOnly();
 			}
 		}
 		#endregion

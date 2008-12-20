@@ -5,6 +5,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public static class Datatypes
 	{
+		#region constants
 		/// <summary>
 		/// Represents the URI string for anyURI <c>datatype</c>.
 		/// </summary>
@@ -34,5 +35,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the URI string for string <c>datatype</c>.
 		/// </summary>
 		public const string STRING = "http://www.w3.org/2001/XMLSchema#string";
+		#endregion
 	}
 }

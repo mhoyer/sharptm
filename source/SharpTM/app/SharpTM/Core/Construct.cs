@@ -11,10 +11,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public abstract class Construct : IConstruct
 	{
 		#region readonly & static fields
+		private readonly string id;
+
 		/// <summary>
 		/// Represents the list of item identifiers for this construct.
 		/// </summary>
 		private readonly List<ILocator> itemIdentifiers;
+
+		private readonly ReadOnlyCollection<ILocator> itemIdentifiersReadOnly;
+		private readonly IConstruct parent;
+		private readonly ITopicMap topicMap;
 		#endregion
 
 		#region constructor logic
@@ -26,15 +32,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		protected Construct(IConstruct parent, ITopicMap topicMap)
 		{
 			itemIdentifiers = new List<ILocator>();
-			ItemIdentifiers = itemIdentifiers.AsReadOnly();
+			itemIdentifiersReadOnly = itemIdentifiers.AsReadOnly();
 
-			Id = Guid.NewGuid().ToString();
+			id = Guid.NewGuid().ToString();
 
 			if (topicMap == null)
 			{
 				if (this is ITopicMap)
 				{
-					TopicMap = this as ITopicMap;
+					this.topicMap = this as ITopicMap;
 				}
 				else
 				{
@@ -42,8 +48,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			Parent = parent;
-			TopicMap = topicMap ?? TopicMap;
+			this.parent = parent;
+			this.topicMap = topicMap ?? TopicMap;
 		}
 		#endregion
 
@@ -64,8 +70,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public string Id
 		{
-			get;
-			private set;
+			get
+			{
+				return id;
+			}
 		}
 
 		/// <summary>
@@ -77,8 +85,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> ItemIdentifiers
 		{
-			get;
-			private set;
+			get
+			{
+				return itemIdentifiersReadOnly;
+			}
 		}
 
 		/// <summary>
@@ -91,8 +101,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct Parent
 		{
-			get;
-			private set;
+			get
+			{
+				return parent;
+			}
 		}
 
 		/// <summary>
@@ -105,8 +117,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap TopicMap
 		{
-			get;
-			private set;
+			get
+			{
+				return topicMap;
+			}
 		}
 		#endregion
 

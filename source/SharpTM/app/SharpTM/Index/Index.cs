@@ -8,17 +8,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public abstract class Index : IIndex
 	{
+		#region readonly & static fields
+		private readonly bool autoUpdated;
+		private readonly ITopicMapSystem topicMapSystem;
+		#endregion
+
+		#region fields
+		private bool isOpen;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Index"/> class.
 		/// </summary>
 		/// <param name="topicMapSystem">The topic map system this index is based on.</param>
-		/// <param name="isAutoUpdated">if set to <c>true</c> auto update will be enabled.</param>
-		protected Index(ITopicMapSystem topicMapSystem, bool isAutoUpdated)
+		/// <param name="autoUpdatedEnabled">if set to <c>true</c> auto update will be enabled.</param>
+		protected Index(ITopicMapSystem topicMapSystem, bool autoUpdatedEnabled)
 		{
-			TopicMapSystem = topicMapSystem;
-			AutoUpdated = isAutoUpdated;
-			IsOpen = false;
+			this.topicMapSystem = topicMapSystem;
+			autoUpdated = autoUpdatedEnabled;
+			isOpen = false;
 		}
 		#endregion
 
@@ -38,8 +47,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public bool AutoUpdated
 		{
-			get;
-			private set;
+			get
+			{
+				return autoUpdated;
+			}
 		}
 
 		/// <summary>
@@ -50,8 +61,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </returns>
 		public bool IsOpen
 		{
-			get;
-			private set;
+			get
+			{
+				return isOpen;
+			}
 		}
 		#endregion
 
@@ -62,8 +75,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// <value>The topic map system.</value>
 		public ITopicMapSystem TopicMapSystem
 		{
-			get;
-			private set;
+			get
+			{
+				return topicMapSystem;
+			}
 		}
 		#endregion
 
@@ -73,7 +88,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public void Close()
 		{
-			IsOpen = false;
+			isOpen = false;
 		}
 
 		/// <summary>
@@ -83,7 +98,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public void Open()
 		{
-			IsOpen = true;
+			isOpen = true;
 		}
 
 		/// <summary>

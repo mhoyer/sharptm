@@ -8,6 +8,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class RoleTypeChangesEventArgs : EventArgs
 	{
+		#region readonly & static fields
+		private readonly ITopic newRoleType;
+
+		private readonly ITopic oldRoleType;
+		#endregion
+
 		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoleTypeChangesEventArgs"/> class.
@@ -16,8 +22,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="newRoleType">New type of the role.</param>
 		public RoleTypeChangesEventArgs(ITopic oldRoleType, ITopic newRoleType)
 		{
-			OldRoleType = oldRoleType;
-			NewRoleType = newRoleType;
+			this.oldRoleType = oldRoleType;
+			this.newRoleType = newRoleType;
 		}
 		#endregion
 
@@ -28,8 +34,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The new type of the role.</value>
 		public ITopic NewRoleType
 		{
-			get;
-			private set;
+			get
+			{
+				return newRoleType;
+			}
 		}
 
 		/// <summary>
@@ -38,8 +46,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The old type of the role.</value>
 		public ITopic OldRoleType
 		{
-			get;
-			private set;
+			get
+			{
+				return oldRoleType;
+			}
 		}
 		#endregion
 	}

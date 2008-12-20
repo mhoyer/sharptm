@@ -30,6 +30,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the list of variants for this <see cref="IName"/> instance.
 		/// </summary>
 		private readonly List<IVariant> variants;
+
+		private readonly ReadOnlyCollection<IVariant> variantsReadOnly;
 		#endregion
 
 		#region fields
@@ -56,7 +58,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			reifiable = new Reifiable(this);
 			scoped = new Scoped();
 			variants = new List<IVariant>();
-			Variants = variants.AsReadOnly();
+			variantsReadOnly = variants.AsReadOnly();
 		}
 		#endregion
 
@@ -166,8 +168,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IVariant> Variants
 		{
-			get;
-			private set;
+			get
+			{
+				return variantsReadOnly;
+			}
 		}
 		#endregion
 
