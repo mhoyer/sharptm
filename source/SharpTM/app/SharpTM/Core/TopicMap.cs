@@ -164,6 +164,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public void Close()
 		{
 			associations.Clear();
+			constructs.Clear();
 			topics.Clear();
 		}
 
@@ -215,8 +216,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public IAssociation CreateAssociation(ITopic associationType, IList<ITopic> initialThemes)
 		{
 			Association association = new Association(this, associationType, initialThemes);
-			associations.Add(association);
 			association.OnRemove += Association_OnRemove;
+			associations.Add(association);
+
+			constructs.Add(association);
 
 			return association;
 		}
@@ -513,7 +516,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return (T) typedIndex;
 			}
 
-			throw new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T)));
+			throw new TMAPIException("Unable to get index.",
+				new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T))));
 		}
 
 		/// <summary>
@@ -573,7 +577,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void MergeIn(ITopicMap other)
 		{
-			throw new System.NotImplementedException();
+			foreach (ITopic otherTopic in other.Topics)
+			{
+				foreach (ITopic topic in topics)
+				{
+					topic.MergeIn(otherTopic);
+				}
+			}
 		}
 		#endregion
 
@@ -626,6 +636,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				topics.Remove(topic);
 			}
+		}
+
+		/// <summary>
+		/// Adds the construct to current list of constructs.
+		/// </summary>
+		/// <param name="construct">The construct to be added.</param>
+		internal void AddConstruct(IConstruct construct)
+		{
+			constructs.Add(construct);
+		}
+
+		/// <summary>
+		/// Removes the construct from current list of constructs.
+		/// </summary>
+		/// <param name="construct">The construct to be removed.</param>
+		internal void RemoveConstruct(IConstruct construct)
+		{
+			constructs.Remove(construct);
 		}
 		#endregion
 	}

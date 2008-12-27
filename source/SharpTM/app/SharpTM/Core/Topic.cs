@@ -335,6 +335,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			names.Add(name);
 
+			// HACK should be solved by delegates
+			if (TopicMap is TopicMap)
+			{
+				((TopicMap)TopicMap).AddConstruct(name);
+			}
+
 			return name;
 		}
 
@@ -479,6 +485,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			Occurrence occurrence = CreateOccurrence(type, themes);
 			occurrence.Value = value;
+
+			// HACK should be solved by delegates
+			if (TopicMap is TopicMap)
+			{
+				((TopicMap)TopicMap).AddConstruct(occurrence);
+			}
 
 			return occurrence;
 		}
@@ -797,7 +809,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public void MergeIn(ITopic other)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		/// <summary>

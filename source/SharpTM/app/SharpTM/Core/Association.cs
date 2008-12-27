@@ -252,6 +252,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
 			roles.Add(role);
 
+			// HACK should be solved by delegates
+			if (TopicMap is TopicMap)
+			{
+				((TopicMap)TopicMap).AddConstruct(role);
+			}
+
 			// Add role type
 			if (!roleTypes.Contains(roleType))
 			{

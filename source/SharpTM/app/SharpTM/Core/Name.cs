@@ -447,6 +447,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			variant.AddThemes(scope);
 			variant.OnRemove += Variant_OnRemove;
 			variants.Add(variant);
+
+			// HACK should be solved by delegates
+			if (TopicMap is TopicMap)
+			{
+				((TopicMap)TopicMap).AddConstruct(variant);
+			}
+
 			return variant;
 		}
 
