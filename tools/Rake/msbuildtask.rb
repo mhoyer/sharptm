@@ -9,10 +9,10 @@ module Rake
     # Name of the main, top level task.  (default is :msbuild)
     attr_accessor :name, :solutions, :config, :tool, :config, :fwVersion
     attr_accessor :cleanbefore
+	EnvMsBuild = "MSBUILD"
 
     VERS_TMPL = { 
-		:msbuild => "msbuild /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! !solution!",
-		:mono => "xbuild !solution!",
+		:msbuild => "\"!msbuild!\" /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! !solution!"
 	}
 
     # Create an MSBuild task named msbuild.  Default task name is +msbuild+.
@@ -29,9 +29,13 @@ module Rake
     # Create the tasks defined by this task lib.
     def define
 	  task name do
+		fail RuntimeError, "Environment variable '" + EnvMsBuild + "' not specified." if ENV[EnvMsBuild] == nil
+
+        cmd = VERS_TMPL[@tool].gsub("!msbuild!", ENV[EnvMsBuild].gsub("\"", "")).gsub( "!config!", @config )
+
         targets = []
 		targets << @target
-        cmd = VERS_TMPL[@tool].gsub( "!config!", @config )
+
         solutions.each do |solution|
           targets.each do |target| 
 			replacedCmd = cmd.gsub( "!target!", target ).gsub( "!solution!", solution ).gsub("!FrameWorkVersion!", fwVersion)
