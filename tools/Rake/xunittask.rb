@@ -9,7 +9,7 @@ module Rake
 	EnvXUnitConsoleRunner = "XUNIT_CONSOLE_RUNNER"
     
     VERS_TMPL = { 
-		:xunit => "\"!xunitConsoleRunner!\" !assemblyFile!",
+		:xunit => '"!xunitConsoleRunner!" "!assemblyFile!"',
 	}
 
     # Create an MSBuild task named msbuild.  Default task name is +msbuild+.
@@ -25,9 +25,18 @@ module Rake
 	  task name do
 		fail RuntimeError, "Environment variable '" + EnvXUnitConsoleRunner + "' not specified." if ENV[EnvXUnitConsoleRunner] == nil
 
-        cmd = VERS_TMPL[:xunit].gsub("!assemblyFile!", @assemblyFile).gsub("!xunitConsoleRunner!", ENV[EnvXUnitConsoleRunner].gsub("\"", ""))
+		cmd = VERS_TMPL[:xunit].
+			sub(/!assemblyFile!/, 
+				@assemblyFile.
+					gsub(/\\/, '/').
+					gsub(/"/, '')).
+			sub(/!xunitConsoleRunner!/, 
+				ENV[EnvXUnitConsoleRunner].
+					gsub(/\\/, '/').
+					gsub(/"/, ''))
 				
         print "\n\n=====\n===== RAKE: " + @assemblyFile + "\n=====\n\n" + cmd + "\n\n"
+		
 		sh cmd
       end
       self

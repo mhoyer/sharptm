@@ -12,7 +12,7 @@ module Rake
 	EnvMsBuild = "MSBUILD"
 
     VERS_TMPL = { 
-		:msbuild => "\"!msbuild!\" /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! !solution!"
+		:msbuild => '"!msbuild!" /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! "!solution!"'
 	}
 
     # Create an MSBuild task named msbuild.  Default task name is +msbuild+.
@@ -31,14 +31,19 @@ module Rake
 	  task name do
 		fail RuntimeError, "Environment variable '" + EnvMsBuild + "' not specified." if ENV[EnvMsBuild] == nil
 
-        cmd = VERS_TMPL[@tool].gsub("!msbuild!", ENV[EnvMsBuild].gsub("\"", "")).gsub( "!config!", @config )
+		cmd = VERS_TMPL[@tool].
+			gsub("!msbuild!", 
+				ENV[EnvMsBuild].
+					gsub(/\\/, '/').
+					gsub("\"", "")).
+			gsub("!config!", @config)
 
         targets = []
 		targets << @target
 
         solutions.each do |solution|
           targets.each do |target| 
-			replacedCmd = cmd.gsub( "!target!", target ).gsub( "!solution!", solution ).gsub("!FrameWorkVersion!", fwVersion)
+			replacedCmd = cmd.gsub("!target!", target).gsub( "!solution!", solution.gsub(/\\/, '/').gsub(/\"/, '')).gsub("!FrameWorkVersion!", fwVersion)
 			print "\n\n=====\n===== RAKE: " + target + " " + solution + "\n=====\n\n" + replacedCmd + "\n\n"
 			sh replacedCmd
 		  end
