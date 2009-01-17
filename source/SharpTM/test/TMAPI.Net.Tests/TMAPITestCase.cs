@@ -1,4 +1,11 @@
+//------------------------------------------------------------------------------------------------- 
+// <copyright file="TMAPITestCase.cs" company="Pixelplastic">
+// Copyright (c) Marcel Hoyer 2009.  All rights reserved.
+// </copyright>
+// <summary>Defines the TMAPITestCase type.</summary>
+//-------------------------------------------------------------------------------------------------
 using TMAPI.Net.Core;
+using SharpTM = Pixelplastic.TopicMaps.SharpTM;
 
 namespace TMAPI.Net.Tests
 {
@@ -11,7 +18,14 @@ namespace TMAPI.Net.Tests
 	public class TMAPITestCase
 	{
 		#region Fields
+		/// <summary>
+		/// Represents the current <see cref="ITopicMapSystem"/> for all tests.
+		/// </summary>
 		protected readonly ITopicMapSystem topicMapSystem;
+
+		/// <summary>
+		/// Represents the current <see cref="TopicMapSystemFactory"/> instance for all tests.
+		/// </summary>
 		protected TopicMapSystemFactory topicMapSystemFactory;
 		#endregion
 
@@ -34,10 +48,10 @@ namespace TMAPI.Net.Tests
 		/// Tries to find an implementation (subclass) of <see cref="TopicMapSystemFactory"/> 
 		/// and will invoke the <see cref="TopicMapSystemFactory.NewInstance"/> method.
 		/// </remarks>
-		/// <returns>A new instance of TopicMapSystemFactory.</returns>
+		/// <returns>A new instance of <see cref="TopicMapSystemFactory"/>.</returns>
 		public static TopicMapSystemFactory NewTopicMapSystemFactoryInstance()
 		{
-			return TopicMapSystemFactory.NewInstance<Pixelplastic.TopicMaps.SharpTM.Core.TopicMapSystemFactory>();
+			return TopicMapSystemFactory.NewInstance<SharpTM.Core.TopicMapSystemFactory>();
 		}
 		#endregion
 	}
