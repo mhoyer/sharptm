@@ -13,15 +13,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMapSystemFactory : TMAPI.Net.Core.TopicMapSystemFactory
 	{
-		#region constructor logic
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicMapSystemFactory"/> class.
-		/// </summary>
-		public TopicMapSystemFactory()
-		{
-		}
-		#endregion
-
 		#region Overrides of TopicMapSystemFactory
 		/// <summary>
 		///     Returns the particular feature requested for in the underlying implementation of 
