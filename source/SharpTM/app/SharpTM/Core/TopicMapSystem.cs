@@ -53,11 +53,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get
 			{
 				List<ILocator> locators = new List<ILocator>();
-
-				foreach (ITopicMap topicMap in topicMaps)
-				{
-					locators.AddRange(topicMap.ItemIdentifiers);
-				}
+				topicMaps.ForEach((topicMap) => locators.AddRange(topicMap.ItemIdentifiers));
 
 				return new ReadOnlyCollection<ILocator>(locators);
 			}
@@ -106,22 +102,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ITopicMap CreateTopicMap(ILocator iri)
 		{
-			foreach (ITopicMap currentTopicMap in topicMaps)
+			if (GetTopicMap(iri) != null)
 			{
-				if (currentTopicMap.ItemIdentifiers.Contains(iri))
-				{
-					string message = string.Format(
-						"A topic map with locator {0} still exists in this topic map system.",
-						iri.Reference);
+				string message = string.Format(
+					"A topic map with locator {0} still exists in this topic map system.",
+					iri.Reference);
 
-					throw new TopicMapExistsException(message);
-				}
+				throw new TopicMapExistsException(message);
 			}
 
 			TopicMap topicMap = new TopicMap(this, iri);
 			topicMap.OnRemove += TopicMap_OnRemove;
 			topicMaps.Add(topicMap);
-
+			
 			return topicMap;
 		}
 
@@ -207,29 +200,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return null;
 			}
 
-			foreach (ITopicMap topicMap in topicMaps)
-			{
-				if (topicMap.ItemIdentifiers.Contains(iri))
-				{
-					return topicMap;
-				}
-			}
-
-			return null;
+			ITopicMap topicMap = topicMaps.Find((tm) => tm.ItemIdentifiers.Contains(iri));
+			
+			return topicMap;
 		}
 
 		/// <summary>
-		///     Returns the value of the feature specified by <paramref name="featureName"/> for this 
-		///     TopicMapSystem instance.
-		///     The features supported by the TopicMapSystem and the value for each feature is set when the 
-		///     TopicMapSystem is created by a call to <see cref="TMAPI.Net.Core.TopicMapSystemFactory.NewTopicMapSystem"/> and 
-		///     cannot be modified subsequently.
+		/// Returns the value of the feature specified by <paramref name="featureName"/> for this 
+		/// <see cref="TopicMapSystem"/> instance.
+		/// The features supported by the <see cref="TopicMapSystem"/> and the value for each feature is set when the 
+		/// <see cref="TopicMapSystem"/> is created by a call to <see cref="TMAPI.Net.Core.TopicMapSystemFactory.NewTopicMapSystem"/> and 
+		/// cannot be modified subsequently.
 		/// </summary>
 		/// <param name="featureName">
 		///     The name of the feature to check.
 		/// </param>
 		/// <returns>
-		///     <c>true</c> if the named feature is enabled this TopicMapSystem instance; 
+		///     <c>true</c> if the named feature is enabled this <see cref="TopicMapSystem"/> instance; 
 		///     <c>false</c> if the named feature is disabled for this instance.
 		/// </returns>
 		public bool GetFeature(string featureName)
@@ -250,12 +237,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			foreach (ITopicMap topicMap in topicMaps)
+			ITopicMap topicMap = GetTopicMap(locator);
+
+			if (topicMap != null)
 			{
-				if (topicMap.ItemIdentifiers.Contains(locator))
-				{
-					topicMaps.Remove(topicMap);
-				}
+				topicMaps.Remove(topicMap);
 			}
 		}
 
