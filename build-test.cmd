@@ -1,2 +1,2 @@
 @echo off
-build.cmd test %1
+build.cmd test %*
