@@ -12,7 +12,7 @@ module Rake
 	EnvMsBuild = "MSBUILD"
 
     VERS_TMPL = { 
-		:msbuild => '"!msbuild!" /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! "!solution!"'
+		:msbuild => '"!msbuild!" /nologo /v:m /t:!target! /p:Configuration=!config!;TargetFrameworkVersion=!FrameWorkVersion! "!solution!"'
 	}
 
     # Create an MSBuild task named msbuild.  Default task name is +msbuild+.
