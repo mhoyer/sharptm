@@ -17,16 +17,12 @@ puts "msBuildConfiguration: " + msBuildConfiguration
 # Dependencies
 task :build => :default
 task :default => ["msbuild:sharpTM"]
-task :test => ["xunit:runTmapiTest","xunit:runSharpTmTest"]
+task :test => ["xunit:runTmapiTest","xunit:runSharpTmTest","xunit:runSharpTmPersistenceTest"]
 
 # Compile tasks
 namespace :msbuild do
 
-	task :sharpTM => :tmapi
-	Rake::MsbuildTask.new(:sharpTM, msBuildTarget, msBuildConfiguration) do |msbld|
-		msbld.solutions = FileList['source/SharpTM/app/SharpTM/SharpTM.csproj']
-	end
-
+	# TMAPI + Tests
 	Rake::MsbuildTask.new(:tmapi, msBuildTarget, msBuildConfiguration) do |msbld|
 		msbld.solutions = FileList['source/SharpTM/app/TMAPI.Net/TMAPI.Net.csproj']
 	end
@@ -36,9 +32,27 @@ namespace :msbuild do
 		msbld.solutions = FileList['source/SharpTM/test/TMAPI.Net.Tests/TMAPI.Net.Tests.csproj']
 	end
 
-	task :sharpTmTest => [:tmapi,:sharpTM,:tmapiTest]
+	# SharpTM + Tests
+	task :sharpTM => :tmapi
+	Rake::MsbuildTask.new(:sharpTM, msBuildTarget, msBuildConfiguration) do |msbld|
+		msbld.solutions = FileList['source/SharpTM/app/SharpTM/SharpTM.csproj']
+	end
+
+	task :sharpTmTest => [:tmapi,:sharpTM]
 	Rake::MsbuildTask.new(:sharpTmTest, msBuildTarget, msBuildConfiguration) do |msbld|
 		msbld.solutions = FileList['source/SharpTM/test/SharpTM.Tests/SharpTM.Tests.csproj']
+	end
+
+	# SharpTM.Persistence + Tests
+	task :sharpTmPersistence => :sharpTM
+	Rake::MsbuildTask.new(:sharpTmPersistence, msBuildTarget, msBuildConfiguration) do |msbld|
+		msbld.solutions = FileList['source/SharpTM/app/SharpTM.Persistence/SharpTM.Persistence.csproj']
+	end
+	
+	task :sharpTmPersistenceTest => [:tmapi,:sharpTM,:sharpTmPersistence]
+	Rake::MsbuildTask.new(:sharpTmPersistenceTest, msBuildTarget, msBuildConfiguration) do |msbld|
+		msbld.solutions = FileList['source/SharpTM/test/SharpTM.Persistence.Tests/SharpTM.Persistence.Tests.csproj']
+		msbld.fwVersion = "v3.5"
 	end
 end
 
@@ -51,7 +65,12 @@ namespace :xunit do
 	
 	task :runSharpTmTest => ["msbuild:sharpTmTest"]
 	Rake::XunitTask.new(:runSharpTmTest) do |xunit|
-		xunit.assemblyFile = "source/SharpTM/test/SharpTM.Tests/bin/" + msBuildConfiguration + "/SharpTM.Tests.dll"
+		xunit.assemblyFile = "source/SharpTM/test/SharpTM.Tests/bin/" + msBuildConfiguration + "/Pixelplastic.TopicMaps.SharpTM.Tests.dll"
+	end
+	
+	task :runSharpTmPersistenceTest => ["msbuild:sharpTmPersistenceTest"]
+	Rake::XunitTask.new(:runSharpTmPersistenceTest) do |xunit|
+		xunit.assemblyFile = "source/SharpTM/test/SharpTM.Persistence.Tests/bin/" + msBuildConfiguration + "/Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.dll"
 	end
 end
 
