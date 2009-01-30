@@ -8,8 +8,8 @@
     <ProjectGuid>{FF32126E-7227-4242-948F-A8A4171ACD2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpTM.Tests</RootNamespace>
-    <AssemblyName>SharpTM.Tests</AssemblyName>
+    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.Tests</RootNamespace>
+    <AssemblyName>Pixelplastic.TopicMaps.SharpTM.Tests</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="xunit, Version=1.0.3.1299, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+    <Reference Include="xunit, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\xUnit\xunit.dll</HintPath>
+      <HintPath>..\..\..\..\tools\xUnit\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
