@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;XUNIT_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;XUNIT_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -53,20 +53,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="xunit, Version=1.0.3.1299, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\xUnit\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunitext, Version=1.0.3.1299, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\xUnit\xunitext.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="TMAPI.Net.Tests.snk" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AssociationTest.cs" />
+    <Compile Include="Core\ConstructTest.cs" />
     <Compile Include="Core\DatatypeAwareTest.cs" />
     <Compile Include="Core\LocatorTest.cs" />
     <Compile Include="Core\NameTest.cs" />
@@ -75,6 +66,7 @@
     <Compile Include="Core\RoleTest.cs" />
     <Compile Include="Core\ScopedTest.cs" />
     <Compile Include="Core\TopicMapSystemTest.cs" />
+    <Compile Include="Core\TopicMapTests.cs" />
     <Compile Include="Core\TopicTest.cs" />
     <Compile Include="Core\TypedTest.cs" />
     <Compile Include="Core\VariantTest.cs" />
@@ -82,5 +74,16 @@
     <Compile Include="Index\ScopedIndexTest.cs" />
     <Compile Include="Index\TypeInstanceIndexTest.cs" />
     <Compile Include="TMAPITestCase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="xunit, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\tools\xUnit\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\tools\xUnit\xunit.extensions.dll</HintPath>
+      <Aliases>global</Aliases>
+    </Reference>
   </ItemGroup>
 </Project>
