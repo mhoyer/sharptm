@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.ConstructDTO" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConstructDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.TypeDTO">
+    <Position X="7.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>TypeDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.InstanceOfDTO">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>InstanceOfDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.LocatorDTO">
+    <Position X="2.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocatorDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.NameDTO">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAACAAAAAAAAAAAAAAAAEAAQAgAAAAAAA=</HashCode>
+      <FileName>NameDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.OccurrenceDTO">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAACAAAAAAAAAAAAAIAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>OccurrenceDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.ResourceDataDTO">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceDataDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.RoleDTO">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQIAAAAAAAA=</HashCode>
+      <FileName>RoleDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.ScopeDTO">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>ScopeDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.TopicDTO">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAQAAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAAE=</HashCode>
+      <FileName>TopicDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.TopicMapDTO">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAACAAAQA=</HashCode>
+      <FileName>TopicMapDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.VariantDTO">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAACAAAAAAAAAAAAAIAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>VariantDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs.AssociationDTO">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAgAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>AssociationDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
