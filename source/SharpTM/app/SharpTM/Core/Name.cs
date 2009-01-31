@@ -1,3 +1,8 @@
+// <copyright file="Name.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,33 +15,28 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Name : Construct, IName
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
-		private readonly Reifiable reifiable;
+		readonly Reifiable reifiable;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
 		/// </summary>
-		private readonly Scoped scoped;
+		readonly Scoped scoped;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
-		private readonly Typed typed;
+		readonly Typed typed;
 
 		/// <summary>
 		/// Represents the list of variants for this <see cref="IName"/> instance.
 		/// </summary>
-		private readonly List<IVariant> variants;
-		#endregion
+		readonly List<IVariant> variants;
 
-		#region fields
-		private string value;
-		#endregion
+		string value;
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Name"/> class.
 		/// </summary>
@@ -58,7 +58,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
 		}
-		#endregion
 
 		#region IName properties
 		/// <summary>
@@ -200,8 +199,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IVariant"/> of this topic name with the specified 
 		///     string <paramref name="value"/> and <paramref name="scope"/>.
-		///     The newly created <see cref="T:TMAPI.Net.Core.IVariant"/> will have the datatype 
-		///     <a href="http://www.w3.org/TR/xmlschema-2/#string">xsd:string</a>.
+		///     The newly created <see cref="T:TMAPI.Net.Core.IVariant"/> will have the <c>datatype</c>
+		///     <a href="http://www.w3.org/TR/xmlschema-2/#string"><c>xsd:string</c></a>.
 		/// </summary>
 		/// <param name="value">
 		///     The string value.
@@ -406,7 +405,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
+		public override bool Equals(object obj)
+		{
+			if (obj is IName)
+			{
+				return Equals((IName) obj);
+			}
+
+			return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
 		/// <summary>
 		/// Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the scope.
 		/// </summary>
@@ -414,6 +427,42 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
 			scoped.AddThemes(themes);
+		}
+
+		/// <summary>
+		/// Compares two name instances.
+		/// </summary>
+		/// <param name="name">The name instance to be compared.</param>
+		/// <returns>[true] if both instances are equal. otherwise [false].</returns>
+		/// <remarks>
+		/// Topic name items are equal if the values of their
+		/// [value], [type], [scope], and [parent] properties are equal.
+		/// </remarks>
+		public bool Equals(IName name)
+		{
+			if (name == this)
+			{
+				return true;
+			}
+
+			if (name == null ||
+			    name.Value != Value ||
+			    name.Scope.Count != Scope.Count ||
+			    !name.Type.Equals(Type) ||
+			    !name.Parent.Equals(Parent))
+			{
+				return false;
+			}
+
+			foreach (ITopic scope in Scope)
+			{
+				if (!name.Scope.Contains(scope))
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -425,7 +474,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     If the <see cref="scope" /> of the variant would not be 
 		///     a true superset of the name's scope.
 		/// </exception>
-		private Variant CreateVariant(IList<ITopic> scope)
+		Variant CreateVariant(IList<ITopic> scope)
 		{
 			if (scope == null)
 			{
@@ -451,7 +500,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			// HACK should be solved by delegates
 			if (TopicMap is TopicMap)
 			{
-				((TopicMap)TopicMap).AddConstruct(variant);
+				((TopicMap) TopicMap).AddConstruct(variant);
 			}
 
 			return variant;
@@ -466,7 +515,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     If the <see cref="scope" /> of the variant would not be 
 		///     a true superset of the name's scope.
 		/// </exception>
-		private void IsSuperSet(IList<ITopic> scope)
+		void IsSuperSet(IList<ITopic> scope)
 		{
 			bool variantScopeHasDifferentTheme = false;
 
@@ -494,13 +543,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source <see cref="IVariant"/> of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void Variant_OnRemove(object sender, EventArgs e)
+		void Variant_OnRemove(object sender, EventArgs e)
 		{
 			if (sender is IVariant)
 			{
 				variants.Remove((IVariant) sender);
 			}
 		}
-		#endregion
 	}
 }
