@@ -1,2 +1,1 @@
-@echo off
-build.cmd test %*
+@build.cmd test:all

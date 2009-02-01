@@ -1,0 +1,12 @@
+global: &global
+  build_dir: build
+  source_dir: source
+  tools_dir: tools
+  build_configuration: Debug  
+  
+development:
+  <<: *global
+
+production:
+  <<: *global
+  build_configuration: Release
