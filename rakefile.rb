@@ -14,7 +14,7 @@ CLEAN.include('**/obj'.in($config['source_dir']))
 CLOBBER.include($config['build_dir_root'])
 CLOBBER.include('**/bin'.in($config['source_dir']))
 
-task :default => [:settings, :clobber, :'compile:all', :'test:all', :package]
+task :default => [:settings, :'compile:all', :'test:all', :package]
 
 desc 'Displays the build configuration'
 task :settings do
