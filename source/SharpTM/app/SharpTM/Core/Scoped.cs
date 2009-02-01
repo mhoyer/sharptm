@@ -1,3 +1,8 @@
+// <copyright file="Scoped.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +15,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	internal class Scoped
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
 		/// </summary>
 		private readonly List<ITopic> scope;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Scoped"/> class.
 		/// </summary>
@@ -26,9 +28,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			scope = new List<ITopic>();
 			Scope = scope.AsReadOnly();
 		}
-		#endregion
 
-		#region properties
 		/// <summary>
 		///     Gets the <see cref="T:TMAPI.Net.Core.ITopic"/>s which define the scope.
 		///     An empty set represents the unconstrained scope.
@@ -42,9 +42,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get;
 			private set;
 		}
-		#endregion
 
-		#region methods
 		/// <summary>
 		///     Adds a <see cref="T:TMAPI.Net.Core.ITopic"/> to the scope.
 		/// </summary>
@@ -103,6 +101,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			scope.Remove(theme);
 		}
-		#endregion
 	}
 }

@@ -1,3 +1,8 @@
+// <copyright file="TopicMap.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +18,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMap : Construct, ITopicMap
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current list of <see cref="IAssociation">associations</see>.
 		/// </summary>
@@ -48,9 +52,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current instance of <see cref="ITypeInstanceIndex"/>.
 		/// </summary>
 		private readonly ITypeInstanceIndex typedIndex;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
 		/// </summary>
@@ -72,7 +74,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			scopedIndex = new ScopedIndex(topicMapSystem, false);
 			typedIndex = new TypedInstanceIndex(topicMapSystem, false);
 		}
-		#endregion
 
 		#region ITopicMap properties
 		/// <summary>
@@ -142,7 +143,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region properties
 		/// <summary>
 		/// Gets the <see cref="ITopicMapSystem"/> containing this instance.
 		/// </summary>
@@ -152,7 +152,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get;
 			private set;
 		}
-		#endregion
 
 		#region ITopicMap methods
 		/// <summary>
@@ -587,7 +586,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Gets the topic by item identifier.
 		/// </summary>
@@ -655,6 +653,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			constructs.Remove(construct);
 		}
-		#endregion
 	}
 }

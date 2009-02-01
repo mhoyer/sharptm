@@ -1,9 +1,8 @@
 // <copyright file="TopicMapSystemFactory.cs" company="Pixelplastic">
-// Copyright (©) Marcel Hoyer 2008. All rights reserved.
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -13,7 +12,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMapSystemFactory : TMAPI.Net.Core.TopicMapSystemFactory
 	{
-		#region Overrides of TopicMapSystemFactory
 		/// <summary>
 		///     Returns the particular feature requested for in the underlying implementation of 
 		///     <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/>.
@@ -133,6 +131,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			throw new System.NotImplementedException();
 		}
-		#endregion
 	}
 }

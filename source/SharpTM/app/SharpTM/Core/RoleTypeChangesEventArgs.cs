@@ -1,3 +1,8 @@
+// <copyright file="RoleTypeChangesEventArgs.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using TMAPI.Net.Core;
 
@@ -8,7 +13,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class RoleTypeChangesEventArgs : EventArgs
 	{
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoleTypeChangesEventArgs"/> class.
 		/// </summary>
@@ -19,9 +23,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			OldRoleType = oldRoleType;
 			NewRoleType = newRoleType;
 		}
-		#endregion
 
-		#region properties
 		/// <summary>
 		/// Gets the new type of the role.
 		/// </summary>
@@ -41,6 +43,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get;
 			private set;
 		}
-		#endregion
 	}
 }

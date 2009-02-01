@@ -1,3 +1,8 @@
+// <copyright file="Construct.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +15,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class Construct : IConstruct
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the list of item identifiers for this construct.
 		/// </summary>
 		private readonly List<ILocator> itemIdentifiers;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
@@ -45,14 +47,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			Parent = parent;
 			TopicMap = topicMap ?? TopicMap;
 		}
-		#endregion
 
-		#region events
 		/// <summary>
 		/// Occurs when this instance was removed.
 		/// </summary>
 		public event EventHandler OnRemove;
-		#endregion
 
 		#region IConstruct properties
 		/// <summary>
@@ -172,7 +171,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 		/// </summary>
@@ -190,6 +188,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			return Id;
 		}
-		#endregion
 	}
 }

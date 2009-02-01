@@ -1,9 +1,8 @@
 // <copyright file="Locator.cs" company="Pixelplastic">
-// Copyright (©) Marcel Hoyer 2008. All rights reserved.
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-
 using System;
 using TMAPI.Net.Core;
 
@@ -14,14 +13,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Locator : ILocator
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current <see cref="Uri"/> of this <see cref="Locator"/>.
 		/// </summary>
 		private readonly Uri reference;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Locator"/> class using a <see cref="string"/>.
 		/// </summary>
@@ -57,7 +53,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			reference = absoluteReference;
 		}
-		#endregion
 
 		#region ILocator properties
 		/// <summary>
@@ -130,7 +125,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Determines whether the specified <see cref="ILocator"/> is equal to the current <see cref="Locator"/>.
 		/// </summary>
@@ -171,6 +165,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			return Reference;
 		}
-		#endregion
 	}
 }

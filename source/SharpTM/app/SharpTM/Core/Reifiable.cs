@@ -1,3 +1,8 @@
+// <copyright file="Reifiable.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using TMAPI.Net.Core;
 
@@ -8,21 +13,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	internal class Reifiable
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the parent <see cref="IReifiable"/> of this instance.
 		/// </summary>
 		private readonly IReifiable parent;
-		#endregion
 
-		#region fields
 		/// <summary>
 		/// Represents the current reifier of a <see cref="IReifiable"/> construct.
 		/// </summary>
 		private ITopic reifier;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Reifiable"/> helper class.
 		/// </summary>
@@ -36,9 +36,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			parent = parentReifiable;
 		}
-		#endregion
 
-		#region properties
 		/// <summary>
 		/// Gets or sets the reifier of this construct.
 		/// </summary>
@@ -84,6 +82,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				reifier = value;
 			}
 		}
-		#endregion
 	}
 }

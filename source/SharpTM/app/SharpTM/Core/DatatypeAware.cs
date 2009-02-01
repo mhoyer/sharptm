@@ -1,3 +1,8 @@
+// <copyright file="DatatypeAware.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +16,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class DatatypeAware : Construct, IDatatypeAware
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current <see cref="Reifiable"/> of a <see cref="IReifiable"/> construct.
 		/// </summary>
@@ -21,18 +25,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
 		/// </summary>
 		private readonly Scoped scoped;
-		#endregion
 
-		#region fields
 		private decimal decimalValue;
 		private float floatValue;
 		private int intValue;
 		private ILocator locatorValue;
 		private long longValue;
 		private string stringValue;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DatatypeAware"/> class.
 		/// </summary>
@@ -44,7 +44,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			reifiable = new Reifiable(this);
 			scoped = new Scoped();
 		}
-		#endregion
 
 		#region IDatatypeAware properties
 		/// <summary>
@@ -386,7 +385,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the scope.
 		/// </summary>
@@ -395,6 +393,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			scoped.AddThemes(themes);
 		}
-		#endregion
 	}
 }

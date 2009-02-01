@@ -1,9 +1,8 @@
 // <copyright file="TopicMapSystem.cs" company="Pixelplastic">
-// Copyright (©) Marcel Hoyer 2008. All rights reserved.
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,14 +20,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </remarks>
 	public class TopicMapSystem : ITopicMapSystem
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents a list of <see cref="ILocator">topic maps</see> for the current <see cref="TopicMapSystem"/>.
 		/// </summary>
 		private readonly List<ITopicMap> topicMaps;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
@@ -36,7 +32,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			topicMaps = new List<ITopicMap>();
 		}
-		#endregion
 
 		#region ITopicMapSystem properties
 		/// <summary>
@@ -225,7 +220,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Removes a topic map identified by a <see cref="ILocator"/>.
 		/// </summary>
@@ -259,6 +253,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				topicMaps.Remove(topicMap);
 			}
 		}
-		#endregion
 	}
 }

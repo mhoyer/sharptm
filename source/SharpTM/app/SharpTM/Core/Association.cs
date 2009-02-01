@@ -1,3 +1,8 @@
+// <copyright file="Association.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +15,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Association : Construct, IAssociation
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
@@ -35,9 +39,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
 		private readonly Typed typed;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
 		/// </summary>
@@ -76,9 +78,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				scoped.AddThemes(initialThemes);
 			}
 		}
-		#endregion
 
-		#region IAssociation properties
+        #region IAssociation properties
 		/// <summary>
 		///    Gets the <see cref="T:TMAPI.Net.Core.ITopicMap"/> this association belongs to.
 		/// </summary>
@@ -320,7 +321,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Handles the <see cref="Construct.OnRemove"/> event of the <see cref="Role"/>.
 		/// </summary>
@@ -364,6 +364,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				roleTypes.Add(e.NewRoleType);
 			}
 		}
-		#endregion
 	}
 }

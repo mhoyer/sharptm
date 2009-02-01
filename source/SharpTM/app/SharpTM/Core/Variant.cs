@@ -1,3 +1,8 @@
+// <copyright file="Variant.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +15,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Variant : DatatypeAware, IVariant
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current scope themes.
 		/// </summary>
 		private readonly List<ITopic> mergedScope;
-		#endregion
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Variant"/> class.
 		/// </summary>
@@ -36,7 +38,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			MergedScope = mergedScope.AsReadOnly();
 			MergeScopes();
 		}
-		#endregion
 
 		#region IVariant properties
 		/// <summary>
@@ -70,7 +71,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region properties
 		/// <summary>
 		/// Gets the merged scope as <see cref="ReadOnlyCollection{T}"/>.
 		/// </summary>
@@ -80,9 +80,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get;
 			private set;
 		}
-		#endregion
 
-		#region methods
 		/// <summary>
 		/// Merges the scopes of <see cref="Parent"/> name construct and the current themes 
 		/// of this <see cref="IVariant"/> instance.
@@ -103,6 +101,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				mergedScope.Add(theme);
 			}
 		}
-		#endregion
 	}
 }
