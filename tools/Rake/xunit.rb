@@ -14,9 +14,9 @@ module Rake
 		def define
 			raise 'A test assembly is required to run XUnit' if @assembly.nil?
 						
-			Dir.glob(@assembly).each do |a|
-				desc "Runs XUnit on #{File.basename(a)}"
-				task @name do
+			desc "Runs XUnit tests"
+			task @name do
+				Dir.glob(@assembly).each do |a|
 					sh "#{@toolpath.escape} #{a.escape}" # /html #{File.basename(a)}.html"
 				end
 			end
