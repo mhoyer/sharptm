@@ -1,3 +1,8 @@
+// <copyright file="Index.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -8,7 +13,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public abstract class Index : IIndex
 	{
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Index"/> class.
 		/// </summary>
@@ -20,7 +24,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			AutoUpdated = isAutoUpdated;
 			IsOpen = false;
 		}
-		#endregion
 
 		#region IIndex properties
 		/// <summary>
@@ -55,7 +58,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 		#endregion
 
-		#region properties
 		/// <summary>
 		/// Gets the topic map system this <see cref="LiteralIndex"/> is about.
 		/// </summary>
@@ -65,7 +67,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			get;
 			private set;
 		}
-		#endregion
 
 		#region IIndex methods
 		/// <summary>

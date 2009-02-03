@@ -1,6 +1,12 @@
+// <copyright file="LiteralIndex.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Pixelplastic.TopicMaps.SharpTM.Core;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
@@ -12,24 +18,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public class LiteralIndex : Index, ILiteralIndex
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the current names in the index.
 		/// </summary>
-		private readonly List<IName> names;
+		readonly List<IName> names;
 
 		/// <summary>
 		/// Represents the current occurrences in the index.
 		/// </summary>
-		private readonly List<IOccurrence> occurrences;
+		readonly List<IOccurrence> occurrences;
 
 		/// <summary>
 		/// Represents the current variants in the index.
 		/// </summary>
-		private readonly List<IVariant> variants;
-		#endregion
+		readonly List<IVariant> variants;
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LiteralIndex"/> class.
 		/// </summary>
@@ -47,7 +50,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			occurrences = new List<IOccurrence>();
 			variants = new List<IVariant>();
 		}
-		#endregion
 
 		#region ILiteralIndex methods
 		/// <summary>
@@ -55,6 +57,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public override void Reindex()
 		{
+			Trace.WriteLine("Refreshing the index for {0}" + GetType().Name);
+
 			names.Clear();
 			occurrences.Clear();
 			variants.Clear();
@@ -326,12 +330,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 		#endregion
 
-		#region methods
 		/// <summary>
 		/// Synchronize a single topic map.
 		/// </summary>
 		/// <param name="topicMap">The topic map.</param>
-		private void ReindexTopicMap(ITopicMap topicMap)
+		void ReindexTopicMap(ITopicMap topicMap)
 		{
 			foreach (ITopic topic in topicMap.Topics)
 			{
@@ -344,6 +347,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				}
 			}
 		}
-		#endregion
 	}
 }

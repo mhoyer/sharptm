@@ -1,5 +1,11 @@
+// <copyright file="TypedInstanceIndex.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -10,34 +16,33 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public class TypedInstanceIndex : Index, ITypeInstanceIndex
 	{
-		#region readonly & static fields
+		readonly List<ITyped> allTyped;
+
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IAssociation"/> types.
 		/// </summary>
-		private readonly List<ITopic> associationTypes;
+		readonly List<ITopic> associationTypes;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> types.
 		/// </summary>
-		private readonly List<ITopic> nameTypes;
+		readonly List<ITopic> nameTypes;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> types.
 		/// </summary>
-		private readonly List<ITopic> occurrenceTypes;
+		readonly List<ITopic> occurrenceTypes;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="IRole"/> types.
 		/// </summary>
-		private readonly List<ITopic> roleTypes;
+		readonly List<ITopic> roleTypes;
 
 		/// <summary>
 		/// Represents the list of <see cref="ITopic"/>s for <see cref="ITopic"/> types.
 		/// </summary>
-		private readonly List<ITopic> topicTypes;
-		#endregion
+		readonly List<ITopic> topicTypes;
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TypedInstanceIndex"/> class.
 		/// </summary>
@@ -60,8 +65,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 			topicTypes = new List<ITopic>();
 			TopicTypes = topicTypes.AsReadOnly();
+
+			allTyped = new List<ITyped>();
+			AllTyped = allTyped.AsReadOnly();
 		}
-		#endregion
+
+		/// <summary>
+		/// Gets all <see cref="ITyped"/> instances.
+		/// </summary>
+		/// <value>A list of <see cref="ITyped"/> instances.</value>
+		public ReadOnlyCollection<ITyped> AllTyped
+		{
+			get;
+			private set;
+		}
 
 		#region ITypeInstanceIndex properties
 		/// <summary>
@@ -144,15 +161,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 		#region ITypeInstanceIndex methods
 		/// <summary>
-		///     Synchronize the index with data in the topic map.
+		/// Synchronize the index with data in the topic map.
 		/// </summary>
 		public override void Reindex()
 		{
+			Trace.WriteLine("Refreshing the index for {0}" + GetType().Name);
+
 			associationTypes.Clear();
 			nameTypes.Clear();
 			occurrenceTypes.Clear();
 			roleTypes.Clear();
 			topicTypes.Clear();
+			allTyped.Clear();
 
 			foreach (ILocator locator in TopicMapSystem.Locators)
 			{
@@ -355,8 +375,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 		#endregion
 
-		#region methods
-		private static bool AreTypesMatchingTypes(ICollection<ITopic> source, ITopic[] lookupTypes, bool matchAll)
+		/// <summary>
+		/// Gets all <see cref="ITyped"/> instances that are type of <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The type to be used for comparison.</param>
+		/// <returns>The filtered list of <see cref="ITyped"/> instances.</returns>
+		public ReadOnlyCollection<ITyped> GetTyped(ITopic type)
+		{
+			List<ITyped> foundTopics = allTyped.FindAll(typed => typed.Type == type);
+
+			return foundTopics.AsReadOnly();
+		}
+
+		static bool AreTypesMatchingTypes(ICollection<ITopic> source, ITopic[] lookupTypes, bool matchAll)
 		{
 			bool matches = matchAll;
 
@@ -385,7 +416,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			return matches;
 		}
 
-		private void ReindexTopicMap(ITopicMap topicMap)
+		void ReindexTopicMap(ITopicMap topicMap)
 		{
 			foreach (ITopic topic in topicMap.Topics)
 			{
@@ -402,6 +433,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 					if (!nameTypes.Contains(name.Type))
 					{
 						nameTypes.Add(name.Type);
+						allTyped.Add(name);
 					}
 				}
 
@@ -410,6 +442,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 					if (!occurrenceTypes.Contains(occurrence.Type))
 					{
 						occurrenceTypes.Add(occurrence.Type);
+						allTyped.Add(occurrence);
 					}
 				}
 			}
@@ -419,17 +452,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 				if (!associationTypes.Contains(association.Type))
 				{
 					associationTypes.Add(association.Type);
+					allTyped.Add(association);
 				}
 
-				foreach (ITopic type in association.RoleTypes)
+				foreach (IRole role in association.Roles)
 				{
+					ITopic type = role.Type;
+
 					if (!roleTypes.Contains(type))
 					{
 						roleTypes.Add(type);
+						allTyped.Add(role);
 					}
 				}
 			}
 		}
-		#endregion
 	}
 }

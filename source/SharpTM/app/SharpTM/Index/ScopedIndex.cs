@@ -1,5 +1,11 @@
+// <copyright file="ScopedIndex.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -10,29 +16,31 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public class ScopedIndex : Index, IScopedIndex
 	{
-		#region readonly & static fields
 		/// <summary>
-		/// Represents the list of <see cref="ITopic"/>s for <see cref="IAssociation"/> scope.
+		/// Represents the list of all <see cref="IScoped"/> instances.
 		/// </summary>
-		private readonly List<ITopic> associationThemes;
+		readonly List<IScoped> allScoped;
 
 		/// <summary>
-		/// Represents the list of <see cref="ITopic"/>s for <see cref="IName"/> scope.
+		/// Represents the list of <see cref="ITopic"/> instances for <see cref="IAssociation"/> scope.
 		/// </summary>
-		private readonly List<ITopic> nameThemes;
+		readonly List<ITopic> associationThemes;
 
 		/// <summary>
-		/// Represents the list of <see cref="ITopic"/>s for <see cref="IOccurrence"/> scope.
+		/// Represents the list of <see cref="ITopic"/> instances for <see cref="IName"/> scope.
 		/// </summary>
-		private readonly List<ITopic> occurrenceThemes;
+		readonly List<ITopic> nameThemes;
 
 		/// <summary>
-		/// Represents the list of <see cref="ITopic"/>s for <see cref="IVariant"/> scope.
+		/// Represents the list of <see cref="ITopic"/> instances for <see cref="IOccurrence"/> scope.
 		/// </summary>
-		private readonly List<ITopic> variantThemes;
-		#endregion
+		readonly List<ITopic> occurrenceThemes;
 
-		#region constructor logic
+		/// <summary>
+		/// Represents the list of <see cref="ITopic"/> instances for <see cref="IVariant"/> scope.
+		/// </summary>
+		readonly List<ITopic> variantThemes;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ScopedIndex"/> class.
 		/// </summary>
@@ -52,8 +60,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 
 			variantThemes = new List<ITopic>();
 			VariantThemes = variantThemes.AsReadOnly();
+
+			allScoped = new List<IScoped>();
+			AllScoped = allScoped.AsReadOnly();
 		}
-		#endregion
+
+		/// <summary>
+		/// Gets all <see cref="IScoped"/> instances.
+		/// </summary>
+		/// <value>All scoped.</value>
+		public ReadOnlyCollection<IScoped> AllScoped
+		{
+			get;
+			private set;
+		}
 
 		#region IScopedIndex properties
 		/// <summary>
@@ -119,10 +139,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public override void Reindex()
 		{
+			Trace.WriteLine("Refreshing the index for {0}" + GetType().Name);
+
 			associationThemes.Clear();
 			nameThemes.Clear();
 			occurrenceThemes.Clear();
 			variantThemes.Clear();
+			allScoped.Clear();
 
 			foreach (ILocator locator in TopicMapSystem.Locators)
 			{
@@ -372,8 +395,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		}
 		#endregion
 
-		#region methods
-		private static bool AreThemesMatchingScoped<T>(T scoped, ITopic[] themes, bool matchAll)
+		/// <summary>
+		/// Gets all <see cref="IScoped"/> instances that are in scope of <paramref name="scopeTopic"/>.
+		/// </summary>
+		/// <param name="scopeTopic">The <see cref="ITopic"/> instance to match.</param>
+		/// <returns>A list of <see cref="IScoped"/> instances that match <paramref name="scopeTopic"/>.</returns>
+		public ReadOnlyCollection<IScoped> GetScoped(ITopic scopeTopic)
+		{
+			if (scopeTopic == null)
+			{
+				return AllScoped;
+			}
+
+			return allScoped.FindAll(scoped => scoped.Scope.Contains(scopeTopic)).AsReadOnly();
+		}
+
+		static bool AreThemesMatchingScoped<T>(T scoped, ITopic[] themes, bool matchAll)
 			where T : IScoped
 		{
 			bool matches = matchAll;
@@ -403,31 +440,34 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 			return matches;
 		}
 
-		private void ReindexTopicMap(ITopicMap topicMap)
+		void ReindexTopicMap(ITopicMap topicMap)
 		{
 			foreach (ITopic topic in topicMap.Topics)
 			{
 				foreach (IName name in topic.Names)
 				{
 					nameThemes.AddRange(name.Scope);
+					allScoped.Add(name);
 
 					foreach (IVariant variant in name.Variants)
 					{
 						variantThemes.AddRange(variant.Scope);
+						allScoped.Add(variant);
 					}
 				}
 
 				foreach (IOccurrence occurrence in topic.Occurrences)
 				{
 					occurrenceThemes.AddRange(occurrence.Scope);
+					allScoped.Add(occurrence);
 				}
 			}
 
 			foreach (IAssociation association in topicMap.Associations)
 			{
 				associationThemes.AddRange(association.Scope);
+				allScoped.Add(association);
 			}
 		}
-		#endregion
 	}
 }
