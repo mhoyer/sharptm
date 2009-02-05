@@ -91,7 +91,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public IConstruct Parent
 		{
 			get;
-			private set;
+			internal set;
 		}
 
 		/// <summary>
