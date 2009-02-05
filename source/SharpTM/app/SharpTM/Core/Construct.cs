@@ -137,7 +137,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			if (TopicMap.ItemIdentifiers.Contains(itemIdentifier))
 			{
-				String message = String.Format(
+				string message = String.Format(
 					"Construct with item identifier {0} still exists in this topic map ({1}).",
 					itemIdentifier.Reference,
 					TopicMap.Id);
