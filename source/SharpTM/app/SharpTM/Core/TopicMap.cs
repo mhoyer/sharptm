@@ -498,7 +498,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="NotSupportedException">
 		///     If the implementation does not support indices or if the specified index is unsupported.
 		/// </exception>
-		public T GetIndex<T>() where T : IIndex
+		public T GetIndex<T>() where T : class, IIndex
 		{
 			if (typeof(ILiteralIndex).IsAssignableFrom(typeof(T)))
 			{
