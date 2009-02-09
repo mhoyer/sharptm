@@ -20,16 +20,28 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </remarks>
 	public class TopicMapSystem : ITopicMapSystem
 	{
+		readonly Dictionary<string, bool> enabledFeatures;
+
 		/// <summary>
 		/// Represents a list of <see cref="ILocator">topic maps</see> for the current <see cref="TopicMapSystem"/>.
 		/// </summary>
-		private readonly List<ITopicMap> topicMaps;
+		readonly List<ITopicMap> topicMaps;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
 		public TopicMapSystem()
+			: this(null)
 		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
+		/// </summary>
+		/// <param name="features">The list of enabled/disabled features.</param>
+		public TopicMapSystem(Dictionary<string, bool> features)
+		{
+			enabledFeatures = features ?? new Dictionary<string, bool>();
 			topicMaps = new List<ITopicMap>();
 		}
 
@@ -109,7 +121,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			TopicMap topicMap = new TopicMap(this, iri);
 			topicMap.OnRemove += TopicMap_OnRemove;
 			topicMaps.Add(topicMap);
-			
+
 			return topicMap;
 		}
 
@@ -196,7 +208,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			ITopicMap topicMap = topicMaps.Find((tm) => tm.ItemIdentifiers.Contains(iri));
-			
+
 			return topicMap;
 		}
 
@@ -216,7 +228,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public bool GetFeature(string featureName)
 		{
-			throw new System.NotImplementedException();
+			string feature = Features.MapToName(featureName);
+			return enabledFeatures.ContainsKey(feature) && enabledFeatures[feature];
 		}
 		#endregion
 
@@ -244,7 +257,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void TopicMap_OnRemove(object sender, EventArgs e)
+		void TopicMap_OnRemove(object sender, EventArgs e)
 		{
 			ITopicMap topicMap = sender as ITopicMap;
 

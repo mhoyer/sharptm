@@ -3,6 +3,8 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+using System;
+using System.Collections.Generic;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -12,12 +14,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMapSystemFactory : TMAPI.Net.Core.TopicMapSystemFactory
 	{
+		readonly Dictionary<string, bool> enabledFeatures;
+
+		public TopicMapSystemFactory()
+		{
+			enabledFeatures = new Dictionary<string, bool>();
+
+			ReadFeatureSettings(Features.AutomaticMerging);
+			ReadFeatureSettings(Features.LocatorAddressNotationFeatures);
+			ReadFeatureSettings(Features.MergingSupportFeatures);
+			ReadFeatureSettings(Features.ReadOnlySystem);
+			ReadFeatureSettings(Features.TopicMapsModelFeatures);
+		}
+
 		/// <summary>
 		///     Returns the particular feature requested for in the underlying implementation of 
 		///     <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/>.
 		/// </summary>
-		/// <param name="featureName">
-		///     The name of the feature to check.
+		/// <param name="featureUri">
+		///     The URI of the feature.
 		/// </param>
 		/// <returns>
 		///     <c>true</c> if the named feature is enabled for <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/> 
@@ -27,9 +42,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="FeatureNotRecognizedException">
 		///     If the underlying implementation does not recognize the named feature.
 		/// </exception>
-		public override bool GetFeature(string featureName)
+		public override bool GetFeature(string featureUri)
 		{
-			throw new System.NotImplementedException();
+			string featureName = Features.MapToName(featureUri);
+
+			return enabledFeatures.ContainsKey(featureName) && enabledFeatures[featureName];
 		}
 
 		/// <summary>
@@ -54,15 +71,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     the requested feature is generally available / supported by the underlying <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/> 
 		///     and does not return the state (enabled/disabled) of the feature. 
 		/// </summary>
-		/// <param name="featureName">
-		///     The name of the feature to check.
+		/// <param name="featureUri">
+		///     The URI of the feature.
 		/// </param>
 		/// <returns>
 		///     <c>true</c> if the requested feature is supported, otherwise <c>false</c>.
 		/// </returns>
-		public override bool HasFeature(string featureName)
+		public override bool HasFeature(string featureUri)
 		{
-			throw new System.NotImplementedException();
+			if (featureUri == null)
+			{
+				throw new ArgumentNullException("featureUri");
+			}
+
+			if (Features.AutomaticMerging.StartsWith(featureUri) ||
+			    Features.MergingSupportFeatures.StartsWith(featureUri) ||
+			    Features.LocatorAddressNotationFeatures.StartsWith(featureUri))
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -91,14 +120,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public override ITopicMapSystem NewTopicMapSystem()
 		{
-			return new TopicMapSystem();
+			return new TopicMapSystem(enabledFeatures);
 		}
 
 		/// <summary>
 		///     Sets a particular feature in the underlying implementation of <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/>.
 		///     A list of the core features can be found at http://tmapi.org/features/. 
 		/// </summary>
-		/// <param name="featureName">
+		/// <param name="featureUri">
 		///     The name of the feature to be set.
 		/// </param>
 		/// <param name="enable">
@@ -111,9 +140,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     If the underlying implementation recognizes the named feature but does not support enabling or 
 		///     disabling it (as specified by <paramref name="enable"/>).
 		/// </exception>
-		public override void SetFeature(string featureName, bool enable)
+		public override void SetFeature(string featureUri, bool enable)
 		{
-			throw new System.NotImplementedException();
+			string featureName = Features.MapToName(featureUri);
+
+			if (!HasFeature(featureUri))
+			{
+				throw new FeatureNotSupportedException(String.Format("Feature {0} is not supported.", featureName));
+			}
+
+			if (!enabledFeatures.ContainsKey(featureName))
+			{
+				enabledFeatures.Add(featureName, false);
+			}
+
+			enabledFeatures[featureName] = enable;
 		}
 
 		/// <summary>
@@ -130,6 +171,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public override void SetProperty(string propertyName, object value)
 		{
 			throw new System.NotImplementedException();
+		}
+
+		void ReadFeatureSettings(string featureUri)
+		{
+			string featureName = Features.MapToName(featureUri);
+
+			enabledFeatures.Add(
+				featureName,
+				(bool) Properties.Settings.Default[featureName]);
 		}
 	}
 }
