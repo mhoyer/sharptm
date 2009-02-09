@@ -16,7 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the parent <see cref="IReifiable"/> of this instance.
 		/// </summary>
-		private readonly IReifiable parent;
+		private readonly IReifiable reifiable;
 
 		/// <summary>
 		/// Represents the current reifier of a <see cref="IReifiable"/> construct.
@@ -24,17 +24,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private ITopic reifier;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Reifiable"/> helper class.
+		/// Initializes a new instance of the <see cref="Reifiable"/> class.
 		/// </summary>
-		/// <param name="parentReifiable">The parent reifiable.</param>
-		internal Reifiable(IReifiable parentReifiable)
+		/// <param name="reifiable">The parent reifiable.</param>
+		internal Reifiable(IReifiable reifiable)
 		{
-			if (parentReifiable == null)
+			if (reifiable == null)
 			{
-				throw new ArgumentNullException("parentReifiable");
+				throw new ArgumentNullException("reifiable");
 			}
 
-			parent = parentReifiable;
+			this.reifiable = reifiable;
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 					if (value is Topic)
 					{
-						((Topic) value).Reified = parent;
+						((Topic) value).Reified = reifiable;
 					}
 				}
 
