@@ -65,8 +65,11 @@
     <Compile Include="Core\ReifiableTest.cs" />
     <Compile Include="Core\RoleTest.cs" />
     <Compile Include="Core\ScopedTest.cs" />
+    <Compile Include="Core\TopicMapMergeTest.cs" />
     <Compile Include="Core\TopicMapSystemTest.cs" />
     <Compile Include="Core\TopicMapTests.cs" />
+    <Compile Include="Core\TopicMergeDetectionTest.cs" />
+    <Compile Include="Core\TopicMergeTest.cs" />
     <Compile Include="Core\TopicTest.cs" />
     <Compile Include="Core\TypedTest.cs" />
     <Compile Include="Core\VariantTest.cs" />
