@@ -41,9 +41,12 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="NameEqualsSpecs.cs" />
+    <Compile Include="TMDM\MergeTests.cs" />
+    <Compile Include="TMDM\NameEqualSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TMDM\TopicEqualSpecs.cs" />
     <Compile Include="TopicMapContextSpecification.cs" />
+    <Compile Include="TopicMapContextSpecification_with_two_topics.cs" />
     <Compile Include="TopicMapContextSpecification_with_two_topics_types_and_scopes.cs" />
     <Compile Include="TopicMapSystemContextSpecification.cs" />
   </ItemGroup>

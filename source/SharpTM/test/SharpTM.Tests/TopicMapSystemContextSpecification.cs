@@ -3,9 +3,11 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+using Pixelplastic.TopicMaps.SharpTM.Core;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using STM = Pixelplastic.TopicMaps.SharpTM.Core;
+using TopicMapSystemFactory=TMAPI.Net.Core.TopicMapSystemFactory;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Tests
 {
@@ -18,6 +20,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Tests
 				{
 					TopicMapSystemFactory topicMapSystemFactory =
 						TopicMapSystemFactory.NewInstance<Core.TopicMapSystemFactory>();
+
+					if (topicMapSystemFactory.HasFeature(Features.AutomaticMerging))
+					{
+						topicMapSystemFactory.SetFeature(Features.AutomaticMerging, false);
+					}
+
 					topicMapSystem = topicMapSystemFactory.NewTopicMapSystem();
 				};
 	}
