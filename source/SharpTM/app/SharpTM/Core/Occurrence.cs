@@ -16,7 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
-		private readonly Typed typed;
+		readonly Typed typed;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Occurrence"/> class.
@@ -49,6 +49,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				return base.Parent as ITopic;
 			}
+			internal set
+			{
+				base.Parent = value;
+			}
 		}
 
 		/// <summary>
@@ -72,5 +76,61 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 		}
 		#endregion
+
+		/// <summary>
+		/// Determines whether the specified occurrence is equal.
+		/// </summary>
+		/// <param name="occurrence">The occurrence.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified occurrence is equal; otherwise, <c>false</c>.
+		/// </returns>
+		/// <remarks>
+		/// Occurrence items are equal if the values of their [value], [<c>datatype</c>], 
+		/// [scope], [type], and [parent] properties are equal. 
+		/// </remarks>
+		public bool Equals(Occurrence occurrence)
+		{
+			return Equals(occurrence, false);
+		}
+
+		/// <summary>
+		/// Determines whether the specified occurrence is equal.
+		/// </summary>
+		/// <param name="occurrence">The occurrence.</param>
+		/// <param name="ignoreParent">if set to <c>true</c> [ignore parent].</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified occurrence is equal; otherwise, <c>false</c>.
+		/// </returns>
+		/// <remarks>
+		/// Occurrence items are equal if the values of their [value], [<c>datatype</c>], 
+		/// [scope], [type], and [parent] properties are equal. 
+		/// </remarks>
+		public bool Equals(Occurrence occurrence, bool ignoreParent)
+		{
+			if (occurrence == this)
+			{
+				return true;
+			}
+
+			if (occurrence == null ||
+			    occurrence.Value != Value ||
+			    occurrence.Scope.Count != Scope.Count ||
+			    !occurrence.Datatype.Equals(Datatype) ||
+			    !occurrence.Type.Equals(Type) ||
+			    (!ignoreParent && !occurrence.Parent.Equals(Parent)))
+			{
+				return false;
+			}
+
+			foreach (ITopic scope in Scope)
+			{
+				if (!occurrence.Scope.Contains(scope))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 	}
 }

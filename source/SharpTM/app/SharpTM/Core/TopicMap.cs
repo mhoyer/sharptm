@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Pixelplastic.TopicMaps.SharpTM.Index;
+using Pixelplastic.TopicMaps.SharpTM.Merging;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -21,44 +22,44 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the current list of <see cref="IAssociation">associations</see>.
 		/// </summary>
-		private readonly List<IAssociation> associations;
-	
+		readonly List<IAssociation> associations;
+
 		/// <summary>
 		/// Represents the current list of <see cref="IConstruct">constructs</see>.
 		/// </summary>
-		private readonly List<IConstruct> constructs;
+		readonly List<IConstruct> constructs;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="ILiteralIndex"/>.
 		/// </summary>
-		private readonly ILiteralIndex literalIndex;
+		readonly ILiteralIndex literalIndex;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
-		private readonly Reifiable reifiable;
+		readonly Reifiable reifiable;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="IScopedIndex"/>.
 		/// </summary>
-		private readonly IScopedIndex scopedIndex;
+		readonly IScopedIndex scopedIndex;
 
 		/// <summary>
 		/// Represents the current list of <see cref="ITopic">topics</see>.
 		/// </summary>
-		private readonly List<ITopic> topics;
+		readonly List<ITopic> topics;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="ITypeInstanceIndex"/>.
 		/// </summary>
-		private readonly ITypeInstanceIndex typedIndex;
+		readonly ITypeInstanceIndex typedIndex;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
 		/// </summary>
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
 		/// <param name="itemIdentifier">The item identifier.</param>
-		internal TopicMap(ITopicMapSystem topicMapSystem, ILocator itemIdentifier)
+		internal TopicMap(TopicMapSystem topicMapSystem, ILocator itemIdentifier)
 			: base(null, null)
 		{
 			associations = new List<IAssociation>();
@@ -147,7 +148,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Gets the <see cref="ITopicMapSystem"/> containing this instance.
 		/// </summary>
 		/// <value>The topic map system.</value>
-		public ITopicMapSystem TopicMapSystem
+		public TopicMapSystem TopicMapSystem
 		{
 			get;
 			private set;
@@ -321,11 +322,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			// create new topic with this item identifier
 			Topic topic = new Topic(this);
-			topic.OnRemove += Topic_OnRemove;
 			topic.AddItemIdentifier(itemIdentifier);
-
-			topics.Add(topic);
-			constructs.Add(topic);
+			AddTopic(topic);
 
 			return topic;
 		}
@@ -516,7 +514,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			throw new TMAPIException("Unable to get index.",
-				new NotSupportedException(String.Format("Implementation does not support implementation of {0}", typeof(T))));
+			                         new NotSupportedException(
+			                         	String.Format("Implementation does not support implementation of {0}", typeof(T))));
 		}
 
 		/// <summary>
@@ -576,13 +575,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void MergeIn(ITopicMap other)
 		{
-			foreach (ITopic otherTopic in other.Topics)
-			{
-				foreach (ITopic topic in topics)
-				{
-					topic.MergeIn(otherTopic);
-				}
-			}
+			Merge.TopicMap(other).Into(this);
 		}
 		#endregion
 
@@ -609,11 +602,74 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
+		/// Adds the construct to current list of constructs.
+		/// </summary>
+		/// <param name="construct">The construct to be added.</param>
+		internal void AddConstruct(IConstruct construct)
+		{
+			constructs.Add(construct);
+		}
+
+		internal void AddTopic(ITopic topic)
+		{
+			if (topic is Topic)
+			{
+				((Topic) topic).OnRemove += Topic_OnRemove;
+				((Topic) topic).Parent = this;
+			}
+
+			topics.Add(topic);
+			constructs.Add(topic);
+		}
+
+		internal Topic FindDuplicate(Topic duplicatePattern)
+		{
+			foreach (Topic topic in topics)
+			{
+				if (topic == duplicatePattern)
+				{
+					continue;
+				}
+
+				if (topic.Equals(duplicatePattern))
+				{
+					return topic;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Removes the construct from current list of constructs.
+		/// </summary>
+		/// <param name="construct">The construct to be removed.</param>
+		internal void RemoveConstruct(IConstruct construct)
+		{
+			constructs.Remove(construct);
+		}
+
+		internal void RemoveTopic(ITopic topic)
+		{
+			if (topic != null)
+			{
+				if (topic is Topic)
+				{
+					((Topic) topic).OnRemove -= Topic_OnRemove;
+					((Topic) topic).Parent = null;
+				}
+
+				topics.Remove(topic);
+				constructs.Remove(topic);
+			}
+		}
+
+		/// <summary>
 		/// Handles the <see cref="Construct.OnRemove"/> event of an <see cref="Association"/> instance.
 		/// </summary>
 		/// <param name="sender">The source association that triggers the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void Association_OnRemove(object sender, EventArgs e)
+		void Association_OnRemove(object sender, EventArgs e)
 		{
 			if (sender is IAssociation)
 			{
@@ -626,32 +682,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void Topic_OnRemove(object sender, EventArgs e)
+		void Topic_OnRemove(object sender, EventArgs e)
 		{
 			ITopic topic = sender as ITopic;
-
-			if (topic != null)
-			{
-				topics.Remove(topic);
-			}
-		}
-
-		/// <summary>
-		/// Adds the construct to current list of constructs.
-		/// </summary>
-		/// <param name="construct">The construct to be added.</param>
-		internal void AddConstruct(IConstruct construct)
-		{
-			constructs.Add(construct);
-		}
-
-		/// <summary>
-		/// Removes the construct from current list of constructs.
-		/// </summary>
-		/// <param name="construct">The construct to be removed.</param>
-		internal void RemoveConstruct(IConstruct construct)
-		{
-			constructs.Remove(construct);
+			RemoveTopic(topic);
 		}
 	}
 }

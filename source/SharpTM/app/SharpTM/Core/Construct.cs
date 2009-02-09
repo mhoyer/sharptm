@@ -18,7 +18,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the list of item identifiers for this construct.
 		/// </summary>
-		private readonly List<ILocator> itemIdentifiers;
+		readonly List<ILocator> itemIdentifiers;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
@@ -105,7 +105,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public ITopicMap TopicMap
 		{
 			get;
-			private set;
+			internal set;
 		}
 		#endregion
 
@@ -135,17 +135,28 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				                                   new ArgumentNullException("itemIdentifier"));
 			}
 
-			if (TopicMap.ItemIdentifiers.Contains(itemIdentifier))
+			if (itemIdentifiers.Contains(itemIdentifier))
 			{
-				string message = String.Format(
-					"Construct with item identifier {0} still exists in this topic map ({1}).",
-					itemIdentifier.Reference,
-					TopicMap.Id);
-
-				throw new IdentityConstraintException(message);
+				return;
 			}
 
-			itemIdentifiers.Add(itemIdentifier);
+			CheckForExistingConstruct(itemIdentifier);
+			ITopic existingTopic = TopicMap.GetTopicBySubjectIdentifier(itemIdentifier);
+
+			if (existingTopic != null && existingTopic != this)
+			{
+				if (!(this is ITopic))
+				{
+					throw new NotSupportedException(
+						"Cannot add an item identifier to a non-topic, if another topic with same subject identifier already exists.");
+				}
+
+				MergeExistingTopicWithSameSubjectIdentifier(existingTopic, itemIdentifier);
+			}
+			else
+			{
+				itemIdentifiers.Add(itemIdentifier);
+			}
 		}
 
 		/// <summary>
@@ -187,6 +198,49 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return Id;
+		}
+
+		/// <summary>
+		/// Checks if there is already a construct with this <paramref name="itemIdentifier"/> existing.
+		/// </summary>
+		/// <param name="itemIdentifier">The item identifier.</param>
+		/// <exception cref="IdentityConstraintException">If this or the found construct is not an <see cref="ITopic"/> instance.</exception>
+		void CheckForExistingConstruct(ILocator itemIdentifier)
+		{
+			IConstruct construct = TopicMap.GetConstructByItemIdentifier(itemIdentifier);
+
+			if (construct != null)
+			{
+				if (!(construct is ITopic) || !(this is ITopic))
+				{
+					string message = String.Format(
+						"Construct with item identifier {0} still exists in this topic map ({1}).",
+						itemIdentifier.Reference,
+						TopicMap.Id);
+
+					throw new IdentityConstraintException(message);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Merges an <paramref name="existingTopic"/> with same subject identifier as <paramref name="itemIdentifier"/>.
+		/// </summary>
+		/// <param name="existingTopic">The existing topic.</param>
+		/// <param name="itemIdentifier">The item identifier.</param>
+		void MergeExistingTopicWithSameSubjectIdentifier(ITopic existingTopic, ILocator itemIdentifier)
+		{
+			if (((TopicMap) TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
+			{
+				existingTopic.MergeIn(((ITopic) this));
+				existingTopic.AddItemIdentifier(itemIdentifier);
+			}
+			else
+			{
+				throw new IdentityConstraintException(
+					String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.",
+					              itemIdentifier));
+			}
 		}
 	}
 }

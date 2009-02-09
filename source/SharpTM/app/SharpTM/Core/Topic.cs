@@ -1,6 +1,12 @@
+// <copyright file="Topic.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Merging;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -10,39 +16,36 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Topic : Construct, ITopic
 	{
-		#region readonly & static fields
 		/// <summary>
 		/// Represents the list of names for this topic.
 		/// </summary>
-		private readonly List<IName> names;
+		readonly List<IName> names;
 
 		/// <summary>
 		/// Represents the list of <see cref="IOccurrence">occurrences</see> attached to this topic.
 		/// </summary>
-		private readonly List<IOccurrence> occurrences;
+		readonly List<IOccurrence> occurrences;
 
 		/// <summary>
 		/// Represents the list of roles played by this topic.
 		/// </summary>
-		private readonly List<IRole> rolesPlayed;
+		readonly List<IRole> rolesPlayed;
 
 		/// <summary>
 		/// Represents the list of subject identifiers for this topic.
 		/// </summary>
-		private readonly List<ILocator> subjectIdentifiers;
+		readonly List<ILocator> subjectIdentifiers;
 
 		/// <summary>
 		/// Represents the list of subject locators for this topic.
 		/// </summary>
-		private readonly List<ILocator> subjectLocators;
+		readonly List<ILocator> subjectLocators;
 
 		/// <summary>
 		/// Represents the list of types this topic is an instance of.
 		/// </summary>
-		private readonly List<ITopic> types;
-		#endregion
+		readonly List<ITopic> types;
 
-		#region constructor logic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Topic"/> class.
 		/// </summary>
@@ -68,7 +71,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			types = new List<ITopic>();
 			Types = types.AsReadOnly();
 		}
-		#endregion
 
 		#region ITopic properties
 		/// <summary>
@@ -108,6 +110,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get
 			{
 				return TopicMap;
+			}
+			internal set
+			{
+				TopicMap = value;
 			}
 		}
 
@@ -206,9 +212,44 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("subjectIdentifier"));
 			}
 
-			subjectIdentifiers.Add(subjectIdentifier);
+			if (subjectIdentifiers.Contains(subjectIdentifier))
+			{
+				return;
+			}
 
-			// TODO add support for automerge and IdentityConstraintException
+			ITopic existingTopic = TopicMap.GetTopicBySubjectIdentifier(subjectIdentifier);
+
+			if (existingTopic != null)
+			{
+				if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
+				{
+					existingTopic.MergeIn(this);
+				}
+				else
+				{
+					throw new IdentityConstraintException(String.Format("Topic with subject identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
+				}
+			}
+			else
+			{
+				IConstruct construct = TopicMap.GetConstructByItemIdentifier(subjectIdentifier);
+
+				if (construct != null && construct is ITopic)
+				{
+					if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
+					{
+						// ((ITopic)construct).MergeIn(this);
+						// ((ITopic)construct).AddSubjectIdentifier(subjectIdentifier);
+						MergeIn((ITopic)construct);
+					}
+					else
+					{
+						throw new IdentityConstraintException(String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
+					}
+				}
+			}
+
+			subjectIdentifiers.Add(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -234,9 +275,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("subjectLocator"));
 			}
 
-			subjectLocators.Add(subjectLocator);
+			if (subjectLocators.Contains(subjectLocator))
+			{
+				return;
+			}
 
-			// TODO add support for automerge and IdentityConstraintException
+			ITopic existingTopic = TopicMap.GetTopicBySubjectLocator(subjectLocator);
+
+			if (existingTopic != null)
+			{
+				if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
+				{
+					existingTopic.MergeIn(this);
+				}
+				else
+				{
+					throw new IdentityConstraintException(String.Format("Topic with subject locator {0} already exists in topic map and [automerge] is not enabled.", subjectLocator));
+				}
+			}
+
+			subjectLocators.Add(subjectLocator);
 		}
 
 		/// <summary>
@@ -326,19 +384,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			Name name = new Name(this, type);
 			name.Value = value;
-			name.OnRemove += Name_OnRemove;
 
 			if (themes != null)
 			{
 				name.AddThemes(themes);
 			}
 
-			names.Add(name);
+			AddName(name);
 
 			// HACK should be solved by delegates
 			if (TopicMap is TopicMap)
 			{
-				((TopicMap)TopicMap).AddConstruct(name);
+				((TopicMap) TopicMap).AddConstruct(name);
 			}
 
 			return name;
@@ -489,7 +546,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			// HACK should be solved by delegates
 			if (TopicMap is TopicMap)
 			{
-				((TopicMap)TopicMap).AddConstruct(occurrence);
+				((TopicMap) TopicMap).AddConstruct(occurrence);
 			}
 
 			return occurrence;
@@ -809,7 +866,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public void MergeIn(ITopic other)
 		{
-			throw new NotImplementedException();
+			if (other == null)
+			{
+				throw new ArgumentNullException("other");
+			}
+
+			if (this == other)
+			{
+				return;
+			}
+
+			if (other.Parent != Parent)
+			{
+				throw new TMAPIException("The other topic MUST belong to the same Topic Map instance as this topic");
+			}
+
+			Merge.Topic(other).Into(this);
 		}
 
 		/// <summary>
@@ -975,7 +1047,81 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		#region methods
+		/// <summary>
+		/// Determines whether the specified topic is equal to this instance.
+		/// </summary>
+		/// <param name="other">The other topic.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified topic is equal; otherwise, <c>false</c>.
+		/// </returns>
+		public bool Equals(ITopic other)
+		{
+			if (this == other)
+			{
+				return true;
+			}
+
+			if (subjectIdentifiers.Exists(
+				locator =>
+					{
+						return other.SubjectIdentifiers.Contains(locator) ||
+						       other.ItemIdentifiers.Contains(locator);
+					}))
+			{
+				return true;
+			}
+
+			if (subjectLocators.Exists(locator => other.SubjectLocators.Contains(locator)))
+			{
+				return true;
+			}
+
+			foreach (ILocator locator in ItemIdentifiers)
+			{
+				if (other.SubjectIdentifiers.Contains(locator))
+				{
+					return true;
+				}
+
+				if (other.ItemIdentifiers.Contains(locator))
+				{
+					return true;
+				}
+			}
+
+			if (Reified != null)
+			{
+				return Reified.Equals(other.Reified);
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Adds the name to the internal list of names for this topic.
+		/// </summary>
+		/// <remarks>
+		/// Replaces <see cref="Name.Parent"/> to this <see cref="Topic"/> instance.
+		/// </remarks>
+		/// <param name="name">The name to be added.</param>
+		internal void AddName(IName name)
+		{
+			names.Add(name);
+
+			if (name is Name)
+			{
+				((Name) name).Parent = this;
+				((Name) name).OnRemove += Name_OnRemove;
+			}
+		}
+
+		internal void AddOccurrence(Occurrence occurrence)
+		{
+			occurrence.OnRemove += Occurrence_OnRemove;
+			occurrences.Add(occurrence);
+			occurrence.Parent = this;
+		}
+
 		/// <summary>
 		/// Adds a role to the <see cref="RolesPlayed"/> list if this instance is a player of the role.
 		/// </summary>
@@ -996,17 +1142,91 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			rolesPlayed.Add(role);
 		}
 
+		internal Name FindName(Name pattern, bool ignoreParent)
+		{
+			foreach (Name name in names)
+			{
+				if (name == pattern)
+				{
+					continue;
+				}
+
+				if (name.Equals(pattern, ignoreParent))
+				{
+					return name;
+				}
+			}
+
+			return null;
+		}
+
+		internal Occurrence FindOccurrence(Occurrence pattern, bool ignoreParent)
+		{
+			foreach (Occurrence occurrence in occurrences)
+			{
+				if (occurrence == pattern)
+				{
+					continue;
+				}
+
+				if (occurrence.Equals(pattern, ignoreParent))
+				{
+					return occurrence;
+				}
+			}
+
+			return null;
+		}
+
+		internal Role FindRole(Role pattern, bool ignoreParent)
+		{
+			foreach (Role role in rolesPlayed)
+			{
+				if (role == pattern)
+				{
+					continue;
+				}
+
+				if (role.Equals(pattern, ignoreParent))
+				{
+					return role;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Removes a name from the internal list of names for this topic.
+		/// </summary>
+		/// <param name="name">The name to be added.</param>
+		internal void RemoveName(IName name)
+		{
+			names.Remove(name);
+
+			if (name is Name)
+			{
+				((Name) name).OnRemove -= Name_OnRemove;
+			}
+		}
+
+		internal void RemoveOccurrence(Occurrence occurrence)
+		{
+			occurrence.OnRemove -= Occurrence_OnRemove;
+			occurrences.Remove(occurrence);
+			occurrence.Parent = null;
+		}
+
 		/// <summary>
 		/// Creates a simple occurrence.
 		/// </summary>
 		/// <param name="type">The type of this occurrence.</param>
 		/// <param name="themes">The themes to added to scope.</param>
-		/// <returns></returns>
-		private Occurrence CreateOccurrence(ITopic type, IList<ITopic> themes)
+		/// <returns>The created occurrence.</returns>
+		Occurrence CreateOccurrence(ITopic type, IList<ITopic> themes)
 		{
 			Occurrence occurrence = new Occurrence(this, type);
-			occurrence.OnRemove += Occurrence_OnRemove;
-			occurrences.Add(occurrence);
+			AddOccurrence(occurrence);
 
 			if (themes != null)
 			{
@@ -1016,13 +1236,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			return occurrence;
 		}
 
-		private void Name_OnRemove(object sender, EventArgs e)
+		void Name_OnRemove(object sender, EventArgs e)
 		{
 			IName name = sender as IName;
 
 			if (name != null)
 			{
-				names.Remove(name);
+				RemoveName(name);
 			}
 		}
 
@@ -1031,7 +1251,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void Occurrence_OnRemove(object sender, EventArgs e)
+		void Occurrence_OnRemove(object sender, EventArgs e)
 		{
 			if (sender is IOccurrence)
 			{
@@ -1042,8 +1262,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Removes the role from the <see cref="RolesPlayed"/> list if this instance is a player of the role..
 		/// </summary>
-		/// <param name="role">The role.</param>
-		private void RemoveRolePlayed(IRole role)
+		/// <param name="role">The role this topic plays.</param>
+		void RemoveRolePlayed(IRole role)
 		{
 			if (role == null)
 			{
@@ -1064,7 +1284,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void RolePlayed_OnRemove(object sender, EventArgs e)
+		void RolePlayed_OnRemove(object sender, EventArgs e)
 		{
 			if (sender != null && sender is IRole)
 			{
@@ -1077,7 +1297,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="RolePlayerChangedEventArgs"/> instance containing the event data.</param>
-		private void RolePlayed_OnRolePlayerChanges(object sender, RolePlayerChangedEventArgs e)
+		void RolePlayed_OnRolePlayerChanges(object sender, RolePlayerChangedEventArgs e)
 		{
 			if (sender != null && sender is IRole &&
 			    e != null && e.OldPlayer == this)
@@ -1085,6 +1305,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				RemoveRolePlayed((IRole) sender);
 			}
 		}
-		#endregion
 	}
 }

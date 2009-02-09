@@ -16,17 +16,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
-		private readonly Reifiable reifiable;
+		readonly Reifiable reifiable;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
-		private readonly Typed typed;
+		readonly Typed typed;
 
 		/// <summary>
 		/// Represents the current topic playing this role.
 		/// </summary>
-		private ITopic player;
+		ITopic player;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Role"/> class.
@@ -79,6 +79,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get
 			{
 				return base.Parent as IAssociation;
+			}
+			internal set
+			{
+				base.Parent = value;
 			}
 		}
 
@@ -162,7 +166,53 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		private void RoleTypeChanges(ITopic oldRoleType, ITopic newRoleType)
+		/// <summary>
+		/// Compares two <see cref="IRole"/> instances using the TMDM rules.
+		/// </summary>
+		/// <param name="role">The role instance to be compared.</param>
+		/// <returns>
+		/// [true] if both instances are equal. otherwise [false].
+		/// </returns>
+		/// <remarks>
+		/// Association role items are equal if the values of their 
+		/// [type], [player], and [parent] properties are equal. 
+		/// </remarks>
+		public bool Equals(IRole role)
+		{
+			return Equals(role, false);
+		}
+
+		/// <summary>
+		/// Compares two <see cref="IRole"/> instances using the TMDM rules.
+		/// </summary>
+		/// <param name="role">The role instance to be compared.</param>
+		/// <param name="ignoreParent">if set to <c>true</c> the parent <see cref="IAssociation"/> will be ignored.</param>
+		/// <returns>
+		/// [true] if both instances are equal. otherwise [false].
+		/// </returns>
+		/// <remarks>
+		/// Association role items are equal if the values of their 
+		/// [type], [player], and [parent] properties are equal. 
+		/// </remarks>
+		public bool Equals(IRole role, bool ignoreParent)
+		{
+			if (role == this)
+			{
+				return true;
+			}
+
+			if (role == null ||
+			    !role.Type.Equals(Type) ||
+			    !role.Player.Equals(Player) ||
+			    (!ignoreParent && !role.Parent.Equals(Parent)))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		void RoleTypeChanges(ITopic oldRoleType, ITopic newRoleType)
 		{
 			if (OnRoleTypeChanges != null && oldRoleType != newRoleType)
 			{

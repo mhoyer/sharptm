@@ -72,6 +72,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				return base.Parent as ITopic;
 			}
+			internal set
+			{
+				base.Parent = value;
+			}
 		}
 
 		/// <summary>
@@ -405,19 +409,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 		#endregion
 
-		public override bool Equals(object obj)
+		public override string ToString()
 		{
-			if (obj is IName)
-			{
-				return Equals((IName) obj);
-			}
-
-			return base.Equals(obj);
-		}
-
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
+			return String.Format("{0} \"{1}\"", Id, Value);
 		}
 
 		/// <summary>
@@ -430,7 +424,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
-		/// Compares two name instances.
+		/// Compares two <see cref="IName"/> instances using the TMDM rules.
 		/// </summary>
 		/// <param name="name">The name instance to be compared.</param>
 		/// <returns>[true] if both instances are equal. otherwise [false].</returns>
@@ -439,6 +433,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// [value], [type], [scope], and [parent] properties are equal.
 		/// </remarks>
 		public bool Equals(IName name)
+		{
+			return Equals(name, false);
+		}
+
+		/// <summary>
+		/// Compares two <see cref="IName"/> instances using the TMDM rules.
+		/// </summary>
+		/// <param name="name">The name instance to be compared.</param>
+		/// <param name="ignoreParent">if set to <c>true</c> the parent <see cref="ITopic"/> will be ignored.</param>
+		/// <returns>
+		/// [true] if both instances are equal. otherwise [false].
+		/// </returns>
+		/// <remarks>
+		/// Topic name items are equal if the values of their
+		/// [value], [type], [scope], and [parent] properties are equal.
+		/// </remarks>
+		public bool Equals(IName name, bool ignoreParent)
 		{
 			if (name == this)
 			{
@@ -449,7 +460,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			    name.Value != Value ||
 			    name.Scope.Count != Scope.Count ||
 			    !name.Type.Equals(Type) ||
-			    !name.Parent.Equals(Parent))
+			    (!ignoreParent && !name.Parent.Equals(Parent)))
 			{
 				return false;
 			}
@@ -463,6 +474,83 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return true;
+		}
+
+		/// <summary>
+		/// Finds a variant that matches the <paramref name="pattern"/>.
+		/// </summary>
+		/// <param name="pattern">A pattern with set properties that should match.</param>
+		/// <param name="ignoreParent">if set to <c>true</c> the <see cref="Parent"/> property will be ignored.</param>
+		/// <returns>The found variant or null.</returns>
+		public Variant FindVariant(IVariant pattern, bool ignoreParent)
+		{
+			foreach (Variant variant in variants)
+			{
+				if (variant == pattern)
+				{
+					continue;
+				}
+
+				if (variant.Equals(pattern, ignoreParent))
+				{
+					return variant;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Finds a variant that matches the <paramref name="pattern"/>.
+		/// </summary>
+		/// <param name="pattern">A pattern with set properties that should match.</param>
+		/// <returns>The found variant or null.</returns>
+		public Variant FindVariant(IVariant pattern)
+		{
+			return FindVariant(pattern, false);
+		}
+
+		internal void AddVariant(IVariant variant)
+		{
+			CheckSuperSet(variant.Scope);
+			variants.Add(variant);
+
+			if (variant is Variant)
+			{
+				((Variant) variant).OnRemove += Variant_OnRemove;
+			}
+		}
+
+		/// <summary>
+		/// Determines whether the given <paramref name="scope"/> is a super set 
+		/// of the <see cref="Scope"/> of this <see cref="IName"/> instance.
+		/// </summary>
+		/// <param name="scope">The scope to be checked.</param>
+		/// <exception cref="ModelConstraintException">
+		///     If the <see cref="scope" /> of the variant would not be 
+		///     a true superset of the name's scope.
+		/// </exception>
+		void CheckSuperSet(IList<ITopic> scope)
+		{
+			bool variantScopeHasDifferentTheme = false;
+
+			foreach (ITopic theme in scope)
+			{
+				if (!Scope.Contains(theme))
+				{
+					variantScopeHasDifferentTheme = true;
+					break;
+				}
+			}
+
+			if (!variantScopeHasDifferentTheme)
+			{
+				throw new ModelConstraintException(
+					String.Format(
+						"The scope of a variant MUST be a true super set of its parent name {0}.",
+						this),
+					new ArgumentException("scope"));
+			}
 		}
 
 		/// <summary>
@@ -490,12 +578,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentException("scope"));
 			}
 
-			IsSuperSet(scope);
+			CheckSuperSet(scope);
 
 			Variant variant = new Variant(this, TopicMap);
 			variant.AddThemes(scope);
-			variant.OnRemove += Variant_OnRemove;
-			variants.Add(variant);
+			AddVariant(variant);
 
 			// HACK should be solved by delegates
 			if (TopicMap is TopicMap)
@@ -504,38 +591,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			return variant;
-		}
-
-		/// <summary>
-		/// Determines whether the given <paramref name="scope"/> is a super set 
-		/// of the <see cref="Scope"/> of this <see cref="IName"/> instance.
-		/// </summary>
-		/// <param name="scope">The scope to be checked.</param>
-		/// <exception cref="ModelConstraintException">
-		///     If the <see cref="scope" /> of the variant would not be 
-		///     a true superset of the name's scope.
-		/// </exception>
-		void IsSuperSet(IList<ITopic> scope)
-		{
-			bool variantScopeHasDifferentTheme = false;
-
-			foreach (ITopic theme in scope)
-			{
-				if (!Scope.Contains(theme))
-				{
-					variantScopeHasDifferentTheme = true;
-					break;
-				}
-			}
-
-			if (!variantScopeHasDifferentTheme)
-			{
-				throw new ModelConstraintException(
-					String.Format(
-						"The scope of a variant MUST be a true super set of its parent name {0}.",
-						this),
-					new ArgumentException("scope"));
-			}
 		}
 
 		/// <summary>

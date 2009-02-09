@@ -65,7 +65,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="ClassDiagram.cd" />
+    <None Include="Core\Topic.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +79,7 @@
     <Compile Include="Core\Construct.cs" />
     <Compile Include="Core\DatatypeAware.cs" />
     <Compile Include="Core\Datatypes.cs" />
+    <Compile Include="Core\Features.cs" />
     <Compile Include="Core\Locator.cs" />
     <Compile Include="Core\Name.cs" />
     <Compile Include="Core\Occurrence.cs" />
@@ -85,6 +92,10 @@
     <Compile Include="Core\TopicMap.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\TopicMapSystemFactory.cs" />
+    <Compile Include="Merging\AssociationToBeMerged.cs" />
+    <Compile Include="Merging\ConstructToBeMerged.cs" />
+    <Compile Include="Merging\IToBeMerged.cs" />
+    <Compile Include="Merging\Merge.cs" />
     <Compile Include="Core\Typed.cs" />
     <Compile Include="Core\Variant.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -92,10 +103,25 @@
     <Compile Include="Index\LiteralIndex.cs" />
     <Compile Include="Index\ScopedIndex.cs" />
     <Compile Include="Index\TypedInstanceIndex.cs" />
+    <Compile Include="Merging\NameToBeMerged.cs" />
+    <Compile Include="Merging\OccurrenceToBeMerged.cs" />
+    <Compile Include="Merging\ReifiableToBeMerged.cs" />
+    <Compile Include="Merging\RoleToBeMerged.cs" />
+    <Compile Include="Merging\ScopedToBeMerged.cs" />
+    <Compile Include="Merging\TopicMapToBeMerged.cs" />
+    <Compile Include="Merging\TopicToBeMerged.cs" />
+    <Compile Include="Merging\TypedToBeMerged.cs" />
+    <Compile Include="Merging\VariantToBeMerged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

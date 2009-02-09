@@ -368,7 +368,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				{
 					foreach (IRole roleToBeCompared in association.Roles)
 					{
-						if (role.IsEqual(roleToBeCompared, true))
+						if (role.Equals(roleToBeCompared, true))
 						{
 							return true;
 						}

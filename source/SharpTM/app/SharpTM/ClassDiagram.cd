@@ -6,7 +6,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>IAIAAIAAAAEAADAAAAAiRBAAAgAAAAEAAQAAAAASAAA=</HashCode>
+      <HashCode>IAIAAYAAAAEAADAAgAAiRBAAAgAAAAEAAQAQAAASAAA=</HashCode>
       <FileName>Core\Association.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -17,7 +17,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAEAAEARIBAAAAARAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAEAAAEAAEARIBAAAAARAAAAAAAAAEAAAA=</HashCode>
       <FileName>Core\Construct.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -57,18 +57,18 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAJAAAAEQADAAAAAgQAABAAgAACEAAQAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAJAAAAEQADAEhIAgQAAAAAgAACEAAQAwAAAAAAA=</HashCode>
       <FileName>Core\Name.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Occurrence">
-    <Position X="4.5" Y="10" Width="1.5" />
+    <Position X="4.5" Y="10.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAAAAAAQAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAABAAgAAAQAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Core\Occurrence.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -79,7 +79,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAEAAAABAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAEAAAABAAAAAAA=</HashCode>
       <FileName>Core\Reifiable.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -89,7 +89,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAABAAAAAAQAAAAAAAAAEBAQAAAQAAAAA=</HashCode>
+      <HashCode>AAAAAAACAAAAARAAgAAAQAAAAAAAAAEBAQAAAQAAAQA=</HashCode>
       <FileName>Core\Role.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -117,7 +117,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AgAAhCAYIIAAEAAAgARARAAEAEAABYgAgARAgMIAEoA=</HashCode>
+      <HashCode>AhAAhCAYJIAAEAAAgARCRAAEAEAABYoAiCRAgMIAEoA=</HashCode>
       <FileName>Core\Topic.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -128,7 +128,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>YAIJBACAAABwABEQAEAAQEAAEIAAAQkAAAAAICCAAYA=</HashCode>
+      <HashCode>YEIJBACAAABwABEQCEAAQMAAEIAEAUkAAAAAICCAAYA=</HashCode>
       <FileName>Core\TopicMap.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -139,7 +139,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>EQBACAAAAAAAAAEAAAAAACAAQAAAAEAAAAQAAACAAAA=</HashCode>
+      <HashCode>EQBACAAAAAAAAAEAAAAAACAAQAAAAEAAAAQACACAAAA=</HashCode>
       <FileName>Core\TopicMapSystem.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -147,7 +147,7 @@
   <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.TopicMapSystemFactory">
     <Position X="1.75" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>EAAACAQAIAAAAAAAAAAAAAAAAAEAgAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>EAAACAQAIAAAAAAAAAAAAAEAAAEAgAAAAAAACAAAAAI=</HashCode>
       <FileName>Core\TopicMapSystemFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -162,12 +162,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.Variant">
-    <Position X="2.75" Y="10" Width="1.5" />
+    <Position X="2.75" Y="10.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAACAAAAAAQCAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAACAEgAAAQCAAAAAAAAAAQAAAAAAAAAA=</HashCode>
       <FileName>Core\Variant.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

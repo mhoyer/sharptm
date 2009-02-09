@@ -18,7 +18,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the current scope themes.
 		/// </summary>
-		private readonly List<ITopic> mergedScope;
+		readonly List<ITopic> mergedScope;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Variant"/> class.
@@ -82,10 +82,74 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		}
 
 		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="Variant"/>.
+		/// </summary>
+		/// <returns>
+		/// The <see cref="Construct.Id"/> and the <see cref="DatatypeAware.Value"/>.
+		/// </returns>
+		public override string ToString()
+		{
+			return String.Format("{0} \"{1}\"", Id, Value);
+		}
+
+		/// <summary>
+		/// Determines whether the specified variant equals this instance.
+		/// </summary>
+		/// <param name="variant">The variant to be compared to.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified variant equals; otherwise, <c>false</c>.
+		/// </returns>
+		/// <remarks>
+		/// Variant items are equal if the values of their [value], [datatype], [scope], and [parent] properties are equal.
+		/// </remarks>
+		public bool Equals(IVariant variant)
+		{
+			return Equals(variant, false);
+		}
+
+		/// <summary>
+		/// Determines whether the specified variant equals this instance.
+		/// </summary>
+		/// <param name="variant">The variant to be compared to.</param>
+		/// <param name="ignoreParent">if set to <c>true</c> the <see cref="Parent"/> property will be ignored for comparison.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified variant equals; otherwise, <c>false</c>.
+		/// </returns>
+		/// <remarks>
+		/// Variant items are equal if the values of their [value], [<c>datatype</c>], [scope], and [parent] properties are equal.
+		/// </remarks>
+		public bool Equals(IVariant variant, bool ignoreParent)
+		{
+			if (variant == this)
+			{
+				return true;
+			}
+
+			if (variant == null ||
+			    variant.Scope.Count != Scope.Count ||
+			    !variant.Datatype.Equals(Datatype) ||
+			    (!ignoreParent && !variant.Parent.Equals(Parent)) ||
+			    variant.Value != Value)
+			{
+				return false;
+			}
+
+			foreach (ITopic scope in Scope)
+			{
+				if (!variant.Scope.Contains(scope))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// Merges the scopes of <see cref="Parent"/> name construct and the current themes 
 		/// of this <see cref="IVariant"/> instance.
 		/// </summary>
-		private void MergeScopes()
+		void MergeScopes()
 		{
 			// TODO introduce a dirty flag to reduce unnecessary merging.
 			mergedScope.Clear();
