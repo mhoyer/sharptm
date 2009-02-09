@@ -18,27 +18,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
 		/// </summary>
-		private readonly Reifiable reifiable;
+		readonly Reifiable reifiable;
 
 		/// <summary>
 		/// Represents the list of current roles played by this association.
 		/// </summary>
-		private readonly List<IRole> roles;
+		readonly List<IRole> roles;
 
 		/// <summary>
 		/// Represents the list of role types this association is involved.
 		/// </summary>
-		private readonly List<ITopic> roleTypes;
+		readonly List<ITopic> roleTypes;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
 		/// </summary>
-		private readonly Scoped scoped;
+		readonly Scoped scoped;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
-		private readonly Typed typed;
+		readonly Typed typed;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
@@ -79,7 +79,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 		}
 
-        #region IAssociation properties
+		#region IAssociation properties
 		/// <summary>
 		///    Gets the <see cref="T:TMAPI.Net.Core.ITopicMap"/> this association belongs to.
 		/// </summary>
@@ -249,20 +249,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			// Create new role
 			Role role = new Role(this, TopicMap, player, roleType);
-			role.OnRemove += Role_OnRemove;
-			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
-			roles.Add(role);
+			AddRole(role);
 
 			// HACK should be solved by delegates
 			if (TopicMap is TopicMap)
 			{
-				((TopicMap)TopicMap).AddConstruct(role);
-			}
-
-			// Add role type
-			if (!roleTypes.Contains(roleType))
-			{
-				roleTypes.Add(roleType);
+				((TopicMap) TopicMap).AddConstruct(role);
 			}
 
 			return role;
@@ -322,28 +314,112 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		#endregion
 
 		/// <summary>
+		/// Compares two <see cref="IAssociation"/> instances using the TMDM rules.
+		/// </summary>
+		/// <param name="association">The association instance to be compared.</param>
+		/// <returns>[true] if both instances are equal. otherwise [false].</returns>
+		/// <remarks>
+		/// Associations are equal if [scope], [type], and [roles] properties are equal. 
+		/// <see cref="http://www.isotopicmaps.org/sam/sam-model/#sect-association"/>
+		/// </remarks>
+		public bool Equals(IAssociation association)
+		{
+			return Equals(association, false);
+		}
+
+		/// <summary>
+		/// Compares two <see cref="IAssociation"/> instances using the TMDM rules.
+		/// </summary>
+		/// <param name="association">The association instance to be compared.</param>
+		/// <param name="ignoreRoles">if set to <c>true</c> the <see cref="Roles"/> are not included when comparing.</param>
+		/// <returns>
+		/// [true] if both instances are equal. otherwise [false].
+		/// </returns>
+		/// <remarks>
+		/// Associations are equal if [scope], [type], and [roles] properties are equal.
+		/// <see cref="http://www.isotopicmaps.org/sam/sam-model/#sect-association"/>
+		/// </remarks>
+		public bool Equals(IAssociation association, bool ignoreRoles)
+		{
+			if (association == this)
+			{
+				return true;
+			}
+
+			if (association == null ||
+				association.Scope.Count != Scope.Count ||
+				(!ignoreRoles && association.Roles.Count != Roles.Count) ||
+				!association.Type.Equals(Type))
+			{
+				return false;
+			}
+
+			foreach (ITopic scope in Scope)
+			{
+				if (!association.Scope.Contains(scope))
+				{
+					return false;
+				}
+			}
+
+			if (!ignoreRoles)
+			{
+				foreach (Role role in roles)
+				{
+					foreach (IRole roleToBeCompared in association.Roles)
+					{
+						if (role.IsEqual(roleToBeCompared, true))
+						{
+							return true;
+						}
+					}
+				}
+			}
+
+			return true;
+		}
+
+		internal void AddRole(Role role)
+		{
+			role.Parent = this;
+			role.OnRemove += Role_OnRemove;
+			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
+			roles.Add(role);
+
+			if (!roleTypes.Contains(role.Type))
+			{
+				roleTypes.Add(role.Type);
+			}
+		}
+
+		internal void RemoveRole(IRole roleToBeRemoved)
+		{
+			roles.Remove(roleToBeRemoved);
+
+			if (!roles.Exists(r => r.Type == roleToBeRemoved.Type))
+			{
+				roleTypes.Remove(roleToBeRemoved.Type);
+			}
+
+			if (roleToBeRemoved is Role)
+			{
+				((Role) roleToBeRemoved).Parent = null;
+				((Role) roleToBeRemoved).OnRemove -= Role_OnRemove;
+				((Role) roleToBeRemoved).OnRoleTypeChanges -= Role_OnRoleTypeChanges;
+			}
+		}
+
+		/// <summary>
 		/// Handles the <see cref="Construct.OnRemove"/> event of the <see cref="Role"/>.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void Role_OnRemove(object sender, EventArgs e)
+		void Role_OnRemove(object sender, EventArgs e)
 		{
 			if (sender != null && sender is IRole)
 			{
 				IRole removedRole = sender as IRole;
-
-				roles.Remove(removedRole);
-
-				// Cleanup role types collection, if no more role exists with role type of removed role.
-				foreach (IRole role in roles)
-				{
-					if (role.Type == removedRole.Type)
-					{
-						return;
-					}
-				}
-
-				roleTypes.Remove(removedRole.Type);
+				RemoveRole(removedRole);
 			}
 		}
 
@@ -352,7 +428,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="Pixelplastic.TopicMaps.SharpTM.Core.RoleTypeChangesEventArgs"/> instance containing the event data.</param>
-		private void Role_OnRoleTypeChanges(object sender, RoleTypeChangesEventArgs e)
+		void Role_OnRoleTypeChanges(object sender, RoleTypeChangesEventArgs e)
 		{
 			if (e != null && e.OldRoleType != null)
 			{
