@@ -4,6 +4,8 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using TMAPI.Net.Core;
+
 namespace Pixelplastic.TopicMaps.SharpTM.Core
 {
 	/// <summary>
@@ -40,5 +42,38 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the URI string for string <c>datatype</c>.
 		/// </summary>
 		public const string STRING = "http://www.w3.org/2001/XMLSchema#string";
+
+		public static class Locators
+		{
+			/// <summary>
+			/// Represents the locator for any URI <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator AnyUri = new Locator(ANY_URI);
+
+			/// <summary>
+			/// Represents the locator for decimal <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator Decimal = new Locator(DECIMAL);
+
+			/// <summary>
+			/// Represents the locator for float <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator Float = new Locator(FLOAT);
+
+			/// <summary>
+			/// Represents the locator for int <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator Int = new Locator(INT);
+
+			/// <summary>
+			/// Represents the locator for long <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator Long = new Locator(LONG);
+
+			/// <summary>
+			/// Represents the locator for string <c>datatype</c>.
+			/// </summary>
+			public static readonly ILocator String = new Locator(STRING);
+		}
 	}
 }
