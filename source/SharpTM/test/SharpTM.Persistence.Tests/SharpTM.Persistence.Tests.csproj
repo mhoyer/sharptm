@@ -59,14 +59,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstructToDTOTests.cs" />
     <Compile Include="LocatorToDTOTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TopicMapContextSpecification.cs">
+    <Compile Include="ReifiableToDTOTests.cs" />
+    <Compile Include="With_AssociatedTopics.cs" />
+    <Compile Include="With_TopicMap.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TopicMapSystemContextSpecification.cs">
+    <Compile Include="With_TopicMapSystem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="VariantToDTOTests.cs" />
+    <Compile Include="With_AssociatedAndNamedTopics.cs" />
+    <Compile Include="With_Occurrences.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\app\SharpTM.Persistence\SharpTM.Persistence.csproj">

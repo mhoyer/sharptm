@@ -1,4 +1,4 @@
-// <copyright file="TopicMapSystemContextSpecification.cs" company="Pixelplastic">
+// <copyright file="With_TopicMapSystem.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -9,7 +9,7 @@ using STM = Pixelplastic.TopicMaps.SharpTM.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 {
-	public abstract class TopicMapSystemContextSpecification : BDDTest
+	public abstract class With_TopicMapSystem : BDDTest
 	{
 		protected static ITopicMapSystem topicMapSystem;
 

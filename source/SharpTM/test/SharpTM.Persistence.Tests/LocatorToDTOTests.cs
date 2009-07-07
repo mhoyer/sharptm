@@ -13,7 +13,7 @@ using STM = Pixelplastic.TopicMaps.SharpTM.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 {
-	public class When_mapping_a_Locator_to_DTO : TopicMapSystemContextSpecification
+	public class When_mapping_a_Locator_to_DTO : With_TopicMapSystem
 	{
 		const string LOCATOR_TEST = "http://www.pixelplastic.de/";
 		static ILocator from;
@@ -30,7 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 	}
 
 	public class When_mapping_a_Locator_to_DTO_with_a_source_that_is_null
-		: TopicMapSystemContextSpecification
+		: With_TopicMapSystem
 	{
 		static Exception exception;
 		static ILocator from;
@@ -47,7 +47,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 	}
 
 	public class When_mapping_a_Locator_to_DTO_with_a_target_that_is_null
-		: TopicMapSystemContextSpecification
+		: With_TopicMapSystem
 	{
 		const string LOCATOR_TEST = "http://www.pixelplastic.de/";
 		static Exception exception;
