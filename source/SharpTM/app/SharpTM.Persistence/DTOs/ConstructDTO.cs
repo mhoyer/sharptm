@@ -12,7 +12,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// <summary>
 	/// Implements a base class for all topic map elements.
 	/// </summary>
-	public abstract class ConstructDTO
+	public abstract class ConstructDTO : IConstructDTO
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConstructDTO"/> class.

@@ -25,15 +25,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 		/// </summary>
 		public ResourceDataDTO()
 		{
-			Texts = new List<string>();
 		}
 
+		/// <summary>
+		/// Gets or sets the datatype.
+		/// </summary>
+		/// <value>The datatype.</value>
+		[XmlAttribute("datatype", DataType = "anyURI")]
+		public string Datatype
+		{
+			get;
+			set;
+		}
+        
 		/// <summary>
 		/// Gets or sets the text.
 		/// </summary>
 		/// <value>The text of this resource.</value>
 		[XmlText]
-		public List<string> Texts
+		public string Text
 		{
 			get;
 			set;
