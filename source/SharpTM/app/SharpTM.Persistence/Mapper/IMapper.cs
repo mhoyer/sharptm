@@ -8,7 +8,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 {
 	public interface IMapper<TSource, TResult>
 	{
-		void Map(TSource from, TResult to);
+		TResult Map(TSource from, TResult to);
 		void Add(IMapperStep<TSource, TResult> mapperStep);
 	}
 }

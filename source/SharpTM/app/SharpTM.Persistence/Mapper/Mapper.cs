@@ -13,12 +13,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 		private readonly IList<IMapperStep<TSource, TResult>> mappingSteps = new List<IMapperStep<TSource, TResult>>();
 
 		#region IMapper<TSource,TResult> Members
-		public virtual void Map(TSource from, TResult to)
+		public virtual TResult Map(TSource from, TResult to)
 		{
 			foreach (var mappingStep in mappingSteps)
 			{
 				mappingStep.Map(from, to);
 			}
+
+			return to;
 		}
 
 		public void Add(IMapperStep<TSource, TResult> mapperStep)

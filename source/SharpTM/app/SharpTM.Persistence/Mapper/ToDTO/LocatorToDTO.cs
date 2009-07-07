@@ -15,9 +15,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.ToDTO
 		public LocatorToDTO()
 		{
 			From(locator => locator.Reference)
-				.To((xtm, locatorRef) =>
+				.To((dto, locatorRef) =>
 				    	{
-				    		xtm.HRef = locatorRef;
+				    		dto.HRef = locatorRef;
 				    	});
 		}
 

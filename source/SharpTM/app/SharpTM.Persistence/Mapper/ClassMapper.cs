@@ -10,9 +10,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 {
 	public class ClassMapper<TSourceType, TTargetType> : Mapper<TSourceType, TTargetType>
 		where TSourceType : class
-		where TTargetType : class, new()
+		where TTargetType : class
 	{
-		public override void Map(TSourceType from, TTargetType to)
+		public override TTargetType Map(TSourceType from, TTargetType to)
 		{
 			if (from == null)
 			{
@@ -25,11 +25,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 			}
 
 			base.Map(from, to);
-		}
 
-		public TTargetType CreateTarget()
-		{
-			return new TTargetType();
+			return to;
 		}
 
 		protected From<TSourceResultType, TSourceType, TTargetType> From<TSourceResultType>(Func<TSourceResultType, TSourceType> fromFunc)
