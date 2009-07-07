@@ -98,10 +98,13 @@
     <Content Include="SharpTM.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="DTOs\AssociationDTO.cs" />
     <Compile Include="DTOs\ConstructDTO.cs" />
+    <Compile Include="DTOs\IConstructDTO.cs" />
     <Compile Include="DTOs\InstanceOfDTO.cs" />
     <Compile Include="DTOs\IReifiableDTO.cs" />
+    <Compile Include="DTOs\IScopedDTO.cs" />
     <Compile Include="DTOs\LocatorDTO.cs" />
     <Compile Include="DTOs\NameDTO.cs" />
     <Compile Include="DTOs\OccurrenceDTO.cs" />
@@ -117,8 +120,16 @@
     <Compile Include="Mapper\From.cs" />
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\IMapperStep.cs" />
+    <Compile Include="Mapper\MappingException.cs" />
+    <Compile Include="Mapper\ToDTO\AssociationToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\ConstructToDTO.cs" />
     <Compile Include="Mapper\ToDTO\LocatorToDTO.cs" />
     <Compile Include="Mapper\Mapper.cs" />
+    <Compile Include="Mapper\ToDTO\ReifiableToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\ScopeToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\TopicMapToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\TopicToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\VariantToDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
