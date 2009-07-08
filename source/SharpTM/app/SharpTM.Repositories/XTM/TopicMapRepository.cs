@@ -7,14 +7,14 @@
 using System;
 using System.IO;
 using Pixelplastic.TopicMaps.SharpTM.Contracts;
-using TMAPI.Net.Core;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 {
 	/// <summary>
-	/// Implements <see cref="IRepository{T}"/> for a <see cref="ITopicMap"/> repository.
+	/// Implements <see cref="IRepository{T}"/> for a <see cref="TopicMapDTO"/> repository.
 	/// </summary>
-	public class TopicMapRepository : IRepository<ITopicMap>
+	public class TopicMapRepository : IRepository<TopicMapDTO>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapRepository"/> class.
@@ -53,7 +53,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 			private set;
 		}
 
-		public ITopicMap Load(object id)
+		public TopicMapDTO Load(object id)
 		{
 			if (id == null)
 			{
@@ -63,7 +63,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 			throw new NotImplementedException();
 		}
 
-		public ITopicMap Save(ITopicMap entity)
+		public TopicMapDTO Save(TopicMapDTO entity)
 		{
 			throw new NotImplementedException();
 		}
