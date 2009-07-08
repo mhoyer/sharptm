@@ -1,4 +1,4 @@
-// <copyright file="TopicMapSystemRepository.cs" company="Pixelplastic">
+// <copyright file="TopicMapRepository.cs" company="Pixelplastic">
 // Copyright (©) Marcel Hoyer 2008. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -12,24 +12,23 @@ using TMAPI.Net.Core;
 namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 {
 	/// <summary>
-	/// Implements <see cref="IRepository{T}"/> for a <see cref="ITopicMapSystem"/> repository.
+	/// Implements <see cref="IRepository{T}"/> for a <see cref="ITopicMap"/> repository.
 	/// </summary>
-	public class TopicMapSystemRepository : IRepository<ITopicMapSystem>
+	public class TopicMapRepository : IRepository<ITopicMap>
 	{
-		#region constructor logic
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicMapSystemRepository"/> class.
+		/// Initializes a new instance of the <see cref="TopicMapRepository"/> class.
 		/// </summary>
-		public TopicMapSystemRepository() :
+		public TopicMapRepository() :
 			this (Properties.Settings.Default.DefaultStoragePath)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicMapSystemRepository"/> class.
+		/// Initializes a new instance of the <see cref="TopicMapRepository"/> class.
 		/// </summary>
 		/// <param name="xtmStoragePath">The XTM storage path.</param>
-		public TopicMapSystemRepository(string xtmStoragePath)
+		public TopicMapRepository(string xtmStoragePath)
 		{
 			if (string.IsNullOrEmpty(xtmStoragePath))
 			{
@@ -53,14 +52,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 			get;
 			private set;
 		}
-		#endregion
 
-		public ITopicMapSystem Load(object id)
+		public ITopicMap Load(object id)
 		{
+			if (id == null)
+			{
+				throw new ArgumentNullException("id");
+			}
+
 			throw new NotImplementedException();
 		}
 
-		public ITopicMapSystem Save(ITopicMapSystem entity)
+		public ITopicMap Save(ITopicMap entity)
 		{
 			throw new NotImplementedException();
 		}

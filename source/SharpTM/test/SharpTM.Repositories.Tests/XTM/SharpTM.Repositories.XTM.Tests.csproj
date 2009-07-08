@@ -41,9 +41,9 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="TopicMapSystemRepository.cs" />
+    <Compile Include="TopicMapRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="With_Topic_Map_System_Repository.cs" />
+    <Compile Include="With_Topic_Map_Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AssertExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,6 +71,10 @@
     <ProjectReference Include="..\..\..\app\SharpTM.Repositories\XTM\SharpTM.Repositories.XTM.csproj">
       <Project>{EBCE5208-45B9-4F61-B997-FC35FC098FDC}</Project>
       <Name>SharpTM.Repositories.XTM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\app\TMAPI.Net\TMAPI.Net.csproj">
+      <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
+      <Name>TMAPI.Net</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
