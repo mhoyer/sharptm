@@ -59,8 +59,13 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="DTOs\InheritanceDiagram.cd" />
     <None Include="DTOs\RelationalDiagram.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +120,6 @@
     <Compile Include="DTOs\TopicMapDTO.cs" />
     <Compile Include="DTOs\TypeDTO.cs" />
     <Compile Include="DTOs\VariantDTO.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Mapper\ClassMapper.cs" />
     <Compile Include="Mapper\From.cs" />
     <Compile Include="Mapper\IMapper.cs" />
@@ -130,6 +134,13 @@
     <Compile Include="Mapper\ToDTO\TopicMapToDTO.cs" />
     <Compile Include="Mapper\ToDTO\TopicToDTO.cs" />
     <Compile Include="Mapper\ToDTO\VariantToDTO.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RepositoryExcetion.cs" />
+    <Compile Include="RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
