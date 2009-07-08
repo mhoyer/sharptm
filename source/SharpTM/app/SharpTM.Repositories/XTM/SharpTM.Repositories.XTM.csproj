@@ -114,9 +114,5 @@
       <Project>{D372E1B6-FF57-4E03-A799-02EE65FB497A}</Project>
       <Name>SharpTM.Persistence</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SharpTM\SharpTM.csproj">
-      <Project>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</Project>
-      <Name>SharpTM</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>
