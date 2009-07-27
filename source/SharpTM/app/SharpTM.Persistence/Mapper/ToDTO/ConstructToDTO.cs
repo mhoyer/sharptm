@@ -1,13 +1,25 @@
+// <copyright file="ConstructToDTO.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
+
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.ToDTO
 {
-	public class ConstructToDTO<TSourceType, TTargetType> : ClassMapper<TSourceType, TTargetType>
+	/// <summary>
+	/// Converts the base properties of an <see cref="IConstruct"/> object 
+	/// to an <see cref="IConstructDTO"/> object.
+	/// </summary>
+	/// <typeparam name="TSourceType">The type of the source type.</typeparam>
+	/// <typeparam name="TTargetType">The type of the target type.</typeparam>
+	public abstract class ConstructToDTO<TSourceType, TTargetType> : ClassMapper<TSourceType, TTargetType>
 		where TSourceType : class, IConstruct
 		where TTargetType : class, IConstructDTO, new()
 	{
-		public ConstructToDTO()
+		protected ConstructToDTO()
 		{
 			From(construct => construct.ItemIdentifiers)
 				.To((dto, itemIdentifiers) =>
