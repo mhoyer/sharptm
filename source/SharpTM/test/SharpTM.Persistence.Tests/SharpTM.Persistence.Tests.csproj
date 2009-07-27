@@ -60,10 +60,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstructToDTOTests.cs" />
+    <Compile Include="LocatorFromDTOTests.cs" />
+    <Compile Include="TopicFromDTOTests.cs" />
+    <Compile Include="With_TopicDTO.cs" />
+    <Compile Include="With_TopicMapDTO.cs" />
     <Compile Include="LocatorToDTOTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReifiableToDTOTests.cs" />
     <Compile Include="RepositoryFactory.cs" />
+    <Compile Include="TopicMapFromDTOTests.cs" />
     <Compile Include="With_AssociatedTopics.cs" />
     <Compile Include="With_TopicMap.cs">
       <SubType>Code</SubType>
