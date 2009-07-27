@@ -25,6 +25,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			ReadFeatureSettings(Features.MergingSupportFeatures);
 			ReadFeatureSettings(Features.ReadOnlySystem);
 			ReadFeatureSettings(Features.TopicMapsModelFeatures);
+			ReadFeatureSettings(Features.InMemoryOnly);
 		}
 
 		/// <summary>

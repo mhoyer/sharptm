@@ -17,6 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public const string MergingSupportFeatures = "http://tmapi.org/features/merge/";
 		public const string LocatorAddressNotationFeatures = "http://tmapi.org/features/notation/";
 		public const string ReadOnlySystem = "http://tmapi.org/features/readOnly/";
+		public const string InMemoryOnly = "http://pixelplastic.de/TopicMaps/SharpTM/features/inMemoryOnly";
 
 		public static string MapToName(string featureUrl)
 		{
