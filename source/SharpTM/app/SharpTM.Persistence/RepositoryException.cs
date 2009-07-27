@@ -1,4 +1,4 @@
-// <copyright file="RepositoryExcetion.cs" company="Pixelplastic">
+// <copyright file="RepositoryException.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -8,9 +8,9 @@ using System;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
-	public class RepositoryExcetion : Exception
+	public class RepositoryException : Exception
 	{
-		public RepositoryExcetion(string message, Exception innerException)
+		public RepositoryException(string message, Exception innerException)
 			: base(message, innerException)
 		{
 		}

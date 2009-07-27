@@ -36,7 +36,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 				}
 				catch(FileNotFoundException ex)
 				{
-					throw new RepositoryExcetion(
+					throw new RepositoryException(
 						string.Format("Unable to find the configured repository assembly \"{0}\". Please check the config file.",
 						              Properties.Settings.Default.PersistenceAssembly),
 						ex);

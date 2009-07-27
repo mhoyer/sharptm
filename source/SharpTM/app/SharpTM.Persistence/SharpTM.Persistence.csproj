@@ -139,7 +139,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RepositoryExcetion.cs" />
+    <Compile Include="RepositoryException.cs" />
     <Compile Include="RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -147,5 +147,8 @@
       <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
       <Name>TMAPI.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mapper\FromDTO\" />
   </ItemGroup>
 </Project>
