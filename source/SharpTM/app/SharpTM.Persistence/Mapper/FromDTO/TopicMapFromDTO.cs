@@ -22,12 +22,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		{
 			From(dto => dto.Topics)
 				.To((tm, topics) =>
-				{
-					foreach (TopicDTO dto in topics)
-					{
-						TopicFromDTO.Create(tm, dto);
-					}
-				});
+				    	{
+				    		foreach (TopicDTO topicDTO in topics)
+				    		{
+				    			TopicFromDTO.Create(tm, topicDTO);
+				    		}
+				    	});
+
+			From(dto => dto.Associations)
+				.To((tm, associations) =>
+				    	{
+				    		foreach (AssociationDTO associationDTO in associations)
+				    		{
+				    			AssociationFromDTO.Create(tm, associationDTO);
+				    		}
+				    	});
 		}
 
 		public static ITopicMap Create(ITopicMapSystem topicMapSystem, TopicMapDTO source)
