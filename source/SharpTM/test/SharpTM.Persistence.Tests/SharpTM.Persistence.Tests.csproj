@@ -63,6 +63,7 @@
     <Compile Include="ConstructFromDTOTests.cs" />
     <Compile Include="LocatorFromDTOTests.cs" />
     <Compile Include="TopicFromDTOTests.cs" />
+    <Compile Include="TypeFromDTOTests.cs" />
     <Compile Include="With_FilledTopicMapDTO.cs" />
     <Compile Include="With_TopicDTO.cs" />
     <Compile Include="With_TopicMapDTO.cs" />

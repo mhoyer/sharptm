@@ -122,12 +122,14 @@
     <Compile Include="DTOs\VariantDTO.cs" />
     <Compile Include="Mapper\ClassMapper.cs" />
     <Compile Include="Mapper\From.cs" />
+    <Compile Include="Mapper\FromDTO\AssociationFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\ConstructFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\LocatorFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mapper\FromDTO\TypeFromDTO.cs" />
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\IMapperStep.cs" />
     <Compile Include="Mapper\MappingException.cs" />
