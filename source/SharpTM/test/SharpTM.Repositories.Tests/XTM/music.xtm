@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topicMap xmlns="http://www.topicmaps.org/xtm/" version="2.0">
+   <topic id="st-music">
+      <name>
+         <value>Music</value>
+      </name>
+   </topic>
+   <topic id="normalised">
+      <name>
+
+         <value>Normalised</value>
+      </name>
+   </topic>
+   <topic id="tt-person">
+      <name>
+         <value>Person</value>
+      </name>
+   </topic>
+
+   <topic id="tt-artist">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Artist</value>
+      </name>
+   </topic>
+
+   <topic id="tt-musician">
+      <instanceOf>
+         <topicRef href="#tt-artist">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Musician</value>
+      </name>
+   </topic>
+
+   <topic id="tt-vocalist">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Vocalist</value>
+      </name>
+   </topic>
+
+   <topic id="tt-guitarist">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Guitarist</value>
+      </name>
+   </topic>
+
+   <topic id="tt-bassist">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Bassist</value>
+      </name>
+   </topic>
+
+   <topic id="tt-drummer">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Drummer</value>
+      </name>
+   </topic>
+
+   <topic id="tt-band">
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Band</value>
+      </name>
+   </topic>
+
+   <topic id="tt-geography">
+      <name>
+         <value>Geography</value>
+      </name>
+   </topic>
+   <topic id="tt-country">
+      <instanceOf>
+         <topicRef href="#tt-geography">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Country</value>
+      </name>
+   </topic>
+   <topic id="tt-city">
+      <instanceOf>
+         <topicRef href="#tt-geography">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>City</value>
+      </name>
+   </topic>
+   <topic id="tt-music">
+      <name>
+         <value>Music</value>
+
+      </name>
+   </topic>
+   <topic id="tt-pop-music">
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Pop music</value>
+
+      </name>
+   </topic>
+   <topic id="tt-rock">
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Rock 'n roll</value>
+
+      </name>
+   </topic>
+   <topic id="tt-disc">
+      <name>
+         <value>Disc</value>
+      </name>
+   </topic>
+   <topic id="tt-punk">
+
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Punk Rock</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>punk rock</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Punk Rock</resourceData>
+
+         </variant>
+      </name>
+   </topic>
+   <topic id="tt-dub">
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+
+         <value>Dub</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>dub</resourceData>
+         </variant>
+
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Dub</resourceData>
+         </variant>
+      </name>
+   </topic>
+
+   <topic id="tt-reggae">
+      <instanceOf>
+         <topicRef href="#tt-music">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Reggae</value>
+      </name>
+   </topic>
+
+   <topic id="tt-song">
+      <name>
+         <value>Song</value>
+      </name>
+   </topic>
+   <topic id="t-the-clash">
+      <instanceOf>
+         <topicRef href="#tt-band">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>The Clash</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>clash the</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Clash, The</resourceData>
+         </variant>
+      </name>
+
+   </topic>
+   <topic id="t-mick-jones">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Mick Jones</value>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Jones, Mick</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>jones mick</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>M. Jones</value>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Jones, Mick</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>jones mick</resourceData>
+         </variant>
+      </name>
+   </topic>
+   <topic id="t-joe-strummer">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Joe Strummer</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-display">simple</topicRef>
+            </scope>
+            <resourceData>Joe Strummer</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Strummer, Joe</resourceData>
+         </variant>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>strummer joe</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>J. Strummer</value>
+
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-display">simple</topicRef>
+            </scope>
+            <resourceData>Joe Strummer</resourceData>
+         </variant>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Strummer, Joe</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>strummer joe</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>John Graham Mellor</value>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-display">simple</topicRef>
+            </scope>
+            <resourceData>Joe Strummer</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>Strummer, Joe</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>strummer joe</resourceData>
+
+         </variant>
+      </name>
+      <name>
+         <value>J. Mellor</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-display">simple</topicRef>
+            </scope>
+
+            <resourceData>Joe Strummer</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Strummer, Joe</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>strummer joe</resourceData>
+         </variant>
+      </name>
+
+   </topic>
+   <topic id="t-paul-simonon">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Paul Simonon</value>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Simonon, Paul</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>simonon, paul</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>P. Simonon</value>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Simonon, Paul</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>simonon, paul</resourceData>
+         </variant>
+      </name>
+   </topic>
+   <topic id="t-tory-crimes">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Tory Crimes</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Crimes, Tory</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>crimes tory</resourceData>
+         </variant>
+      </name>
+
+      <name>
+         <value>T. Crimes</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Crimes, Tory</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>crimes tory</resourceData>
+         </variant>
+      </name>
+
+   </topic>
+   <topic id="t-nicky-headon">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Nicky Headon</value>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Headon, Nicky</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>headon nicky</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>N. Headon</value>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Headon, Nicky</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>headon nicky</resourceData>
+         </variant>
+      </name>
+   </topic>
+   <topic id="t-disc-the-clash">
+      <instanceOf>
+         <topicRef href="#tt-disc">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>The Clash</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>The Clash</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>the clash</resourceData>
+         </variant>
+      </name>
+
+      <occurrence>
+         <type>
+            <topicRef href="#Tracklist">simple</topicRef>
+         </type>
+         <resourceRef href="discography.htm#EK36060">simple</resourceRef>
+      </occurrence>
+      <occurrence>
+         <type>
+
+            <topicRef href="#CoverArt">simple</topicRef>
+         </type>
+         <resourceRef href="clash.gif">simple</resourceRef>
+      </occurrence>
+   </topic>
+   <topic id="t-disc-combat-rock">
+      <instanceOf>
+         <topicRef href="#tt-disc">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Combat Rock</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Combat Rock</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>combat rock</resourceData>
+         </variant>
+      </name>
+
+      <occurrence>
+         <type>
+            <topicRef href="#CoverArt">simple</topicRef>
+         </type>
+         <resourceRef href="combat.gif">simple</resourceRef>
+      </occurrence>
+      <occurrence>
+         <type>
+
+            <topicRef href="#Excerpt">simple</topicRef>
+         </type>
+         <resourceRef href="should.ram">simple</resourceRef>
+      </occurrence>
+   </topic>
+   <topic id="t-lee-perry">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Lee 'Scratch' Perry</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Perry, Lee</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Perry, Scratch</resourceData>
+         </variant>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>perry lee</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>perry scratch</resourceData>
+         </variant>
+      </name>
+      <name>
+         <value>Scratch Perry</value>
+         <variant>
+            <scope>
+
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Perry, Lee</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>Perry, Scratch</resourceData>
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>perry lee</resourceData>
+
+         </variant>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>perry scratch</resourceData>
+         </variant>
+      </name>
+
+   </topic>
+   <topic id="t-aston-barrett">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Aston "Family Man" Barrett</value>
+         <variant>
+
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Barrent, Aston</resourceData>
+         </variant>
+      </name>
+   </topic>
+   <topic id="t-carlton-barrett">
+
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Carlton Barrett</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+
+            </scope>
+            <resourceData>Barrett, Carlton</resourceData>
+         </variant>
+      </name>
+   </topic>
+   <topic id="id-junior-murvin">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+
+      </instanceOf>
+      <name>
+         <value>Junior Murvin</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Murvin, Junior</resourceData>
+
+         </variant>
+      </name>
+   </topic>
+   <topic id="t-winston-wright">
+      <instanceOf>
+         <topicRef href="#tt-musician">simple</topicRef>
+      </instanceOf>
+      <name>
+
+         <value>Winston Wright</value>
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Wright, Winston</resourceData>
+         </variant>
+
+      </name>
+   </topic>
+   <topic id="id-ansel-collins">
+      <instanceOf>
+         <topicRef href="#tt-person">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Ansel Collins</value>
+
+         <variant>
+            <scope>
+               <topicRef href="http://www.topicmaps.org/xtm/1.0/#psi-sort">simple</topicRef>
+            </scope>
+            <resourceData>Collins, Ansel</resourceData>
+         </variant>
+      </name>
+   </topic>
+
+   <topic id="t-england">
+      <instanceOf>
+         <topicRef href="#tt-country">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>England</value>
+      </name>
+   </topic>
+
+   <topic id="t-turkey">
+      <instanceOf>
+         <topicRef href="#tt-country">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Turkey</value>
+      </name>
+   </topic>
+
+   <topic id="t-ankara">
+      <instanceOf>
+         <topicRef href="#tt-city">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Ankara</value>
+      </name>
+   </topic>
+
+   <topic id="t-london">
+      <instanceOf>
+         <topicRef href="#tt-city">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>London</value>
+      </name>
+   </topic>
+
+   <topic id="t-bromley">
+      <instanceOf>
+         <topicRef href="#tt-city">simple</topicRef>
+      </instanceOf>
+      <name>
+         <value>Bromley</value>
+      </name>
+   </topic>
+
+   <topic id="at-member-of">
+      <name>
+         <value>Member of</value>
+      </name>
+   </topic>
+   <topic id="at-played-instrument-in">
+      <name>
+         <value>Played instrument</value>
+
+      </name>
+   </topic>
+   <topic id="at-born-in">
+      <name>
+         <value>Born in</value>
+      </name>
+   </topic>
+   <topic id="at-recorded">
+
+      <name>
+         <value>Recorded</value>
+      </name>
+   </topic>
+   <association>
+      <itemIdentity href="#N2dd"/>
+      <type>
+         <topicRef href="#at-member-of">simple</topicRef>
+
+      </type>
+      <scope>
+         <topicRef href="#st-music">simple</topicRef>
+      </scope>
+      <role>
+         <type>
+            <topicRef href="#tt-band">simple</topicRef>
+         </type>
+
+         <topicRef href="#t-the-clash">simple</topicRef>
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-vocalist">simple</topicRef>
+         </type>
+         <topicRef href="#t-mick-jones">simple</topicRef>
+
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-guitarist">simple</topicRef>
+         </type>
+         <topicRef href="#t-mick-jones">simple</topicRef>
+      </role>
+      <role>
+
+         <type>
+            <topicRef href="#tt-bassist">simple</topicRef>
+         </type>
+         <topicRef href="#t-paul-simonon">simple</topicRef>
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-drummer">simple</topicRef>
+
+         </type>
+         <topicRef href="#t-tory-crimes">simple</topicRef>
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-drummer">simple</topicRef>
+         </type>
+         <topicRef href="#t-nicky-headon">simple</topicRef>
+
+      </role>
+   </association>
+   <association>
+      <itemIdentity href="#N304"/>
+      <type>
+         <topicRef href="#at-recorded">simple</topicRef>
+      </type>
+      <scope>
+
+         <topicRef href="#st-music">simple</topicRef>
+      </scope>
+      <role>
+         <type>
+            <topicRef href="#tt-band">simple</topicRef>
+         </type>
+         <topicRef href="#t-the-clash">simple</topicRef>
+
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-disc">simple</topicRef>
+         </type>
+         <topicRef href="#t-disc-the-clash">simple</topicRef>
+      </role>
+      <role>
+
+         <type>
+            <topicRef href="#tt-disc">simple</topicRef>
+         </type>
+         <topicRef href="#t-disc-combat-rock">simple</topicRef>
+      </role>
+   </association>
+   <association>
+      <itemIdentity href="#N320"/>
+
+      <type>
+         <topicRef href="#at-born-in">simple</topicRef>
+      </type>
+      <role>
+         <type>
+            <topicRef href="#tt-city">simple</topicRef>
+         </type>
+         <topicRef href="#t-ankara">simple</topicRef>
+
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-person">simple</topicRef>
+         </type>
+         <topicRef href="#t-joe-strummer">simple</topicRef>
+      </role>
+   </association>
+
+   <association>
+      <itemIdentity href="#N335"/>
+      <type>
+         <topicRef href="#at-born-in">simple</topicRef>
+      </type>
+      <role>
+         <type>
+            <topicRef href="#tt-city">simple</topicRef>
+
+         </type>
+         <topicRef href="#t-london">simple</topicRef>
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-person">simple</topicRef>
+         </type>
+         <topicRef href="#t-mick-jones">simple</topicRef>
+
+      </role>
+   </association>
+   <association>
+      <itemIdentity href="#N34a"/>
+      <type>
+         <topicRef href="#at-born-in">simple</topicRef>
+      </type>
+      <role>
+
+         <type>
+            <topicRef href="#tt-city">simple</topicRef>
+         </type>
+         <topicRef href="#t-bromley">simple</topicRef>
+      </role>
+      <role>
+         <type>
+            <topicRef href="#tt-person">simple</topicRef>
+
+         </type>
+         <topicRef href="#t-nicky-headon">simple</topicRef>
+      </role>
+   </association>
+   <association>
+      <itemIdentity href="#N35f"/>
+      <type>
+         <topicRef href="#at-recorded">simple</topicRef>
+
+      </type>
+      <role>
+         <type>
+            <topicRef href="#tt-band">simple</topicRef>
+         </type>
+         <topicRef href="#t-the-clash">simple</topicRef>
+      </role>
+      <role>
+
+         <type>
+            <topicRef href="#tt-track">simple</topicRef>
+         </type>
+         <topicRef href="#t-i-fought-the-law">simple</topicRef>
+      </role>
+   </association>
+   <topic id="ft-website-rating">
+      <name>
+
+         <value>Rating</value>
+      </name>
+   </topic>
+   <topic id="fv-fierce">
+      <name>
+         <value>Fierce</value>
+      </name>
+   </topic>
+
+</topicMap>

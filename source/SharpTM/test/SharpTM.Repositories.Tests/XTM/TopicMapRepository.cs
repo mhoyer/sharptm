@@ -5,11 +5,46 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using System.Xml;
+using System.Xml.Serialization;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 {
+	public class When_deserializing_the_music_xtm : BDDTest
+	{
+		static object result;
+		static string xtm;
+
+		Given an_XMT_file = () => xtm = Environment.CurrentDirectory + "\\music.xtm";
+		Because of_deserialising = () =>
+		                           	{
+		                           		XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
+		                           		result = xs.Deserialize(XmlReader.Create(xtm));
+		                           	};
+
+		It should_create_a_DTO = () => result.ShouldBeType<TopicMapDTO>();
+		It should_have_read_correct_number_of_associations = 
+			() => ((TopicMapDTO) result).Associations.Count.ShouldEqual(6);
+		It should_have_read_correct_number_of_topics =
+			() => ((TopicMapDTO)result).Topics.Count.ShouldEqual(46);
+
+		It should_have_read_correct_number_of_names =
+			() =>
+				{
+					int namesCount = 0;
+					foreach (var topic in ((TopicMapDTO)result).Topics)
+					{
+						namesCount += topic.Names.Count;
+					}
+					
+					namesCount.ShouldEqual(54);
+				};
+	}
+
 	public class When_instanciating_an_XTM_repository_with_illegal_path : BDDTest
 	{
 		static string path;
@@ -78,6 +113,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		Given an_illegal_id = () => id = null;
 		Because of_loading = () => exception = Catch.Exception(() => tmr.Load(id));
 		It should_throw_an_exception = () => exception.ShouldBeType<ArgumentNullException>();
+	}
+
+	public class When_loading_a_topic_map_system_with_valid_id: With_Topic_Map_Repository
+	{
+		[Fact(Skip = "Not implemented yet.")]
+		public new void Run() { }
+
+
+		//static string id;
+		//static TopicMapDTO tmDTO;
+
+		//Given a_legal_id = () => id = "http://pixelplastic.de/topicmaps/public";
+		//Because of_loading = () => tmDTO = tmr.Load(id);
+		//It should_load_the_topic_map_as_DTO = () => tmDTO.ShouldNotBeNull();
+		//It should_load_the_correct_topic_map = () => tmDTO.ItemIdentities.Find(iid => iid.HRef == id).ShouldNotBeNull();
 	}
 
 }
