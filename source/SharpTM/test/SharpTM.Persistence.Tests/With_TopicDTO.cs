@@ -13,27 +13,29 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_topicMap = () => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
 
-		Given an_empty_topic = () =>
-		                       	{
-		                       		emptyTopicDTO = new TopicDTO();
-		                       		emptyTopicDTO.Id = "an_empty_topic";
-								
-		                       		topicMapDTO.Topics.Add(emptyTopicDTO);
-		                       	};
+		Given an_empty_topic =
+			() =>
+				{
+					emptyTopicDTO = new TopicDTO();
+					emptyTopicDTO.Id = "an_empty_topic";
 
-		Given an_identified_topic = () =>
-		                            	{
-		                            		identifiedTopicDTO = new TopicDTO();
-		                            		identifiedTopicDTO.Id = "an_identified_topic";
-		                            		identifiedTopicDTO.SubjectIdentifiers.Add(new LocatorDTO() { HRef = "http://sharptm.de/si"});
-		                            		identifiedTopicDTO.SubjectIdentifiers.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/si"});
-		                            		identifiedTopicDTO.SubjectLocators.Add(new LocatorDTO() { HRef = "http://sharptm.de/sl"});
-		                            		identifiedTopicDTO.SubjectLocators.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/sl"});
-		                            		identifiedTopicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = "http://sharptm.de/ii"});
-		                            		identifiedTopicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/ii"});
-						
-		                            		topicMapDTO.Topics.Add(identifiedTopicDTO);
-		                            	};
+					topicMapDTO.Topics.Add(emptyTopicDTO);
+				};
+
+		Given an_identified_topic =
+			() =>
+				{
+					identifiedTopicDTO = new TopicDTO();
+					identifiedTopicDTO.Id = "an_identified_topic";
+					identifiedTopicDTO.SubjectIdentifiers.Add(new LocatorDTO() { HRef = "http://sharptm.de/si" });
+					identifiedTopicDTO.SubjectIdentifiers.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/si" });
+					identifiedTopicDTO.SubjectLocators.Add(new LocatorDTO() { HRef = "http://sharptm.de/sl" });
+					identifiedTopicDTO.SubjectLocators.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/sl" });
+					identifiedTopicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = "http://sharptm.de/ii" });
+					identifiedTopicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = "http://marcelhoyer.de/ii" });
+
+					topicMapDTO.Topics.Add(identifiedTopicDTO);
+				};
 
 	}
 }
