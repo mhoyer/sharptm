@@ -79,11 +79,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="music.xtm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="opera.xtm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="music.xtm">
+    </EmbeddedResource>
+    <EmbeddedResource Include="opera.xtm" />
   </ItemGroup>
 </Project>

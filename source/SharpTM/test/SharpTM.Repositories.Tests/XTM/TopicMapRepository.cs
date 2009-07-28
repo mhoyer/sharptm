@@ -5,6 +5,8 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
@@ -19,11 +21,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		static object result;
 		static string xtm;
 
-		Given an_XMT_file = () => xtm = Environment.CurrentDirectory + "\\music.xtm";
-		Because of_deserialising = () =>
+		Given an_XMT_file = () => xtm = typeof(When_deserializing_the_music_xtm).Namespace + ".music.xtm";
+		Because of_deserialization = () =>
 		                           	{
+		                           		var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm);
 		                           		XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
-		                           		result = xs.Deserialize(XmlReader.Create(xtm));
+		                           		result = xs.Deserialize(XmlReader.Create(stream));
 		                           	};
 
 		It should_create_a_DTO = () => result.ShouldBeType<TopicMapDTO>();
