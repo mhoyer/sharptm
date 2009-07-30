@@ -17,6 +17,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		private TopicFromDTO()
 		{
+			From(dto => dto.Id)
+				.To((topic, id) =>
+				    	{
+							if (!string.IsNullOrEmpty(id))
+							{
+								topic.AddItemIdentifier(LocatorFromDTO.Create(topic.Parent, id));
+							}
+				    	});
+
 			From(dto => dto.SubjectIdentifiers)
 				.To((topic, subjectIdentifiers) =>
 				    	{
