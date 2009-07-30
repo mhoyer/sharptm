@@ -17,7 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() =>
 				{
 					emptyTopicDTO = new TopicDTO();
-					emptyTopicDTO.Id = "an_empty_topic";
+					emptyTopicDTO.Id = "http://sharptm.de/With_TopicDTO#an_empty_topic";
 
 					topicMapDTO.Topics.Add(emptyTopicDTO);
 				};
