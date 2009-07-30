@@ -11,12 +11,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.ToDTO
 
 	public class TopicToDTO : ConstructToDTO<ITopic, TopicDTO>
 	{
-		private static TopicToDTO mapper;
-
-		public TopicToDTO()
-		{
-
-		}
+		private static TopicToDTO mapper = new TopicToDTO();
 
 		public static TopicDTO Create(ITopic source)
 		{
