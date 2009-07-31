@@ -55,7 +55,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 				marcelKnowsAboutLutz.Roles[0].Reifier = reifierSID;
 			};
 		Given a_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/RoleFromDTOTests");
-		Given the_converted_reifier = () => reifier =TopicFromDTO.Create(topicMap, reifierDTO);
+		Given the_converted_reifier = () => reifier = TopicFromDTO.Create(topicMap, reifierDTO);
 		Given an_association = () => association = AssociationFromDTO.Create(topicMap, projectLeaderOfSharpTM);
 
 		Because of_mapping_the_role = () => role = RoleFromDTO.Create(association, marcelKnowsAboutLutz.Roles[0]);

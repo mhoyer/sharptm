@@ -19,9 +19,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				.To((role, reifierId)
 				    =>
 				    	{
-							role.Reifier = TopicFromDTO.FindOrCreate(
-								role.TopicMap, 
-								reifierId);
+							if (reifierId != null)
+							{
+								role.Reifier = TopicFromDTO.FindOrCreate(
+									role.TopicMap,
+									reifierId);
+							}
 				    	});
 				
 		}
