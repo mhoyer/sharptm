@@ -19,7 +19,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		protected static AssociationDTO projectLeaderOfSharpTM;
 		protected static AssociationDTO marcelKnowsAboutLutz;
 
-		private static TopicDTO CreateTopic(params string[] subjectIdentifiers)
+		protected static TopicDTO CreateTopic(params string[] subjectIdentifiers)
 		{
 			var topic = new TopicDTO();
 			topic.InstanceOf = new InstanceOfDTO();
@@ -34,7 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			return topic;
 		}
 
-		private static AssociationDTO CreateAssociation(TypeDTO associationType,
+		protected static AssociationDTO CreateAssociation(TypeDTO associationType,
 		                                                TypeDTO roleType1, TopicDTO role1,
 		                                                TypeDTO roleType2, TopicDTO role2)
 		{

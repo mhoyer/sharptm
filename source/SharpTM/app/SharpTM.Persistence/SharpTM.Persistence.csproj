@@ -125,6 +125,7 @@
     <Compile Include="Mapper\FromDTO\AssociationFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\ConstructFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\LocatorFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\RoleFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs">
       <SubType>Code</SubType>
