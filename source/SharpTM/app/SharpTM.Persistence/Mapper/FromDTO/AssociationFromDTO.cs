@@ -18,19 +18,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		private AssociationFromDTO()
 		{
-			From(dto => dto.Type)
-				.To((association, typeDTO) =>
-				    	{
-				    		// TODO: association.
-				    	});
-
 			From(dto => dto.Roles)
 				.To((association, roleDTOs)
 				    =>
 				    	{
 				    		foreach (RoleDTO roleDTO in roleDTOs)
 				    		{
-				    			
+				    			RoleFromDTO.Create(association, roleDTO);
 				    		}
 				    	});
 
@@ -38,9 +32,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				.To((association, reifierId)
 					=>
 				{
-					association.Reifier = TopicFromDTO.FindOrCreate(
-						association.TopicMap,
-						reifierId);
+					if (reifierId != null)
+					{
+						association.Reifier = TopicFromDTO.FindOrCreate(
+							association.TopicMap,
+							reifierId);
+					}
 				});
 			// TODO: From(dto => dto.Scope)
 		}
@@ -49,7 +46,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		{
 			IAssociation association = topicMap.CreateAssociation(TypeFromDTO.FindOrCreate(topicMap, source.Type));
 
-			return association;
+			return mapper.Map(source, association);
 		}
 	}
 }
