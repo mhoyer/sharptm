@@ -77,10 +77,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			return mapper.Map(source, topic);
 		}
 
+		public static ITopic FindOrCreate(ITopicMap topicMap, string locator)
+		{
+			return FindOrCreate(topicMap, LocatorFromDTO.Create(topicMap, locator));
+		}
+
 		public static ITopic FindOrCreate(ITopicMap topicMap, LocatorDTO locatorDTO)
 		{
-			var locator = LocatorFromDTO.Create(topicMap, locatorDTO);
+			return FindOrCreate(topicMap, LocatorFromDTO.Create(topicMap, locatorDTO));
+		}
 
+		public static ITopic FindOrCreate(ITopicMap topicMap, ILocator locator)
+		{
 			ITopic topic = topicMap.GetTopicBySubjectIdentifier(locator) ??
 							   topicMap.GetTopicBySubjectLocator(locator) ??
 							   topicMap.GetConstructByItemIdentifier(locator) as ITopic ??
