@@ -6,7 +6,6 @@
 
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
-using TMAPI.Net.Index;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 {
@@ -25,8 +24,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    		// TODO: association.
 				    	});
 
-			// TODO: From(dto => dto.Roles)
-			// TODO: From(dto => dto.Reifier)
+			From(dto => dto.Roles)
+				.To((association, roleDTOs)
+				    =>
+				    	{
+				    		foreach (RoleDTO roleDTO in roleDTOs)
+				    		{
+				    			
+				    		}
+				    	});
+
+			From(dto => dto.Reifier)
+				.To((association, reifierId)
+					=>
+				{
+					association.Reifier = TopicFromDTO.FindOrCreate(
+						association.TopicMap,
+						reifierId);
+				});
 			// TODO: From(dto => dto.Scope)
 		}
 
