@@ -27,7 +27,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_map_the_association_type = () => association.Type.ShouldEqual(topicMap.GetTopicBySubjectIdentifier(topicMapSystem.CreateLocator(marcelKnowsAboutLutz.Type.TopicReference.HRef)));
 		It should_map_the_roles = () => association.Roles.Count.ShouldEqual(marcelKnowsAboutLutz.Roles.Count);
 		It should_create_the_role_types = () => association.RoleTypes.Count.ShouldEqual(1);
-		// It should_ = () => association.Scope
 	}
 
 	public class When_mapping_a_reified_association : With_FilledTopicMapDTO
@@ -39,7 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_reifier = () =>
 		{
-			var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_role).FullName;
+			var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName;
 			reifierDTO = CreateTopic(reifierSID);
 			marcelKnowsAboutLutz.Reifier = reifierSID;
 		};
@@ -51,5 +50,31 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
 
 		It should_map_the_reifier = () => association.Reifier.ShouldEqual(reifier);
+	}
+
+	public class When_mapping_a_scoped_association : With_FilledTopicMapDTO
+	{
+		static IAssociation association;
+		static ITopicMap topicMap;
+		static ITopic scope;
+		static TopicDTO scopeDTO;
+
+		Given a_scope =
+			() =>
+				{
+					var scopeSID = "http://sharptm.de/" + typeof(When_mapping_a_scoped_association).FullName;
+					scopeDTO = CreateTopic(scopeSID);
+					marcelKnowsAboutLutz.Scope = new ScopeDTO();
+					marcelKnowsAboutLutz.Scope.TopicReferences.Add(scopeDTO.SubjectIdentifiers[0]);
+				};
+		Given an_empty_TMAPI_topic_map =
+			() => topicMap = topicMapSystem
+				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_scoped_association).FullName);
+		Given the_converted_scope = () => scope = TopicFromDTO.Create(topicMap, scopeDTO);
+
+		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
+
+		It should_map_the_scope = () => association.Scope.ShouldContain(scope);
+		It should_map_only_one_scope = () => association.Scope.Count.ShouldEqual(1);
 	}
 }

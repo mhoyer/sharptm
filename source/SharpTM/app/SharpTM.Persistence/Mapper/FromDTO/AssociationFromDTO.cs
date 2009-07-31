@@ -30,16 +30,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 			From(dto => dto.Reifier)
 				.To((association, reifierId)
-					=>
-				{
-					if (reifierId != null)
-					{
-						association.Reifier = TopicFromDTO.FindOrCreate(
-							association.TopicMap,
-							reifierId);
-					}
-				});
-			// TODO: From(dto => dto.Scope)
+				    =>
+				    	{
+				    		if (reifierId != null)
+				    		{
+				    			association.Reifier = TopicFromDTO.FindOrCreate(
+				    				association.TopicMap,
+				    				reifierId);
+				    		}
+				    	});
+
+			From(dto => dto.Scope)
+				.To((association, scopeDTO)
+				    =>
+				    	{
+				    		foreach (LocatorDTO scope in scopeDTO.TopicReferences)
+				    		{
+				    			association.AddTheme(TopicFromDTO.FindOrCreate(association.Parent, scope));
+				    		}
+				    	});
 		}
 
 		public static IAssociation Create(ITopicMap topicMap, AssociationDTO source)
