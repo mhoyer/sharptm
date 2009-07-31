@@ -44,16 +44,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				.To((association, scopeDTO)
 				    =>
 				    	{
-				    		foreach (LocatorDTO scope in scopeDTO.TopicReferences)
-				    		{
-				    			association.AddTheme(TopicFromDTO.FindOrCreate(association.Parent, scope));
-				    		}
+							if (scopeDTO != null)
+							{
+								ScopeFromDTO.Instance.Map(scopeDTO, association);
+							}
 				    	});
 		}
 
-		public static IAssociation Create(ITopicMap topicMap, AssociationDTO source)
+		public static IAssociation Create(ITopicMap parent, AssociationDTO source)
 		{
-			IAssociation association = topicMap.CreateAssociation(TypeFromDTO.FindOrCreate(topicMap, source.Type));
+			IAssociation association = parent.CreateAssociation(TypeFromDTO.FindOrCreate(parent, source.Type));
 
 			return mapper.Map(source, association);
 		}
