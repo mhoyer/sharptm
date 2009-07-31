@@ -1,3 +1,4 @@
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Xunit.BDDExtension;
 
@@ -39,6 +40,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		                                                TypeDTO roleType2, TopicDTO role2)
 		{
 			var association = new AssociationDTO();
+
+			var associationLocator = new LocatorDTO();
+			associationLocator.HRef = associationType.TopicReference.HRef + association.GetHashCode();
+
+			association.ItemIdentities.Add(associationLocator);
 			association.Type = associationType;
 			association.Roles.Add(new RoleDTO() { Type = roleType1, TopicReference = role1.SubjectIdentifiers[0] });
 			association.Roles.Add(new RoleDTO() { Type = roleType2, TopicReference = role2.SubjectIdentifiers[0] });
