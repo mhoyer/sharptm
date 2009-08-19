@@ -37,6 +37,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    			AssociationFromDTO.Create(tm, associationDTO);
 				    		}
 				    	});
+
+			From(dto => dto.Reifier)
+			.To((tm, reifierId) =>
+			    	{
+		    			if (reifierId != null)
+			    		{
+			    			tm.Reifier = TopicFromDTO.FindOrCreate(tm, reifierId);
+			    		}
+			    	});
 		}
 
 		public static ITopicMap Create(ITopicMapSystem topicMapSystem, TopicMapDTO source)

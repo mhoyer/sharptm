@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
 using TMAPI.Net.Core;
@@ -70,14 +71,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 	public class When_mapping_from_topic_map_DTO_with_reifier : With_FilledTopicMapDTO
 	{
-		Because of_mapping_the_topic_map =
-			() => TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
+		static string reifierSID;
+		static TopicDTO reifierDTO;
+		static ITopicMap topicMap;
 
-		// TODO: It should_handle_the_merge_maps = () => 
-		[Fact(Skip = "Not implemented.")]
-		public new void Run()
-		{
-		}
+		Given a_reifier =
+			() =>
+			{
+				reifierSID = "http://sharptm.de/" + typeof(When_mapping_from_topic_map_DTO_with_reifier).FullName;
+				reifierDTO = CreateTopic(reifierSID);
+				topicMapDTO.Reifier = reifierSID;
+			};
+
+		Because of_mapping_the_topic_map =
+			() => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
+
+		It should_map_the_reifier = () => topicMap.Reifier.ShouldNotBeNull();
+		It should_map_the_reifiers_subject_identifier = () => topicMap.Reifier.SubjectIdentifiers[0].Reference.ShouldEqual(reifierSID);
 	}
 
 }

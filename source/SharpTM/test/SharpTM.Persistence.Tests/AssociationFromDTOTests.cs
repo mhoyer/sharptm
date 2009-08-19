@@ -36,15 +36,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		static ITopic reifier;
 		static TopicDTO reifierDTO;
 
-		Given a_reifier = () =>
-		{
-			var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName;
-			reifierDTO = CreateTopic(reifierSID);
-			marcelKnowsAboutLutz.Reifier = reifierSID;
-		};
+		Given a_reifier =
+			() =>
+				{
+					var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName;
+					reifierDTO = CreateTopic(reifierSID);
+					marcelKnowsAboutLutz.Reifier = reifierSID;
+				};
+
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_an_association).FullName);
+				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName);
 		Given the_converted_reifier = () => reifier = TopicFromDTO.Create(topicMap, reifierDTO);
 
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
@@ -75,6 +77,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
 
 		It should_map_the_scope = () => association.Scope.ShouldContain(scope);
-		It should_map_only_one_scope = () => association.Scope.Count.ShouldEqual(1);
+		It should_map_only_one_scope = () => association.Scope.Count.ShouldEqual(marcelKnowsAboutLutz.Scope.TopicReferences.Count);
 	}
 }
