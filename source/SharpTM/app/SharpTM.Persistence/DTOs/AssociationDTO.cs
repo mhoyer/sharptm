@@ -16,7 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	[System.Serializable]
 	[XmlType("association", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("association", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
-	public class AssociationDTO : ConstructDTO, IReifiableDTO
+	public class AssociationDTO : ConstructDTO, IReifiableDTO, IScopedDTO
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AssociationDTO"/> class.
