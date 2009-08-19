@@ -18,6 +18,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	[XmlRoot("type", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class TypeDTO
 	{
+		public TypeDTO() { }
+		public TypeDTO(string typeLocator)
+		{
+			TopicReference = new LocatorDTO() { HRef = typeLocator };
+		}
+
 		/// <summary>
 		/// Gets or sets the topic reference of this type.
 		/// </summary>
