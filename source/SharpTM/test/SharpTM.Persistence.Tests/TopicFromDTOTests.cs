@@ -128,4 +128,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() => construct.ItemIdentifiers.ShouldContain(topicMap.CreateLocator(topicDTO.Id));
 	}
 
+	public class When_mapping_an_empty_topic : With_TopicMapDTO
+	{
+		static ITopicMap topicMap;
+		static ITopic topic;
+		static TopicDTO topicDTO;
+		
+		Given a_topic = () => topicDTO = new TopicDTO();
+		Given a_TMAPI_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/ConstructFromDTOTests");
+
+		Because of_mapping_the_construct = () => topic = TopicFromDTO.Create(topicMap, topicDTO);
+
+		It should_generate_one_item_identifiers = () => topic.ItemIdentifiers.Count.ShouldEqual(1);
+	}
 }
