@@ -46,7 +46,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    		}
 				    	});
 
-			// From(dto => dto.Occurrences)
+			From(dto => dto.Occurrences)
+				.To((topic, occurrences)
+				=>
+				    	{
+				    		foreach (OccurrenceDTO occurrenceDTO in occurrences)
+				    		{
+				    			OccurrenceFromDTO.Create(topic, occurrenceDTO);
+				    		}
+				    	});
 			// From(dto => dto.Names)
 		}
 
