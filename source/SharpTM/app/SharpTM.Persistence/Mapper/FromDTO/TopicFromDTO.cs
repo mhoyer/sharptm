@@ -48,14 +48,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 			From(dto => dto.Occurrences)
 				.To((topic, occurrences)
-				=>
+				    =>
 				    	{
 				    		foreach (OccurrenceDTO occurrenceDTO in occurrences)
 				    		{
 				    			OccurrenceFromDTO.Create(topic, occurrenceDTO);
 				    		}
 				    	});
-			// From(dto => dto.Names)
+
+			From(dto => dto.Names)
+				.To((topic, names)
+				    =>
+				    	{
+				    		foreach (NameDTO nameDTO in names)
+				    		{
+				    			NameFromDTO.Create(topic, nameDTO);
+				    		}
+				    	});
 		}
 
 		public static ITopic Create(ITopicMap topicMap, TopicDTO source)
