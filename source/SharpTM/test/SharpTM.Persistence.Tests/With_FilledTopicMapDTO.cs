@@ -10,15 +10,36 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		protected static TopicDTO person;
 		protected static TopicDTO project;
 		protected static TopicDTO isProjectLeaderOf;
+		protected static TopicDTO image;
+		protected static TopicDTO abstractTopic;
+		
 		protected static TypeDTO knowsAboutType;
 		protected static TypeDTO isProjectLeaderOfType;
 		protected static TypeDTO personType;
 		protected static TypeDTO projectType;
+		protected static TypeDTO imageType;
+		protected static TypeDTO abstractType;
+
 		protected static TopicDTO marcelHoyer;
 		protected static TopicDTO lutzMaicher;
 		protected static TopicDTO sharpTM;
+
 		protected static AssociationDTO projectLeaderOfSharpTM;
 		protected static AssociationDTO marcelKnowsAboutLutz;
+
+		protected static ResourceDataDTO marcelHoyerAbstractResource;
+		protected static OccurrenceDTO marcelHoyerAbstract;
+		protected static OccurrenceDTO marcelHoyerImage;
+
+		protected static LocatorDTO CreateLocator(string relativeUri)
+		{
+			return new LocatorDTO() { HRef = CreateLocatorString(relativeUri) };
+		}
+
+		protected static string CreateLocatorString(string relativeUri)
+		{
+			return String.Format("http://sharptm.de/{0}", relativeUri);
+		}
 
 		protected static TopicDTO CreateTopic(params string[] subjectIdentifiers)
 		{
@@ -52,16 +73,46 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			return association;
 		}
 
-		Given the_person_topic = () => person = CreateTopic("http://sharptm.de/person");
-		Given the_project_topic = () => project = CreateTopic("http://sharptm.de/project");
-		Given the_knows_about_topic = () => knowsAbout = CreateTopic("http://sharptm.de/knowsAbout");
-		Given the_project_leader_topic = () => isProjectLeaderOf = CreateTopic("http://sharptm.de/isProjectLeaderOf");
+		static OccurrenceDTO CreateOccurrence(TypeDTO occurrenceType)
+		{
+			OccurrenceDTO occurrenceDTO = new OccurrenceDTO();
+			occurrenceDTO.Type = occurrenceType;
+
+			return occurrenceDTO;
+		}
+
+		protected static OccurrenceDTO CreateOccurrence(TypeDTO occurrenceType, LocatorDTO resourceReference)
+		{
+			OccurrenceDTO occurrenceDTO = CreateOccurrence(occurrenceType);
+			occurrenceDTO.ResourceReference = resourceReference;
+			
+			return occurrenceDTO;
+		}
+
+		protected static OccurrenceDTO CreateOccurrence(TypeDTO occurrenceType, ResourceDataDTO resourceData)
+		{
+			OccurrenceDTO occurrenceDTO = CreateOccurrence(occurrenceType);
+			occurrenceDTO.ResourceData = resourceData;
+			
+			return occurrenceDTO;
+		}
+
+		Given the_person_topic = () => person = CreateTopic(CreateLocatorString("person"));
+		Given the_project_topic = () => project = CreateTopic(CreateLocatorString("project"));
+		Given the_knows_about_topic = () => knowsAbout = CreateTopic(CreateLocatorString("knowsAbout"));
+		Given the_project_leader_topic = () => isProjectLeaderOf = CreateTopic(CreateLocatorString("isProjectLeaderOf"));
 
 		Given the_knows_about_type = () => knowsAboutType = new TypeDTO() { TopicReference = knowsAbout.SubjectIdentifiers[0] };
 		Given the_project_leader_type = () => isProjectLeaderOfType = new TypeDTO() { TopicReference = isProjectLeaderOf.SubjectIdentifiers[0] };
 		Given the_person_type = () => personType = new TypeDTO() { TopicReference = person.SubjectIdentifiers[0] };
 		Given the_project_type = () => projectType = new TypeDTO() { TopicReference = project.SubjectIdentifiers[0] };
 
+		Given the_image_topic = () => image = CreateTopic(CreateLocatorString("image"));
+		Given the_image_type = () => imageType = new TypeDTO() { TopicReference = image.SubjectIdentifiers[0]};
+
+		Given the_abstract_topic = () => abstractTopic = CreateTopic(CreateLocatorString("abstract"));
+		Given the_abstract_type = () => abstractType = new TypeDTO() { TopicReference = abstractTopic.SubjectIdentifiers[0]};
+        
 		Given the_Marcel_Hoyer_topic =
 			() =>
 				{
@@ -79,7 +130,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given the_SharpTM_topic =
 			() =>
 				{
-					sharpTM = CreateTopic("http://sharptm.de");
+					sharpTM = CreateTopic(CreateLocatorString("this"));
 					sharpTM.InstanceOf.TopicReferences.Add(projectType.TopicReference);
 				};
 		Given the_SharpTM_project_leader_association =
@@ -94,6 +145,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 				{
 					marcelKnowsAboutLutz = CreateAssociation(knowsAboutType, personType, marcelHoyer, personType, lutzMaicher);
 					topicMapDTO.Associations.Add(marcelKnowsAboutLutz);
+				};
+
+		Given the_Marcel_Hoyer_image_reference_occurrence =
+			() =>
+				{
+					marcelHoyerImage = CreateOccurrence(imageType, new LocatorDTO() { HRef = "http://pixelplastic.de/images/_ChannelImage.jpg" });
+					marcelHoyer.Occurrences.Add(marcelHoyerImage);
+				};
+
+		Given the_Marcel_Hoyer_abstract_occurrence =
+			() =>
+				{
+					marcelHoyerAbstractResource = new ResourceDataDTO();
+					marcelHoyerAbstractResource.Text = "This is some information about Marcel Hoyer.";
+					marcelHoyerAbstractResource.Datatype = ""; // == http://www.w3.org/2001/XMLSchema#string
+
+					marcelHoyerAbstract = CreateOccurrence(abstractType, marcelHoyerAbstractResource);
+					marcelHoyer.Occurrences.Add(marcelHoyerAbstract);
 				};
 	}
 }
