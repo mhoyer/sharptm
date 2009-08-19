@@ -50,8 +50,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_reifier = () =>
 			{
-				var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_role).FullName;
-				reifierDTO = CreateTopic(reifierSID);
+				var reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_a_reified_role).FullName);
+				reifierDTO = topicMapDTO.CreateTopic(reifierSID);
 				marcelKnowsAboutLutz.Roles[0].Reifier = reifierSID;
 			};
 		Given a_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/RoleFromDTOTests");

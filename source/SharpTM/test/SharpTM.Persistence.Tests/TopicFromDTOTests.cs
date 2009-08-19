@@ -142,7 +142,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_generate_one_item_identifiers = () => topic.ItemIdentifiers.Count.ShouldEqual(1);
 	}
 
-	public class When_mapping_a_topic_with_occurrences : With_FilledTopicMapDTO
+	public class When_mapping_a_topic_with_occurrences : With_FilledTopicMapDTOandOccurrences
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;
@@ -153,5 +153,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		
 		It should_map_at_least_one_occurrence = () => topic.Occurrences.Count.ShouldNotEqual(0);
 		It should_map_the_occurrences = () => topic.Occurrences.Count.ShouldEqual(marcelHoyer.Occurrences.Count);
+	}
+
+	public class When_mapping_a_topic_with_names : With_FilledTopicMapDTOandNames
+	{
+		static ITopicMap topicMap;
+		static ITopic topic;
+
+		Given a_TMAPI_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/ConstructFromDTOTests");
+
+		Because of_mapping_the_topic = () => topic = TopicFromDTO.Create(topicMap, marcelHoyer);
+
+		It should_map_at_least_one_name = () => topic.Names.Count.ShouldNotEqual(0);
+		It should_map_the_names = () => topic.Names.Count.ShouldEqual(marcelHoyer.Names.Count);
 	}
 }

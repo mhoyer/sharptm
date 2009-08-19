@@ -65,9 +65,12 @@
     <Compile Include="LocatorFromDTOTests.cs" />
     <Compile Include="OccurrenceFromDTOTests.cs" />
     <Compile Include="RoleFromDTOTests.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="TopicFromDTOTests.cs" />
     <Compile Include="TypeFromDTOTests.cs" />
     <Compile Include="With_FilledTopicMapDTO.cs" />
+    <Compile Include="With_FilledTopicMapDTOandNames.cs" />
+    <Compile Include="With_FilledTopicMapDTOandOccurrences.cs" />
     <Compile Include="With_TopicDTO.cs" />
     <Compile Include="With_TopicMapDTO.cs" />
     <Compile Include="LocatorToDTOTests.cs" />

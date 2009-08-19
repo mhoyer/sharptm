@@ -5,7 +5,7 @@ using Xunit.BDDExtension;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 {
-	public class With_TopicDTO : With_TopicMapDTO
+	public abstract class With_TopicDTO : With_TopicMapDTO
 	{
 		protected static TopicDTO emptyTopicDTO;
 		protected static TopicDTO identifiedTopicDTO;
@@ -36,6 +36,5 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 					topicMapDTO.Topics.Add(identifiedTopicDTO);
 				};
-
 	}
 }

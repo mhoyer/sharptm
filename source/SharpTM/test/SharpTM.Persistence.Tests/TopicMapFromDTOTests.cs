@@ -78,8 +78,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_reifier =
 			() =>
 			{
-				reifierSID = "http://sharptm.de/" + typeof(When_mapping_from_topic_map_DTO_with_reifier).FullName;
-				reifierDTO = CreateTopic(reifierSID);
+				reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_from_topic_map_DTO_with_reifier).FullName);
+				reifierDTO = topicMapDTO.CreateTopic(reifierSID);
 				topicMapDTO.Reifier = reifierSID;
 			};
 

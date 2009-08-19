@@ -40,7 +40,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() =>
 				{
 					var reifierSID = "http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName;
-					reifierDTO = CreateTopic(reifierSID);
+					reifierDTO = topicMapDTO.CreateTopic(reifierSID);
 					marcelKnowsAboutLutz.Reifier = reifierSID;
 				};
 
@@ -65,7 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() =>
 				{
 					var scopeSID = "http://sharptm.de/" + typeof(When_mapping_a_scoped_association).FullName;
-					scopeDTO = CreateTopic(scopeSID);
+					scopeDTO = topicMapDTO.CreateTopic(scopeSID);
 					marcelKnowsAboutLutz.Scope = new ScopeDTO();
 					marcelKnowsAboutLutz.Scope.TopicReferences.Add(scopeDTO.SubjectIdentifiers[0]);
 				};
