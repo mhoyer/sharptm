@@ -9,9 +9,9 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_role : With_FilledTopicMapDTO
+	public class When_mapping_a_role : With_Filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static IRole role;
@@ -40,7 +40,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 				};
 	}
 
-	public class When_mapping_a_reified_role : With_FilledTopicMapDTO
+	public class When_mapping_a_reified_role : With_Filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static IRole role;
@@ -49,11 +49,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		static TopicDTO reifierDTO;
 
 		Given a_reifier = () =>
-			{
-				var reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_a_reified_role).FullName);
-				reifierDTO = topicMapDTO.CreateTopic(reifierSID);
-				marcelKnowsAboutLutz.Roles[0].Reifier = reifierSID;
-			};
+		                  	{
+		                  		var reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_a_reified_role).FullName);
+		                  		reifierDTO = topicMapDTO.CreateTopic(reifierSID);
+		                  		marcelKnowsAboutLutz.Roles[0].Reifier = reifierSID;
+		                  	};
 		Given a_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/RoleFromDTOTests");
 		Given the_converted_reifier = () => reifier = TopicFromDTO.Create(topicMap, reifierDTO);
 		Given an_association = () => association = AssociationFromDTO.Create(topicMap, projectLeaderOfSharpTM);

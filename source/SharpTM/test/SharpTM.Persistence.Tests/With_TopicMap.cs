@@ -11,9 +11,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 	public abstract class With_TopicMap : With_TopicMapSystem
 	{
 		protected static ITopicMap topicMap;
-		public const string TOPIC_MAP_SID = "http://pixelplastic.de/topicMap";
+		public const string TOPIC_MAP_SID = "http://sharptm.de/topicMap";
 
 		Given a_topic_map = ()
-			=> topicMap = topicMapSystem.CreateTopicMap(TOPIC_MAP_SID);
+		                    => topicMap = topicMapSystem.CreateTopicMap(TOPIC_MAP_SID);
 	}
 }

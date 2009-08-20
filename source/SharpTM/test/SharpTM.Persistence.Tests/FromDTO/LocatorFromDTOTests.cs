@@ -10,7 +10,7 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public class When_mapping_a_locator : With_TopicMap
 	{
@@ -31,7 +31,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Because of_creating_an_TMAPI_locator_instance = () => locator = LocatorFromDTO.Create(topicMap, locatorDTO);
 		It should_create_the_combined_locator_with_absolute_IRI = 
 			() => locator.Reference.ShouldEqual(
-				String.Format("{0}#{1}", topicMap.ItemIdentifiers[0].Reference, locatorDTO.HRef));
+			      	String.Format("{0}#{1}", topicMap.ItemIdentifiers[0].Reference, locatorDTO.HRef));
 	}
 
 	public class When_mapping_a_fractalized_locator : With_TopicMap
@@ -43,7 +43,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Because of_creating_an_TMAPI_locator_instance = () => locator = LocatorFromDTO.Create(topicMap, locatorDTO);
 		It should_create_the_combined_locator_with_absolute_IRI =
 			() => locator.Reference.ShouldEqual(
-				String.Format("{0}{1}", topicMap.ItemIdentifiers[0].Reference, locatorDTO.HRef));
+			      	String.Format("{0}{1}", topicMap.ItemIdentifiers[0].Reference, locatorDTO.HRef));
 	}
-
 }

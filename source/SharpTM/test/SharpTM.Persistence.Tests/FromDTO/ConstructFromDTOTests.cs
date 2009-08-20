@@ -9,7 +9,7 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public class When_mapping_a_construct_with_many_item_identifiers : With_TopicMapDTO
 	{

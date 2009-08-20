@@ -11,7 +11,7 @@ using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 using STM = Pixelplastic.TopicMaps.SharpTM.Core;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.ToDTO
 {
 	public class When_mapping_a_Locator_to_DTO : With_TopicMapSystem
 	{

@@ -8,9 +8,9 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_type_DTO : With_FilledTopicMapDTO
+	public class When_mapping_a_type_DTO : With_Filled_TopicMapDTO
 	{
 		static ITopic topicType;
 		static ITopicMap topicMap;
@@ -27,7 +27,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 				};
 	}
 
-	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_item_identifier : With_FilledTopicMapDTO
+	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_item_identifier : With_Filled_TopicMapDTO
 	{
 		static ITopic topicType;
 		static ITopicMap topicMap;
@@ -44,8 +44,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_find_or_merge_the_type_DTO = () => topicType.ShouldEqual(existingTopic);
 	}
 
-
-	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_subject_identifier : With_FilledTopicMapDTO
+	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_subject_identifier : With_Filled_TopicMapDTO
 	{
 		static ITopic topicType;
 		static ITopicMap topicMap;
@@ -62,7 +61,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_find_or_merge_the_type_DTO = () => topicType.ShouldEqual(existingTopic);
 	}
 
-	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_subject_locator : With_FilledTopicMapDTO
+	public class When_mapping_a_type_DTO_while_TMAPI_topic_already_exists_with_subject_locator : With_Filled_TopicMapDTO
 	{
 		static ITopic topicType;
 		static ITopicMap topicMap;
@@ -78,5 +77,4 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		It should_find_or_merge_the_type_DTO = () => topicType.ShouldEqual(existingTopic);
 	}
-
 }

@@ -10,19 +10,8 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.ToDTO
 {
-
-	// variant = element variant { reifiable, scope, (resourceRef | resourceData) }
-
-	// During deserialization the variant element causes a variant item 
-	// to be created and added to the [variants] property of the topic 
-	// name item created by the name parent element. 
-	
-	// After the scope child element has been processed, the topics in the [scope] 
-	// property of the topic name item created by the name parent element
-	// are added to the [scope] property of the variant name item. 
-	
 	public class When_mapping_a_string_variant_to_DTO : With_AssociatedTopics
 	{
 		const string name = "Hoyer, Marcel";
@@ -33,11 +22,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_variant =
 			() => from = topic1
-			      	.CreateName("Marcel Hoyer")
-			      	.CreateVariant(
-			      	name,
-			      	Datatypes.Locators.String,
-			      	topicMap.CreateTopic());
+			             	.CreateName("Marcel Hoyer")
+			             	.CreateVariant(
+			             	name,
+			             	Datatypes.Locators.String,
+			             	topicMap.CreateTopic());
 
 		Given a_variant_mapper = () => variantMapper = new VariantToDTO();
 		Given a_variantDTO = () => to = new VariantDTO();
@@ -60,11 +49,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_variant =
 			() => from = topic1
-					.CreateName("Marcel Hoyer")
-					.CreateVariant(
-					uri,
-					Datatypes.Locators.AnyUri,
-					topicMap.CreateTopic());
+			             	.CreateName("Marcel Hoyer")
+			             	.CreateVariant(
+			             	uri,
+			             	Datatypes.Locators.AnyUri,
+			             	topicMap.CreateTopic());
 
 		Given a_variant_mapper = () => variantMapper = new VariantToDTO();
 		Given a_variantDTO = () => to = new VariantDTO();
@@ -86,11 +75,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_scoped_variant =
 			() => from = topic1
-					.CreateName("Marcel Hoyer")
-					.CreateVariant(
-					name,
-					Datatypes.Locators.String,
-					topicMap.CreateTopic(), topicMap.CreateTopic());
+			             	.CreateName("Marcel Hoyer")
+			             	.CreateVariant(
+			             	name,
+			             	Datatypes.Locators.String,
+			             	topicMap.CreateTopic(), topicMap.CreateTopic());
 
 		Given a_variant_mapper = () => variantMapper = new VariantToDTO();
 		Given a_variantDTO = () => to = new VariantDTO();
@@ -107,21 +96,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 						to.Scope
 							.TopicReferences
 							.FindAll(innerTopic =>
-								{
-									if (topic.ItemIdentifiers.Count > 0)
-									{
-										return innerTopic.HRef == topic.ItemIdentifiers[0].Reference;
-									}
-									else if (topic.SubjectIdentifiers.Count > 0)
-									{
-										return innerTopic.HRef == topic.SubjectIdentifiers[0].Reference;
-									}
+							         	{
+							         		if (topic.ItemIdentifiers.Count > 0)
+							         		{
+							         			return innerTopic.HRef == topic.ItemIdentifiers[0].Reference;
+							         		}
+							         		else if (topic.SubjectIdentifiers.Count > 0)
+							         		{
+							         			return innerTopic.HRef == topic.SubjectIdentifiers[0].Reference;
+							         		}
 
-									return false;
-								})
-								.Count.ShouldEqual(1);
+							         		return false;
+							         	})
+							.Count.ShouldEqual(1);
 					}
 				};
 	}
-
 }

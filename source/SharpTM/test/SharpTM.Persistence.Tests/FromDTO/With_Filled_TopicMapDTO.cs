@@ -1,9 +1,15 @@
+// <copyright file="With_Filled_TopicMapDTO.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
+
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Xunit.BDDExtension;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public abstract class With_FilledTopicMapDTO : With_TopicMapDTO
+	public abstract class With_Filled_TopicMapDTO : With_TopicMapDTO
 	{
 		protected static TopicDTO knowsAbout;
 		protected static TopicDTO person;

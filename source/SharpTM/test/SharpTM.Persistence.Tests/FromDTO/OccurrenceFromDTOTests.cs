@@ -8,16 +8,16 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_an_occurrence_DTO_with_resource_data : With_FilledTopicMapDTOandOccurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_data : With_Filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;
 
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_data).FullName));
+			                 	.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_data).FullName));
 
 		Because of_mapping_the_occurrence = () => occurrence = OccurrenceFromDTO.Create(topicMap.CreateTopic(), marcelHoyerAbstract);
 
@@ -28,7 +28,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_set_the_value = () => occurrence.Value.ShouldEqual(marcelHoyerAbstract.ResourceData.Text);
 	}
 
-	public class When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type : With_FilledTopicMapDTOandOccurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type : With_Filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;
@@ -38,7 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type).FullName));
+			                 	.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type).FullName));
 
 		Because of_mapping_the_occurrence = () => occurrence = OccurrenceFromDTO.Create(topicMap.CreateTopic(), marcelHoyerAbstract);
 
@@ -46,14 +46,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() => occurrence.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#string");
 	}
 
-	public class When_mapping_an_occurrence_DTO_with_resource_reference : With_FilledTopicMapDTOandOccurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_reference : With_Filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;
 
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_reference).FullName));
+			                 	.CreateTopicMap(TestHelper.CreateLocatorString(typeof(When_mapping_an_occurrence_DTO_with_resource_reference).FullName));
 
 		Because of_mapping_the_occurrence = () => occurrence = OccurrenceFromDTO.Create(topicMap.CreateTopic(), marcelHoyerImage);
 

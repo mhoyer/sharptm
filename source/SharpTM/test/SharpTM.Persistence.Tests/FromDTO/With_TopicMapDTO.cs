@@ -6,7 +6,7 @@
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Xunit.BDDExtension;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public abstract class With_TopicMapDTO : With_TopicMapSystem
 	{

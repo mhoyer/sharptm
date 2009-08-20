@@ -9,7 +9,7 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public class When_mapping_a_topic_with_many_identifiers : With_TopicDTO
 	{
@@ -56,10 +56,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_subject_identifier = () => sid = "http://sharptm.de/TopicFromDTOTests";
 		Given an_existing_TMAPI_topic = () => topicMap.CreateTopicBySubjectIdentifier(topicMap.CreateLocator(sid));
 		Given a_topic_DTO = () =>
-		{
-			topicDTO = new TopicDTO();
-			topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = sid });
-		};
+		                    	{
+		                    		topicDTO = new TopicDTO();
+		                    		topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = sid });
+		                    	};
 
 		Because of_mapping_the_topic_map_DTO = () => TopicFromDTO.Create(topicMap, topicDTO);
 
@@ -76,10 +76,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_subject_locator = () => sloc = "http://sharptm.de/TopicFromDTOTests";
 		Given an_existing_TMAPI_topic = () => topicMap.CreateTopicBySubjectLocator(topicMap.CreateLocator(sloc));
 		Given a_topic_DTO = () =>
-		{
-			topicDTO = new TopicDTO();
-			topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = sloc });
-		};
+		                    	{
+		                    		topicDTO = new TopicDTO();
+		                    		topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = sloc });
+		                    	};
 
 		Because of_mapping_the_topic_map_DTO = () => TopicFromDTO.Create(topicMap, topicDTO);
 
@@ -98,10 +98,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_item_identifier = () => iid = "http://sharptm.de/TopicFromDTOTests";
 		Given an_existing_TMAPI_topic = () => topicMap.CreateTopicByItemIdentifier(topicMap.CreateLocator(iid));
 		Given a_topic_DTO = () =>
-		{
-			topicDTO = new TopicDTO();
-			topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = iid });
-		};
+		                    	{
+		                    		topicDTO = new TopicDTO();
+		                    		topicDTO.ItemIdentities.Add(new LocatorDTO() { HRef = iid });
+		                    	};
 
 		Because of_mapping_the_topic_map_DTO = () => TopicFromDTO.Create(topicMap, topicDTO);
 
@@ -142,7 +142,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_generate_one_item_identifiers = () => topic.ItemIdentifiers.Count.ShouldEqual(1);
 	}
 
-	public class When_mapping_a_topic_with_occurrences : With_FilledTopicMapDTOandOccurrences
+	public class When_mapping_a_topic_with_occurrences : With_Filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;
@@ -155,7 +155,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_map_the_occurrences = () => topic.Occurrences.Count.ShouldEqual(marcelHoyer.Occurrences.Count);
 	}
 
-	public class When_mapping_a_topic_with_names : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_topic_with_names : With_Filled_TopicMapDTO_and_names
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;

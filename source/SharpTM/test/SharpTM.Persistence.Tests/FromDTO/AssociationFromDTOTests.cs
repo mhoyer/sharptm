@@ -9,16 +9,16 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_an_association : With_FilledTopicMapDTO
+	public class When_mapping_an_association : With_Filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 		static IAssociation association;
 
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_an_association).FullName);
+			                 	.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_an_association).FullName);
 		Given the_mapped_type = () => TopicFromDTO.Create(topicMap, knowsAbout);
 
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
@@ -29,7 +29,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_create_the_role_types = () => association.RoleTypes.Count.ShouldEqual(1);
 	}
 
-	public class When_mapping_a_reified_association : With_FilledTopicMapDTO
+	public class When_mapping_a_reified_association : With_Filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static ITopicMap topicMap;
@@ -46,7 +46,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName);
+			                 	.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_reified_association).FullName);
 		Given the_converted_reifier = () => reifier = TopicFromDTO.Create(topicMap, reifierDTO);
 
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);
@@ -54,7 +54,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_map_the_reifier = () => association.Reifier.ShouldEqual(reifier);
 	}
 
-	public class When_mapping_a_scoped_association : With_FilledTopicMapDTO
+	public class When_mapping_a_scoped_association : With_Filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static ITopicMap topicMap;
@@ -71,7 +71,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 				};
 		Given an_empty_TMAPI_topic_map =
 			() => topicMap = topicMapSystem
-				.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_scoped_association).FullName);
+			                 	.CreateTopicMap("http://sharptm.de/" + typeof(When_mapping_a_scoped_association).FullName);
 		Given the_converted_scope = () => scope = TopicFromDTO.Create(topicMap, scopeDTO);
 
 		Because of_mapping_the_association = () => association = AssociationFromDTO.Create(topicMap, marcelKnowsAboutLutz);

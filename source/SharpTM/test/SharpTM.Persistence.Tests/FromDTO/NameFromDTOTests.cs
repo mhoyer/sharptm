@@ -8,9 +8,9 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_name : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_name : With_Filled_TopicMapDTO_and_names
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;

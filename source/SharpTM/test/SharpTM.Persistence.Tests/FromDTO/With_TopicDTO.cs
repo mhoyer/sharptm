@@ -3,7 +3,7 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public abstract class With_TopicDTO : With_TopicMapDTO
 	{

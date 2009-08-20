@@ -11,9 +11,9 @@ using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_variant_DTO_with_resource_locator : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_variant_DTO_with_resource_locator : With_Filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -24,13 +24,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_TMAPI_name = () => name = topicMap.CreateTopic().CreateName(marcelHoyerName.Value);
 
 		Given a_variant_DTO = () =>
-		{
-			reverseVariant = new VariantDTO();
-			reverseVariant.Scope = new ScopeDTO();
-			reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
-			reverseVariant.ResourceReference = TestHelper.CreateLocator("variantResource");
-			marcelHoyerName.Variants.Add(reverseVariant);
-		};
+		                      	{
+		                      		reverseVariant = new VariantDTO();
+		                      		reverseVariant.Scope = new ScopeDTO();
+		                      		reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
+		                      		reverseVariant.ResourceReference = TestHelper.CreateLocator("variantResource");
+		                      		marcelHoyerName.Variants.Add(reverseVariant);
+		                      	};
 
 		Because of_mapping_the_variant_DTO = () => variant = VariantFromDTO.Create(name, reverseVariant);
 
@@ -38,7 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_map_the_resource_type = () => variant.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#anyURI");
 	}
 
-	public class When_mapping_a_variant_DTO_with_resource_data : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_variant_DTO_with_resource_data : With_Filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -49,15 +49,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_TMAPI_name = () => name = topicMap.CreateTopic().CreateName(marcelHoyerName.Value);
 
 		Given a_variant_DTO = () =>
-		{
-			reverseVariant = new VariantDTO();
-			reverseVariant.Scope = new ScopeDTO();
-			reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
-			reverseVariant.ResourceData = new ResourceDataDTO();
-			reverseVariant.ResourceData.Text = "mhoyer";
+		                      	{
+		                      		reverseVariant = new VariantDTO();
+		                      		reverseVariant.Scope = new ScopeDTO();
+		                      		reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
+		                      		reverseVariant.ResourceData = new ResourceDataDTO();
+		                      		reverseVariant.ResourceData.Text = "mhoyer";
 			
-			marcelHoyerName.Variants.Add(reverseVariant);
-		};
+		                      		marcelHoyerName.Variants.Add(reverseVariant);
+		                      	};
 
 		Because of_mapping_the_variant_DTO = () => variant = VariantFromDTO.Create(name, reverseVariant);
 
@@ -65,7 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_set_the_correct_resource_type = () => variant.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#string");
 	}
 
-	public class When_mapping_a_variant_DTO_without_any_scope : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_variant_DTO_without_any_scope : With_Filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -77,18 +77,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_TMAPI_name = () => name = topicMap.CreateTopic().CreateName(marcelHoyerName.Value);
 
 		Given a_variant_DTO = () =>
-		{
-			reverseVariant = new VariantDTO();
-			reverseVariant.ResourceReference = TestHelper.CreateLocator("variantResource");
-			marcelHoyerName.Variants.Add(reverseVariant);
-		};
+		                      	{
+		                      		reverseVariant = new VariantDTO();
+		                      		reverseVariant.ResourceReference = TestHelper.CreateLocator("variantResource");
+		                      		marcelHoyerName.Variants.Add(reverseVariant);
+		                      	};
 
 		Because of_mapping_the_variant_DTO = () => exception = Catch.Exception(() => variant = VariantFromDTO.Create(name, reverseVariant));
 
 		It should_throw_an_exception = () => exception.ShouldBeType<MappingException>();
 	}
 
-	public class When_mapping_a_variant_DTO_without_resource_information : With_FilledTopicMapDTOandNames
+	public class When_mapping_a_variant_DTO_without_resource_information : With_Filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -100,12 +100,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		Given a_TMAPI_name = () => name = topicMap.CreateTopic().CreateName(marcelHoyerName.Value);
 
 		Given a_variant_DTO = () =>
-		{
-			reverseVariant = new VariantDTO();
-			reverseVariant.Scope = new ScopeDTO();
-			reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
-			marcelHoyerName.Variants.Add(reverseVariant);
-		};
+		                      	{
+		                      		reverseVariant = new VariantDTO();
+		                      		reverseVariant.Scope = new ScopeDTO();
+		                      		reverseVariant.Scope.TopicReferences.Add(TestHelper.CreateLocator("userName"));
+		                      		marcelHoyerName.Variants.Add(reverseVariant);
+		                      	};
 
 		Because of_mapping_the_variant_DTO = () => exception = Catch.Exception(() => variant = VariantFromDTO.Create(name, reverseVariant));
 

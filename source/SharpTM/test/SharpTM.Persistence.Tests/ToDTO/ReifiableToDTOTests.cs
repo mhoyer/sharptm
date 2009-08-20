@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.ToDTO
 {
 	public class When_mapping_a_reifiable_item : With_AssociatedAndNamedTopics
 	{

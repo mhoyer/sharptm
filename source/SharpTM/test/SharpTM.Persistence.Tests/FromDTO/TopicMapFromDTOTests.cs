@@ -14,7 +14,7 @@ using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public class When_mapping_from_topic_map_DTO_without_identifiers : With_TopicMapDTO
 	{
@@ -34,7 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() => topicMapSystem.GetTopicMap(TOPIC_MAP_SID).ShouldNotBeNull();
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_topics : With_FilledTopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_topics : With_Filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 
@@ -48,7 +48,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() => topicMap.GetTopicBySubjectIdentifier(topicMap.CreateLocator(sharpTM.SubjectIdentifiers[0].HRef));
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_associations : With_FilledTopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_associations : With_Filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 
@@ -59,7 +59,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() => topicMap.Associations.Count.ShouldEqual(topicMapDTO.Associations.Count);
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_merge_maps : With_FilledTopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_merge_maps : With_Filled_TopicMapDTO
 	{
 		Because of_mapping_the_topic_map =
 			() => TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
@@ -71,7 +71,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		}
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_reifier : With_FilledTopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_reifier : With_Filled_TopicMapDTO
 	{
 		static string reifierSID;
 		static TopicDTO reifierDTO;
@@ -79,11 +79,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Given a_reifier =
 			() =>
-			{
-				reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_from_topic_map_DTO_with_reifier).FullName);
-				reifierDTO = topicMapDTO.CreateTopic(reifierSID);
-				topicMapDTO.Reifier = reifierSID;
-			};
+				{
+					reifierSID = TestHelper.CreateLocatorString(typeof(When_mapping_from_topic_map_DTO_with_reifier).FullName);
+					reifierDTO = topicMapDTO.CreateTopic(reifierSID);
+					topicMapDTO.Reifier = reifierSID;
+				};
 
 		Because of_mapping_the_topic_map =
 			() => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
@@ -99,7 +99,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		static TopicMapDTO topicMapDTO;
 		static TopicMapRepository xtmRepository;
 
-		Given an_XMT_file = () => xtm = typeof(When_mapping_from_music_xtm).Namespace + ".music.xtm";
+		Given an_XMT_file = () => xtm = typeof(With_TopicMap).Namespace + ".music.xtm";
 		Given an_xtm_repository = () => xtmRepository = new TopicMapRepository();
 
 		Given the_loaded_topic_map_DTO =
