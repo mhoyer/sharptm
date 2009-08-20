@@ -16,5 +16,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		{
 			return TopicFromDTO.FindOrCreate(topicMap, typeDTO.TopicReference);
 		}
+
+		public static ITopic Find(ITopicMap topicMap, TypeDTO typeDTO)
+		{
+			return TopicFromDTO.Find(topicMap, typeDTO.TopicReference);
+		}
 	}
 }
