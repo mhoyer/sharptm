@@ -5,6 +5,7 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using System.Collections.Generic;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
@@ -32,21 +33,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				 new ArgumentException("Neither resource data or a resource locator specified."));
 			}
 
+			IList<ITopic> scope = ScopeFromDTO.Create(parent.TopicMap, source.Scope);
 			IVariant target;
 
 			if (source.ResourceData != null)
 			{
-				target = parent.CreateVariant(
-					source.ResourceData.Text,
-					ScopeFromDTO.Create(parent.TopicMap, source.Scope));
-
+				target = parent.CreateVariant(source.ResourceData.Text, scope);
 				DatatypeAwareFromDTO.Instance.Map(source, target);
 			}
 			else
 			{
 				target = parent.CreateVariant(
 					LocatorFromDTO.Create(parent.TopicMap, source.ResourceReference),
-					ScopeFromDTO.Create(parent.TopicMap, source.Scope));
+					scope);
 			}
 
 			ReifiableFromDTO.Instance.Map(source, target);
