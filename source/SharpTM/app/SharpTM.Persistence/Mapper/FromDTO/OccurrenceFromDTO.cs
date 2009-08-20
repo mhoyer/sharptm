@@ -50,18 +50,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    		}
 				    	});
 
-			From(dto => dto.Reifier)
-				.To((occurrence, reifierId)
-				    =>
-				    	{
-				    		if (reifierId != null)
-				    		{
-				    			occurrence.Reifier = TopicFromDTO.FindOrCreate(
-				    				occurrence.TopicMap,
-				    				reifierId);
-				    		}
-				    	});
-
 			From(dto => dto.Scope)
 				.To((occurrence, scopeDTO)
 				    =>
@@ -73,13 +61,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    	});
 		}
 
-		public static IOccurrence Create(ITopic parent, OccurrenceDTO occurrenceDTO)
+		public static IOccurrence Create(ITopic parent, OccurrenceDTO source)
 		{
-			IOccurrence occurrence = parent.CreateOccurrence(
-				TypeFromDTO.FindOrCreate(parent.TopicMap, occurrenceDTO.Type),
+			IOccurrence target = parent.CreateOccurrence(
+				TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type),
 				string.Empty);
 
-			return mapper.Map(occurrenceDTO, occurrence);
+			mapper.Map(source, target);
+			ReifiableFromDTO.Instance.Map(source, target);
+
+			return target;
 		}
 	}
 }

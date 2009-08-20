@@ -45,7 +45,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				nameType = TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type);
 			}
 
-			return mapper.Map(source, parent.CreateName(nameType, source.Value));
+			IName target = parent.CreateName(nameType, source.Value);
+			mapper.Map(source, target);
+			ReifiableFromDTO.Instance.Map(source, target);
+
+			return target;
 		}
 	}
 }

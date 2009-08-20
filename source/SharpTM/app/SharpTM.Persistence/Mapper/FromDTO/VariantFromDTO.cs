@@ -9,17 +9,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		private VariantFromDTO()
 		{
-			From(dto => dto.Reifier)
-				.To((variant, reifierId)
-					=>
-				{
-					if (reifierId != null)
-					{
-						variant.Reifier = TopicFromDTO.FindOrCreate(
-							variant.TopicMap,
-							reifierId);
-					}
-				});
 		}
 
 		public static IVariant Create(IName parent, VariantDTO source)
@@ -32,6 +21,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			IVariant target = parent.CreateVariant(
 				source.ResourceData.Text,
 				ScopeFromDTO.Create(parent.TopicMap, source.Scope));
+
+			ReifiableFromDTO.Instance.Map(source, target);
 
 			return mapper.Map(source, target);
 		}

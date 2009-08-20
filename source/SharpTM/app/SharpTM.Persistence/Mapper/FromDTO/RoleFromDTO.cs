@@ -13,29 +13,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 	{
 		private static readonly RoleFromDTO mapper = new RoleFromDTO();
 		
-		private RoleFromDTO()
+		public static IRole Create(IAssociation association, RoleDTO source)
 		{
-			From(dto => dto.Reifier)
-				.To((role, reifierId)
-				    =>
-				    	{
-							if (reifierId != null)
-							{
-								role.Reifier = TopicFromDTO.FindOrCreate(
-									role.TopicMap,
-									reifierId);
-							}
-				    	});
-				
-		}
+			IRole target = association.CreateRole(
+				TypeFromDTO.FindOrCreate(association.Parent, source.Type),
+				TopicFromDTO.FindOrCreate(association.Parent, source.TopicReference));
+			
+			mapper.Map(source, target);
+			ReifiableFromDTO.Instance.Map(source, target);
 
-		public static IRole Create(IAssociation association, RoleDTO roleDTO)
-		{
-			var role = association.CreateRole(
-				TypeFromDTO.FindOrCreate(association.Parent, roleDTO.Type),
-				TopicFromDTO.FindOrCreate(association.Parent, roleDTO.TopicReference));
-
-			return mapper.Map(roleDTO, role);
+			return target;
 		}
 	}
 }
