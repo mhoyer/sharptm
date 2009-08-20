@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
@@ -14,6 +15,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 	/// </summary>
 	public class AssociationFromDTO : ConstructFromDTO<AssociationDTO, IAssociation>
 	{
+		public const string PSI_TYPE_INSTANCE = "http://psi.topicmaps.org/iso13250/model/type-instance";
+		public const string PSI_TYPE = "http://psi.topicmaps.org/iso13250/model/type";
+		public const string PSI_INSTANCE = "http://psi.topicmaps.org/iso13250/model/instance";
+
 		private static AssociationFromDTO mapper = new AssociationFromDTO();
 
 		private AssociationFromDTO()
@@ -37,6 +42,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			ScopeFromDTO.Instance.Map(source, target);
 
 			return target;
+		}
+
+		public static IAssociation CreateTypeInstance(ITopic instance, LocatorDTO typeLocator)
+		{
+			ITopicMap topicMap = instance.TopicMap;
+
+			IAssociation typeInstanceAssociation = topicMap.CreateAssociation(
+				TopicFromDTO.FindOrCreateBySubjectIdentifier(topicMap, PSI_TYPE_INSTANCE));
+
+			typeInstanceAssociation.CreateRole(
+				TopicFromDTO.FindOrCreateBySubjectIdentifier(topicMap, PSI_INSTANCE),
+				instance);
+
+			typeInstanceAssociation.CreateRole(
+				TopicFromDTO.FindOrCreateBySubjectIdentifier(topicMap, PSI_TYPE), 
+				TopicFromDTO.FindOrCreate(topicMap, typeLocator));
+
+			return typeInstanceAssociation;
 		}
 	}
 }
