@@ -4,9 +4,11 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
+using System.Reflection;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
+using Pixelplastic.TopicMaps.SharpTM.Repositories.XTM;
 using TMAPI.Net.Core;
 using Xunit;
 using Xunit.BDDExtension;
@@ -90,4 +92,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		It should_map_the_reifiers_subject_identifier = () => topicMap.Reifier.SubjectIdentifiers[0].Reference.ShouldEqual(reifierSID);
 	}
 
+	public class When_mapping_from_music_xtm : With_TopicMapSystem
+	{
+		static string xtm;
+		static ITopicMap topicMap;
+		static TopicMapDTO topicMapDTO;
+		static TopicMapRepository xtmRepository;
+
+		Given an_XMT_file = () => xtm = typeof(When_mapping_from_music_xtm).Namespace + ".music.xtm";
+		Given an_xtm_repository = () => xtmRepository = new TopicMapRepository();
+
+		Given the_loaded_topic_map_DTO =
+			() =>
+				{
+					topicMapDTO =
+						xtmRepository.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+					topicMapDTO.ItemIdentities.Add(TestHelper.CreateLocator("music.xtm"));
+				};
+
+		Because of_mapping_the_music_topic_map_DTO = () => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
+
+		It should_create_the_TMAPI_topic_map = () => topicMap.ShouldNotBeNull();
+	}
 }
