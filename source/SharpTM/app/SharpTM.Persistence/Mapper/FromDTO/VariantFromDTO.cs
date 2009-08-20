@@ -47,10 +47,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 					LocatorFromDTO.Create(parent.TopicMap, source.ResourceReference),
 					scope);
 			}
-
+			mapper.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
 
-			return mapper.Map(source, target);
+			return target;
 		}
 	}
 }
