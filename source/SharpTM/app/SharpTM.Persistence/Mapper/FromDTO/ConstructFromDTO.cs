@@ -12,10 +12,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			From(dto => dto.ItemIdentities)
 				.To((construct, itemIdentifiers) =>
 				    	{
-				    		foreach (LocatorDTO dto in itemIdentifiers)
+				    		foreach (LocatorDTO itemIdentifierDTO in itemIdentifiers)
 				    		{
 				    			construct.AddItemIdentifier(
-				    				construct.TopicMap.CreateLocator(dto.HRef));
+									LocatorFromDTO.Create(construct.TopicMap, itemIdentifierDTO.HRef));
 				    		}
 				    	});
 		}
