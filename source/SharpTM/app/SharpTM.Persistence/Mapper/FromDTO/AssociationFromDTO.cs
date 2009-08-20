@@ -27,16 +27,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    			RoleFromDTO.Create(association, roleDTO);
 				    		}
 				    	});
-
-			From(dto => dto.Scope)
-				.To((association, scopeDTO)
-				    =>
-				    	{
-							if (scopeDTO != null)
-							{
-								ScopeFromDTO.Instance.Map(scopeDTO, association);
-							}
-				    	});
 		}
 
 		public static IAssociation Create(ITopicMap parent, AssociationDTO source)
@@ -44,6 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			IAssociation target = parent.CreateAssociation(TypeFromDTO.FindOrCreate(parent, source.Type));
 			mapper.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
+			ScopeFromDTO.Instance.Map(source, target);
 
 			return target;
 		}

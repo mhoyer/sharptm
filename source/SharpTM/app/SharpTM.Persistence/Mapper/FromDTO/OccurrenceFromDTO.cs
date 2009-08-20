@@ -15,15 +15,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		private OccurrenceFromDTO()
 		{
-			From(dto => dto.Scope)
-				.To((occurrence, scopeDTO)
-				    =>
-				    	{
-				    		if (scopeDTO != null)
-				    		{
-				    			ScopeFromDTO.Instance.Map(scopeDTO, occurrence);
-				    		}
-				    	});
 		}
 
 		public static IOccurrence Create(ITopic parent, OccurrenceDTO source)
@@ -35,6 +26,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			mapper.Map(source, target);
 			DatatypeAwareFromDTO.Instance.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
+			ScopeFromDTO.Instance.Map(source, target);
 
 			return target;
 		}

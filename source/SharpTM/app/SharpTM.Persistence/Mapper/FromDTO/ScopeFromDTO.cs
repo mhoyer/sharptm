@@ -10,7 +10,7 @@ using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 {
-	public class ScopeFromDTO : ClassMapper<ScopeDTO, IScoped>
+	public class ScopeFromDTO : ClassMapper<IScopedDTO, IScoped>
 	{
 		private static readonly ScopeFromDTO mapper = new ScopeFromDTO();
 		
@@ -24,14 +24,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		public ScopeFromDTO()
 		{
-			From(scopeDTO => scopeDTO.TopicReferences)
-				.To((scoped, topicReferences)
+			From(dto => dto.Scope)
+				.To((scoped, scopeDTO)
 				    =>
 				    	{
-				    		foreach (LocatorDTO scope in topicReferences)
-				    		{
-				    			scoped.AddTheme(TopicFromDTO.FindOrCreate(scoped.TopicMap, scope));
-				    		}
+							if (scopeDTO != null)
+							{
+								foreach (LocatorDTO scope in scopeDTO.TopicReferences)
+								{
+									scoped.AddTheme(TopicFromDTO.FindOrCreate(scoped.TopicMap, scope));
+								}
+							}
 				    	});
 		}
 

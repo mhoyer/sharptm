@@ -48,6 +48,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 			IName target = parent.CreateName(nameType, source.Value);
 			mapper.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
+			ScopeFromDTO.Instance.Map(source, target);
 
 			return target;
 		}
