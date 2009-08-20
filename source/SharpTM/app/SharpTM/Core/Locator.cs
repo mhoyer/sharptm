@@ -36,7 +36,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			catch (UriFormatException ex)
 			{
-				throw new TMAPIException("Referenced IRI should be a valid absolute IRI.", ex);
+				throw new TMAPIException(String.Format("Referenced IRI '{0}' should be a valid absolute IRI.", absoluteReference), ex);
 			}
 		}
 
