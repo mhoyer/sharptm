@@ -3,7 +3,6 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-using System;
 using System.Collections.Generic;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
@@ -42,9 +41,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		{
 			IList<ITopic> scopeThemes = new List<ITopic>();
 
-			foreach (LocatorDTO dto in scope.TopicReferences)
+			foreach (LocatorDTO locator in scope.TopicReferences)
 			{
-				scopeThemes.Add(TopicFromDTO.FindOrCreate(parent, dto));
+				scopeThemes.Add(TopicFromDTO.FindOrCreate(parent, locator));
 			}
 
 			return scopeThemes;
