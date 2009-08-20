@@ -109,4 +109,10 @@
       <Name>TMAPI.Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="opera.xtm" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="music.xtm" />
+  </ItemGroup>
 </Project>
