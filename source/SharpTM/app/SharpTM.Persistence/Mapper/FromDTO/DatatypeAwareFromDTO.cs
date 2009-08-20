@@ -43,7 +43,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 									// TODO What if the data type is #anyType? see http://www.isotopicmaps.org/sam/sam-xtm/#sect-xml-canonicalization
 									if (resourceData.Datatype == "http://www.w3.org/2001/XMLSchema#anyType")
 									{
-										throw new NotSupportedException("Occurrences of data type #anyType are not supported yet.");
+										throw new NotSupportedException("Constructs with resources of data type = #anyType are not supported yet.");
 									}
 
 									datatypeAware.SetValue(
