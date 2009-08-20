@@ -71,9 +71,9 @@
     <Compile Include="FromDTO\TopicFromDTOTests.cs" />
     <Compile Include="FromDTO\TypeFromDTOTests.cs" />
     <Compile Include="FromDTO\VariantFromDTOTests.cs" />
-    <Compile Include="FromDTO\With_Filled_TopicMapDTO.cs" />
-    <Compile Include="FromDTO\With_Filled_TopicMapDTO_and_names.cs" />
-    <Compile Include="FromDTO\With_Filled_TopicMapDTO_and_occurrences.cs" />
+    <Compile Include="FromDTO\With_filled_TopicMapDTO.cs" />
+    <Compile Include="FromDTO\With_filled_TopicMapDTO_and_names.cs" />
+    <Compile Include="FromDTO\With_filled_TopicMapDTO_and_occurrences.cs" />
     <Compile Include="FromDTO\With_TopicDTO.cs" />
     <Compile Include="FromDTO\With_TopicMapDTO.cs" />
     <Compile Include="ToDTO\LocatorToDTOTests.cs" />
