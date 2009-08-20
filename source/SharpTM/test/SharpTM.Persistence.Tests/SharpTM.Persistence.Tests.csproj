@@ -63,6 +63,7 @@
     <Compile Include="ConstructToDTOTests.cs" />
     <Compile Include="ConstructFromDTOTests.cs" />
     <Compile Include="LocatorFromDTOTests.cs" />
+    <Compile Include="NameFromDTOTests.cs" />
     <Compile Include="OccurrenceFromDTOTests.cs" />
     <Compile Include="RoleFromDTOTests.cs" />
     <Compile Include="TestHelper.cs" />
