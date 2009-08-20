@@ -107,6 +107,7 @@
     <Compile Include="DTOs\AssociationDTO.cs" />
     <Compile Include="DTOs\ConstructDTO.cs" />
     <Compile Include="DTOs\IConstructDTO.cs" />
+    <Compile Include="DTOs\IDatatypeAwareDTO.cs" />
     <Compile Include="DTOs\InstanceOfDTO.cs" />
     <Compile Include="DTOs\IReifiableDTO.cs" />
     <Compile Include="DTOs\IScopedDTO.cs" />

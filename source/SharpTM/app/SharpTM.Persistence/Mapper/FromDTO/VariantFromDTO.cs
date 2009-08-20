@@ -1,3 +1,9 @@
+// <copyright file="VariantFromDTO.cs" company="Pixelplastic">
+// Copyright (C) Marcel Hoyer 2009. All rights reserved.
+// </copyright>
+// <author>Marcel Hoyer</author>
+// <email>mhoyer AT pixelplastic DOT de</email>
+
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 

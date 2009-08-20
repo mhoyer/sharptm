@@ -14,7 +14,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	[System.Serializable]
 	[XmlType("variant", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("variant", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
-	public class VariantDTO : ConstructDTO, IReifiableDTO, IScopedDTO
+	public class VariantDTO : ConstructDTO, IReifiableDTO, IScopedDTO, IDatatypeAwareDTO
 	{
 		/// <summary>
 		/// Gets or sets the reifier.
