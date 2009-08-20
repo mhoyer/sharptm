@@ -134,6 +134,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mapper\FromDTO\TypeFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\VariantFromDTO.cs" />
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\IMapperStep.cs" />
     <Compile Include="Mapper\MappingException.cs" />

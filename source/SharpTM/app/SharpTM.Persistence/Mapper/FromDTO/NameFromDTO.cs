@@ -17,24 +17,35 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		/// <see href="http://www.isotopicmaps.org/sam/sam-xtm/#d0e776">4.10 The name element</see>
 		/// </summary>
 		const string PSI_TOPIC_NAME = "http://psi.topicmaps.org/iso13250/model/topic-name";
-		static TypeDTO psiTopicName = new TypeDTO(PSI_TOPIC_NAME);
 
 		private NameFromDTO()
 		{
-			// From(dto => dto.ResourceData)
+			From(dto => dto.Variants)
+				.To((name, variants)
+				    =>
+				    	{
+				    		foreach (VariantDTO variantDTO in variants)
+				    		{
+				    			VariantFromDTO.Create(name, variantDTO);
+				    		}
+				    	});
 		}
 
 		public static IName Create(ITopic parent, NameDTO source)
 		{
+			ITopic nameType;
+
 			if (source.Type == null)
 			{
-				source.Type = psiTopicName;
+				nameType = TopicFromDTO.Find(parent.TopicMap, PSI_TOPIC_NAME) ??
+						parent.TopicMap.CreateTopicBySubjectIdentifier(LocatorFromDTO.Create(parent.TopicMap, PSI_TOPIC_NAME));
+			}
+			else
+			{
+				nameType = TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type);
 			}
 
-			IName target = parent.CreateName(
-			    TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type), source.Value);
-
-			return mapper.Map(source, target);
+			return mapper.Map(source, parent.CreateName(nameType, source.Value));
 		}
 	}
 }
