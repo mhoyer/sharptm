@@ -3,6 +3,7 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
@@ -22,6 +23,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    	{
 							if (!string.IsNullOrEmpty(id))
 							{
+								if (!Uri.IsWellFormedUriString(id, UriKind.Absolute))
+								{
+									id = string.Format("{0}#{1}", topic.TopicMap.ItemIdentifiers[0].Reference, id);
+								}
+
 								topic.AddItemIdentifier(LocatorFromDTO.Create(topic.Parent, id));
 							}
 				    	});
