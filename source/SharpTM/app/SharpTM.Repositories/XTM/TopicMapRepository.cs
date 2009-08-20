@@ -6,6 +6,8 @@
 
 using System;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using Pixelplastic.TopicMaps.SharpTM.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
@@ -60,7 +62,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM
 				throw new ArgumentNullException("id");
 			}
 
-			throw new NotImplementedException();
+			return Load(id.ToString());
+		}
+
+		public TopicMapDTO Load(string xtmFileName)
+		{
+			string path = Path.Combine(StoragePath, xtmFileName);
+
+            if (File.Exists(path))
+            {
+            	return Load(File.OpenRead(path));
+            }
+
+			return null;
+		}
+
+		public TopicMapDTO Load(Stream xtmStream)
+		{
+			XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
+			TopicMapDTO topicMapDTO = (TopicMapDTO) xs.Deserialize(XmlReader.Create(xtmStream));
+
+			return topicMapDTO;
 		}
 
 		public TopicMapDTO Save(TopicMapDTO entity)
