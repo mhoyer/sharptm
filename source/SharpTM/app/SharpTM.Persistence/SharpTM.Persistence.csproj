@@ -127,6 +127,7 @@
     <Compile Include="Mapper\FromDTO\LocatorFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\NameFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\OccurrenceFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\ReifiableFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\RoleFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\ScopeFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
