@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
@@ -22,6 +23,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		public static ILocator Create(ITopicMap topicMap, string locator)
 		{
+			if (!Uri.IsWellFormedUriString(locator, UriKind.Absolute))
+			{
+				if (locator[0] == '#')
+				{
+					locator = locator.Remove(0, 1);
+				}
+
+				locator = string.Format("{0}#{1}", topicMap.TopicMap.ItemIdentifiers[0].Reference, locator);
+			}
+
 			return topicMap.CreateLocator(locator);
 		}
 
