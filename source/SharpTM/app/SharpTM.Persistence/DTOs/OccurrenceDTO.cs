@@ -17,7 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	[System.ComponentModel.DesignerCategory("code")]
 	[XmlType("occurrence", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("occurrence", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
-	public class OccurrenceDTO : ConstructDTO, IReifiableDTO, IDatatypeAwareDTO
+	public class OccurrenceDTO : ConstructDTO, IReifiableDTO, IDatatypeAwareDTO, IScopedDTO
 	{
 		/// <summary>
 		/// Gets or sets the reifier.
