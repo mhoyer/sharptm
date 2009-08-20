@@ -1,4 +1,4 @@
-// <copyright file="With_Filled_TopicMapDTO_and_names.cs" company="Pixelplastic">
+// <copyright file="With_filled_TopicMapDTO_and_names.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -9,7 +9,7 @@ using Xunit.BDDExtension;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public abstract class With_Filled_TopicMapDTO_and_names : With_Filled_TopicMapDTO
+	public abstract class With_filled_TopicMapDTO_and_names : With_filled_TopicMapDTO
 	{
 		protected static NameDTO marcelHoyerName;
 

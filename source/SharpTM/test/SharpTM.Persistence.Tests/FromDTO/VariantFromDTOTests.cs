@@ -13,7 +13,7 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_variant_DTO_with_resource_locator : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_variant_DTO_with_resource_locator : With_filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -38,7 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_map_the_resource_type = () => variant.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#anyURI");
 	}
 
-	public class When_mapping_a_variant_DTO_with_resource_data : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_variant_DTO_with_resource_data : With_filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -65,7 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_set_the_correct_resource_type = () => variant.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#string");
 	}
 
-	public class When_mapping_a_variant_DTO_without_any_scope : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_variant_DTO_without_any_scope : With_filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;
@@ -88,7 +88,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_throw_an_exception = () => exception.ShouldBeType<MappingException>();
 	}
 
-	public class When_mapping_a_variant_DTO_without_resource_information : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_variant_DTO_without_resource_information : With_filled_TopicMapDTO_and_names
 	{
 		static VariantDTO reverseVariant;
 		static IVariant variant;

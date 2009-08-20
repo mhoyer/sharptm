@@ -10,7 +10,7 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_an_occurrence_DTO_with_resource_data : With_Filled_TopicMapDTO_and_occurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_data : With_filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;
@@ -28,7 +28,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_set_the_value = () => occurrence.Value.ShouldEqual(marcelHoyerAbstract.ResourceData.Text);
 	}
 
-	public class When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type : With_Filled_TopicMapDTO_and_occurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_data_and_explicit_data_type : With_filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;
@@ -46,7 +46,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() => occurrence.Datatype.Reference.ShouldEqual("http://www.w3.org/2001/XMLSchema#string");
 	}
 
-	public class When_mapping_an_occurrence_DTO_with_resource_reference : With_Filled_TopicMapDTO_and_occurrences
+	public class When_mapping_an_occurrence_DTO_with_resource_reference : With_filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static IOccurrence occurrence;

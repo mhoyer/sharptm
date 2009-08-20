@@ -11,7 +11,7 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_role : With_Filled_TopicMapDTO
+	public class When_mapping_a_role : With_filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static IRole role;
@@ -40,7 +40,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 				};
 	}
 
-	public class When_mapping_a_reified_role : With_Filled_TopicMapDTO
+	public class When_mapping_a_reified_role : With_filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static IRole role;

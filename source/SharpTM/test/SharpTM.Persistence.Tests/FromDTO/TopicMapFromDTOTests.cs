@@ -34,7 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() => topicMapSystem.GetTopicMap(TOPIC_MAP_SID).ShouldNotBeNull();
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_topics : With_Filled_TopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_topics : With_filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 
@@ -48,7 +48,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() => topicMap.GetTopicBySubjectIdentifier(topicMap.CreateLocator(sharpTM.SubjectIdentifiers[0].HRef));
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_associations : With_Filled_TopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_associations : With_filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 
@@ -59,7 +59,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() => topicMap.Associations.Count.ShouldEqual(topicMapDTO.Associations.Count);
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_merge_maps : With_Filled_TopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_merge_maps : With_filled_TopicMapDTO
 	{
 		Because of_mapping_the_topic_map =
 			() => TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
@@ -71,7 +71,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		}
 	}
 
-	public class When_mapping_from_topic_map_DTO_with_reifier : With_Filled_TopicMapDTO
+	public class When_mapping_from_topic_map_DTO_with_reifier : With_filled_TopicMapDTO
 	{
 		static string reifierSID;
 		static TopicDTO reifierDTO;

@@ -11,7 +11,7 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_an_association : With_Filled_TopicMapDTO
+	public class When_mapping_an_association : With_filled_TopicMapDTO
 	{
 		static ITopicMap topicMap;
 		static IAssociation association;
@@ -29,7 +29,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_create_the_role_types = () => association.RoleTypes.Count.ShouldEqual(1);
 	}
 
-	public class When_mapping_a_reified_association : With_Filled_TopicMapDTO
+	public class When_mapping_a_reified_association : With_filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static ITopicMap topicMap;
@@ -54,7 +54,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_map_the_reifier = () => association.Reifier.ShouldEqual(reifier);
 	}
 
-	public class When_mapping_a_scoped_association : With_Filled_TopicMapDTO
+	public class When_mapping_a_scoped_association : With_filled_TopicMapDTO
 	{
 		static IAssociation association;
 		static ITopicMap topicMap;

@@ -10,7 +10,7 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
-	public class When_mapping_a_name : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_name : With_filled_TopicMapDTO_and_names
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;

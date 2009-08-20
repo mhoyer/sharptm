@@ -142,7 +142,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_generate_one_item_identifiers = () => topic.ItemIdentifiers.Count.ShouldEqual(1);
 	}
 
-	public class When_mapping_a_topic_with_occurrences : With_Filled_TopicMapDTO_and_occurrences
+	public class When_mapping_a_topic_with_occurrences : With_filled_TopicMapDTO_and_occurrences
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;
@@ -155,7 +155,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		It should_map_the_occurrences = () => topic.Occurrences.Count.ShouldEqual(marcelHoyer.Occurrences.Count);
 	}
 
-	public class When_mapping_a_topic_with_names : With_Filled_TopicMapDTO_and_names
+	public class When_mapping_a_topic_with_names : With_filled_TopicMapDTO_and_names
 	{
 		static ITopicMap topicMap;
 		static ITopic topic;
@@ -166,5 +166,39 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 
 		It should_map_at_least_one_name = () => topic.Names.Count.ShouldNotEqual(0);
 		It should_map_the_names = () => topic.Names.Count.ShouldEqual(marcelHoyer.Names.Count);
+	}
+
+	public class When_mapping_a_topic_with_instance_of : With_filled_TopicMapDTO_using_instance_of
+	{
+		static ITopicMap topicMap;
+		static ITopic topic;
+		static ITopic topicType;
+
+		Given a_TMAPI_topic_map = () => topicMap = topicMapSystem.CreateTopicMap("http://sharptm.de/ConstructFromDTOTests");
+		
+		Because of_mapping_the_topic_with_set_instanceOf_property = () => topic = TopicFromDTO.Create(topicMap, marcelHoyer);
+
+		It should_add_the_topic_to_the_instance_role =
+			() =>
+			topic.RolesPlayed[0].Type.SubjectIdentifiers[0].Reference.ShouldEqual(
+				"http://psi.topicmaps.org/iso13250/model/instance");
+
+		It should_create_a_type_instance_association =
+			() =>
+			topic.RolesPlayed[0].Parent.Type.SubjectIdentifiers[0].Reference.ShouldEqual(
+				"http://psi.topicmaps.org/iso13250/model/type-instance");
+
+		It should_create_the_topic_type =
+			() =>
+				{
+					topicType =
+						topicMap.GetTopicBySubjectIdentifier(topicMap.CreateLocator("http://psi.topicmaps.org/iso13250/model/type"));
+					topicType.ShouldNotBeNull();
+				};
+
+		It should_create_the_type_role =
+			() => topic.RolesPlayed[0].Parent.GetRolesByTopicType(topicType)[0].Player
+			.ShouldEqual(topicMap.CreateTopicBySubjectIdentifier(topicMap.CreateLocator(person.SubjectIdentifiers[0].HRef)));
+
 	}
 }
