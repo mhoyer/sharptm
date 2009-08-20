@@ -16,40 +16,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		private OccurrenceFromDTO()
 		{
-			From(dto => dto.ResourceData)
-				.To((occurrence, resourceData) =>
-				    	{
-				    		if (resourceData != null)
-				    		{
-				    			if (!string.IsNullOrEmpty(resourceData.Datatype))
-				    			{
-									// TODO What if the data type is #anyType? see http://www.isotopicmaps.org/sam/sam-xtm/#sect-xml-canonicalization
-									if (resourceData.Datatype == "http://www.w3.org/2001/XMLSchema#anyType")
-									{
-										throw new NotSupportedException("Occurrences of data type #anyType are not supported yet.");
-									}
-
-									occurrence.SetValue(
-										resourceData.Text, 
-										LocatorFromDTO.Create(occurrence.TopicMap, resourceData.Datatype));
-				    			}
-				    			else
-				    			{
-				    				occurrence.Value = resourceData.Text;
-				    			}
-				    		}
-				    	});
-
-			From(dto => dto.ResourceReference)
-				.To((occurrence, resourceReference) =>
-				    	{
-				    		if (resourceReference != null)
-				    		{
-				    			occurrence.LocatorValue = 
-									LocatorFromDTO.Create(occurrence.TopicMap, resourceReference);
-				    		}
-				    	});
-
 			From(dto => dto.Scope)
 				.To((occurrence, scopeDTO)
 				    =>
@@ -68,6 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				string.Empty);
 
 			mapper.Map(source, target);
+			DatatypeAwareFromDTO.Instance.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
 
 			return target;
