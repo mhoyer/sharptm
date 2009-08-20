@@ -85,7 +85,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Because of_mapping_the_variant_DTO = () => exception = Catch.Exception(() => variant = VariantFromDTO.Create(name, reverseVariant));
 
-		It should_throw_a_not_supported_exception = () => exception.ShouldBeType<MappingException>();
+		It should_throw_an_exception = () => exception.ShouldBeType<MappingException>();
 	}
 
 	public class When_mapping_a_variant_DTO_without_resource_information : With_FilledTopicMapDTOandNames
@@ -109,6 +109,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 
 		Because of_mapping_the_variant_DTO = () => exception = Catch.Exception(() => variant = VariantFromDTO.Create(name, reverseVariant));
 
-		It should_throw_a_not_supported_exception = () => exception.ShouldBeType<MappingException>().InnerException.ShouldBeType<ArgumentException>();
+		It should_throw_an_exception = () => exception.ShouldBeType<MappingException>().InnerException.ShouldBeType<ArgumentException>();
 	}
 }
