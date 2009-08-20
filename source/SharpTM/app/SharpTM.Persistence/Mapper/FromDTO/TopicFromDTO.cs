@@ -65,6 +65,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 				    			NameFromDTO.Create(topic, nameDTO);
 				    		}
 				    	});
+
+			From(dto => dto.InstanceOf)
+				.To((topic, instanceOfDTO)
+				=>
+				    	{
+				    		if (instanceOfDTO != null)
+				    		{
+				    			foreach (LocatorDTO typeLocator in instanceOfDTO.TopicReferences)
+				    			{
+									AssociationFromDTO.CreateTypeInstance(topic, typeLocator);
+				    			}
+				    		}
+				    	});
 		}
 
 		public static ITopic Create(ITopicMap topicMap, TopicDTO source)
@@ -127,6 +140,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 		{
 			ITopic topic = Find(topicMap, locator) ??
 			               topicMap.CreateTopicByItemIdentifier(locator);
+
+			return topic;
+		}
+		
+		public static ITopic FindOrCreateBySubjectIdentifier(ITopicMap topicMap, string locator)
+		{
+			return FindOrCreateBySubjectIdentifier(topicMap, LocatorFromDTO.Create(topicMap, locator));
+		}
+
+		public static ITopic FindOrCreateBySubjectIdentifier(ITopicMap topicMap, LocatorDTO locatorDTO)
+		{
+			return FindOrCreateBySubjectIdentifier(topicMap, LocatorFromDTO.Create(topicMap, locatorDTO));
+		}
+
+		public static ITopic FindOrCreateBySubjectIdentifier(ITopicMap topicMap, ILocator locator)
+		{
+			ITopic topic = topicMap.GetTopicBySubjectIdentifier(locator) ??
+			               topicMap.CreateTopicBySubjectIdentifier(locator);
 
 			return topic;
 		}
