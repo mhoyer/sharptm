@@ -5,11 +5,12 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
-using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
 using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
@@ -46,6 +47,66 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 					
 					namesCount.ShouldEqual(54);
 				};
+	}
+
+	public class When_loading_the_music_xtm : With_Topic_Map_Repository
+	{
+		static string xtm;
+		static TopicMapDTO topicMapDTO;
+
+		Given an_XMT_file = () => xtm = typeof(When_deserializing_the_music_xtm).Namespace + ".music.xtm";
+
+		Because of_mapping_the_topic_map_DTO = () => topicMapDTO = tmr.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+
+		It should_create_a_DTO = () => topicMapDTO.ShouldBeType<TopicMapDTO>();
+		It should_have_read_correct_number_of_associations =
+			() => topicMapDTO.Associations.Count.ShouldEqual(6);
+		It should_have_read_correct_number_of_topics =
+			() => topicMapDTO.Topics.Count.ShouldEqual(46);
+
+		It should_have_read_correct_number_of_names =
+			() =>
+			{
+				int namesCount = 0;
+				foreach (var topic in ((TopicMapDTO)topicMapDTO).Topics)
+				{
+					namesCount += topic.Names.Count;
+				}
+
+				namesCount.ShouldEqual(54);
+			};
+	}
+	
+	public class When_loading_the_opera_xtm : With_Topic_Map_Repository
+	{
+		static string xtm;
+		static TopicMapDTO topicMapDTO;
+
+		Given an_XMT_file = () => xtm = typeof(When_deserializing_the_music_xtm).Namespace + ".opera.xtm";
+
+		Because of_mapping_the_topic_map_DTO = () => topicMapDTO = tmr.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+
+		It should_create_a_DTO = () => topicMapDTO.ShouldBeType<TopicMapDTO>();
+
+		[Fact(Skip = "Needs integration test using xpath.")]
+		public new void Run()
+		{ }
+		//It should_have_read_correct_number_of_associations =
+		//    () => topicMapDTO.Associations.Count.ShouldEqual(840);
+		//It should_have_read_correct_number_of_topics =
+		//    () => topicMapDTO.Topics.Count.ShouldEqual(46);
+
+		//It should_have_read_correct_number_of_names =
+		//    () =>
+		//    {
+		//        int namesCount = 0;
+		//        foreach (var topic in topicMapDTO.Topics)
+		//        {
+		//            namesCount += topic.Names.Count;
+		//        }
+
+		//        namesCount.ShouldEqual(54);
+		//    };
 	}
 
 	public class When_instanciating_an_XTM_repository_with_illegal_path : BDDTest
@@ -123,7 +184,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		[Fact(Skip = "Not implemented yet.")]
 		public new void Run() { }
 
-
 		//static string id;
 		//static TopicMapDTO tmDTO;
 
@@ -132,5 +192,4 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		//It should_load_the_topic_map_as_DTO = () => tmDTO.ShouldNotBeNull();
 		//It should_load_the_correct_topic_map = () => tmDTO.ItemIdentities.Find(iid => iid.HRef == id).ShouldNotBeNull();
 	}
-
 }
