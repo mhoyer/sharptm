@@ -35,7 +35,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\TMAPI.Net.xml</DocumentationFile>
   </PropertyGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition=" '$(Framework)' == ''" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
+  <!-- Silverlight specific -->
+  <PropertyGroup Condition=" '$(Framework)' == 'Silverlight' ">
+    <SilverlightApplication>false</SilverlightApplication>
+    <DefineConstants>$(DefineConstants);SILVERLIGTH</DefineConstants>
+  </PropertyGroup>
+  <Import Condition=" '$(Framework)' == 'Silverlight' " 
+			Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
