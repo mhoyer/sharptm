@@ -1,6 +1,4 @@
 @echo off
-rem This is needed for machines that have other Ruby interpreters installed.
-set rubyopt=
 
 :Build
 cls
@@ -18,3 +16,4 @@ if /i "%CHOICE%"=="Q" goto :Quit
 GOTO Build
 
 :Quit
+exit /b %errorlevel%

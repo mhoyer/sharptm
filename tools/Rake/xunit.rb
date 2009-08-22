@@ -1,27 +1,16 @@
-require 'rake'
-require 'rake/tasklib'
-
-module Rake
-	class XUnit < TaskLib
-		attr_accessor :name, :assembly, :toolpath
+class Xunit
+	def self.run(attributes)
+		tool = attributes.fetch(:tool)
+		reportDirectory = attributes.fetch(:reportdirectory, '.').to_absolute
+		assembly = attributes.fetch(:assembly).to_absolute
 		
-		def initialize(name=:xunit)
-			@name = name
-			yield self if block_given?
-			define
-		end
+		reportFile = assembly.name.ext('html').in(reportDirectory).to_absolute
+		FileUtils.mkdir_p reportFile.dirname
 		
-		def define
-			raise 'A test assembly is required to run XUnit' if @assembly.nil?
-						
-			desc "Runs XUnit tests"
-			task @name do
-				Dir.glob(@assembly).each do |a|
-					sh "#{@toolpath.escape} #{a.escape}" # /html #{File.basename(a)}.html"
-				end
-			end
-			
-			self
+		xunit = tool.to_absolute
+		
+		Dir.chdir(assembly.dirname) do
+			sh "#{xunit.escape} #{assembly.escape} #{'/teamcity ' if ENV['TEAMCITY_PROJECT_NAME']}/html #{reportFile.escape}"
 		end
 	end
 end

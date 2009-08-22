@@ -1,0 +1,36 @@
+global: &global
+  project: SharpTM
+  dir:
+    build: build
+    test_results: build/test-results
+    deploy: deploy
+    source: source
+    app: source/SharpTM/app
+    test: source/SharpTM/test
+  build:
+    configuration: Debug
+  deployment:
+    location: 
+  tools:
+    cloc: tools/CLOC/cloc.exe
+    ncover: tools/NCover/NCover.Console.exe
+    ncoverexplorer: tools/NCoverExplorer/NCoverExplorer.Console.exe
+    zip: tools/7-Zip/7za.exe
+    fxcop: tools/FxCop/FxCopCmd.exe
+    stylecop: tools/StyleCop/StyleCopCmd.exe
+    xunit: tools/xUnit/xunit.console.exe
+  log4net:
+    level:
+      app: DEBUG
+      nh: WARN
+  
+development:
+  <<: *global
+
+test:
+  <<: *global
+
+production:
+  <<: *global
+  build:
+    configuration: Release  

@@ -1,1 +1,1 @@
-@build.cmd test:all
+@build.cmd tests:run
