@@ -32,12 +32,12 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <ApplicationIcon>SharpTM.ico</ApplicationIcon>
+    <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,7 +45,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -123,6 +122,10 @@
     <Compile Include="DTOs\VariantDTO.cs" />
     <Compile Include="Mapper\ClassMapper.cs" />
     <Compile Include="Mapper\From.cs" />
+    <Compile Include="Mapper\IMapper.cs" />
+    <Compile Include="Mapper\IMapperStep.cs" />
+    <Compile Include="Mapper\Mapper.cs" />
+    <Compile Include="Mapper\MappingException.cs" />
     <Compile Include="Mapper\FromDTO\AssociationFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\ConstructFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\DatatypeAwareFromDTO.cs" />
@@ -133,18 +136,12 @@
     <Compile Include="Mapper\FromDTO\RoleFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\ScopeFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
-    <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TypeFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\VariantFromDTO.cs" />
-    <Compile Include="Mapper\IMapper.cs" />
-    <Compile Include="Mapper\IMapperStep.cs" />
-    <Compile Include="Mapper\MappingException.cs" />
     <Compile Include="Mapper\ToDTO\AssociationToDTO.cs" />
     <Compile Include="Mapper\ToDTO\ConstructToDTO.cs" />
     <Compile Include="Mapper\ToDTO\LocatorToDTO.cs" />
-    <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Mapper\ToDTO\ReifiableToDTO.cs" />
     <Compile Include="Mapper\ToDTO\ScopeToDTO.cs" />
     <Compile Include="Mapper\ToDTO\TopicMapToDTO.cs" />
