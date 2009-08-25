@@ -9,6 +9,7 @@ global: &global
     test: source/SharpTM/test
   build:
     configuration: Debug
+    framework:
   deployment:
     location: 
   tools:

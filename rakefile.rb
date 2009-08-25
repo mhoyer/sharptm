@@ -86,7 +86,7 @@ namespace :env do
 			f
 		end
 		
-		configatron.protect_all!
+		#configatron.protect_all!
 
 		puts configatron.inspect
 	end
@@ -100,6 +100,23 @@ namespace :env do
 		end
 end
 	
+namespace :framework do
+	
+	desc 'Switches the framework to Silverlight 2.0'
+	task :silverlight do
+		configure_framework_for 'Silverlight'
+	end
+
+	desc 'Switches the framework to Mono'
+	task :mono do
+		configure_framework_for 'mono', '2.0'
+	end
+
+	def configure_framework_for(framework_key)
+		configatron.build.framework = framework_key || ''
+	end
+end
+
 namespace :generate do
 	desc 'Updates the version information for the build'
 	task :version do
@@ -119,25 +136,58 @@ namespace :generate do
 			QuickTemplate.new(template).exec(configatron)
 		end
 	end
+	
+	desc 'Creates framework spcific project files'
+	task :projFiles do
+		if not configatron.build.framework.nil? then
+			csproj = FileList.new("#{configatron.dir.source}/**/*.csproj").exclude(/.*\.g\..*/i)
+			
+			csproj.each do |csprojFile|
+				CSProjModifier.new(csprojFile).create(configatron.build.framework)
+			end
+		end
+	end
+
+  desc 'Creates framework spcific project files'
+	task :slnFiles do
+		if not configatron.build.framework.nil? then
+			sln = FileList.new("#{configatron.dir.source}/**/*.sln").exclude(/.*\.g\..*/i)
+
+			sln.each do |slnFile|
+				SlnModifier.new(slnFile).create(configatron.build.framework)
+			end
+		end
+	end
 end
 
 namespace :compile do
+
 	desc 'Compiles the application'
-	task :app => [:clobber, 'generate:version', 'generate:config'] do
-		FileList.new("#{configatron.dir.app}/**/*.csproj").each do |project|
+	task :app => [:clobber, 'generate:version', 'generate:config', 'generate:projFiles'] do
+    puts configatron.build.framework
+    configatron.build.framework.nil? ?
+      filelist = FileList.new("#{configatron.dir.app}/**/*.csproj").exclude(/.*\.g\..*/i) :
+      filelist = FileList.new("#{configatron.dir.app}/**/*#{configatron.build.framework}.g.csproj")
+
+		filelist.each do |project|
 			MSBuild.compile \
 				:project => project,
 				:properties => {
 					:SolutionDir => configatron.dir.source.to_absolute.chomp('/').concat('/').escape,
 					:Configuration => configatron.build.configuration,
-					:TreatWarningsAsErrors => true
+					:TreatWarningsAsErrors => true,
+					:Framework => configatron.build.framework
 				}
 		end
 	end
 
 	desc 'Compiles the tests'
-	task :tests => [:clobber, 'generate:version', 'generate:config'] do
-		FileList.new("#{configatron.dir.test}/**/*.csproj").each do |project|
+	task :tests => [:clobber, 'generate:version', 'generate:config', 'generate:projFiles'] do
+    configatron.build.framework.nil? ?
+      filelist = FileList.new("#{configatron.dir.test}/**/*.csproj").exclude(/.*\.g\..*/i) :
+      filelist = FileList.new("#{configatron.dir.test}/**/*#{configatron.build.framework}.g.csproj")
+
+    filelist.each do |project|
 			MSBuild.compile \
 				:project => project,
 				:properties => {
