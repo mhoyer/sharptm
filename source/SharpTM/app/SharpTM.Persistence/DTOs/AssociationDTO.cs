@@ -13,7 +13,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// The <c>association</c> element type represents associations. 
 	/// The <see cref="RoleDTO"/> child elements provide the association roles of the association.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("association", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("association", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class AssociationDTO : ConstructDTO, IReifiableDTO, IScopedDTO

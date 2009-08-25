@@ -14,7 +14,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// It acts as a container for the topic map, and can be used to reify it, 
 	/// but has no further significance.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("topicMap", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("topicMap", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class TopicMapDTO : ConstructDTO, IReifiableDTO

@@ -15,7 +15,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// resource may be either a variant name or an occurrence, and it can have 
 	/// a <c>datatype</c>. 
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType(TypeName = "any-markup", Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("resourceData", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class ResourceDataDTO

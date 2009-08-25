@@ -13,7 +13,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// represented by its parent element. The type is always a topic, indicated 
 	/// by the type element's child element. 
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("type", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("type", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class TypeDTO

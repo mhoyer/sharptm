@@ -12,7 +12,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// The <c>role</c> element type is used to assign an association role 
 	/// to the association created by the association parent element.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("role", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("role", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class RoleDTO : ConstructDTO, IReifiableDTO

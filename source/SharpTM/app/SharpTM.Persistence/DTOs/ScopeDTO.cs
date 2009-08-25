@@ -12,7 +12,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// <summary>
 	/// The scope element type is used to assign a scope to the statement represented by the parent element.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("scope", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("scope", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class ScopeDTO

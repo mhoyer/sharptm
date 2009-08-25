@@ -16,7 +16,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// as well as names and occurrences, while association roles 
 	/// played by the topic are specified outside the topic element. 
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("topic", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("topic", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class TopicDTO : ConstructDTO

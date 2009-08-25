@@ -11,7 +11,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// <summary>
 	/// The <c>variant</c> element type is used to add a variant name to a topic name.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("variant", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("variant", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class VariantDTO : ConstructDTO, IReifiableDTO, IScopedDTO, IDatatypeAwareDTO

@@ -14,7 +14,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// the parent topic element. The child elements of the name element provide the 
 	/// property values of the topic name item. 
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[XmlType("name", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("name", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class NameDTO : ConstructDTO, IReifiableDTO, IScopedDTO

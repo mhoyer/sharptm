@@ -12,9 +12,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs
 	/// The <c>occurrence</c> element type is used to assign an 
 	/// occurrence to the topic defined by the parent element.
 	/// </summary>
+#if !SILVERLIGHT
 	[System.Serializable]
+#endif
 	[System.Diagnostics.DebuggerStepThrough]
-	[System.ComponentModel.DesignerCategory("code")]
 	[XmlType("occurrence", AnonymousType = true, Namespace = "http://www.topicmaps.org/xtm/")]
 	[XmlRoot("occurrence", Namespace = "http://www.topicmaps.org/xtm/", IsNullable = false)]
 	public class OccurrenceDTO : ConstructDTO, IReifiableDTO, IDatatypeAwareDTO, IScopedDTO
