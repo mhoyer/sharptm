@@ -64,6 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
+      <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
+      <Name>SharpTM.Persistence.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\app\SharpTM.Persistence\SharpTM.Persistence.csproj">
       <Project>{D372E1B6-FF57-4E03-A799-02EE65FB497A}</Project>
       <Name>SharpTM.Persistence</Name>

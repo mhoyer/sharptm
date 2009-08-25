@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EBCE5208-45B9-4F61-B997-FC35FC098FDC}</ProjectGuid>
+    <ProjectGuid>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.Repositories.XTM</RootNamespace>
-    <AssemblyName>Pixelplastic.TopicMaps.SharpTM.Repositories.XTM</AssemblyName>
+    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts</RootNamespace>
+    <AssemblyName>Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -32,7 +32,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <ApplicationIcon>SharpTM.ico</ApplicationIcon>
-    <OutputPath>..\..\..\..\..\build\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,22 +58,9 @@
   </Target>
   -->
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <None Include="DTOs\InheritanceDiagram.cd" />
+    <None Include="DTOs\RelationalDiagram.cd" />
     <None Include="SharpTM.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="TopicMapRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -110,9 +97,24 @@
     <Content Include="SharpTM.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
-      <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
-      <Name>SharpTM.Persistence.Contracts</Name>
-    </ProjectReference>
+    <Compile Include="DTOs\AssociationDTO.cs" />
+    <Compile Include="DTOs\ConstructDTO.cs" />
+    <Compile Include="DTOs\IConstructDTO.cs" />
+    <Compile Include="DTOs\IDatatypeAwareDTO.cs" />
+    <Compile Include="DTOs\InstanceOfDTO.cs" />
+    <Compile Include="DTOs\IReifiableDTO.cs" />
+    <Compile Include="DTOs\IScopedDTO.cs" />
+    <Compile Include="DTOs\LocatorDTO.cs" />
+    <Compile Include="DTOs\NameDTO.cs" />
+    <Compile Include="DTOs\OccurrenceDTO.cs" />
+    <Compile Include="DTOs\ResourceDataDTO.cs" />
+    <Compile Include="DTOs\RoleDTO.cs" />
+    <Compile Include="DTOs\ScopeDTO.cs" />
+    <Compile Include="DTOs\TopicDTO.cs" />
+    <Compile Include="DTOs\TopicMapDTO.cs" />
+    <Compile Include="DTOs\TypeDTO.cs" />
+    <Compile Include="DTOs\VariantDTO.cs" />
+    <Compile Include="IRepository.cs" />
+	<Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

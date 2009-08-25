@@ -59,8 +59,6 @@
   -->
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="DTOs\InheritanceDiagram.cd" />
-    <None Include="DTOs\RelationalDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,24 +100,6 @@
     <Content Include="SharpTM.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IRepository.cs" />
-    <Compile Include="DTOs\AssociationDTO.cs" />
-    <Compile Include="DTOs\ConstructDTO.cs" />
-    <Compile Include="DTOs\IConstructDTO.cs" />
-    <Compile Include="DTOs\IDatatypeAwareDTO.cs" />
-    <Compile Include="DTOs\InstanceOfDTO.cs" />
-    <Compile Include="DTOs\IReifiableDTO.cs" />
-    <Compile Include="DTOs\IScopedDTO.cs" />
-    <Compile Include="DTOs\LocatorDTO.cs" />
-    <Compile Include="DTOs\NameDTO.cs" />
-    <Compile Include="DTOs\OccurrenceDTO.cs" />
-    <Compile Include="DTOs\ResourceDataDTO.cs" />
-    <Compile Include="DTOs\RoleDTO.cs" />
-    <Compile Include="DTOs\ScopeDTO.cs" />
-    <Compile Include="DTOs\TopicDTO.cs" />
-    <Compile Include="DTOs\TopicMapDTO.cs" />
-    <Compile Include="DTOs\TypeDTO.cs" />
-    <Compile Include="DTOs\VariantDTO.cs" />
     <Compile Include="Mapper\ClassMapper.cs" />
     <Compile Include="Mapper\From.cs" />
     <Compile Include="Mapper\IMapper.cs" />
@@ -157,6 +137,10 @@
     <Compile Include="RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
+      <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
+      <Name>SharpTM.Persistence.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
       <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
       <Name>TMAPI.Net</Name>
