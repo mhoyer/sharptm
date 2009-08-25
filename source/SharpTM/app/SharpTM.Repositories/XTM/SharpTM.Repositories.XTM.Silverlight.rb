@@ -13,6 +13,7 @@ class CSProjModifier
 
     # Remove possible settings
     doc.elements.each("Project/ItemGroup/Compile") { |element| element.parent.delete(element) if element.attributes["Include"] == "Properties\\Settings.Designer.cs" }
+	doc.elements.each("Project/ItemGroup/None") { |element| element.parent.delete(element) if element.attributes["Include"] == "Properties\\Settings.settings" }
 
     # Add the <SilverlightApplication> element
     sl_app = Element.new("SilverlightApplication")
