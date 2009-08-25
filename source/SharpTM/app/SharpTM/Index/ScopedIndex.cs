@@ -139,7 +139,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public override void Reindex()
 		{
-			Trace.WriteLine("Refreshing the index for {0}" + GetType().Name);
+			Debug.WriteLine("Refreshing the index for {0}" + GetType().Name);
 
 			associationThemes.Clear();
 			nameThemes.Clear();
