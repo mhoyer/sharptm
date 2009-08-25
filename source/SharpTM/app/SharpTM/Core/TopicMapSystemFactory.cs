@@ -177,10 +177,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		void ReadFeatureSettings(string featureUri)
 		{
 			string featureName = Features.MapToName(featureUri);
-
+#if SILVERLIGHT
+			enabledFeatures.Add(featureName, featureUri != Features.ReadOnlySystem);
+#else
 			enabledFeatures.Add(
 				featureName,
-				(bool) Properties.Settings.Default[featureName]);
+				(bool)Properties.Settings.Default[featureName]);
+#endif
 		}
 	}
 }
