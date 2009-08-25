@@ -164,10 +164,9 @@ namespace :compile do
 
 	desc 'Compiles the application'
 	task :app => [:clobber, 'generate:version', 'generate:config', 'generate:projFiles'] do
-    puts configatron.build.framework
-    configatron.build.framework.nil? ?
-      filelist = FileList.new("#{configatron.dir.app}/**/*.csproj").exclude(/.*\.g\..*/i) :
-      filelist = FileList.new("#{configatron.dir.app}/**/*#{configatron.build.framework}.g.csproj")
+	    configatron.build.framework.nil? ?
+	      filelist = FileList.new("#{configatron.dir.app}/**/*.csproj").exclude(/.*\.g\..*/i) :
+	      filelist = FileList.new("#{configatron.dir.app}/**/*#{configatron.build.framework}.g.csproj")
 
 		filelist.each do |project|
 			MSBuild.compile \
