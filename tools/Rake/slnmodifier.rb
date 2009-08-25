@@ -9,11 +9,15 @@ class SlnModifier
 
 	def create(framework)
     target = File.new((@source.gsub /sln$/, "#{framework}.g.sln"), "w")
-    #csproj_fix = @source.gsub /sln$/, "#{framework}.rb"
+    sln_fix = @source.gsub /sln$/, "#{framework}.rb"
 
-		source = File.new(@source)
-		source.each_line do |line|
-      target.write line.gsub(/\.csproj/, ".#{framework}.g.csproj")
+    if File.exist? sln_fix then
+      require sln_fix
+      fix target, framework
+    else
+      puts "Using default SlnModifier"
+      source = File.new(@source)
+      source.each_line { |line| target.write line.gsub(/\.csproj/, ".#{framework}.g.csproj") }
     end
 	end
 end
