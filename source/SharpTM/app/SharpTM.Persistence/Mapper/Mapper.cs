@@ -5,6 +5,7 @@
 // <email>agross AT therightstuff DOT de</email>
 
 using System.Collections.Generic;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 {

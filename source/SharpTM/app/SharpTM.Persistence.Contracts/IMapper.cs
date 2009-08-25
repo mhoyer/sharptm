@@ -4,7 +4,7 @@
 // <author>Alexander Groﬂ</author>
 // <email>agross AT therightstuff DOT de</email>
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts
 {
 	public interface IMapper<TSource, TResult>
 	{

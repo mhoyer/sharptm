@@ -4,6 +4,8 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
+
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 {
 	public delegate TResult Func<TResult, TParameter>(TParameter parameter);
