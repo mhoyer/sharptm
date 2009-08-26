@@ -6,8 +6,6 @@
 using Pixelplastic.TopicMaps.SharpTM.Core;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;
-using STM = Pixelplastic.TopicMaps.SharpTM.Core;
-using TopicMapSystemFactory=TMAPI.Net.Core.TopicMapSystemFactory;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Tests
 {
@@ -19,7 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Tests
 			() =>
 				{
 					TopicMapSystemFactory topicMapSystemFactory =
-						TopicMapSystemFactory.NewInstance<Core.TopicMapSystemFactory>();
+						TopicMapSystemFactory.NewInstance<SharpTMSystemFactory>();
 
 					if (topicMapSystemFactory.HasFeature(Features.AutomaticMerging))
 					{

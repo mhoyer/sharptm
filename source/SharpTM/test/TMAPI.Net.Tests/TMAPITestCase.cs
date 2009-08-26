@@ -4,8 +4,8 @@
 // </copyright>
 // <summary>Defines the TMAPITestCase type.</summary>
 //-------------------------------------------------------------------------------------------------
+using Pixelplastic.TopicMaps.SharpTM.Core;
 using TMAPI.Net.Core;
-using SharpTM = Pixelplastic.TopicMaps.SharpTM;
 
 namespace TMAPI.Net.Tests
 {
@@ -51,7 +51,7 @@ namespace TMAPI.Net.Tests
 		/// <returns>A new instance of <see cref="TopicMapSystemFactory"/>.</returns>
 		public static TopicMapSystemFactory NewTopicMapSystemFactoryInstance()
 		{
-			return TopicMapSystemFactory.NewInstance<SharpTM.Core.TopicMapSystemFactory>();
+			return TopicMapSystemFactory.NewInstance<SharpTMSystemFactory>();
 		}
 		#endregion
 	}

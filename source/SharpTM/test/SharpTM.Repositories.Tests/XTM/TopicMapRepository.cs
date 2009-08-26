@@ -11,6 +11,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
+using TMAPI.Net.Core;
 using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;

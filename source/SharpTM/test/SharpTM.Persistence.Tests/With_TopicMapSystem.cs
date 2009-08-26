@@ -3,9 +3,9 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+using Pixelplastic.TopicMaps.SharpTM.Core;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;
-using STM = Pixelplastic.TopicMaps.SharpTM.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 {
@@ -17,7 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() =>
 				{
 					var topicMapSystemFactory =
-						TopicMapSystemFactory.NewInstance<STM.TopicMapSystemFactory>();
+						TopicMapSystemFactory.NewInstance<SharpTMSystemFactory>();
 					topicMapSystem = topicMapSystemFactory.NewTopicMapSystem();
 				};
 	}

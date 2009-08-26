@@ -1,4 +1,4 @@
-// <copyright file="TopicMapSystemFactory.cs" company="Pixelplastic">
+// <copyright file="SharpTMSystemFactory.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -12,11 +12,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// <summary>
 	/// Implements the <see cref="TMAPI.Net.Core.TopicMapSystemFactory"/> for <see cref="SharpTM"/>.
 	/// </summary>
-	public class TopicMapSystemFactory : TMAPI.Net.Core.TopicMapSystemFactory
+	public class SharpTMSystemFactory : TopicMapSystemFactory
 	{
 		readonly Dictionary<string, bool> enabledFeatures;
 
-		public TopicMapSystemFactory()
+		public SharpTMSystemFactory()
 		{
 			enabledFeatures = new Dictionary<string, bool>();
 
@@ -106,7 +106,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public override TMAPI.Net.Core.TopicMapSystemFactory NewInstance()
 		{
-			return new TopicMapSystemFactory();
+			return new SharpTMSystemFactory();
 		}
 
 		/// <summary>
