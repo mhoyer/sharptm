@@ -42,10 +42,6 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\app\SharpTM.Repositories\XTM\SharpTM.Repositories.XTM.csproj">
-      <Project>{EBCE5208-45B9-4F61-B997-FC35FC098FDC}</Project>
-      <Name>SharpTM.Repositories.XTM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\app\SharpTM\SharpTM.csproj">
       <Project>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</Project>
       <Name>SharpTM</Name>

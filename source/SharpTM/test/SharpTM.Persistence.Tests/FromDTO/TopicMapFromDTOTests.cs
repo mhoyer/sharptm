@@ -5,10 +5,10 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Reflection;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
-using Pixelplastic.TopicMaps.SharpTM.Repositories.XTM;
 using TMAPI.Net.Core;
 using Xunit;
 using Xunit.BDDExtension;
@@ -97,16 +97,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 		static string xtm;
 		static ITopicMap topicMap;
 		static TopicMapDTO topicMapDTO;
-		static TopicMapRepository xtmRepository;
+		static XTMConnector xtmConnector;
 
 		Given an_XMT_file = () => xtm = typeof(With_TopicMap).Namespace + ".music.xtm";
-		Given an_xtm_repository = () => xtmRepository = new TopicMapRepository();
+		Given an_xtm_connector = () => xtmConnector = new XTMConnector();
 
 		Given the_loaded_topic_map_DTO =
 			() =>
 				{
 					topicMapDTO =
-						xtmRepository.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+						xtmConnector.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
 					topicMapDTO.ItemIdentities.Add(TestHelper.CreateLocator("music.xtm"));
 				};
 

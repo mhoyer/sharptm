@@ -5,6 +5,7 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
 {

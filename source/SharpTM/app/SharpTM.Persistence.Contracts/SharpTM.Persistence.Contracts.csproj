@@ -97,6 +97,7 @@
     <Content Include="SharpTM.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="DTOs\AssociationDTO.cs" />
     <Compile Include="DTOs\ConstructDTO.cs" />
     <Compile Include="DTOs\IConstructDTO.cs" />
@@ -114,9 +115,18 @@
     <Compile Include="DTOs\TopicMapDTO.cs" />
     <Compile Include="DTOs\TypeDTO.cs" />
     <Compile Include="DTOs\VariantDTO.cs" />
+    <Compile Include="Func.cs" />
+    <Compile Include="IBridge.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMapperStep.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="IConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
+      <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
+      <Name>TMAPI.Net</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

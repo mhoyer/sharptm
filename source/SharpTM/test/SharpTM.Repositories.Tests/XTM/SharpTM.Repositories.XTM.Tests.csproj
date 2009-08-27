@@ -43,6 +43,7 @@
     <Compile Include="TopicMapRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="With_Topic_Map_Repository.cs" />
+    <Compile Include="With_XTMConnector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AssertExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -64,6 +65,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\app\SharpTM.Persistence.Connectors\FileSystem\SharpTM.Persistence.FileSystemConnector.csproj">
+      <Project>{B5221503-B2E8-4B1C-A1F0-09E28D4E3EC6}</Project>
+      <Name>SharpTM.Persistence.FileSystemConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
       <Name>SharpTM.Persistence.Contracts</Name>
@@ -72,9 +77,9 @@
       <Project>{D372E1B6-FF57-4E03-A799-02EE65FB497A}</Project>
       <Name>SharpTM.Persistence</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\app\SharpTM.Repositories\XTM\SharpTM.Repositories.XTM.csproj">
-      <Project>{EBCE5208-45B9-4F61-B997-FC35FC098FDC}</Project>
-      <Name>SharpTM.Repositories.XTM</Name>
+    <ProjectReference Include="..\..\..\app\SharpTM\SharpTM.csproj">
+      <Project>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</Project>
+      <Name>SharpTM</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\app\TMAPI.Net\TMAPI.Net.csproj">
       <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
