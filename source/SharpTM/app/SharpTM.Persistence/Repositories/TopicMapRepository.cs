@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
@@ -19,6 +20,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 			IConnector<TopicMapDTO> connector,
 			IBridge<TopicMapDTO, ITopicMap> bridge)
 		{
+			if (connector == null) throw new ArgumentNullException("connector");
+			if (bridge == null) throw new ArgumentNullException("bridge");
+
 			_connector = connector;
 			_bridge = bridge;
 		}
