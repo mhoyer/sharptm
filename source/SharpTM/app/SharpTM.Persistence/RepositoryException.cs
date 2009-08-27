@@ -10,6 +10,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
 	public class RepositoryException : Exception
 	{
+		public RepositoryException(string message)
+			: this (message, null)
+		{
+		}
+
 		public RepositoryException(string message, Exception innerException)
 			: base(message, innerException)
 		{
