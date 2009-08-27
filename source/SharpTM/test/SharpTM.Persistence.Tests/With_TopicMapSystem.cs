@@ -14,11 +14,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 		protected static ITopicMapSystem topicMapSystem;
 
 		Given a_topic_map_system =
-			() =>
-				{
-					var topicMapSystemFactory =
-						TopicMapSystemFactory.NewInstance<SharpTMSystemFactory>();
-					topicMapSystem = topicMapSystemFactory.NewTopicMapSystem();
-				};
+			() => topicMapSystem = TopicMapSystemFactory
+			                       	.NewInstance<SharpTMSystemFactory>()
+			                       	.NewTopicMapSystem();
 	}
 }

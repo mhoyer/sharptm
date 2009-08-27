@@ -61,6 +61,7 @@
     <Compile Include="Bridges\TopicMapBridgeTests.cs" />
     <Compile Include="FromDTO\AssociationFromDTOTests.cs" />
     <Compile Include="FromDTO\With_filled_TopicMapDTO_using_instance_of.cs" />
+    <Compile Include="Repositories\With_Topic_Map_Repository.cs" />
     <Compile Include="ToDTO\ConstructToDTOTests.cs" />
     <Compile Include="FromDTO\ConstructFromDTOTests.cs" />
     <Compile Include="FromDTO\LocatorFromDTOTests.cs" />

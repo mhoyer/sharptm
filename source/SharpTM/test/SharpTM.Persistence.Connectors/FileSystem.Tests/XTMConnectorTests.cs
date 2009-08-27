@@ -100,28 +100,4 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		It should_throw_an_argument_exception =
 			() => exception.ShouldBeType<ArgumentNullException>();
 	}
-
-	public class When_loading_a_topic_map_with_null_id : With_Topic_Map_Repository
-	{
-		static object id;
-		static Exception exception;
-
-		Given an_illegal_id = () => id = null;
-		Because of_loading = () => exception = Catch.Exception(() => repository.Load(id));
-		It should_throw_an_exception = () => exception.ShouldBeType<ArgumentNullException>();
-	}
-
-	public class When_loading_a_topic_map_system_with_valid_id: With_Topic_Map_Repository
-	{
-		[Fact(Skip = "Not implemented yet.")]
-		public new void Run() { }
-
-		//static string id;
-		//static TopicMapDTO tmDTO;
-
-		//Given a_legal_id = () => id = "http://pixelplastic.de/topicmaps/public";
-		//Because of_loading = () => tmDTO = repository.Load(id);
-		//It should_load_the_topic_map_as_DTO = () => tmDTO.ShouldNotBeNull();
-		//It should_load_the_correct_topic_map = () => tmDTO.ItemIdentities.Find(iid => iid.HRef == id).ShouldNotBeNull();
-	}
 }

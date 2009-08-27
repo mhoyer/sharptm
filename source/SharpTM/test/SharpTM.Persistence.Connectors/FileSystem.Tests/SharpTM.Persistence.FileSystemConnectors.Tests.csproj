@@ -40,9 +40,8 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="TopicMapRepository.cs" />
+    <Compile Include="XTMConnectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="With_Topic_Map_Repository.cs" />
     <Compile Include="With_XTMConnector.cs" />
   </ItemGroup>
   <ItemGroup>
