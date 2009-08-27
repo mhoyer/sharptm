@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pixelplastic")]
 [assembly: AssemblyProduct("SharpTM")]
-[assembly: AssemblyCopyright("Copyright © Marcel Hoyer 2008")]
+[assembly: AssemblyCopyright("Copyright © Marcel Hoyer 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SharpTM.Persistence.Contracts")]
-[assembly: AssemblyDescription("Contracts for SharpTM")]
+[assembly: AssemblyDescription("Contracts for SharpTM persistence layer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pixelplastic")]
 [assembly: AssemblyProduct("SharpTM")]
