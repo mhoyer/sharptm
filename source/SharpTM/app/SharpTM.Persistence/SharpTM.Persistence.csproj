@@ -15,7 +15,7 @@
     <StartupObject>
     </StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>SharpTM.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\assets\SharpTM.snk</AssemblyOriginatorKeyFile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>SharpTM.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\assets\SharpTM.ico</ApplicationIcon>
     <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -58,16 +58,17 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="..\..\assets\SharpTM.snk">
+      <Link>SharpTM.snk</Link>
+    </None>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -95,9 +96,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SharpTM.ico" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bridges\TopicMapBridge.cs" />
@@ -145,5 +143,10 @@
       <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
       <Name>TMAPI.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\assets\SharpTM.ico">
+      <Link>SharpTM.ico</Link>
+    </Content>
   </ItemGroup>
 </Project>

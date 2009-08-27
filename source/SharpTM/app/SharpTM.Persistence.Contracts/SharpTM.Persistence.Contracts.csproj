@@ -15,7 +15,7 @@
     <StartupObject>
     </StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>SharpTM.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\assets\SharpTM.snk</AssemblyOriginatorKeyFile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>SharpTM.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\assets\SharpTM.ico</ApplicationIcon>
     <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -58,9 +58,11 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="..\..\assets\SharpTM.snk">
+      <Link>SharpTM.snk</Link>
+    </None>
     <None Include="DTOs\InheritanceDiagram.cd" />
     <None Include="DTOs\RelationalDiagram.cd" />
-    <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -94,9 +96,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SharpTM.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="DTOs\AssociationDTO.cs" />
     <Compile Include="DTOs\ConstructDTO.cs" />
@@ -128,5 +127,10 @@
       <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
       <Name>TMAPI.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\assets\SharpTM.ico">
+      <Link>SharpTM.ico</Link>
+    </Content>
   </ItemGroup>
 </Project>

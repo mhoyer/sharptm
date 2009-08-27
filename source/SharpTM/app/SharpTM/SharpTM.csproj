@@ -15,7 +15,7 @@
     <StartupObject>
     </StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>SharpTM.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\assets\SharpTM.snk</AssemblyOriginatorKeyFile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>SharpTM.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\assets\SharpTM.ico</ApplicationIcon>
     <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -64,6 +64,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\assets\SharpTM.snk">
+      <Link>SharpTM.snk</Link>
+    </None>
     <None Include="app.config" />
     <None Include="ClassDiagram.cd" />
     <None Include="Core\Topic.cd" />
@@ -71,7 +74,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SharpTM.snk" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Association.cs" />
@@ -150,6 +152,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SharpTM.ico" />
+    <Content Include="..\..\assets\SharpTM.ico">
+      <Link>SharpTM.ico</Link>
+    </Content>
   </ItemGroup>
 </Project>

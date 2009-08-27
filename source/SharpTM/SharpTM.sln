@@ -29,6 +29,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTM.Persistence.FileSystemConnector", "app\SharpTM.Persistence.Connectors\FileSystem\SharpTM.Persistence.FileSystemConnector.csproj", "{B5221503-B2E8-4B1C-A1F0-09E28D4E3EC6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C0BD11BA-2F39-4D10-9D75-3533D62E4C54}"
+	ProjectSection(SolutionItems) = preProject
+		assets\SharpTM.ico = assets\SharpTM.ico
+		assets\SharpTM.snk = assets\SharpTM.snk
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
