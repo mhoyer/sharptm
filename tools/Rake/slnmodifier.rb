@@ -18,6 +18,8 @@ class SlnModifier
       puts "Using default SlnModifier"
       source = File.new(@source)
       source.each_line { |line| target.write line.gsub(/\.csproj/, ".#{framework}.g.csproj") }
+      source.close
+      target.close
     end
 	end
 end

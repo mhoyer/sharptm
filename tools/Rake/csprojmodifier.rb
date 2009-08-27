@@ -18,32 +18,33 @@ REXML::XMLDecl.class_eval( %q^
   ^)
 
 class CSProjModifier
-	attr_reader :source
+  attr_reader :source
 	
-	def initialize(sourceFileName)
-		@source = sourceFileName
-	end
+  def initialize(sourceFileName)
+    @source = sourceFileName
+  end
 
-	def create(framework)
+  def create(framework)
     target = @source.gsub /csproj$/, "#{framework}.g.csproj"
     csproj_fix = @source.gsub /csproj$/, "#{framework}.rb"
 
-		file = File.new(@source)
-		doc = REXML::Document.new file
+	file = File.new(@source)
+	doc = REXML::Document.new file
 
     # puts doc.elements["Project/ItemGroup/Reference"].parent
 
     if File.exist? csproj_fix then
       require csproj_fix
       fix doc
+      output = File.new(target, "w")
+      doc.write output
+      output.close
     else
-      msg = "WARNING: Missing #{csproj_fix} to create .csproj file for #{framework} framework.";
+      msg = "WARNING: Missing #{csproj_fix} to create .csproj file for #{framework} framework. Ignoring #{@source}.";
       puts msg
       TeamCity::append_build_status_text(msg)
     end
     
-    output = File.new(target, "w")
-    doc.write output
 	end
 
 end
