@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pixelplastic.TopicMaps.SharpTM</RootNamespace>
-    <AssemblyName>Pixelplastic.TopicMaps.SharpTM</AssemblyName>
+    <AssemblyName>SharpTM</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
