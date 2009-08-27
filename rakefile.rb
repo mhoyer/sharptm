@@ -158,12 +158,14 @@ namespace :generate do
 			end
 		end
 	end
+
+  task :all => ['generate:version', 'generate:config', 'generate:projFiles', 'generate:slnFiles']
 end
 
 namespace :compile do
 
 	desc 'Compiles the application'
-	task :app => [:clobber, 'generate:version', 'generate:config', 'generate:projFiles'] do
+	task :app => [:clobber, 'generate:all'] do
 	    configatron.build.framework.nil? ?
 	      filelist = FileList.new("#{configatron.dir.app}/**/*.csproj").exclude(/.*\.g\..*/i) :
 	      filelist = FileList.new("#{configatron.dir.app}/**/*#{configatron.build.framework}.g.csproj")
@@ -181,7 +183,7 @@ namespace :compile do
 	end
 
 	desc 'Compiles the tests'
-	task :tests => [:clobber, 'generate:version', 'generate:config', 'generate:projFiles'] do
+	task :tests => [:clobber, 'generate:all'] do
     configatron.build.framework.nil? ?
       filelist = FileList.new("#{configatron.dir.test}/**/*.csproj").exclude(/.*\.g\..*/i) :
       filelist = FileList.new("#{configatron.dir.test}/**/*#{configatron.build.framework}.g.csproj")
