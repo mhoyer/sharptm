@@ -18,6 +18,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges
 
 		public TopicMapBridge(ITopicMapSystem topicMapSystem)
 		{
+			if (topicMapSystem == null) throw new ArgumentNullException("topicMapSystem");
 			TopicMapSystem = topicMapSystem;
 		}
 

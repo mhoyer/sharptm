@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bridges\TopicMapBridge.cs" />
     <Compile Include="FromDTO\AssociationFromDTOTests.cs" />
     <Compile Include="FromDTO\With_filled_TopicMapDTO_using_instance_of.cs" />
     <Compile Include="ToDTO\ConstructToDTOTests.cs" />
@@ -118,8 +119,5 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="music.xtm" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bridges\" />
   </ItemGroup>
 </Project>
