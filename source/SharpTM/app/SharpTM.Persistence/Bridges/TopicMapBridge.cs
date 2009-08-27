@@ -8,7 +8,6 @@ using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.ToDTO;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges
@@ -31,7 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges
 		{
 			throw new NotImplementedException();
 
-			var mapper = new TopicMapToDTO();
+			// var mapper = new TopicMapToDTO();
 			// return mapper.Create(source);
 		}
 	}
