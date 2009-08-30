@@ -5,7 +5,9 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+#if LOG4NET
+using log4net;
+#endif
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -16,6 +18,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 	/// </summary>
 	public class ScopedIndex : Index, IScopedIndex
 	{
+#if LOG4NET
+		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+#endif
+
 		/// <summary>
 		/// Represents the list of all <see cref="IScoped"/> instances.
 		/// </summary>
@@ -139,7 +145,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Index
 		/// </summary>
 		public override void Reindex()
 		{
-			Debug.WriteLine("Refreshing the index for {0}" + GetType().Name);
+#if LOG4NET
+			log.InfoFormat("Refreshing the index.");
+#endif
 
 			associationThemes.Clear();
 			nameThemes.Clear();

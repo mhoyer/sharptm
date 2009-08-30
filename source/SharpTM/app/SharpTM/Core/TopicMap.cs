@@ -6,6 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+#if LOG4NET
+using log4net;
+#endif
 using Pixelplastic.TopicMaps.SharpTM.Index;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
 using TMAPI.Net.Core;
@@ -19,6 +22,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class TopicMap : Construct, ITopicMap
 	{
+#if LOG4NET
+		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+#endif
+
 		/// <summary>
 		/// Represents the current list of <see cref="IAssociation">associations</see>.
 		/// </summary>
@@ -62,6 +69,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal TopicMap(TopicMapSystem topicMapSystem, ILocator itemIdentifier)
 			: base(null, null)
 		{
+#if LOG4NET
+			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
+#endif
+
 			associations = new List<IAssociation>();
 			topics = new List<ITopic>();
 			constructs = new List<IConstruct>();
@@ -320,6 +331,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return foundTopicBySubjectIdentifier;
 			}
 
+#if LOG4NET
+			log.InfoFormat("Creating Topic by item identifier '{0}'.", itemIdentifier);
+#endif
+
 			// create new topic with this item identifier
 			Topic topic = new Topic(this);
 			topic.AddItemIdentifier(itemIdentifier);
@@ -441,6 +456,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct GetConstructById(string id)
 		{
+#if LOG4NET
+			log.DebugFormat("Looking up construct by id '{0}'.", id);
+#endif
+
 			if (Id == id)
 			{
 				return this;
@@ -468,6 +487,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct GetConstructByItemIdentifier(ILocator itemIdentifier)
 		{
+#if LOG4NET
+			log.DebugFormat("Looking up construct by item identifier '{0}'.", itemIdentifier);
+#endif
+
 			if (ItemIdentifiers.Contains(itemIdentifier))
 			{
 				return this;
@@ -529,6 +552,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic GetTopicBySubjectIdentifier(ILocator subjectIdentifier)
 		{
+#if LOG4NET
+			log.DebugFormat("Looking up Topic by subject identifier '{0}'.", subjectIdentifier);
+#endif
+
 			foreach (ITopic topic in topics)
 			{
 				if (topic.SubjectIdentifiers.Contains(subjectIdentifier))
@@ -551,6 +578,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic GetTopicBySubjectLocator(ILocator subjectLocator)
 		{
+#if LOG4NET
+			log.DebugFormat("Looking up Topic by subject locator '{0}'.", subjectLocator);
+#endif
+
 			foreach (ITopic topic in topics)
 			{
 				if (topic.SubjectLocators.Contains(subjectLocator))
@@ -590,6 +621,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <returns></returns>
 		public ITopic GetTopicByItemIdentifier(ILocator itemIdentifier)
 		{
+#if LOG4NET
+			log.DebugFormat("Looking up Topic by item identifier '{0}'.", itemIdentifier);
+#endif
+
 			foreach (ITopic topic in topics)
 			{
 				if (topic.ItemIdentifiers.Contains(itemIdentifier))

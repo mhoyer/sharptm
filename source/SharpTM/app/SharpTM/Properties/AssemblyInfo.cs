@@ -40,3 +40,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
 [assembly: CLSCompliant(true)]
+#if LOG4NET
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+#endif

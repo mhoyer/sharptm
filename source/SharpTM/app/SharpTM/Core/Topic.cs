@@ -6,6 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+#if LOG4NET
+using log4net;
+#endif
 using Pixelplastic.TopicMaps.SharpTM.Merging;
 using TMAPI.Net.Core;
 
@@ -16,6 +19,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Topic : Construct, ITopic
 	{
+#if LOG4NET
+		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+#endif
+
 		/// <summary>
 		/// Represents the list of names for this topic.
 		/// </summary>
@@ -205,6 +212,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddSubjectIdentifier(ILocator subjectIdentifier)
 		{
+#if LOG4NET
+			log.InfoFormat("Adding subject identifier '{0}' to topic '{1}'.", subjectIdentifier, this);
+#endif
+
 			if (subjectIdentifier == null)
 			{
 				throw new ModelConstraintException(
@@ -268,6 +279,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddSubjectLocator(ILocator subjectLocator)
 		{
+#if LOG4NET
+			log.InfoFormat("Adding subject locator '{0}' to topic '{1}'.", subjectLocator, this);
+#endif
+
 			if (subjectLocator == null)
 			{
 				throw new ModelConstraintException(
@@ -941,6 +956,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public new void Remove()
 		{
+#if LOG4NET
+			log.InfoFormat("Removing Topic '{0}'.", this);
+#endif
+
 			if (Reified != null)
 			{
 				throw new TopicInUseException("Removing a topic used for reification");

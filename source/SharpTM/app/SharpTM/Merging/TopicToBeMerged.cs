@@ -3,6 +3,9 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+#if LOG4NET
+using log4net;
+#endif
 using Pixelplastic.TopicMaps.SharpTM.Core;
 using Pixelplastic.TopicMaps.SharpTM.Index;
 using TMAPI.Net.Core;
@@ -11,6 +14,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Merging
 {
 	public class TopicToBeMerged : IToBeMerged<ITopic>
 	{
+#if LOG4NET
+		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); 
+#endif
 		ITopic targetTopic;
 
 		public TopicToBeMerged(ITopic topic)
@@ -30,6 +36,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Merging
 
 		public void Into(ITopic target)
 		{
+#if LOG4NET
+			log.InfoFormat("Merging topic '{0}' into '{1}'.", ToBeMerged, target);
+#endif
+
 			if (ToBeMerged.Reified != null &&
 			    target.Reified != null &&
 			    ToBeMerged.Reified != target.Reified)

@@ -19,5 +19,8 @@ class CSProjModifier
     sl_project_type = Element.new("ProjectTypeGuids")
     sl_project_type.text = "{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}"
     doc.elements["Project/PropertyGroup"] << sl_project_type
+	
+	# Remove log4net reference
+	doc.elements.each("Project/ItemGroup/Reference") { |element| element.parent.delete(element) if element.attributes["Include"].match(/^log4net/) }
   end
 end
