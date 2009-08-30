@@ -10,7 +10,7 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
 {
 	[Obsolete("Not implemented yet.")]
-	public class LTMConnector : Connector<TopicMapDTO>
+	public class LTMConnector : FileConnector<TopicMapDTO>
 	{
 		public LTMConnector()
 		{

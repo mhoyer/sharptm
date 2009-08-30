@@ -1,4 +1,4 @@
-// <copyright file="Connector.cs" company="Pixelplastic">
+// <copyright file="FileConnector.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -11,13 +11,13 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
 {
-	public abstract class Connector<TConstruct> : IConnector<TConstruct> where TConstruct : IConstructDTO
+	public class FileConnector<TConstruct> : IConnector<TConstruct> where TConstruct : IConstructDTO
 	{
 		protected Func<TConstruct, Stream> SerializeAction { get; set; }
 
-		protected Connector() { }
+		protected FileConnector() { }
 
-		public Connector(Func<TConstruct, Stream> serializeAction)
+		public FileConnector(Func<TConstruct, Stream> serializeAction)
 		{
 			SerializeAction = serializeAction;
 		}
@@ -28,6 +28,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
 			if (id == null)
 			{
 				throw new ArgumentNullException("id");
+			}
+
+			if (typeof(Stream).IsAssignableFrom(id.GetType()))
+			{
+				return Load((Stream) id);
 			}
 
 			return Load(id.ToString());

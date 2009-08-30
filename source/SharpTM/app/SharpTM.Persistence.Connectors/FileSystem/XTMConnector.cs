@@ -7,22 +7,34 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
 {
-	public class XTMConnector : Connector<TopicMapDTO>
+	public class XTMConnector : FileConnector<TopicMapDTO>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="XTMConnector"/> class using default <see cref="XmlReader"/> for XTM access.
+		/// </summary>
 		public XTMConnector()
+			: this ((xtmStream) => XmlReader.Create(xtmStream))
+		{ }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="XTMConnector"/> class.
+		/// </summary>
+		/// <param name="xmlReaderCreationAction">The XML reader creation action.</param>
+		public XTMConnector(Func<XmlReader, Stream> xmlReaderCreationAction)
 		{
 			SerializeAction =
 				(Stream xtmStream) =>
-					{
-						XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
-						TopicMapDTO topicMapDTO = (TopicMapDTO) xs.Deserialize(XmlReader.Create(xtmStream));
-
-						return topicMapDTO;
-					};
+				{
+					XmlReader xr = xmlReaderCreationAction.Invoke(xtmStream);
+					XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
+					TopicMapDTO topicMapDTO = (TopicMapDTO)xs.Deserialize(xr);
+					return topicMapDTO;
+				};
 		}
 	}
 }
