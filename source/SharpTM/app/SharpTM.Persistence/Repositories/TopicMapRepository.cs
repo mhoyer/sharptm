@@ -29,7 +29,35 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 
 		public ITopicMap Load(object id)
 		{
-			return _bridge.Map(_connector.Load(id));
+			return Load(id, null);
+		}
+
+		public ITopicMap Load(string xtmFile)
+		{
+			return Load(xtmFile, xtmFile);
+		}
+
+		public ITopicMap Load(object id, string baseLocator)
+		{
+			TopicMapDTO topicMapDTO = _connector.Load(id);
+
+			if (baseLocator != null)
+			{
+				topicMapDTO.ItemIdentities.Insert(0, new LocatorDTO() { HRef = baseLocator });
+			}
+            else if(topicMapDTO.ItemIdentities.Count == 0)
+            {
+				throw new RepositoryException(String.Format("Unable to load TopicMap from {0}. At least one item identifier required for a topic map.", id));
+            }
+
+			try
+			{
+				return _bridge.Map(topicMapDTO);
+			}
+			catch (Exception ex)
+			{
+				throw new RepositoryException(String.Format("Unable to load TopicMap from {0}.", id), ex);
+			}
 		}
 
 		public void Save(ITopicMap entity)
