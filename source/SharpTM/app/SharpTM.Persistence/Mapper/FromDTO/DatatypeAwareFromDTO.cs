@@ -47,7 +47,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 									}
 
 									datatypeAware.SetValue(
-										resourceData.Text, 
+										resourceData.Text ?? string.Empty, 
 										LocatorFromDTO.Create(datatypeAware.TopicMap, resourceData.Datatype));
 				    			}
 				    			else
