@@ -148,7 +148,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (!(this is ITopic))
 				{
 					throw new NotSupportedException(
-						"Cannot add an item identifier to a non-topic, if another topic with same subject identifier already exists.");
+						String.Format("Cannot add an item identifier '{0}' to a non-topic '{1}', if another topic '{2}' with same subject identifier already exists.", 
+							itemIdentifier,
+							this,
+							existingTopic));
 				}
 
 				MergeExistingTopicWithSameSubjectIdentifier(existingTopic, itemIdentifier);
