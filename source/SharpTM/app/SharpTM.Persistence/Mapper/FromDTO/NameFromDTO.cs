@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
@@ -33,24 +34,33 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO
 
 		public static IName Create(ITopic parent, NameDTO source)
 		{
-			ITopic nameType;
-
-			if (source.Type == null)
+			try
 			{
-				nameType = TopicFromDTO.Find(parent.TopicMap, PSI_TOPIC_NAME) ??
-						parent.TopicMap.CreateTopicBySubjectIdentifier(LocatorFromDTO.Create(parent.TopicMap, PSI_TOPIC_NAME));
+				ITopic nameType;
+
+				if (source.Type == null)
+				{
+					nameType = TopicFromDTO.Find(parent.TopicMap, PSI_TOPIC_NAME) ??
+							parent.TopicMap.CreateTopicBySubjectIdentifier(LocatorFromDTO.Create(parent.TopicMap, PSI_TOPIC_NAME));
+				}
+				else
+				{
+					nameType = TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type);
+				}
+
+				IName target = parent.CreateName(nameType, source.Value);
+				mapper.Map(source, target);
+				ReifiableFromDTO.Instance.Map(source, target);
+				ScopeFromDTO.Instance.Map(source, target);
+
+				return target;
 			}
-			else
+			catch (Exception ex)
 			{
-				nameType = TypeFromDTO.FindOrCreate(parent.TopicMap, source.Type);
+				var message = String.Format("Unable to create name item for '{0}' of topic '{1}'.", source.Value, parent);
+
+				throw new MappingException(message, ex);
 			}
-
-			IName target = parent.CreateName(nameType, source.Value);
-			mapper.Map(source, target);
-			ReifiableFromDTO.Instance.Map(source, target);
-			ScopeFromDTO.Instance.Map(source, target);
-
-			return target;
 		}
 	}
 }
