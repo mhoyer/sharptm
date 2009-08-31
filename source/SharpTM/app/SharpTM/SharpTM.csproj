@@ -79,8 +79,11 @@
   <ItemGroup>
     <Compile Include="Core\Association.cs" />
     <Compile Include="Core\Construct.cs" />
+    <Compile Include="Core\DTOs\ConstructDTO.cs" />
     <Compile Include="Core\DatatypeAware.cs" />
     <Compile Include="Core\Datatypes.cs" />
+    <Compile Include="Core\DTOs\ReadOnlyCollectionWithLimitedAccess.cs" />
+    <Compile Include="Core\DTOs\TopicDTO.cs" />
     <Compile Include="Core\Features.cs" />
     <Compile Include="Core\Locator.cs" />
     <Compile Include="Core\Name.cs" />

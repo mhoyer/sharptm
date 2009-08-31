@@ -4,8 +4,8 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -15,10 +15,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class Construct : IConstruct
 	{
+		internal ConstructDTO constructDTO;
+
 		/// <summary>
-		/// Represents the list of item identifiers for this construct.
+		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
-		readonly List<ILocator> itemIdentifiers;
+		/// <param name="dto">The storage object.</param>
+		protected Construct(ConstructDTO dto)
+		{
+			if (dto == null) throw new ArgumentNullException("dto");
+			constructDTO = dto;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
@@ -26,12 +33,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
 		protected Construct(IConstruct parent, ITopicMap topicMap)
+			: this (new ConstructDTO { Parent = parent, TopicMap = topicMap })
 		{
-			itemIdentifiers = new List<ILocator>();
-			ItemIdentifiers = itemIdentifiers.AsReadOnly();
-
-			Id = Guid.NewGuid().ToString();
-
 			if (topicMap == null)
 			{
 				if (this is ITopicMap)
@@ -43,9 +46,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					throw new ArgumentNullException("topicMap");
 				}
 			}
-
-			Parent = parent;
-			TopicMap = topicMap ?? TopicMap;
 		}
 
 		/// <summary>
@@ -63,8 +63,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public string Id
 		{
-			get;
-			private set;
+			get { return constructDTO.Id; }
 		}
 
 		/// <summary>
@@ -76,8 +75,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> ItemIdentifiers
 		{
-			get;
-			private set;
+			get { return constructDTO.ItemIdentifiers; }
 		}
 
 		/// <summary>
@@ -90,8 +88,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct Parent
 		{
-			get;
-			internal set;
+			get { return constructDTO.Parent; }
+			internal set { constructDTO.Parent = value; }
 		}
 
 		/// <summary>
@@ -104,8 +102,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap TopicMap
 		{
-			get;
-			internal set;
+			get { return constructDTO.TopicMap; }
+			internal set { constructDTO.TopicMap = value; }
 		}
 		#endregion
 
@@ -135,7 +133,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				                                   new ArgumentNullException("itemIdentifier"));
 			}
 
-			if (itemIdentifiers.Contains(itemIdentifier))
+			if (ItemIdentifiers.Contains(itemIdentifier))
 			{
 				return;
 			}
@@ -158,7 +156,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			else
 			{
-				itemIdentifiers.Add(itemIdentifier);
+				constructDTO.ItemIdentifiers.Add(itemIdentifier);
 			}
 		}
 
@@ -181,7 +179,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveItemIdentifier(ILocator itemIdentifier)
 		{
-			itemIdentifiers.Remove(itemIdentifier);
+			constructDTO.ItemIdentifiers.Remove(itemIdentifier);
 		}
 		#endregion
 
@@ -193,11 +191,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public override string ToString()
 		{
-			if (itemIdentifiers.Count > 0)
+			if (ItemIdentifiers.Count > 0)
 			{
 				return String.Format("{0} ({1})",
 				                     Id,
-				                     itemIdentifiers[0]);
+				                     ItemIdentifiers[0]);
 			}
 
 			return Id;

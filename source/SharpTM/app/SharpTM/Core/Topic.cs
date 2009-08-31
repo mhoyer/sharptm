@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 #if LOG4NET
 using log4net;
 #endif
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
 using TMAPI.Net.Core;
 
@@ -23,61 +24,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-		/// <summary>
-		/// Represents the list of names for this topic.
-		/// </summary>
-		readonly List<IName> names;
-
-		/// <summary>
-		/// Represents the list of <see cref="IOccurrence">occurrences</see> attached to this topic.
-		/// </summary>
-		readonly List<IOccurrence> occurrences;
-
-		/// <summary>
-		/// Represents the list of roles played by this topic.
-		/// </summary>
-		readonly List<IRole> rolesPlayed;
-
-		/// <summary>
-		/// Represents the list of subject identifiers for this topic.
-		/// </summary>
-		readonly List<ILocator> subjectIdentifiers;
-
-		/// <summary>
-		/// Represents the list of subject locators for this topic.
-		/// </summary>
-		readonly List<ILocator> subjectLocators;
-
-		/// <summary>
-		/// Represents the list of types this topic is an instance of.
-		/// </summary>
-		readonly List<ITopic> types;
+		internal TopicDTO topicDTO;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Topic"/> class.
 		/// </summary>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
 		public Topic(ITopicMap topicMap)
-			: base(topicMap, topicMap)
+			: this(new TopicDTO { TopicMap = topicMap })
 		{
-			names = new List<IName>();
-			Names = names.AsReadOnly();
-
-			occurrences = new List<IOccurrence>();
-			Occurrences = occurrences.AsReadOnly();
-
-			subjectIdentifiers = new List<ILocator>();
-			SubjectIdentifiers = subjectIdentifiers.AsReadOnly();
-
-			subjectLocators = new List<ILocator>();
-			SubjectLocators = subjectLocators.AsReadOnly();
-
-			rolesPlayed = new List<IRole>();
-			RolesPlayed = rolesPlayed.AsReadOnly();
-
-			types = new List<ITopic>();
-			Types = types.AsReadOnly();
 		}
+
+		internal Topic(TopicDTO dto)
+			: base(dto.TopicMap, dto.TopicMap)
+		{
+			if (dto == null) throw new ArgumentNullException("dto");
+			topicDTO = dto;
+		}
+
 
 		#region ITopic properties
 		/// <summary>
@@ -89,8 +53,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IName> Names
 		{
-			get;
-			private set;
+			get { return topicDTO.Names; }
 		}
 
 		/// <summary>
@@ -102,8 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> Occurrences
 		{
-			get;
-			private set;
+			get { return topicDTO.Occurrences; }
 		}
 
 		/// <summary>
@@ -116,11 +78,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return TopicMap;
+				return topicDTO.TopicMap;
 			}
 			internal set
 			{
-				TopicMap = value;
+				topicDTO.TopicMap = value;
 			}
 		}
 
@@ -133,8 +95,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IReifiable Reified
 		{
-			get;
-			internal set;
+			get { return topicDTO.Reified; }
+			internal set { topicDTO.Reified = value; }
 		}
 
 		/// <summary>
@@ -146,8 +108,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> RolesPlayed
 		{
-			get;
-			private set;
+			get { return topicDTO.RolesPlayed; }
 		}
 
 		/// <summary>
@@ -159,8 +120,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectIdentifiers
 		{
-			get;
-			private set;
+			get { return topicDTO.SubjectIdentifiers; }
 		}
 
 		/// <summary>
@@ -172,8 +132,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectLocators
 		{
-			get;
-			private set;
+			get { return topicDTO.SubjectLocators; }
 		}
 
 		/// <summary>
@@ -190,8 +149,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public ReadOnlyCollection<ITopic> Types
 		{
-			get;
-			private set;
+			get { return topicDTO.Types; }
 		}
 		#endregion
 
@@ -223,7 +181,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("subjectIdentifier"));
 			}
 
-			if (subjectIdentifiers.Contains(subjectIdentifier))
+			if (SubjectIdentifiers.Contains(subjectIdentifier))
 			{
 				return;
 			}
@@ -260,7 +218,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			subjectIdentifiers.Add(subjectIdentifier);
+			topicDTO.SubjectIdentifiers.Add(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -290,7 +248,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("subjectLocator"));
 			}
 
-			if (subjectLocators.Contains(subjectLocator))
+			if (SubjectLocators.Contains(subjectLocator))
 			{
 				return;
 			}
@@ -309,7 +267,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			subjectLocators.Add(subjectLocator);
+			topicDTO.SubjectLocators.Add(subjectLocator);
 		}
 
 		/// <summary>
@@ -333,7 +291,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("type"));
 			}
 
-			types.Add(type);
+			topicDTO.Types.Add(type);
 		}
 
 		/// <summary>
@@ -746,7 +704,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			List<IName> foundNames = new List<IName>();
 
-			foreach (IName name in names)
+			foreach (IName name in Names)
 			{
 				if (name.Type == type)
 				{
@@ -779,7 +737,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			List<IOccurrence> foundOccurrences = new List<IOccurrence>();
 
-			foreach (IOccurrence occurrence in occurrences)
+			foreach (IOccurrence occurrence in Occurrences)
 			{
 				if (occurrence.Type == type)
 				{
@@ -812,7 +770,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			List<IRole> foundRolesPlayed = new List<IRole>();
 
-			foreach (IRole role in rolesPlayed)
+			foreach (IRole role in RolesPlayed)
 			{
 				if (role.Type == roleType)
 				{
@@ -856,7 +814,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			List<IRole> foundRolesPlayed = new List<IRole>();
 
-			foreach (IRole role in rolesPlayed)
+			foreach (IRole role in RolesPlayed)
 			{
 				if (role.Type == roleType && role.Parent.Type == associationType)
 				{
@@ -912,7 +870,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			subjectIdentifiers.Remove(subjectIdentifier);
+			topicDTO.SubjectIdentifiers.Remove(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -928,7 +886,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			subjectLocators.Remove(subjectLocator);
+			topicDTO.SubjectLocators.Remove(subjectLocator);
 		}
 
 		/// <summary>
@@ -944,7 +902,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			types.Remove(type);
+			topicDTO.Types.Remove(type);
 		}
 
 		/// <summary>
@@ -966,7 +924,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			// HACK: could be a bottleneck
-			if (rolesPlayed.Count > 0)
+			if (RolesPlayed.Count > 0)
 			{
 				throw new TopicInUseException("Removing a topic used as player is not allowed.");
 			}
@@ -1080,7 +1038,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return true;
 			}
 
-			if (subjectIdentifiers.Exists(
+			if (topicDTO.SubjectIdentifiers.Exists(
 				locator =>
 					{
 						return other.SubjectIdentifiers.Contains(locator) ||
@@ -1090,7 +1048,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return true;
 			}
 
-			if (subjectLocators.Exists(locator => other.SubjectLocators.Contains(locator)))
+			if (topicDTO.SubjectLocators.Exists(locator => other.SubjectLocators.Contains(locator)))
 			{
 				return true;
 			}
@@ -1125,7 +1083,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="name">The name to be added.</param>
 		internal void AddName(IName name)
 		{
-			names.Add(name);
+			topicDTO.Names.Add(name);
 
 			if (name is Name)
 			{
@@ -1137,7 +1095,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void AddOccurrence(Occurrence occurrence)
 		{
 			occurrence.OnRemove += Occurrence_OnRemove;
-			occurrences.Add(occurrence);
+			topicDTO.Occurrences.Add(occurrence);
 			occurrence.Parent = this;
 		}
 
@@ -1158,12 +1116,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				((Role) role).OnRolePlayerChanges += RolePlayed_OnRolePlayerChanges;
 			}
 
-			rolesPlayed.Add(role);
+			topicDTO.RolesPlayed.Add(role);
 		}
 
 		internal Name FindName(Name pattern, bool ignoreParent)
 		{
-			foreach (Name name in names)
+			foreach (Name name in Names)
 			{
 				if (name == pattern)
 				{
@@ -1181,7 +1139,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		internal Occurrence FindOccurrence(Occurrence pattern, bool ignoreParent)
 		{
-			foreach (Occurrence occurrence in occurrences)
+			foreach (Occurrence occurrence in Occurrences)
 			{
 				if (occurrence == pattern)
 				{
@@ -1199,7 +1157,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		internal Role FindRole(Role pattern, bool ignoreParent)
 		{
-			foreach (Role role in rolesPlayed)
+			foreach (Role role in RolesPlayed)
 			{
 				if (role == pattern)
 				{
@@ -1221,7 +1179,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="name">The name to be added.</param>
 		internal void RemoveName(IName name)
 		{
-			names.Remove(name);
+			topicDTO.Names.Remove(name);
 
 			if (name is Name)
 			{
@@ -1232,7 +1190,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void RemoveOccurrence(Occurrence occurrence)
 		{
 			occurrence.OnRemove -= Occurrence_OnRemove;
-			occurrences.Remove(occurrence);
+			topicDTO.Occurrences.Remove(occurrence);
 			occurrence.Parent = null;
 		}
 
@@ -1274,7 +1232,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender is IOccurrence)
 			{
-				occurrences.Remove((IOccurrence) sender);
+				topicDTO.Occurrences.Remove((IOccurrence) sender);
 			}
 		}
 
@@ -1295,7 +1253,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				((Role) role).OnRemove -= RolePlayed_OnRemove;
 			}
 
-			rolesPlayed.Remove(role);
+			topicDTO.RolesPlayed.Remove(role);
 		}
 
 		/// <summary>
