@@ -6,6 +6,8 @@ syntax: regexp
 ^temp/.*
 .*/obj/Debug/.*
 .*/obj/Release/.*
+.*/bin/Debug/.*
+.*/bin/Release/.*
 .*\.suo$
 .*\.g\.csproj$
 .*\.g\.sln$
