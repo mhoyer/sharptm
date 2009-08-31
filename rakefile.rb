@@ -109,7 +109,7 @@ namespace :framework do
 
 	desc 'Switches the framework to Mono'
 	task :mono do
-		configure_framework_for 'mono', '2.0'
+		configure_framework_for 'Mono'
 	end
 
 	def configure_framework_for(framework_key)
