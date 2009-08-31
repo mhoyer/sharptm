@@ -1,0 +1,11 @@
+syntax: regexp
+^backup/.*
+^build/.*
+^deploy/.*
+^nbproject/.*
+^temp/.*
+.*/obj/Debug/.*
+.*/obj/Release/.*
+.*\.suo$
+.*\.g\.csproj$
+.*\.g\.sln$
