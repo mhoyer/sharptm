@@ -9,7 +9,7 @@ using Xunit.BDDExtension;
 namespace Pixelplastic.TopicMaps.SharpTM.Tests
 {
 	public abstract class TopicMapContextSpecification_with_two_topics : 
-		TopicMapContextSpecification
+		With_TopicMap
 	{
 		protected static ITopic topic1, topic2;
 
