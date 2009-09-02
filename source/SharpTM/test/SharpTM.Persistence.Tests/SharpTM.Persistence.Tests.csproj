@@ -79,6 +79,7 @@
     <Compile Include="FromDTO\With_TopicMapDTO.cs" />
     <Compile Include="ToDTO\LocatorToDTOTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
     <Compile Include="ToDTO\ReifiableToDTOTests.cs" />
     <Compile Include="Repositories\TopicMapRepositoryTests.cs" />
     <Compile Include="FromDTO\TopicMapFromDTOTests.cs" />

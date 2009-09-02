@@ -125,6 +125,7 @@
     <Compile Include="Mapper\ToDTO\TopicToDTO.cs" />
     <Compile Include="Mapper\ToDTO\VariantToDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

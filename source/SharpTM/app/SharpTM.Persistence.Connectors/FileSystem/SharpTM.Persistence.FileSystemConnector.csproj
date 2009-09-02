@@ -70,6 +70,7 @@
     <Compile Include="LTMConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XTMConnector.cs" />
+    <Compile Include="..\..\..\..\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
