@@ -11,3 +11,5 @@ syntax: regexp
 .*\.suo$
 .*\.g\.csproj$
 .*\.g\.sln$
+.*\.user$
+.*\.cache$
