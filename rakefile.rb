@@ -121,13 +121,14 @@ namespace :generate do
 	desc 'Updates the version information for the build'
 	task :version do
 		next if configatron.build.number.nil?
+
+    shared_asm_info_file = 'SharedAssemblyInfo.cs'.in(configatron.dir.source)
+    if not File.exist? shared_asm_info_file
+      puts "Skipping shared AssemblyInfo file modification: #{shared_asm_info_file} not found."
+      next
+    end
 		
-		asmInfo = AssemblyInfoBuilder.new({
-				:AssemblyFileVersion => configatron.build.number,
-				:AssemblyVersion => configatron.build.number
-			})
-			
-		asmInfo.write 'VersionInfo.cs'.in(configatron.dir.source)
+		AssemblyInfoBuilder.new(configatron.build.number, shared_asm_info_file).patch
 	end
 
 	desc 'Updates the configuration files for the build'
@@ -139,24 +140,22 @@ namespace :generate do
 	
 	desc 'Creates framework spcific project files'
 	task :projFiles do
-		if not configatron.build.framework.nil? then
-			csproj = FileList.new("#{configatron.dir.source}/**/*.csproj").exclude(/.*\.g\..*/i)
-			
-			csproj.each do |csprojFile|
-				CSProjModifier.new(csprojFile).create(configatron.build.framework)
-			end
-		end
+    next if configatron.build.framework.nil?
+
+    csproj = FileList.new("#{configatron.dir.source}/**/*.csproj").exclude(/.*\.g\..*/i)
+    csproj.each do |csprojFile|
+      CSProjModifier.new(csprojFile).create(configatron.build.framework)
+    end
 	end
 
   desc 'Creates framework spcific project files'
 	task :slnFiles do
-		if not configatron.build.framework.nil? then
-			sln = FileList.new("#{configatron.dir.source}/**/*.sln").exclude(/.*\.g\..*/i)
+		next if configatron.build.framework.nil?
 
-			sln.each do |slnFile|
-				SlnModifier.new(slnFile).create(configatron.build.framework)
-			end
-		end
+    sln = FileList.new("#{configatron.dir.source}/**/*.sln").exclude(/.*\.g\..*/i)
+    sln.each do |slnFile|
+      SlnModifier.new(slnFile).create(configatron.build.framework)
+    end
 	end
 
   task :all => ['generate:version', 'generate:config', 'generate:projFiles', 'generate:slnFiles']
