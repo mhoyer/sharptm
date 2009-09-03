@@ -16,10 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Variant : DatatypeAware, IVariant
 	{
-		/// <summary>
-		/// Represents the current scope themes.
-		/// </summary>
-		readonly List<ITopic> mergedScope;
+		internal VariantData variantData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Variant"/> class.
@@ -27,16 +24,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent.</param>
 		/// <param name="topicMap">The topic map.</param>
 		internal Variant(IName parent, ITopicMap topicMap)
-			: base(new VariantData(), parent, topicMap)
-		{
-			if (parent == null)
-			{
-				throw new ArgumentNullException("parent");
-			}
+			: this(new VariantData(), parent, topicMap)
+		{}
 
+		internal Variant(VariantData data, IName parent, ITopicMap topicMap)
+			: base(data, parent, topicMap)
+		{
+			if (parent == null) throw new ArgumentNullException("parent");
+
+			variantData = data;
 			Parent = parent;
-			mergedScope = new List<ITopic>();
-			MergedScope = mergedScope.AsReadOnly();
 			MergeScopes();
 		}
 
@@ -67,20 +64,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get
 			{
 				MergeScopes();
-				return MergedScope;
+				return variantData.MergedScope;
 			}
 		}
 		#endregion
-
-		/// <summary>
-		/// Gets the merged scope as <see cref="ReadOnlyCollection{T}"/>.
-		/// </summary>
-		/// <value>The merged scope.</value>
-		internal ReadOnlyCollection<ITopic> MergedScope
-		{
-			get;
-			private set;
-		}
 
 		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="Variant"/>.
@@ -153,17 +140,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		void MergeScopes()
 		{
 			// TODO introduce a dirty flag to reduce unnecessary merging.
-			mergedScope.Clear();
-			mergedScope.AddRange(Parent.Scope);
+			variantData.MergedScope.Clear();
+			variantData.MergedScope.AddRange(Parent.Scope);
 
 			foreach (ITopic theme in base.Scope)
 			{
-				if (mergedScope.Contains(theme))
+				if (variantData.MergedScope.Contains(theme))
 				{
 					continue;
 				}
 
-				mergedScope.Add(theme);
+				variantData.MergedScope.Add(theme);
 			}
 		}
 	}
