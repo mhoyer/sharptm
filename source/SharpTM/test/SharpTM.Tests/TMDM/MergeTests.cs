@@ -87,6 +87,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Tests
 
 		Because of_adding_the_same_SID_to_last_topic = () => topicToBeMerged.AddSubjectIdentifier(sid);
 
-		It should_restore_the_parent = () => existingTopic.Parent.ShouldNotBeNull();
+		It should_save_the_parent_of_the_existing_topic = () => existingTopic.Parent.ShouldNotBeNull();
+		It should_save_the_parent_of_the_other_topic = () => topicToBeMerged.Parent.ShouldNotBeNull();
+		It should_reference_same_occurrence_list_for_both = () => existingTopic.Occurrences.ShouldEqual(topicToBeMerged.Occurrences);
+		It should_reference_same_roles_played_list_for_both = () => existingTopic.RolesPlayed.ShouldEqual(topicToBeMerged.RolesPlayed);
 	}
 }
