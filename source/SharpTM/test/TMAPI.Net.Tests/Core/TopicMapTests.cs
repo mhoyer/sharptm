@@ -36,7 +36,7 @@ namespace TMAPI.Net.Tests.Core
             ITopicMap tm = topicMapSystem.CreateTopicMap(TestTM1);
             var topics = tm.Topics;
             Assert.Empty(topics);
-            Assert.IsType<ReadOnlyCollection<ITopic>>(tm.Topics);
+            Assert.IsAssignableFrom<ReadOnlyCollection<ITopic>>(tm.Topics);
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace TMAPI.Net.Tests.Core
         {
             ITopicMap tm = topicMapSystem.CreateTopicMap(TestTM1);
             Assert.Empty(tm.Associations);
-            Assert.IsType<ReadOnlyCollection<IAssociation>>(tm.Associations);
+            Assert.IsAssignableFrom<ReadOnlyCollection<IAssociation>>(tm.Associations);
         }
 
         [Fact]
