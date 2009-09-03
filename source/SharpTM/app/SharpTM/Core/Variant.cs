@@ -4,7 +4,6 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;

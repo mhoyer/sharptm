@@ -65,6 +65,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Merging
 			Merge.Construct(ToBeMerged).Into(target);
 
 			ToBeMerged.Remove();
+
+			if (ToBeMerged as Topic != null &&
+				targetTopic as Topic != null)
+			{
+				((Topic) ToBeMerged).topicData = ((Topic) targetTopic).topicData;
+			}
 		}
 
 		void ReplaceReifier()

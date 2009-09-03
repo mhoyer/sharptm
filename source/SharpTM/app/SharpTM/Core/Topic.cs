@@ -193,28 +193,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
 				{
 					existingTopic.MergeIn(this);
+					return;
+				}
+
+				throw new IdentityConstraintException(String.Format("Topic with subject identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
+			}
+			
+			IConstruct construct = TopicMap.GetConstructByItemIdentifier(subjectIdentifier);
+
+			if (construct != null && construct is ITopic)
+			{
+				if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
+				{
+					// ((ITopic)construct).MergeIn(this);
+					// ((ITopic)construct).AddSubjectIdentifier(subjectIdentifier);
+					((ITopic)construct).MergeIn(this);
 				}
 				else
 				{
-					throw new IdentityConstraintException(String.Format("Topic with subject identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
-				}
-			}
-			else
-			{
-				IConstruct construct = TopicMap.GetConstructByItemIdentifier(subjectIdentifier);
-
-				if (construct != null && construct is ITopic)
-				{
-					if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
-					{
-						// ((ITopic)construct).MergeIn(this);
-						// ((ITopic)construct).AddSubjectIdentifier(subjectIdentifier);
-						MergeIn((ITopic)construct);
-					}
-					else
-					{
-						throw new IdentityConstraintException(String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
-					}
+					throw new IdentityConstraintException(
+						String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.",
+						              subjectIdentifier));
 				}
 			}
 
@@ -260,13 +259,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (((TopicMap)TopicMap).TopicMapSystem.GetFeature(Features.AutomaticMerging))
 				{
 					existingTopic.MergeIn(this);
+					return;
 				}
-				else
-				{
-					throw new IdentityConstraintException(String.Format("Topic with subject locator {0} already exists in topic map and [automerge] is not enabled.", subjectLocator));
-				}
-			}
 
+				throw new IdentityConstraintException(String.Format("Topic with subject locator {0} already exists in topic map and [automerge] is not enabled.", subjectLocator));
+			}
+			
 			topicData.SubjectLocators.Add(subjectLocator);
 		}
 

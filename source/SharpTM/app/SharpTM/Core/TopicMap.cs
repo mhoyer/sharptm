@@ -665,7 +665,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (topic is Topic)
 				{
 					((Topic) topic).OnRemove -= Topic_OnRemove;
-					((Topic) topic).Parent = null;
+					//((Topic) topic).Parent = null;
 				}
 
 				topicMapData.Topics.Remove(topic);
