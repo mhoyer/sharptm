@@ -74,5 +74,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 		{
 			Items.Remove(item);
 		}
+
+		/// <summary>
+		/// Removes all items from the <see cref="ICollection{T}"/>.
+		/// </summary>
+		/// <exception cref="T:System.NotSupportedException">
+		/// The <see cref="ICollection{T}"/> is read-only.
+		/// </exception>
+		internal void Clear()
+		{
+			Items.Clear();
+		}
 	}
 }

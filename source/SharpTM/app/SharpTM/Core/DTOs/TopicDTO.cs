@@ -10,7 +10,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	/// <summary>
 	/// Simple data storage for <see cref="ITopic"/> items.
 	/// </summary>
-	public class TopicDTO
+	public class TopicDTO : ConstructDTO
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicDTO"/> class.
@@ -72,14 +72,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 		/// The subject locators.
 		/// </value>
 		public ReadOnlyCollectionWithLimitedAccess<ILocator> SubjectLocators { get; set; }
-
-		/// <summary>
-		/// Gets or sets TopicMap.
-		/// </summary>
-		/// <value>
-		/// The topic map.
-		/// </value>
-		public ITopicMap TopicMap { get; set; }
 
 		/// <summary>
 		/// Gets or sets Types.

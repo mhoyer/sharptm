@@ -15,10 +15,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Name : Construct, IName
 	{
-		/// <summary>
-		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
-		/// </summary>
-		readonly Reifiable reifiable;
+		internal ITopic reifier;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
@@ -53,7 +50,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			typed = new Typed(nameType);
-			reifiable = new Reifiable(this);
+			// reifiable = new Reifiable(this);
 			scoped = new Scoped();
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
@@ -92,11 +89,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifiable.Reifier;
+				return reifier;
 			}
 			set
 			{
-				reifiable.Reifier = value;
+				ReificationHelper.Reify(this, value as Topic);
 			}
 		}
 

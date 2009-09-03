@@ -30,13 +30,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="Topic"/> class.
 		/// </summary>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
-		public Topic(ITopicMap topicMap)
-			: this(new TopicDTO { TopicMap = topicMap })
+		internal Topic(ITopicMap topicMap)
+			: this(new TopicDTO { TopicMap = topicMap, Parent = topicMap })
 		{
 		}
 
 		internal Topic(TopicDTO dto)
-			: base(dto.TopicMap, dto.TopicMap)
+			: base(dto)
 		{
 			if (dto == null) throw new ArgumentNullException("dto");
 			topicDTO = dto;

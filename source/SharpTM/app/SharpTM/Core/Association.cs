@@ -16,11 +16,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public class Association : Construct, IAssociation
 	{
 		/// <summary>
-		/// Represents the current instance of <see cref="Reifiable"/> construct helper.
-		/// </summary>
-		readonly Reifiable reifiable;
-
-		/// <summary>
 		/// Represents the list of current roles played by this association.
 		/// </summary>
 		readonly List<IRole> roles;
@@ -39,6 +34,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
 		readonly Typed typed;
+
+		internal Topic reifier;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
@@ -70,7 +67,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			RoleTypes = roleTypes.AsReadOnly();
 
 			typed = new Typed(associationType);
-			reifiable = new Reifiable(this);
 			scoped = new Scoped();
 
 			if (initialThemes != null)
@@ -108,11 +104,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifiable.Reifier;
+				return reifier;
 			}
 			set
 			{
-				reifiable.Reifier = value;
+				ReificationHelper.Reify(this, value as Topic);
 			}
 		}
 

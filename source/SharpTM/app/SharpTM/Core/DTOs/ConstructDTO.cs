@@ -11,7 +11,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 {
 	public class ConstructDTO
 	{
-		public ConstructDTO()
+		protected internal ConstructDTO()
 		{
 			Id = Guid.NewGuid().ToString();
 			ItemIdentifiers = new ReadOnlyCollectionWithLimitedAccess<ILocator>();

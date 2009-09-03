@@ -15,17 +15,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class Construct : IConstruct
 	{
-		internal ConstructDTO constructDTO;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Construct"/> class.
-		/// </summary>
-		/// <param name="dto">The storage object.</param>
-		protected Construct(ConstructDTO dto)
-		{
-			if (dto == null) throw new ArgumentNullException("dto");
-			constructDTO = dto;
-		}
+		readonly ConstructDTO constructDTO;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
@@ -33,9 +23,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
 		protected Construct(IConstruct parent, ITopicMap topicMap)
-			: this (new ConstructDTO { Parent = parent, TopicMap = topicMap })
+			: this(new ConstructDTO() { Parent = parent, TopicMap = topicMap })
 		{
-			if (topicMap == null)
+			if (TopicMap == null)
 			{
 				if (this is ITopicMap)
 				{
@@ -46,6 +36,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					throw new ArgumentNullException("topicMap");
 				}
 			}
+		}
+
+		protected Construct(ConstructDTO dto)
+		{
+			constructDTO = dto;
 		}
 
 		/// <summary>

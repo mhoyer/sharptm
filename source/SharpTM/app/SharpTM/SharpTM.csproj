@@ -88,13 +88,14 @@
     <Compile Include="Core\Locator.cs" />
     <Compile Include="Core\Name.cs" />
     <Compile Include="Core\Occurrence.cs" />
-    <Compile Include="Core\Reifiable.cs" />
+    <Compile Include="Core\ReificationHelper.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="Core\RolePlayerChangedEventArgs.cs" />
     <Compile Include="Core\RoleTypeChangesEventArgs.cs" />
     <Compile Include="Core\Scoped.cs" />
     <Compile Include="Core\Topic.cs" />
     <Compile Include="Core\TopicMap.cs" />
+    <Compile Include="Core\DTOs\TopicMapDTO.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\SharpTMSystemFactory.cs" />
     <Compile Include="Merging\AssociationToBeMerged.cs" />

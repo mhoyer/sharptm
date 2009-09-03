@@ -16,10 +16,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class DatatypeAware : Construct, IDatatypeAware
 	{
-		/// <summary>
-		/// Represents the current <see cref="Reifiable"/> of a <see cref="IReifiable"/> construct.
-		/// </summary>
-		private readonly Reifiable reifiable;
+		///// <summary>
+		///// Represents the current <see cref="Reifiable"/> of a <see cref="IReifiable"/> construct.
+		///// </summary>
+		//private readonly Reifiable reifiable;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
@@ -32,6 +32,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		private ILocator locatorValue;
 		private long longValue;
 		private string stringValue;
+		internal ITopic reifier;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DatatypeAware"/> class.
@@ -41,7 +42,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		protected DatatypeAware(IConstruct parent, ITopicMap topicMap)
 			: base(parent, topicMap)
 		{
-			reifiable = new Reifiable(this);
+			// reifiable = new Reifiable(this);
 			scoped = new Scoped();
 		}
 
@@ -213,11 +214,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifiable.Reifier;
+				return reifier;
 			}
 			set
 			{
-				reifiable.Reifier = value;
+				ReificationHelper.Reify(this, value as Topic);
 			}
 		}
 
