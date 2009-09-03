@@ -12,6 +12,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	{
 		public ReadOnlyCollectionWithLimitedAccess<IAssociation> Associations { get; set; }
 		public ReadOnlyCollectionWithLimitedAccess<ITopic> Topics { get; set; }
+		public ITopic Reifier { get; set; }
 		
 		public TopicMapDTO()
 		{

@@ -50,11 +50,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		readonly ITypeInstanceIndex typedIndex;
 
 		/// <summary>
-		/// Represents the topic that reifies this topic map.
-		/// </summary>
-		internal Topic reifier;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
 		/// </summary>
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
@@ -130,7 +125,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifier;
+				return topicMapDTO.Reifier;
 			}
 			set
 			{
