@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -15,27 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Name : Construct, IName
 	{
-		/// <summary>
-		/// Represents the topic that reifies this name.
-		/// </summary>
-		internal Topic reifier;
-
-		/// <summary>
-		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
-		/// </summary>
-		readonly List<ITopic> scope;
-
-		/// <summary>
-		/// Represents the type of that construct.
-		/// </summary>
-		ITopic _type;
-
-		/// <summary>
-		/// Represents the list of variants for this <see cref="IName"/> instance.
-		/// </summary>
-		readonly List<IVariant> variants;
-
-		string value;
+		internal NameData nameData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Name"/> class.
@@ -43,19 +24,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent topic for this instance.</param>
 		/// <param name="nameType">Type for this name instance.</param>
 		internal Name(ITopic parent, ITopic nameType)
-			: base(parent, parent.TopicMap)
+			: this(new NameData(), parent, nameType)
+		{}
+
+		internal Name(NameData data, ITopic parent, ITopic nameType)
+			: base(data, parent, parent.TopicMap)
 		{
-			if (nameType == null)
+			nameData = data;
+
+			if (nameType == null &&
+				nameData.Type == null)
 			{
 				throw new ModelConstraintException(
 					"The type of a name MUST NOT be null.",
 					new ArgumentNullException("nameType"));
 			}
-
-			Type = nameType;
-			scope = new List<ITopic>();
-			variants = new List<IVariant>();
-			Variants = variants.AsReadOnly();
+			
+			if (nameType != null) Type = nameType;
 		}
 
 		#region IName properties
@@ -91,7 +76,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifier;
+				return nameData.Reifier;
 			}
 			set
 			{
@@ -109,10 +94,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ITopic> Scope
 		{
-			get
-			{
-				return scope.AsReadOnly();
-			}
+			get { return nameData.Scope; }
 		}
 
 		/// <summary>
@@ -128,12 +110,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return _type;
+				return nameData.Type;
 			}
 			set
 			{
 				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
-				_type = value;
+				nameData.Type = value;
 			}
 		}
 
@@ -147,16 +129,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return value;
+				return nameData.Value;
 			}
 			set
 			{
 				if (value == null)
-				{
 					throw new ModelConstraintException("The value of a Name MUST NOT be null.");
-				}
 
-				this.value = value;
+				nameData.Value = value;
 			}
 		}
 
@@ -169,8 +149,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IVariant> Variants
 		{
-			get;
-			private set;
+			get { return nameData.Variants; }
 		}
 		#endregion
 
@@ -186,7 +165,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			ScopeHelper.AddTheme(scope, theme);
+			ScopeHelper.AddTheme(nameData.Scope, theme);
 		}
 
 		/// <summary>
@@ -197,7 +176,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveTheme(ITopic theme)
 		{
-			ScopeHelper.RemoveTheme(scope, theme);
+			ScopeHelper.RemoveTheme(nameData.Scope, theme);
 		}
 
 		/// <summary>
@@ -420,7 +399,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
-			ScopeHelper.AddThemes(scope, themes);
+			ScopeHelper.AddThemes(nameData.Scope, themes);
 		}
 
 		/// <summary>
@@ -484,7 +463,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <returns>The found variant or null.</returns>
 		public Variant FindVariant(IVariant pattern, bool ignoreParent)
 		{
-			foreach (Variant variant in variants)
+			foreach (Variant variant in Variants)
 			{
 				if (variant == pattern)
 				{
@@ -513,7 +492,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void AddVariant(IVariant variant)
 		{
 			CheckSuperSet(variant.Scope);
-			variants.Add(variant);
+			nameData.Variants.Add(variant);
 
 			if (variant is Variant)
 			{
@@ -602,7 +581,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender is IVariant)
 			{
-				variants.Remove((IVariant) sender);
+				nameData.Variants.Remove((IVariant)sender);
 			}
 		}
 	}

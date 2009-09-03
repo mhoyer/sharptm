@@ -67,7 +67,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public static void Reify(Name reifiable, Topic newReifier)
 		{
 			Do(reifiable, newReifier);
-			reifiable.reifier = newReifier;
+			reifiable.nameData.Reifier = newReifier;
 		}
 	}
 }

@@ -10,15 +10,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 {
 	public class NameData : ConstructData
 	{
+		public ReadOnlyCollectionWithLimitedAccess<IVariant> Variants { get; set; }
+		public ReadOnlyCollectionWithLimitedAccess<ITopic> Scope { get; set; }
 		public ITopic Reifier { get; set; }
 		public ITopic Type { get; set; }
-		public string Scope { get; set; }
 		public string Value { get; set; }
-		public ReadOnlyCollectionWithLimitedAccess<IVariant> Variants { get; private set;}
 
 		public NameData()
 		{
 			Variants = new ReadOnlyCollectionWithLimitedAccess<IVariant>();
+			Scope = new ReadOnlyCollectionWithLimitedAccess<ITopic>();
 		}
 	}
 }
