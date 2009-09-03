@@ -43,7 +43,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public static void Reify(DatatypeAware reifiable, Topic newReifier)
 		{
 			Do(reifiable, newReifier);
-			reifiable.reifier = newReifier;
+			reifiable.datatypeData.Reifier = newReifier;
 		}
 
 		public static void Reify(Association reifiable, Topic newReifier)

@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -26,7 +27,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent.</param>
 		/// <param name="topicMap">The topic map.</param>
 		internal Variant(IName parent, ITopicMap topicMap)
-			: base(parent, topicMap)
+			: base(new VariantData(), parent, topicMap)
 		{
 			if (parent == null)
 			{

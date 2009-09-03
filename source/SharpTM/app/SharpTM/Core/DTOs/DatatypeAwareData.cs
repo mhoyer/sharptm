@@ -10,10 +10,20 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 {
 	public abstract class DatatypeAwareData : ConstructData
 	{
+		public ReadOnlyCollectionWithLimitedAccess<ITopic> Scope { get; set; }
 		public ITopic Reifier { get; set; }
-		public string Value { get; set; }
-		public string Datatype { get; set; }
-		
-		public string Scope { get; set; }
+		public ILocator Datatype { get; set; }
+		public string Value;
+		public decimal DecimalValue;
+		public float FloatValue;
+		public int IntValue;
+		public ILocator LocatorValue;
+		public long LongValue;
+		public string StringValue;
+
+        public DatatypeAwareData()
+		{
+			Scope = new ReadOnlyCollectionWithLimitedAccess<ITopic>();
+		}
 	}
 }

@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -24,7 +25,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="occurrenceType">The type of this instance.</param>
 		internal Occurrence(ITopic parent, ITopic occurrenceType)
-			: base(parent, parent.TopicMap)
+			: base(new OccurrenceData(), parent, parent.TopicMap)
 		{
 			if (occurrenceType == null)
 			{
