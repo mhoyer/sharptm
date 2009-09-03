@@ -26,28 +26,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
-
 		internal TopicMapData topicMapData;
-
-		/// <summary>
-		/// Represents the current list of <see cref="IConstruct">constructs</see>.
-		/// </summary>
-		readonly List<IConstruct> constructs;
-
-		/// <summary>
-		/// Represents the current instance of <see cref="ILiteralIndex"/>.
-		/// </summary>
-		readonly ILiteralIndex literalIndex;
-
-		/// <summary>
-		/// Represents the current instance of <see cref="IScopedIndex"/>.
-		/// </summary>
-		readonly IScopedIndex scopedIndex;
-
-		/// <summary>
-		/// Represents the current instance of <see cref="ITypeInstanceIndex"/>.
-		/// </summary>
-		readonly ITypeInstanceIndex typedIndex;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
@@ -66,18 +45,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
 			topicMapData = data;
-			constructs = new List<IConstruct>();
 
 			if (itemIdentifier != null) AddItemIdentifier(itemIdentifier);
 			if (data.ItemIdentifiers.Count == 0)
 				throw new ArgumentException("At least one item identifier required for a TopicMap.");
 
-			TopicMapSystem = topicMapSystem;
+			topicMapData.TopicMapSystem = topicMapSystem;
 
 			// TODO How to handle enableAutoUpdate parameter? app.config?
-			literalIndex = new LiteralIndex(topicMapSystem, false);
-			scopedIndex = new ScopedIndex(topicMapSystem, false);
-			typedIndex = new TypedInstanceIndex(topicMapSystem, false);
+			topicMapData.LiteralIndex = new LiteralIndex(topicMapSystem, false);
+			topicMapData.ScopedIndex = new ScopedIndex(topicMapSystem, false);
+			topicMapData.TypedIndex = new TypedInstanceIndex(topicMapSystem, false);
 		}
 
 
@@ -155,8 +133,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The topic map system.</value>
 		public TopicMapSystem TopicMapSystem
 		{
-			get;
-			private set;
+			get
+			{
+				return topicMapData.TopicMapSystem;
+			}
 		}
 
 		#region ITopicMap methods
@@ -170,7 +150,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			topicMapData.Associations.Clear();
 			topicMapData.Topics.Clear();
-			constructs.Clear();
+			topicMapData.Constructs.Clear();
+			topicMapData = null;
 		}
 
 		/// <summary>
@@ -223,7 +204,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			Association association = new Association(this, associationType, initialThemes);
 			association.OnRemove += Association_OnRemove;
 			topicMapData.Associations.Add(association);
-			constructs.Add(association);
+			topicMapData.Constructs.Add(association);
 
 			return association;
 		}
@@ -391,7 +372,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			topic.AddSubjectIdentifier(subjectIdentifier);
 
 			topicMapData.Topics.Add(topic);
-			constructs.Add(topic);
+			topicMapData.Constructs.Add(topic);
 
 			return topic;
 		}
@@ -433,7 +414,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			topic.AddSubjectLocator(subjectLocator);
 
 			topicMapData.Topics.Add(topic);
-			constructs.Add(topic);
+			topicMapData.Constructs.Add(topic);
 
 			return topic;
 		}
@@ -458,7 +439,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return this;
 			}
 
-			foreach (IConstruct construct in constructs)
+			foreach (IConstruct construct in topicMapData.Constructs)
 			{
 				if (construct.Id == id)
 				{
@@ -489,7 +470,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return this;
 			}
 
-			foreach (IConstruct construct in constructs)
+			foreach (IConstruct construct in topicMapData.Constructs)
 			{
 				if (construct.ItemIdentifiers.Contains(itemIdentifier))
 				{
@@ -516,17 +497,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (typeof(ILiteralIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T) literalIndex;
+				return (T) topicMapData.LiteralIndex;
 			}
 
 			if (typeof(IScopedIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T) scopedIndex;
+				return (T)topicMapData.ScopedIndex;
 			}
 
 			if (typeof(ITypeInstanceIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T) typedIndex;
+				return (T)topicMapData.TypedIndex;
 			}
 
 			throw new TMAPIException("Unable to get index.",
@@ -635,7 +616,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="construct">The construct to be added.</param>
 		internal void AddConstruct(IConstruct construct)
 		{
-			constructs.Add(construct);
+			topicMapData.Constructs.Add(construct);
 		}
 
 		internal void AddTopic(ITopic topic)
@@ -647,7 +628,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			topicMapData.Topics.Add(topic);
-			constructs.Add(topic);
+			topicMapData.Constructs.Add(topic);
 		}
 
 		internal Topic FindDuplicate(Topic duplicatePattern)
@@ -674,7 +655,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="construct">The construct to be removed.</param>
 		internal void RemoveConstruct(IConstruct construct)
 		{
-			constructs.Remove(construct);
+			topicMapData.Constructs.Remove(construct);
 		}
 
 		internal void RemoveTopic(ITopic topic)
@@ -688,7 +669,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 
 				topicMapData.Topics.Remove(topic);
-				constructs.Remove(topic);
+				topicMapData.Constructs.Remove(topic);
 			}
 		}
 
