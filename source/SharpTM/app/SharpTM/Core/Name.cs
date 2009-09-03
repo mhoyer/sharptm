@@ -30,6 +30,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal Name(NameData data, ITopic parent, ITopic nameType)
 			: base(data, parent, parent.TopicMap)
 		{
+			if (data == null) throw new ArgumentNullException("data");
+
 			nameData = data;
 
 			if (nameType == null &&

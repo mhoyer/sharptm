@@ -37,6 +37,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal Association(AssociationData data, ITopicMap topicMap, ITopic associationType, IEnumerable<ITopic> initialThemes)
 			: base(data, topicMap, topicMap)
 		{
+			if (data == null) throw new ArgumentNullException("data");
+
 			if (associationType == null &&
 				data.Type == null)
 			{
