@@ -61,7 +61,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public static void Reify(Role reifiable, Topic newReifier)
 		{
 			Do(reifiable, newReifier);
-			reifiable.reifier = newReifier;
+			reifiable.roleData.Reifier = newReifier;
 		}
 
 		public static void Reify(Name reifiable, Topic newReifier)

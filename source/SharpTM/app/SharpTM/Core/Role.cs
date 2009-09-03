@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -13,20 +14,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Role : Construct, IRole
 	{
-		/// <summary>
-		/// Represents the type of that construct.
-		/// </summary>
-		ITopic _type;
-
-		/// <summary>
-		/// Represents the current topic playing this role.
-		/// </summary>
-		ITopic player;
-
-		/// <summary>
-		/// Represents the topic that reifies this role.
-		/// </summary>
-		internal Topic reifier;
+		internal RoleData roleData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Role"/> class.
@@ -36,24 +24,30 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="initialPlayer">The initial player playing this role.</param>
 		/// <param name="roleType">Type of the role. MUST NOT be null.</param>
 		internal Role(IAssociation parent, ITopicMap topicMap, ITopic initialPlayer, ITopic roleType)
-			: base(parent, topicMap)
+			: this(new RoleData(), parent, topicMap, initialPlayer, roleType)
+		{}
+
+		internal Role(RoleData data, IAssociation parent, ITopicMap topicMap, ITopic initialPlayer, ITopic roleType)
+			: base(data, parent, topicMap)
 		{
-			if (initialPlayer == null)
+			if (initialPlayer == null && data.Player == null)
 			{
 				throw new ModelConstraintException(
 					"The role player MUST NOT be null.",
 					new ArgumentNullException("initialPlayer"));
 			}
 
-			if (roleType == null)
+			if (roleType == null && data.Type == null)
 			{
 				throw new ModelConstraintException(
 					"A role MUST NOT be untyped.",
 					new ArgumentNullException("roleType"));
 			}
 
-			Type = roleType;
-			Player = initialPlayer;
+			roleData = data;
+
+			if (roleType != null) Type = roleType;
+			if (initialPlayer != null) Player = initialPlayer;
 		}
 
 		/// <summary>
@@ -95,7 +89,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return player;
+				return roleData.Player;
 			}
 			set
 			{
@@ -107,7 +101,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				// notify the player changes event
 				if (OnRolePlayerChanges != null)
 				{
-					OnRolePlayerChanges(this, new RolePlayerChangedEventArgs(player, value));
+					OnRolePlayerChanges(this, new RolePlayerChangedEventArgs(roleData.Player, value));
 				}
 
 				// notify the new player about it played role
@@ -116,7 +110,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					((Topic) value).AddRolePlayed(this);
 				}
 
-				player = value;
+				roleData.Player = value;
 			}
 		}
 
@@ -134,7 +128,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifier;
+				return roleData.Reifier;
 			}
 			set
 			{
@@ -155,13 +149,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return _type;
+				return roleData.Type;
 			}
 			set
 			{
 				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
-				RoleTypeChanges(_type, value);
-				_type = value;
+				RoleTypeChanges(roleData.Type, value);
+				roleData.Type = value;
 			}
 		}
 		#endregion
