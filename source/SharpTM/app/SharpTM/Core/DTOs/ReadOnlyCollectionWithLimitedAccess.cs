@@ -15,7 +15,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	/// </summary>
 	/// <typeparam name="T">
 	/// </typeparam>
-	public class ReadOnlyCollectionWithLimitedAccess<T> : ReadOnlyCollection<T>
+	internal class ReadOnlyCollectionWithLimitedAccess<T> : ReadOnlyCollection<T>, IList<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReadOnlyCollectionWithLimitedAccess&lt;T&gt;"/> class.
@@ -61,7 +61,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 		/// <exception cref="T:System.NotSupportedException">
 		/// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
 		/// </exception>
-		internal void Add(T item)
+		public void Add(T item)
 		{
 			Items.Add(item);
 		}
@@ -70,9 +70,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 		/// Removes the specified item.
 		/// </summary>
 		/// <param name="item">The item.</param>
-		internal void Remove(T item)
+		public bool Remove(T item)
 		{
-			Items.Remove(item);
+			return Items.Remove(item);
 		}
 
 		/// <summary>
@@ -81,9 +81,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 		/// <exception cref="T:System.NotSupportedException">
 		/// The <see cref="ICollection{T}"/> is read-only.
 		/// </exception>
-		internal void Clear()
+		public void Clear()
 		{
 			Items.Clear();
+		}
+
+		public bool IsReadOnly
+		{
+			get
+			{
+				return false;
+			}
 		}
 	}
 }
