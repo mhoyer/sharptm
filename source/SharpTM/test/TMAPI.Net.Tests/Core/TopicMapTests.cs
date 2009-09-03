@@ -144,7 +144,7 @@ namespace TMAPI.Net.Tests.Core
             IList<ITopic> scopes = new List<ITopic> {scope1, scope2};
             var association = tm.CreateAssociation(type, scopes);
             Assert.NotNull(association);
-            Assert.IsType<ReadOnlyCollection<ITopic>>(association.Scope);
+            Assert.IsAssignableFrom<ReadOnlyCollection<ITopic>>(association.Scope);
             Assert.Equal(2, association.Scope.Count);
             Assert.Equal(scope1, association.Scope[0]);
             Assert.Equal(scope2, association.Scope[1]);
