@@ -31,6 +31,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="topicMap">The topic map this instance is part of.</param>
 		protected Construct(ConstructDTO dto, IConstruct parent, ITopicMap topicMap)
 		{
+			if (dto == null) throw new ArgumentNullException("dto");
+
 			if (topicMap == null)
 			{
 				if (this is ITopicMap)
