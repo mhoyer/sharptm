@@ -15,7 +15,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	/// </summary>
 	/// <typeparam name="T">
 	/// </typeparam>
-	internal class ReadOnlyCollectionWithLimitedAccess<T> : ReadOnlyCollection<T>, IList<T>
+	public class ReadOnlyCollectionWithLimitedAccess<T> : ReadOnlyCollection<T>, IList<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReadOnlyCollectionWithLimitedAccess&lt;T&gt;"/> class.
