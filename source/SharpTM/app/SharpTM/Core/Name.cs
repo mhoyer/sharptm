@@ -26,9 +26,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		readonly Scoped scoped;
 
 		/// <summary>
-		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// Represents the type of that construct.
 		/// </summary>
-		readonly Typed typed;
+		ITopic _type;
 
 		/// <summary>
 		/// Represents the list of variants for this <see cref="IName"/> instance.
@@ -52,7 +52,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("nameType"));
 			}
 
-			typed = new Typed(nameType);
+			Type = nameType;
 			scoped = new Scoped();
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
@@ -128,11 +128,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return typed.Type;
+				return _type;
 			}
 			set
 			{
-				typed.Type = value;
+				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				_type = value;
 			}
 		}
 

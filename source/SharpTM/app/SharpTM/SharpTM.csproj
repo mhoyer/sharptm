@@ -103,7 +103,6 @@
     <Compile Include="Merging\ConstructToBeMerged.cs" />
     <Compile Include="Merging\IToBeMerged.cs" />
     <Compile Include="Merging\Merge.cs" />
-    <Compile Include="Core\Typed.cs" />
     <Compile Include="Core\Variant.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Index\Index.cs" />

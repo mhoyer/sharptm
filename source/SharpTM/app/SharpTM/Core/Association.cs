@@ -31,9 +31,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		readonly Scoped scoped;
 
 		/// <summary>
-		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// Represents the type of that construct.
 		/// </summary>
-		readonly Typed typed;
+		ITopic _type;
 
 		/// <summary>
 		/// Represents the topic that reifies this association.
@@ -69,7 +69,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			roleTypes = new List<ITopic>();
 			RoleTypes = roleTypes.AsReadOnly();
 
-			typed = new Typed(associationType);
+			Type = associationType;
 			scoped = new Scoped();
 
 			if (initialThemes != null)
@@ -172,11 +172,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return typed.Type;
+				return _type;
 			}
 			set
 			{
-				typed.Type = value;
+				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				_type = value;
 			}
 		}
 		#endregion

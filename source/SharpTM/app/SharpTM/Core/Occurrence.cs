@@ -14,26 +14,26 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public class Occurrence : DatatypeAware, IOccurrence
 	{
 		/// <summary>
-		/// Represents the current instance of <see cref="Typed"/> construct helper.
+		/// Represents the type of that construct.
 		/// </summary>
-		readonly Typed typed;
+		ITopic _type;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Occurrence"/> class.
 		/// </summary>
 		/// <param name="parent">The parent of this instance.</param>
-		/// <param name="type">The type of this instance.</param>
-		internal Occurrence(ITopic parent, ITopic type)
+		/// <param name="occurrenceType">The type of this instance.</param>
+		internal Occurrence(ITopic parent, ITopic occurrenceType)
 			: base(parent, parent.TopicMap)
 		{
-			if (type == null)
+			if (occurrenceType == null)
 			{
 				throw new ModelConstraintException(
 					"An occurrence type MUST NOT be null.",
-					new ArgumentNullException("type"));
+					new ArgumentNullException("occurrenceType"));
 			}
 
-			typed = new Typed(type);
+			Type = occurrenceType;
 		}
 
 		#region IOccurrence properties
@@ -68,11 +68,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return typed.Type;
+				return _type;
 			}
 			set
 			{
-				typed.Type = value;
+				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				_type = value;
 			}
 		}
 		#endregion
