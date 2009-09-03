@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 {
@@ -91,6 +92,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 			get
 			{
 				return false;
+			}
+		}
+
+		public void AddRange(IList<T> items)
+		{
+			foreach (T item in items)
+			{
+				Items.Add(item);
 			}
 		}
 	}
