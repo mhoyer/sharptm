@@ -41896,7 +41896,7 @@ nostro Novecento letterario."</resourceData>
     </role>
   </association>
   <association reifier="#madama-butterfly-based-on">
-    <itemIdentity href="#reified-id5593"></itemIdentity>
+    <!-- <itemIdentity href="#reified-id5593"></itemIdentity> -->
     <type>
       <topicRef href="#based-on"></topicRef>
     </type>
@@ -65063,7 +65063,7 @@ nostro Novecento letterario."</resourceData>
     </role>
   </association>
   <association reifier="#tosca-takes-place-in">
-    <itemIdentity href="#reified-id7960"></itemIdentity>
+    <!-- <itemIdentity href="#reified-id7960"></itemIdentity> -->
     <type>
       <topicRef href="#takes-place-in"></topicRef>
     </type>
@@ -71398,7 +71398,7 @@ nostro Novecento letterario."</resourceData>
     </role>
   </association>
   <association reifier="#turandot-takes-place-in">
-    <itemIdentity href="#reified-id6888"></itemIdentity>
+    <!-- <itemIdentity href="#reified-id6888"></itemIdentity> -->
     <type>
       <topicRef href="#takes-place-in"></topicRef>
     </type>
@@ -92688,7 +92688,7 @@ nostro Novecento letterario."</resourceData>
     </role>
   </association>
   <association reifier="#la-tilda-libretto-by">
-    <itemIdentity href="#reified-id3223"></itemIdentity>
+    <!-- <itemIdentity href="#reified-id3223"></itemIdentity> -->
     <type>
       <topicRef href="#libretto-by"></topicRef>
     </type>
