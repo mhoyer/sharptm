@@ -27,7 +27,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-		internal TopicMapDTO topicMapDTO;
+		internal TopicMapData topicMapData;
 
 		/// <summary>
 		/// Represents the current list of <see cref="IConstruct">constructs</see>.
@@ -55,21 +55,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
 		/// <param name="itemIdentifier">The item identifier.</param>
 		internal TopicMap(TopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: this(new TopicMapDTO(), topicMapSystem, itemIdentifier)
+			: this(new TopicMapData(), topicMapSystem, itemIdentifier)
 		{
 		}
 
-		internal TopicMap(TopicMapDTO dto, TopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: base(dto, null, null)
+		internal TopicMap(TopicMapData data, TopicMapSystem topicMapSystem, ILocator itemIdentifier)
+			: base(data, null, null)
 		{
 #if LOG4NET
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
-			topicMapDTO = dto;
+			topicMapData = data;
 			constructs = new List<IConstruct>();
 
 			if (itemIdentifier != null) AddItemIdentifier(itemIdentifier);
-			if (dto.ItemIdentifiers.Count == 0)
+			if (data.ItemIdentifiers.Count == 0)
 				throw new ArgumentException("At least one item identifier required for a TopicMap.");
 
 			TopicMapSystem = topicMapSystem;
@@ -93,7 +93,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicMapDTO.Associations;
+				return topicMapData.Associations;
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicMapDTO.Reifier;
+				return topicMapData.Reifier;
 			}
 			set
 			{
@@ -144,7 +144,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicMapDTO.Topics;
+				return topicMapData.Topics;
 			}
 		}
 		#endregion
@@ -168,8 +168,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public void Close()
 		{
-			topicMapDTO.Associations.Clear();
-			topicMapDTO.Topics.Clear();
+			topicMapData.Associations.Clear();
+			topicMapData.Topics.Clear();
 			constructs.Clear();
 		}
 
@@ -222,7 +222,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			Association association = new Association(this, associationType, initialThemes);
 			association.OnRemove += Association_OnRemove;
-			topicMapDTO.Associations.Add(association);
+			topicMapData.Associations.Add(association);
 			constructs.Add(association);
 
 			return association;
@@ -390,7 +390,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			topic.OnRemove += Topic_OnRemove;
 			topic.AddSubjectIdentifier(subjectIdentifier);
 
-			topicMapDTO.Topics.Add(topic);
+			topicMapData.Topics.Add(topic);
 			constructs.Add(topic);
 
 			return topic;
@@ -432,7 +432,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			topic.OnRemove += Topic_OnRemove;
 			topic.AddSubjectLocator(subjectLocator);
 
-			topicMapDTO.Topics.Add(topic);
+			topicMapData.Topics.Add(topic);
 			constructs.Add(topic);
 
 			return topic;
@@ -549,7 +549,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.DebugFormat("Looking up Topic by subject identifier '{0}'.", subjectIdentifier);
 #endif
 
-			foreach (ITopic topic in topicMapDTO.Topics)
+			foreach (ITopic topic in topicMapData.Topics)
 			{
 				if (topic.SubjectIdentifiers.Contains(subjectIdentifier))
 				{
@@ -575,7 +575,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.DebugFormat("Looking up Topic by subject locator '{0}'.", subjectLocator);
 #endif
 
-			foreach (ITopic topic in topicMapDTO.Topics)
+			foreach (ITopic topic in topicMapData.Topics)
 			{
 				if (topic.SubjectLocators.Contains(subjectLocator))
 				{
@@ -618,7 +618,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.DebugFormat("Looking up Topic by item identifier '{0}'.", itemIdentifier);
 #endif
 
-			foreach (ITopic topic in topicMapDTO.Topics)
+			foreach (ITopic topic in topicMapData.Topics)
 			{
 				if (topic.ItemIdentifiers.Contains(itemIdentifier))
 				{
@@ -646,13 +646,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				((Topic) topic).Parent = this;
 			}
 
-			topicMapDTO.Topics.Add(topic);
+			topicMapData.Topics.Add(topic);
 			constructs.Add(topic);
 		}
 
 		internal Topic FindDuplicate(Topic duplicatePattern)
 		{
-			foreach (Topic topic in topicMapDTO.Topics)
+			foreach (Topic topic in topicMapData.Topics)
 			{
 				if (topic == duplicatePattern)
 				{
@@ -687,7 +687,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					((Topic) topic).Parent = null;
 				}
 
-				topicMapDTO.Topics.Remove(topic);
+				topicMapData.Topics.Remove(topic);
 				constructs.Remove(topic);
 			}
 		}
@@ -701,7 +701,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender is IAssociation)
 			{
-				topicMapDTO.Associations.Remove((IAssociation)sender);
+				topicMapData.Associations.Remove((IAssociation)sender);
 			}
 		}
 

@@ -1,4 +1,4 @@
-// <copyright file="ConstructDTO.cs" company="Pixelplastic">
+// <copyright file="ConstructData.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -10,12 +10,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 {
 	/// <summary>
 	/// </summary>
-	public abstract class ConstructDTO
+	public abstract class ConstructData
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ConstructDTO"/> class.
+		/// Initializes a new instance of the <see cref="ConstructData"/> class.
 		/// </summary>
-		protected internal ConstructDTO()
+		protected internal ConstructData()
 		{
 			Id = Guid.NewGuid().ToString();
 			ItemIdentifiers = new ReadOnlyCollectionWithLimitedAccess<ILocator>();

@@ -21,9 +21,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal Topic reifier;
 
 		/// <summary>
-		/// Represents the current instance of <see cref="Scoped"/> construct helper.
+		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
 		/// </summary>
-		readonly Scoped scoped;
+		readonly List<ITopic> scope;
 
 		/// <summary>
 		/// Represents the type of that construct.
@@ -53,7 +53,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			Type = nameType;
-			scoped = new Scoped();
+			scope = new List<ITopic>();
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();
 		}
@@ -111,7 +111,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return scoped.Scope;
+				return scope.AsReadOnly();
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			scoped.AddTheme(theme);
+			ScopeHelper.AddTheme(scope, theme);
 		}
 
 		/// <summary>
@@ -197,7 +197,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveTheme(ITopic theme)
 		{
-			scoped.RemoveTheme(theme);
+			ScopeHelper.RemoveTheme(scope, theme);
 		}
 
 		/// <summary>
@@ -420,7 +420,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
-			scoped.AddThemes(themes);
+			ScopeHelper.AddThemes(scope, themes);
 		}
 
 		/// <summary>

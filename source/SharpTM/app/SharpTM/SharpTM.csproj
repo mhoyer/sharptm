@@ -81,16 +81,17 @@
   <ItemGroup>
     <Compile Include="Core\Association.cs" />
     <Compile Include="Core\Construct.cs" />
-    <Compile Include="Core\DTOs\AssociationDTO.cs" />
-    <Compile Include="Core\DTOs\ConstructDTO.cs" />
+    <Compile Include="Core\DTOs\AssociationData.cs" />
+    <Compile Include="Core\DTOs\ConstructData.cs" />
     <Compile Include="Core\DatatypeAware.cs" />
     <Compile Include="Core\Datatypes.cs" />
-    <Compile Include="Core\DTOs\DatatypeAwareDTO.cs" />
-    <Compile Include="Core\DTOs\NameDTO.cs" />
-    <Compile Include="Core\DTOs\OccurrenceDTO.cs" />
+    <Compile Include="Core\DTOs\DatatypeAwareData.cs" />
+    <Compile Include="Core\DTOs\NameData.cs" />
+    <Compile Include="Core\DTOs\OccurrenceData.cs" />
     <Compile Include="Core\DTOs\ReadOnlyCollectionWithLimitedAccess.cs" />
-    <Compile Include="Core\DTOs\TopicDTO.cs" />
-    <Compile Include="Core\DTOs\VariantDTO.cs" />
+    <Compile Include="Core\DTOs\RoleData.cs" />
+    <Compile Include="Core\DTOs\TopicData.cs" />
+    <Compile Include="Core\DTOs\VariantData.cs" />
     <Compile Include="Core\Features.cs" />
     <Compile Include="Core\Locator.cs" />
     <Compile Include="Core\Name.cs" />
@@ -99,10 +100,10 @@
     <Compile Include="Core\Role.cs" />
     <Compile Include="Core\RolePlayerChangedEventArgs.cs" />
     <Compile Include="Core\RoleTypeChangesEventArgs.cs" />
-    <Compile Include="Core\Scoped.cs" />
+    <Compile Include="Core\ScopeHelper.cs" />
     <Compile Include="Core\Topic.cs" />
     <Compile Include="Core\TopicMap.cs" />
-    <Compile Include="Core\DTOs\TopicMapDTO.cs" />
+    <Compile Include="Core\DTOs\TopicMapData.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\SharpTMSystemFactory.cs" />
     <Compile Include="Merging\AssociationToBeMerged.cs" />

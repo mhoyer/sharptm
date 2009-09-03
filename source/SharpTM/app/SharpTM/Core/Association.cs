@@ -22,9 +22,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		readonly List<ITopic> roleTypes;
 
 		/// <summary>
-		/// Represents the current instance of <see cref="Scoped"/> construct helper.
+		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
 		/// </summary>
-		readonly Scoped scoped;
+		readonly List<ITopic> scope;
 
 		/// <summary>
 		/// Represents the topic that reifies this association.
@@ -65,11 +65,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			roleTypes = new List<ITopic>();
 			RoleTypes = roleTypes.AsReadOnly();
-			scoped = new Scoped();
+			scope = new List<ITopic>();
 
 			if (initialThemes != null)
 			{
-				scoped.AddThemes(initialThemes);
+				ScopeHelper.AddThemes(scope, initialThemes);
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return scoped.Scope;
+				return scope.AsReadOnly();
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			scoped.AddTheme(theme);
+			ScopeHelper.AddTheme(scope, theme);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveTheme(ITopic theme)
 		{
-			scoped.RemoveTheme(theme);
+			ScopeHelper.RemoveTheme(scope, theme);
 		}
 
 		/// <summary>

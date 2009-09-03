@@ -17,9 +17,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public abstract class DatatypeAware : Construct, IDatatypeAware
 	{
 		/// <summary>
-		/// Represents the current instance of <see cref="Scoped"/> construct helper.
+		/// Represents the current list of scoping themes.
 		/// </summary>
-		private readonly Scoped scoped;
+		readonly List<ITopic> scope;
 
 		private decimal decimalValue;
 		private float floatValue;
@@ -41,7 +41,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		protected DatatypeAware(IConstruct parent, ITopicMap topicMap)
 			: base(parent, topicMap)
 		{
-			scoped = new Scoped();
+			scope = new List<ITopic>();
 		}
 
 		#region IDatatypeAware properties
@@ -232,7 +232,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return scoped.Scope;
+				return scope.AsReadOnly();
 			}
 		}
 
@@ -289,7 +289,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			scoped.AddTheme(theme);
+			ScopeHelper.AddTheme(scope, theme);
 		}
 
 		/// <summary>
@@ -300,7 +300,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveTheme(ITopic theme)
 		{
-			scoped.RemoveTheme(theme);
+			ScopeHelper.RemoveTheme(scope, theme);
 		}
 
 		/// <summary>
@@ -390,7 +390,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
-			scoped.AddThemes(themes);
+			ScopeHelper.AddThemes(scope, themes);
 		}
 	}
 }
