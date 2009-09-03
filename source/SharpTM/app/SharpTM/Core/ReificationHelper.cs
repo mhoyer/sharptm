@@ -55,7 +55,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		public static void Reify(TopicMap reifiable, Topic newReifier)
 		{
 			Do(reifiable, newReifier);
-			reifiable.topicMapDTO.Reifier = newReifier;
+			reifiable.topicMapData.Reifier = newReifier;
 		}
 
 		public static void Reify(Role reifiable, Topic newReifier)

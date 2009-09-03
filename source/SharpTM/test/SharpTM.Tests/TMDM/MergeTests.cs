@@ -74,4 +74,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Tests
 					topic1.Names[0].Variants[0].ShouldEqual(variant1);
 				};
 	}
+
+	public class When_adding_a_SID_to_a_topic_while_another_topic_with_same_SID_still_exists : With_TopicMap
+	{
+		static ILocator sid;
+		static ITopic existingTopic;
+		static ITopic topicToBeMerged;
+
+		Given a_subject_identifier = () => sid = topicMapSystem.CreateLocator("http://sharptm.de");
+		Given an_existing_topic = () => existingTopic = topicMap.CreateTopicBySubjectIdentifier(sid);
+		Given another_topic = () => topicToBeMerged = topicMap.CreateTopicBySubjectIdentifier(sid.Resolve("foo"));
+
+		Because of_adding_the_same_SID_to_last_topic = () => topicToBeMerged.AddSubjectIdentifier(sid);
+
+		It should_restore_the_parent = () => existingTopic.Parent.ShouldNotBeNull();
+	}
 }

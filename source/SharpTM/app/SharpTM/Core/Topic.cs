@@ -24,22 +24,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-		internal TopicDTO topicDTO;
+		internal TopicData topicData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Topic"/> class.
 		/// </summary>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
 		internal Topic(ITopicMap topicMap)
-			: this(new TopicDTO(), topicMap)
+			: this(new TopicData(), topicMap)
 		{
 		}
 
-		internal Topic(TopicDTO dto, ITopicMap topicMap)
-			: base(dto, topicMap, topicMap)
+		internal Topic(TopicData data, ITopicMap topicMap)
+			: base(data, topicMap, topicMap)
 		{
-			if (dto == null) throw new ArgumentNullException("dto");
-			topicDTO = dto;
+			if (data == null) throw new ArgumentNullException("dto");
+			topicData = data;
 		}
 
 
@@ -53,7 +53,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IName> Names
 		{
-			get { return topicDTO.Names; }
+			get { return topicData.Names; }
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IOccurrence> Occurrences
 		{
-			get { return topicDTO.Occurrences; }
+			get { return topicData.Occurrences; }
 		}
 
 		/// <summary>
@@ -95,8 +95,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IReifiable Reified
 		{
-			get { return topicDTO.Reified; }
-			internal set { topicDTO.Reified = value; }
+			get { return topicData.Reified; }
+			internal set { topicData.Reified = value; }
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> RolesPlayed
 		{
-			get { return topicDTO.RolesPlayed; }
+			get { return topicData.RolesPlayed; }
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectIdentifiers
 		{
-			get { return topicDTO.SubjectIdentifiers; }
+			get { return topicData.SubjectIdentifiers; }
 		}
 
 		/// <summary>
@@ -132,7 +132,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> SubjectLocators
 		{
-			get { return topicDTO.SubjectLocators; }
+			get { return topicData.SubjectLocators; }
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public ReadOnlyCollection<ITopic> Types
 		{
-			get { return topicDTO.Types; }
+			get { return topicData.Types; }
 		}
 		#endregion
 
@@ -218,7 +218,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			topicDTO.SubjectIdentifiers.Add(subjectIdentifier);
+			topicData.SubjectIdentifiers.Add(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -267,7 +267,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			topicDTO.SubjectLocators.Add(subjectLocator);
+			topicData.SubjectLocators.Add(subjectLocator);
 		}
 
 		/// <summary>
@@ -291,7 +291,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("type"));
 			}
 
-			topicDTO.Types.Add(type);
+			topicData.Types.Add(type);
 		}
 
 		/// <summary>
@@ -870,7 +870,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			topicDTO.SubjectIdentifiers.Remove(subjectIdentifier);
+			topicData.SubjectIdentifiers.Remove(subjectIdentifier);
 		}
 
 		/// <summary>
@@ -886,7 +886,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			topicDTO.SubjectLocators.Remove(subjectLocator);
+			topicData.SubjectLocators.Remove(subjectLocator);
 		}
 
 		/// <summary>
@@ -902,7 +902,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return;
 			}
 
-			topicDTO.Types.Remove(type);
+			topicData.Types.Remove(type);
 		}
 
 		/// <summary>
@@ -1038,7 +1038,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return true;
 			}
 
-			if (topicDTO.SubjectIdentifiers.Exists(
+			if (topicData.SubjectIdentifiers.Exists(
 				locator =>
 					{
 						return other.SubjectIdentifiers.Contains(locator) ||
@@ -1048,7 +1048,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return true;
 			}
 
-			if (topicDTO.SubjectLocators.Exists(locator => other.SubjectLocators.Contains(locator)))
+			if (topicData.SubjectLocators.Exists(locator => other.SubjectLocators.Contains(locator)))
 			{
 				return true;
 			}
@@ -1083,7 +1083,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="name">The name to be added.</param>
 		internal void AddName(IName name)
 		{
-			topicDTO.Names.Add(name);
+			topicData.Names.Add(name);
 
 			if (name is Name)
 			{
@@ -1095,7 +1095,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void AddOccurrence(Occurrence occurrence)
 		{
 			occurrence.OnRemove += Occurrence_OnRemove;
-			topicDTO.Occurrences.Add(occurrence);
+			topicData.Occurrences.Add(occurrence);
 			occurrence.Parent = this;
 		}
 
@@ -1116,7 +1116,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				((Role) role).OnRolePlayerChanges += RolePlayed_OnRolePlayerChanges;
 			}
 
-			topicDTO.RolesPlayed.Add(role);
+			topicData.RolesPlayed.Add(role);
 		}
 
 		internal Name FindName(Name pattern, bool ignoreParent)
@@ -1179,7 +1179,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="name">The name to be added.</param>
 		internal void RemoveName(IName name)
 		{
-			topicDTO.Names.Remove(name);
+			topicData.Names.Remove(name);
 
 			if (name is Name)
 			{
@@ -1190,7 +1190,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void RemoveOccurrence(Occurrence occurrence)
 		{
 			occurrence.OnRemove -= Occurrence_OnRemove;
-			topicDTO.Occurrences.Remove(occurrence);
+			topicData.Occurrences.Remove(occurrence);
 			occurrence.Parent = null;
 		}
 
@@ -1232,7 +1232,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender is IOccurrence)
 			{
-				topicDTO.Occurrences.Remove((IOccurrence) sender);
+				topicData.Occurrences.Remove((IOccurrence) sender);
 			}
 		}
 
@@ -1253,7 +1253,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				((Role) role).OnRemove -= RolePlayed_OnRemove;
 			}
 
-			topicDTO.RolesPlayed.Remove(role);
+			topicData.RolesPlayed.Remove(role);
 		}
 
 		/// <summary>

@@ -1,4 +1,4 @@
-// <copyright file="TopicDTO.cs" company="Pixelplastic">
+// <copyright file="TopicData.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -10,12 +10,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	/// <summary>
 	/// Simple data storage for <see cref="ITopic"/> items.
 	/// </summary>
-	public class TopicDTO : ConstructDTO
+	public class TopicData : ConstructData
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicDTO"/> class.
+		/// Initializes a new instance of the <see cref="TopicData"/> class.
 		/// </summary>
-		public TopicDTO()
+		public TopicData()
 		{
 			Names = new ReadOnlyCollectionWithLimitedAccess<IName>();
 			Occurrences = new ReadOnlyCollectionWithLimitedAccess<IOccurrence>();

@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -15,11 +16,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Association : Construct, IAssociation
 	{
-		/// <summary>
-		/// Represents the list of current roles played by this association.
-		/// </summary>
-		readonly List<IRole> roles;
-
 		/// <summary>
 		/// Represents the list of role types this association is involved.
 		/// </summary>
@@ -31,14 +27,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		readonly Scoped scoped;
 
 		/// <summary>
-		/// Represents the type of that construct.
-		/// </summary>
-		ITopic _type;
-
-		/// <summary>
 		/// Represents the topic that reifies this association.
 		/// </summary>
 		internal Topic reifier;
+
+		readonly AssociationData _associationData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
@@ -54,28 +47,36 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     If the <paramref name="associationType"/> is <c>null</c>.
 		/// </exception>
 		internal Association(ITopicMap topicMap, ITopic associationType, IEnumerable<ITopic> initialThemes)
-			: base(topicMap, topicMap)
+			: this(new AssociationData(), topicMap, associationType, initialThemes) {}
+
+		internal Association(AssociationData data, ITopicMap topicMap, ITopic associationType, IEnumerable<ITopic> initialThemes)
+			: base(data, topicMap, topicMap)
 		{
-			if (associationType == null)
+			if (associationType == null &&
+				data.Type == null)
 			{
 				throw new ModelConstraintException(
 					"The type of an association MUST NOT be null.",
 					new ArgumentNullException("associationType"));
 			}
 
-			roles = new List<IRole>();
-			Roles = roles.AsReadOnly();
+			_associationData = data;
+			if (associationType != null) Type = associationType;
 
 			roleTypes = new List<ITopic>();
 			RoleTypes = roleTypes.AsReadOnly();
-
-			Type = associationType;
 			scoped = new Scoped();
 
 			if (initialThemes != null)
 			{
 				scoped.AddThemes(initialThemes);
 			}
+		}
+
+		// HACK
+		public static Association Load(AssociationData data, ITopicMap topicMap)
+		{
+			return new Association(data, topicMap, null, null);
 		}
 
 		#region IAssociation properties
@@ -126,8 +127,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> Roles
 		{
-			get;
-			private set;
+			get { return _associationData.Roles; }
 		}
 
 		/// <summary>
@@ -172,12 +172,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return _type;
+				return _associationData.Type;
 			}
 			set
 			{
 				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
-				_type = value;
+				_associationData.Type = value;
 			}
 		}
 		#endregion
@@ -268,12 +268,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </remarks>
 		public new void Remove()
 		{
-			for (int i = roles.Count; i > 0; i--)
+			for (int i = Roles.Count; i > 0; i--)
 			{
-				roles[i - 1].Remove();
+				Roles[i - 1].Remove();
 			}
 
-			roles.Clear();
+			_associationData.Roles.Clear();
 			roleTypes.Clear();
 
 			base.Remove();
@@ -301,7 +301,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			List<IRole> foundRoles = new List<IRole>();
 
-			foreach (IRole role in roles)
+			foreach (IRole role in Roles)
 			{
 				if (role.Type == type)
 				{
@@ -364,7 +364,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			if (!ignoreRoles)
 			{
-				foreach (Role role in roles)
+				foreach (Role role in Roles)
 				{
 					foreach (IRole roleToBeCompared in association.Roles)
 					{
@@ -384,7 +384,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			role.Parent = this;
 			role.OnRemove += Role_OnRemove;
 			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
-			roles.Add(role);
+			_associationData.Roles.Add(role);
 
 			if (!roleTypes.Contains(role.Type))
 			{
@@ -394,9 +394,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		internal void RemoveRole(IRole roleToBeRemoved)
 		{
-			roles.Remove(roleToBeRemoved);
+			_associationData.Roles.Remove(roleToBeRemoved);
 
-			if (!roles.Exists(r => r.Type == roleToBeRemoved.Type))
+			if (!_associationData.Roles.Exists(r => r.Type == roleToBeRemoved.Type))
 			{
 				roleTypes.Remove(roleToBeRemoved.Type);
 			}

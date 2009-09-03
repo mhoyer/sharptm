@@ -15,23 +15,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class Construct : IConstruct
 	{
-		readonly ConstructDTO constructDTO;
+		readonly ConstructData _constructData;
 
 		// TEMP ***************
 		[Obsolete]
 		protected Construct(IConstruct parent, ITopicMap topicMap)
-			: this (new TopicDTO(), parent, topicMap) {}
+			: this (new TopicData(), parent, topicMap) {}
 		// TEMP ***************
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
-		/// <param name="dto">The DTO for data storage.</param>
+		/// <param name="data">The DTO for data storage.</param>
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
-		protected Construct(ConstructDTO dto, IConstruct parent, ITopicMap topicMap)
+		protected Construct(ConstructData data, IConstruct parent, ITopicMap topicMap)
 		{
-			if (dto == null) throw new ArgumentNullException("dto");
+			if (data == null) throw new ArgumentNullException("dto");
 
 			if (topicMap == null)
 			{
@@ -45,7 +45,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			constructDTO = dto;
+			_constructData = data;
 			Parent = parent;
 			TopicMap = topicMap ?? TopicMap;
 		}
@@ -65,7 +65,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public string Id
 		{
-			get { return constructDTO.Id; }
+			get { return _constructData.Id; }
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ILocator> ItemIdentifiers
 		{
-			get { return constructDTO.ItemIdentifiers; }
+			get { return _constructData.ItemIdentifiers; }
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			else
 			{
-				constructDTO.ItemIdentifiers.Add(itemIdentifier);
+				_constructData.ItemIdentifiers.Add(itemIdentifier);
 			}
 		}
 
@@ -181,7 +181,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveItemIdentifier(ILocator itemIdentifier)
 		{
-			constructDTO.ItemIdentifiers.Remove(itemIdentifier);
+			_constructData.ItemIdentifiers.Remove(itemIdentifier);
 		}
 		#endregion
 

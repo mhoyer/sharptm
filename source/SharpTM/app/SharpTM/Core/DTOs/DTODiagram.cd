@@ -1,33 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.ConstructDTO">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.ConstructData">
+    <Position X="4.25" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Core\DTOs\ConstructDTO.cs</FileName>
+      <FileName>Core\DTOs\ConstructData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicDTO">
-    <Position X="2.5" Y="2.75" Width="1.5" />
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicData">
+    <Position X="2.25" Y="2.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>AgAAgAAQAAAAAAAAAAAAAAAAAEAABAAAgAAAgAAAAAA=</HashCode>
-      <FileName>Core\DTOs\TopicDTO.cs</FileName>
+      <FileName>Core\DTOs\TopicData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicMapDTO">
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicMapData">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAACAAAQA=</HashCode>
-      <FileName>Core\DTOs\TopicMapDTO.cs</FileName>
+      <FileName>Core\DTOs\TopicMapData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.AssociationData">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAEAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\AssociationData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.DatatypeAwareData">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAgAAAAAAAAAAAAAEAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\DatatypeAwareData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.NameData">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAACAAAAAAAAAAAAAAAAEAAQAgAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\NameData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.OccurrenceData">
+    <Position X="8.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\OccurrenceData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.RoleData">
+    <Position X="9.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQAAAQAAAAA=</HashCode>
+      <FileName>Core\DTOs\RoleData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.VariantData">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\VariantData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
