@@ -71,6 +71,7 @@
     <None Include="app.config">
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="Core\DTOs\DTODiagram.cd" />
     <None Include="Core\Topic.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

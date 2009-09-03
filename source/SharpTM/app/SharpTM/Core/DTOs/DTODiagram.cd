@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.ConstructDTO">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\DTOs\ConstructDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicDTO">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAAgAAQAAAAAAAAAAAAAAAAAEAABAAAgAAAgAAAAAA=</HashCode>
+      <FileName>Core\DTOs\TopicDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.TopicMapDTO">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAACAAAQA=</HashCode>
+      <FileName>Core\DTOs\TopicMapDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
