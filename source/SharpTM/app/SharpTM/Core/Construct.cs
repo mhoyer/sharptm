@@ -17,15 +17,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	{
 		readonly ConstructDTO constructDTO;
 
+		// TEMP ***************
+		[Obsolete]
+		protected Construct(IConstruct parent, ITopicMap topicMap)
+			: this (new TopicDTO(), parent, topicMap) {}
+		// TEMP ***************
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
+		/// <param name="dto">The DTO for data storage.</param>
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
-		protected Construct(IConstruct parent, ITopicMap topicMap)
-			: this(new ConstructDTO() { Parent = parent, TopicMap = topicMap })
+		protected Construct(ConstructDTO dto, IConstruct parent, ITopicMap topicMap)
 		{
-			if (TopicMap == null)
+			if (topicMap == null)
 			{
 				if (this is ITopicMap)
 				{
@@ -36,11 +42,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					throw new ArgumentNullException("topicMap");
 				}
 			}
-		}
 
-		protected Construct(ConstructDTO dto)
-		{
 			constructDTO = dto;
+			Parent = parent;
+			TopicMap = topicMap ?? TopicMap;
 		}
 
 		/// <summary>
@@ -83,8 +88,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public IConstruct Parent
 		{
-			get { return constructDTO.Parent; }
-			internal set { constructDTO.Parent = value; }
+			get; 
+			internal set;
 		}
 
 		/// <summary>
@@ -97,8 +102,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap TopicMap
 		{
-			get { return constructDTO.TopicMap; }
-			internal set { constructDTO.TopicMap = value; }
+			get; 
+			internal set;
 		}
 		#endregion
 

@@ -60,20 +60,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
 		/// <param name="itemIdentifier">The item identifier.</param>
 		internal TopicMap(TopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: this(new TopicMapDTO(), topicMapSystem)
+			: this(new TopicMapDTO(), topicMapSystem, itemIdentifier)
 		{
-			topicMapDTO.TopicMap = this;
-			AddItemIdentifier(itemIdentifier);
 		}
 
-		internal TopicMap(TopicMapDTO dto, TopicMapSystem topicMapSystem)
-			: base(dto)
+		internal TopicMap(TopicMapDTO dto, TopicMapSystem topicMapSystem, ILocator itemIdentifier)
+			: base(dto, null, null)
 		{
 #if LOG4NET
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
 			topicMapDTO = dto;
 			constructs = new List<IConstruct>();
+
+			if (itemIdentifier != null) AddItemIdentifier(itemIdentifier);
+			if (dto.ItemIdentifiers.Count == 0)
+				throw new ArgumentException("At least one item identifier required for a TopicMap.");
 
 			TopicMapSystem = topicMapSystem;
 

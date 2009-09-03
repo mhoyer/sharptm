@@ -31,12 +31,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
 		internal Topic(ITopicMap topicMap)
-			: this(new TopicDTO { TopicMap = topicMap, Parent = topicMap })
+			: this(new TopicDTO(), topicMap)
 		{
 		}
 
-		internal Topic(TopicDTO dto)
-			: base(dto)
+		internal Topic(TopicDTO dto, ITopicMap topicMap)
+			: base(dto, topicMap, topicMap)
 		{
 			if (dto == null) throw new ArgumentNullException("dto");
 			topicDTO = dto;
@@ -78,11 +78,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicDTO.TopicMap;
+				return TopicMap;
 			}
 			internal set
 			{
-				topicDTO.TopicMap = value;
+				TopicMap = value;
 			}
 		}
 
