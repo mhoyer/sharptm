@@ -15,7 +15,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Name : Construct, IName
 	{
-		internal ITopic reifier;
+		/// <summary>
+		/// Represents the topic that reifies this name.
+		/// </summary>
+		internal Topic reifier;
 
 		/// <summary>
 		/// Represents the current instance of <see cref="Scoped"/> construct helper.
@@ -50,7 +53,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			typed = new Typed(nameType);
-			// reifiable = new Reifiable(this);
 			scoped = new Scoped();
 			variants = new List<IVariant>();
 			Variants = variants.AsReadOnly();

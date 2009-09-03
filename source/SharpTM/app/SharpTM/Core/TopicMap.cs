@@ -34,11 +34,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		readonly List<IConstruct> constructs;
 
-		///// <summary>
-		///// Represents the current instance of <see cref="Reifiable"/> construct helper.
-		///// </summary>
-		//readonly Reifiable reifiable;
-
 		/// <summary>
 		/// Represents the current instance of <see cref="ILiteralIndex"/>.
 		/// </summary>
@@ -54,6 +49,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		readonly ITypeInstanceIndex typedIndex;
 
+		/// <summary>
+		/// Represents the topic that reifies this topic map.
+		/// </summary>
 		internal Topic reifier;
 
 		/// <summary>
@@ -78,7 +76,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			constructs = new List<IConstruct>();
 
 			TopicMapSystem = topicMapSystem;
-			// reifiable = new Reifiable(this);
 
 			// TODO How to handle enableAutoUpdate parameter? app.config?
 			literalIndex = new LiteralIndex(topicMapSystem, false);

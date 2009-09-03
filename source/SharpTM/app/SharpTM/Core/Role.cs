@@ -13,11 +13,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Role : Construct, IRole
 	{
-		///// <summary>
-		///// Represents the current instance of <see cref="Reifiable"/> construct helper.
-		///// </summary>
-		//readonly Reifiable reifiable;
-
 		/// <summary>
 		/// Represents the current instance of <see cref="Typed"/> construct helper.
 		/// </summary>
@@ -28,6 +23,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		ITopic player;
 
+		/// <summary>
+		/// Represents the topic that reifies this role.
+		/// </summary>
 		internal Topic reifier;
 
 		/// <summary>
@@ -55,7 +53,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			typed = new Typed(roleType);
-			// reifiable = new Reifiable(this);
 			Player = initialPlayer;
 		}
 

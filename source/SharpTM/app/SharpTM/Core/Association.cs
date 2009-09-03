@@ -35,6 +35,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		readonly Typed typed;
 
+		/// <summary>
+		/// Represents the topic that reifies this association.
+		/// </summary>
 		internal Topic reifier;
 
 		/// <summary>
