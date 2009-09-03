@@ -57,15 +57,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.DECIMAL)
 				{
-					return decimal.Parse(datatypeData.stringValue, CultureInfo.CreateSpecificCulture("en"));
+					return decimal.Parse(datatypeData.StringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
-				return datatypeData.decimalValue;
+				return datatypeData.DecimalValue;
 			}
 			set
 			{
-				datatypeData.decimalValue = value;
-				datatypeData.stringValue = value.ToString();
+				datatypeData.DecimalValue = value;
+				datatypeData.StringValue = value.ToString();
 				datatypeData.Datatype = new Locator(Datatypes.DECIMAL);
 			}
 		}
@@ -84,15 +84,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.FLOAT)
 				{
-					return float.Parse(datatypeData.stringValue, CultureInfo.CreateSpecificCulture("en"));
+					return float.Parse(datatypeData.StringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
-				return datatypeData.floatValue;
+				return datatypeData.FloatValue;
 			}
 			set
 			{
-				datatypeData.floatValue = value;
-				datatypeData.stringValue = value.ToString("F", CultureInfo.CreateSpecificCulture("en"));
+				datatypeData.FloatValue = value;
+				datatypeData.StringValue = value.ToString("F", CultureInfo.CreateSpecificCulture("en"));
 				datatypeData.Datatype = new Locator(Datatypes.FLOAT);
 			}
 		}
@@ -111,15 +111,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.INT)
 				{
-					return int.Parse(datatypeData.stringValue, CultureInfo.CreateSpecificCulture("en"));
+					return int.Parse(datatypeData.StringValue, CultureInfo.CreateSpecificCulture("en"));
 				}
 
-				return datatypeData.intValue;
+				return datatypeData.IntValue;
 			}
 			set
 			{
-				datatypeData.intValue = value;
-				datatypeData.stringValue = value.ToString();
+				datatypeData.IntValue = value;
+				datatypeData.StringValue = value.ToString();
 				datatypeData.Datatype = new Locator(Datatypes.INT);
 			}
 		}
@@ -137,19 +137,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				if (datatypeData.locatorValue == null)
+				if (datatypeData.LocatorValue == null)
 					throw new InvalidOperationException(
 						"Trying to access the LocalValue property, but it's null.");
 
-				return datatypeData.locatorValue;
+				return datatypeData.LocatorValue;
 			}
 			set
 			{
 				if (value == null)
 					throw new ModelConstraintException("LocatorValue cannot be set to null.");
 
-				datatypeData.locatorValue = value;
-				datatypeData.stringValue = value.Reference;
+				datatypeData.LocatorValue = value;
+				datatypeData.StringValue = value.Reference;
 				datatypeData.Datatype = new Locator(Datatypes.ANY_URI);
 			}
 		}
@@ -168,15 +168,15 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (Datatype.Reference != Datatypes.LONG)
 				{
-					return long.Parse(datatypeData.stringValue);
+					return long.Parse(datatypeData.StringValue);
 				}
 
-				return datatypeData.longValue;
+				return datatypeData.LongValue;
 			}
 			set
 			{
-				datatypeData.longValue = value;
-				datatypeData.stringValue = value.ToString();
+				datatypeData.LongValue = value;
+				datatypeData.StringValue = value.ToString();
 				datatypeData.Datatype = new Locator(Datatypes.LONG);
 			}
 		}
@@ -238,9 +238,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				switch (Datatype.Reference)
 				{
 					case Datatypes.ANY_URI:
-						return datatypeData.locatorValue.Reference;
+						return datatypeData.LocatorValue.Reference;
 					default:
-						return datatypeData.stringValue;
+						return datatypeData.StringValue;
 				}
 			}
 			set
@@ -250,7 +250,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					throw new ModelConstraintException("The value MUST NOT be null.");
 				}
 
-				datatypeData.stringValue = value;
+				datatypeData.StringValue = value;
 
 				if (Datatype == null)
 				{
