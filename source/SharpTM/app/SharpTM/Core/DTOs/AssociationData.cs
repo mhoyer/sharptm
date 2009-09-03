@@ -11,12 +11,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core.DTOs
 	public class AssociationData : ConstructData
 	{
 		public ReadOnlyCollectionWithLimitedAccess<IRole> Roles { get; set; }
+		public ReadOnlyCollectionWithLimitedAccess<ITopic> RoleTypes { get; set; }
+		public ReadOnlyCollectionWithLimitedAccess<ITopic> Scope { get; set; }
 		public ITopic Reifier { get; set; }
 		public ITopic Type { get; set; }
 
 		public AssociationData()
 		{
 			Roles = new ReadOnlyCollectionWithLimitedAccess<IRole>();
+			RoleTypes = new ReadOnlyCollectionWithLimitedAccess<ITopic>();
+			Scope = new ReadOnlyCollectionWithLimitedAccess<ITopic>();
 		}
 	}
 }

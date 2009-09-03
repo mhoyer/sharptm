@@ -16,22 +16,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public class Association : Construct, IAssociation
 	{
-		/// <summary>
-		/// Represents the list of role types this association is involved.
-		/// </summary>
-		readonly List<ITopic> roleTypes;
-
-		/// <summary>
-		/// Represents the current list of topics that scope a <see cref="IScoped"/> construct.
-		/// </summary>
-		readonly List<ITopic> scope;
-
-		/// <summary>
-		/// Represents the topic that reifies this association.
-		/// </summary>
-		internal Topic reifier;
-
-		readonly AssociationData _associationData;
+		internal readonly AssociationData AssociationData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
@@ -60,16 +45,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					new ArgumentNullException("associationType"));
 			}
 
-			_associationData = data;
+			AssociationData = data;
+
 			if (associationType != null) Type = associationType;
-
-			roleTypes = new List<ITopic>();
-			RoleTypes = roleTypes.AsReadOnly();
-			scope = new List<ITopic>();
-
 			if (initialThemes != null)
 			{
-				ScopeHelper.AddThemes(scope, initialThemes);
+				ScopeHelper.AddThemes(AssociationData.Scope, initialThemes);
 			}
 		}
 
@@ -108,7 +89,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return reifier;
+				return AssociationData.Reifier;
 			}
 			set
 			{
@@ -127,7 +108,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<IRole> Roles
 		{
-			get { return _associationData.Roles; }
+			get { return AssociationData.Roles; }
 		}
 
 		/// <summary>
@@ -139,8 +120,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ITopic> RoleTypes
 		{
-			get;
-			private set;
+			get { return AssociationData.RoleTypes; }
 		}
 
 		/// <summary>
@@ -153,10 +133,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ReadOnlyCollection<ITopic> Scope
 		{
-			get
-			{
-				return scope.AsReadOnly();
-			}
+			get { return AssociationData.Scope; }
 		}
 
 		/// <summary>
@@ -172,12 +149,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return _associationData.Type;
+				return AssociationData.Type;
 			}
 			set
 			{
 				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
-				_associationData.Type = value;
+				AssociationData.Type = value;
 			}
 		}
 		#endregion
@@ -194,7 +171,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			ScopeHelper.AddTheme(scope, theme);
+			ScopeHelper.AddTheme(AssociationData.Scope, theme);
 		}
 
 		/// <summary>
@@ -205,7 +182,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveTheme(ITopic theme)
 		{
-			ScopeHelper.RemoveTheme(scope, theme);
+			ScopeHelper.RemoveTheme(AssociationData.Scope, theme);
 		}
 
 		/// <summary>
@@ -273,8 +250,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				Roles[i - 1].Remove();
 			}
 
-			_associationData.Roles.Clear();
-			roleTypes.Clear();
+			AssociationData.Roles.Clear();
+			AssociationData.RoleTypes.Clear();
 
 			base.Remove();
 		}
@@ -384,21 +361,21 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			role.Parent = this;
 			role.OnRemove += Role_OnRemove;
 			role.OnRoleTypeChanges += Role_OnRoleTypeChanges;
-			_associationData.Roles.Add(role);
+			AssociationData.Roles.Add(role);
 
-			if (!roleTypes.Contains(role.Type))
+			if (!AssociationData.RoleTypes.Contains(role.Type))
 			{
-				roleTypes.Add(role.Type);
+				AssociationData.RoleTypes.Add(role.Type);
 			}
 		}
 
 		internal void RemoveRole(IRole roleToBeRemoved)
 		{
-			_associationData.Roles.Remove(roleToBeRemoved);
+			AssociationData.Roles.Remove(roleToBeRemoved);
 
-			if (!_associationData.Roles.Exists(r => r.Type == roleToBeRemoved.Type))
+			if (!AssociationData.Roles.Exists(r => r.Type == roleToBeRemoved.Type))
 			{
-				roleTypes.Remove(roleToBeRemoved.Type);
+				AssociationData.RoleTypes.Remove(roleToBeRemoved.Type);
 			}
 
 			if (roleToBeRemoved is Role)
@@ -432,12 +409,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (e != null && e.OldRoleType != null)
 			{
-				roleTypes.Remove(e.OldRoleType);
+				AssociationData.RoleTypes.Remove(e.OldRoleType);
 			}
 
 			if (e != null && e.NewRoleType != null)
 			{
-				roleTypes.Add(e.NewRoleType);
+				AssociationData.RoleTypes.Add(e.NewRoleType);
 			}
 		}
 	}
