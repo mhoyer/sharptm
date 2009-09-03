@@ -20,7 +20,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		/// If the <paramref name="theme"/> is <c>null</c>.
 		/// </exception>
-		public static void AddTheme(ICollection<ITopic> currentScope, ITopic theme)
+		public static void AddTheme(IList<ITopic> currentScope, ITopic theme)
 		{
 			if (theme == null)
 				throw new ModelConstraintException(
@@ -37,7 +37,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="currentScope">The scope list.</param>
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the currentScope.</param>
-		public static void AddThemes(ICollection<ITopic> currentScope, IEnumerable<ITopic> themes)
+		public static void AddThemes(IList<ITopic> currentScope, IEnumerable<ITopic> themes)
 		{
 			if (themes == null) return;
 
@@ -52,7 +52,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		/// <param name="currentScope">The current scope.</param>
 		/// <param name="theme">The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be removed from the scope.</param>
-		public static void RemoveTheme(ICollection<ITopic> currentScope, ITopic theme)
+		public static void RemoveTheme(IList<ITopic> currentScope, ITopic theme)
 		{
 			if (theme == null && currentScope.Count == 0) return;
 
