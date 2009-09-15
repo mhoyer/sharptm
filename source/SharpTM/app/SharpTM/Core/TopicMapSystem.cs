@@ -30,14 +30,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
-		internal TopicMapSystem()
-			: this(null)
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
-		/// </summary>
 		/// <param name="features">The list of enabled/disabled features.</param>
 		internal TopicMapSystem(Dictionary<string, bool> features)
 		{
