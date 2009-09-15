@@ -30,7 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
-		public TopicMapSystem()
+		internal TopicMapSystem()
 			: this(null)
 		{
 		}
@@ -39,7 +39,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
 		/// <param name="features">The list of enabled/disabled features.</param>
-		public TopicMapSystem(Dictionary<string, bool> features)
+		internal TopicMapSystem(Dictionary<string, bool> features)
 		{
 			enabledFeatures = features ?? new Dictionary<string, bool>();
 			topicMaps = new List<ITopicMap>();
@@ -237,7 +237,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Removes a topic map identified by a <see cref="ILocator"/>.
 		/// </summary>
 		/// <param name="locator">The locator of the topic map to be removed.</param>
-		public void RemoveTopicMap(ILocator locator)
+		internal void RemoveTopicMap(ILocator locator)
 		{
 			if (locator == null)
 			{
