@@ -22,7 +22,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="Locator"/> class using a <see cref="string"/>.
 		/// </summary>
 		/// <param name="absoluteReference">The absolute reference.</param>
-		public Locator(string absoluteReference)
+		internal Locator(string absoluteReference)
 		{
 			if (absoluteReference == null)
 			{
@@ -44,7 +44,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// Initializes a new instance of the <see cref="Locator"/> class.
 		/// </summary>
 		/// <param name="absoluteReference">The absolute reference.</param>
-		public Locator(Uri absoluteReference)
+		internal Locator(Uri absoluteReference)
 		{
 			if (!absoluteReference.IsAbsoluteUri)
 			{
