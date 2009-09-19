@@ -62,6 +62,7 @@
     <None Include="..\..\assets\SharpTM.snk">
       <Link>SharpTM.snk</Link>
     </None>
+    <None Include="Entities\Entities.cd" />
     <None Include="DTOs\InheritanceDiagram.cd" />
     <None Include="DTOs\RelationalDiagram.cd" />
   </ItemGroup>
