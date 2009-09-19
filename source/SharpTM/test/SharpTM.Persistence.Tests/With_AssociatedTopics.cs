@@ -21,10 +21,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 			() =>
 				{
 					topic1 = topicMap.CreateTopic();
-					topic1.AddSubjectIdentifier(new Locator(TOPIC_MAP_SID + "/topic1"));
+					topic1.AddSubjectIdentifier(topicMap.CreateLocator(TOPIC_MAP_SID + "/topic1"));
 
 					topic2 = topicMap.CreateTopic();
-					topic2.AddSubjectIdentifier(new Locator(TOPIC_MAP_SID + "/topic2"));
+					topic2.AddSubjectIdentifier(topicMap.CreateLocator(TOPIC_MAP_SID + "/topic2"));
 
 					associationType = topicMap.CreateTopic();
 					roleType = topicMap.CreateTopic();
