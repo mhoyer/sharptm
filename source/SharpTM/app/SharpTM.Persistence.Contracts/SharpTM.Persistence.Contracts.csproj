@@ -115,6 +115,15 @@
     <Compile Include="DTOs\TopicMapDTO.cs" />
     <Compile Include="DTOs\TypeDTO.cs" />
     <Compile Include="DTOs\VariantDTO.cs" />
+    <Compile Include="Entities\AssociationEntity.cs" />
+    <Compile Include="Entities\ConstructEntity.cs" />
+    <Compile Include="Entities\DatatypeAwareEntity.cs" />
+    <Compile Include="Entities\NameEntity.cs" />
+    <Compile Include="Entities\OccurrenceEntity.cs" />
+    <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="Entities\TopicEntity.cs" />
+    <Compile Include="Entities\TopicMapEntity.cs" />
+    <Compile Include="Entities\VariantEntity.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="IBridge.cs" />
     <Compile Include="IRepository.cs" />
