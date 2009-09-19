@@ -26,7 +26,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAACAAAQA=</HashCode>
+      <HashCode>AAAAABAACAAAAABAAAAAAAAAAAAAAQEAAAAAACBAAQA=</HashCode>
       <FileName>Core\DTOs\TopicMapData.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,14 +36,17 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAEAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAACAAAAAAAAAAAgAAAAEAAQAAAAAAAAA=</HashCode>
       <FileName>Core\DTOs\AssociationData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.DatatypeAwareData">
     <Position X="7.5" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAACAAgAAAAAAAAAAAAAEAAAAgAAAAAAA=</HashCode>
+      <HashCode>IAACAAAAAAAAACAGgEAAAAAAAAAAAAEgAAAgAAAAAAA=</HashCode>
       <FileName>Core\DTOs\DatatypeAwareData.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -74,7 +77,7 @@
   <Class Name="Pixelplastic.TopicMaps.SharpTM.Core.DTOs.VariantData">
     <Position X="6.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Core\DTOs\VariantData.cs</FileName>
     </TypeIdentifier>
   </Class>
