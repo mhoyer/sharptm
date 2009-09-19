@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
 {
-	public abstract class DatatypeAwareEntity
+	public abstract class DatatypeAwareEntity : ConstructEntity
 	{
 		public virtual string Datatype { get; set; }
 		public virtual TopicEntity Reifier { get; set; }

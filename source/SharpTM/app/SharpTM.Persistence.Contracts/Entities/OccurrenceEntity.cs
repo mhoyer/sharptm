@@ -8,5 +8,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
 {
 	public class OccurrenceEntity : DatatypeAwareEntity
 	{
+		public virtual TopicEntity Type { get; set; }
 	}
 }
