@@ -5,8 +5,8 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2

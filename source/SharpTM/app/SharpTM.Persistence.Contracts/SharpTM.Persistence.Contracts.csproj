@@ -63,8 +63,6 @@
       <Link>SharpTM.snk</Link>
     </None>
     <None Include="Entities\Entities.cd" />
-    <None Include="DTOs\InheritanceDiagram.cd" />
-    <None Include="DTOs\RelationalDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -98,24 +96,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
-    <Compile Include="DTOs\AssociationDTO.cs" />
-    <Compile Include="DTOs\ConstructDTO.cs" />
-    <Compile Include="DTOs\IConstructDTO.cs" />
-    <Compile Include="DTOs\IDatatypeAwareDTO.cs" />
-    <Compile Include="DTOs\InstanceOfDTO.cs" />
-    <Compile Include="DTOs\IReifiableDTO.cs" />
-    <Compile Include="DTOs\IScopedDTO.cs" />
-    <Compile Include="DTOs\LocatorDTO.cs" />
-    <Compile Include="DTOs\NameDTO.cs" />
-    <Compile Include="DTOs\OccurrenceDTO.cs" />
-    <Compile Include="DTOs\ResourceDataDTO.cs" />
-    <Compile Include="DTOs\RoleDTO.cs" />
-    <Compile Include="DTOs\ScopeDTO.cs" />
-    <Compile Include="DTOs\TopicDTO.cs" />
-    <Compile Include="DTOs\TopicMapDTO.cs" />
-    <Compile Include="DTOs\TypeDTO.cs" />
-    <Compile Include="DTOs\VariantDTO.cs" />
     <Compile Include="Entities\AssociationEntity.cs" />
     <Compile Include="Entities\ConstructEntity.cs" />
     <Compile Include="Entities\DatatypeAwareEntity.cs" />
@@ -125,13 +105,11 @@
     <Compile Include="Entities\TopicEntity.cs" />
     <Compile Include="Entities\TopicMapEntity.cs" />
     <Compile Include="Entities\VariantEntity.cs" />
-    <Compile Include="Func.cs" />
     <Compile Include="IBridge.cs" />
     <Compile Include="IExporter.cs" />
     <Compile Include="IImporter.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMapperStep.cs" />
-    <Compile Include="IConnector.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\SharedAssemblyInfo.cs" />

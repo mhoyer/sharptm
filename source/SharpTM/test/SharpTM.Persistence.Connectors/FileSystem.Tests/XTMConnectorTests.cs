@@ -6,7 +6,7 @@
 
 using System;
 using System.Reflection;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
 using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;

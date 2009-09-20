@@ -4,7 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Bridges;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;
 

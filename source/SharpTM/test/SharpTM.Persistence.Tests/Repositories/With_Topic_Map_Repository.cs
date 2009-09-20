@@ -1,5 +1,5 @@
 using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Bridges;
 using Xunit.BDDExtension;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories

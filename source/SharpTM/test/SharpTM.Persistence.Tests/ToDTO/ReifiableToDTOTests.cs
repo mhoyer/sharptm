@@ -3,8 +3,8 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.ToDTO;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Mapper.ToDTO;
 using TMAPI.Net.Core;
 using Xunit;
 using Xunit.BDDExtension;

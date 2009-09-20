@@ -4,8 +4,9 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Mapper.FromDTO;
+using Pixelplastic.TopicMaps.SharpTM.Helper;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;

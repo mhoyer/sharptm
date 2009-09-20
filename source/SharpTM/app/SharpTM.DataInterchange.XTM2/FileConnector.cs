@@ -6,8 +6,8 @@
 
 using System;
 using System.IO;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.Helper;
 
 namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 {

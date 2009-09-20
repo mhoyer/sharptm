@@ -6,7 +6,7 @@
 
 using System;
 using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Bridges;
 using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;

@@ -65,9 +65,51 @@
     <None Include="..\..\assets\SharpTM.snk">
       <Link>SharpTM.snk</Link>
     </None>
+    <None Include="DTOs\InheritanceDiagram.cd" />
+    <None Include="DTOs\RelationalDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bridges\TopicMapBridge.cs" />
+    <Compile Include="DTOs\AssociationDTO.cs" />
+    <Compile Include="DTOs\ConstructDTO.cs" />
+    <Compile Include="DTOs\IConstructDTO.cs" />
+    <Compile Include="DTOs\IDatatypeAwareDTO.cs" />
+    <Compile Include="DTOs\InstanceOfDTO.cs" />
+    <Compile Include="DTOs\IReifiableDTO.cs" />
+    <Compile Include="DTOs\IScopedDTO.cs" />
+    <Compile Include="DTOs\LocatorDTO.cs" />
+    <Compile Include="DTOs\NameDTO.cs" />
+    <Compile Include="DTOs\OccurrenceDTO.cs" />
+    <Compile Include="DTOs\ResourceDataDTO.cs" />
+    <Compile Include="DTOs\RoleDTO.cs" />
+    <Compile Include="DTOs\ScopeDTO.cs" />
+    <Compile Include="DTOs\TopicDTO.cs" />
+    <Compile Include="DTOs\TopicMapDTO.cs" />
+    <Compile Include="DTOs\TypeDTO.cs" />
+    <Compile Include="DTOs\VariantDTO.cs" />
     <Compile Include="FileConnector.cs" />
+    <Compile Include="IConnector.cs" />
+    <Compile Include="Mapper\FromDTO\AssociationFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\ConstructFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\DatatypeAwareFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\LocatorFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\NameFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\OccurrenceFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\ReifiableFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\RoleFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\ScopeFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\TypeFromDTO.cs" />
+    <Compile Include="Mapper\FromDTO\VariantFromDTO.cs" />
+    <Compile Include="Mapper\ToDTO\AssociationToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\ConstructToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\LocatorToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\ReifiableToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\ScopeToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\TopicMapToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\TopicToDTO.cs" />
+    <Compile Include="Mapper\ToDTO\VariantToDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopicMapRepository.cs" />
     <Compile Include="XTMConnector.cs" />
@@ -77,6 +119,10 @@
     <ProjectReference Include="..\SharpTM.DataInterchange\SharpTM.DataInterchange.csproj">
       <Project>{B6B70A30-EC58-4FF4-9A2A-453EA34D7E0F}</Project>
       <Name>SharpTM.DataInterchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpTM.Helper\SharpTM.Helper.csproj">
+      <Project>{763ACFFA-F1A7-47E7-A52D-3F46D2050E6E}</Project>
+      <Name>SharpTM.Helper</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>

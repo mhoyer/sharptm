@@ -5,7 +5,7 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests
 {

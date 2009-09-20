@@ -3,7 +3,7 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
-using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
 using Xunit.BDDExtension;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
