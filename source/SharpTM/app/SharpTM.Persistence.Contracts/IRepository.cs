@@ -1,4 +1,4 @@
-// <copyright file="IConnector.cs" company="Pixelplastic">
+// <copyright file="IRepository.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -6,17 +6,10 @@
 
 using System.Collections.Generic;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
-using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts
 {
-	public interface IRepository<TTMAPIEntity> where TTMAPIEntity : IConstruct
-	{
-		TTMAPIEntity Load(object id);
-		void Save(TTMAPIEntity tmapiEntity);
-	}
-
-	public interface IRepositoryV2<T>
+	public interface IRepository<T>
 	{
 		List<T> GetAll();
 		T GetById(string id);
@@ -28,12 +21,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts
 		T RemoveById(string id);
 	}
 
+	public interface ITopicMapRepository : IRepository<TopicMapEntity> { }
 
-	public interface ITopicMapRepository : IRepositoryV2<TopicMapEntity> { }
-    
-	public interface ITopicRepository : IRepositoryV2<TopicEntity> { }
+	public interface ITopicRepository : IRepository<TopicEntity> { }
 
-	public interface IScopedRepository<TEntity> : IRepositoryV2<TEntity> { }
+	public interface IScopedRepository<TEntity> : IRepository<TEntity> { }
 
 	public interface IAssociationRepository : IScopedRepository<AssociationEntity> { }
 

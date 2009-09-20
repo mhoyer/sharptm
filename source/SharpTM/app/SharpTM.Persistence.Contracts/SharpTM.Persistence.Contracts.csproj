@@ -127,10 +127,12 @@
     <Compile Include="Entities\VariantEntity.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="IBridge.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="IExporter.cs" />
+    <Compile Include="IImporter.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMapperStep.cs" />
     <Compile Include="IConnector.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
   </ItemGroup>

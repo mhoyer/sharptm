@@ -17,7 +17,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 		where TEntity : ConstructEntity
 	{
 		Dictionary<string, KeyValuePair<TConstruct, TEntity>> _index;
-		readonly IRepositoryV2<TEntity> _repository;
+		readonly IRepository<TEntity> _repository;
 		readonly Func<TConstruct, TEntity> _createAction;
 
 		Dictionary<string, KeyValuePair<TConstruct, TEntity>> Index
@@ -30,7 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 			}
 		}
 
-		public Mediator(IRepositoryV2<TEntity> repository, Func<TConstruct, TEntity> createAction)
+		public Mediator(IRepository<TEntity> repository, Func<TConstruct, TEntity> createAction)
 		{
 			_repository = repository;
 			_createAction = createAction;

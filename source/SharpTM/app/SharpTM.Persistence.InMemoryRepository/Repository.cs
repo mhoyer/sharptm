@@ -10,7 +10,7 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories.InMemory
 {
-	public class Repository<TEntity> : IRepositoryV2<TEntity>
+	public class Repository<TEntity> : IRepository<TEntity>
 		where TEntity : ConstructEntity
 	{
 		protected Dictionary<string, TEntity> Entities = new Dictionary<string, TEntity>();

@@ -46,7 +46,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories
 		static Exception exception;
 
 		Given an_illegal_id = () => id = null;
-		Because of_loading = () => exception = Catch.Exception(() => repository.Load(id));
+		Because of_loading = () => exception = Catch.Exception(() => repository.Import(id));
 		It should_throw_an_exception = () => exception.ShouldBeType<ArgumentNullException>();
 	}
 
@@ -59,7 +59,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories
 		//static TopicMapDTO tmDTO;
 
 		//Given a_legal_id = () => id = "http://pixelplastic.de/topicmaps/public";
-		//Because of_loading = () => tmDTO = repository.Load(id);
+		//Because of_loading = () => tmDTO = repository.Import(id);
 		//It should_load_the_topic_map_as_DTO = () => tmDTO.ShouldNotBeNull();
 		//It should_load_the_correct_topic_map = () => tmDTO.ItemIdentities.Find(iid => iid.HRef == id).ShouldNotBeNull();
 	}

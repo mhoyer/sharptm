@@ -1,4 +1,4 @@
-// <copyright file="RepositoryFactory.cs" company="Pixelplastic">
+// <copyright file="TopicMapRepository.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -11,7 +11,7 @@ using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 {
-	public class TopicMapRepository : IRepository<ITopicMap>
+	public class TopicMapRepository : IImporter<ITopicMap>, IExporter<ITopicMap>
 	{
 		readonly IBridge<TopicMapDTO, ITopicMap> _bridge;
 		IConnector<TopicMapDTO> _connector;
@@ -27,7 +27,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 			_bridge = bridge;
 		}
 
-		public ITopicMap Load(object id)
+		public ITopicMap Import(object id)
 		{
 			return Load(id, null);
 		}
@@ -60,7 +60,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 			}
 		}
 
-		public void Save(ITopicMap entity)
+		public void Export(ITopicMap entity)
 		{
 			_connector.Save(_bridge.Map(entity));
 		}
