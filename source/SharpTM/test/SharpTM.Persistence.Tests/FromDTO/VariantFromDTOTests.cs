@@ -5,7 +5,6 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
 using TMAPI.Net.Core;
 using Xunit.BDDExtension;

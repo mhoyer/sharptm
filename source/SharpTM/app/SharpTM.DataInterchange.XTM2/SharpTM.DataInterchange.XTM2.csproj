@@ -8,8 +8,8 @@
     <ProjectGuid>{B5221503-B2E8-4B1C-A1F0-09E28D4E3EC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors</RootNamespace>
-    <AssemblyName>SharpTM.Persistence.Connectors.FileSystem</AssemblyName>
+    <RootNamespace>Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2</RootNamespace>
+    <AssemblyName>SharpTM.DataInterchange.XTM2</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -27,10 +27,10 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>..\..\..\assets\SharpTM.ico</ApplicationIcon>
-    <OutputPath>..\..\..\..\..\build\$(Configuration)\</OutputPath>
+    <ApplicationIcon>..\..\assets\SharpTM.ico</ApplicationIcon>
+    <OutputPath>..\..\..\..\build\$(Configuration)\</OutputPath>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\assets\SharpTM.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\assets\SharpTM.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,26 +57,34 @@
   </Target>
   -->
   <ItemGroup>
-    <Content Include="..\..\..\assets\SharpTM.ico">
+    <Content Include="..\..\assets\SharpTM.ico">
       <Link>SharpTM.ico</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\SharpTM.snk">
+    <None Include="..\..\assets\SharpTM.snk">
       <Link>SharpTM.snk</Link>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileConnector.cs" />
-    <Compile Include="LTMConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopicMapRepository.cs" />
     <Compile Include="XTMConnector.cs" />
-    <Compile Include="..\..\..\..\SharedAssemblyInfo.cs" />
+    <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
+    <ProjectReference Include="..\SharpTM.DataInterchange\SharpTM.DataInterchange.csproj">
+      <Project>{B6B70A30-EC58-4FF4-9A2A-453EA34D7E0F}</Project>
+      <Name>SharpTM.DataInterchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
       <Name>SharpTM.Persistence.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
+      <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
+      <Name>TMAPI.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

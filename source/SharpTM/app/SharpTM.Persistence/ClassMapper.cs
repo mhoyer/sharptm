@@ -6,8 +6,9 @@
 
 using System;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
 	public class ClassMapper<TSourceType, TTargetType> : Mapper<TSourceType, TTargetType>
 		where TSourceType : class

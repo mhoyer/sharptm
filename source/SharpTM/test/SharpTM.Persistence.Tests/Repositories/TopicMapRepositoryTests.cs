@@ -5,9 +5,8 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 
 using System;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Bridges;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories;
 using Xunit;
 using Xunit.BDDExtension;
 using Xunit.Extensions.AssertExtensions;

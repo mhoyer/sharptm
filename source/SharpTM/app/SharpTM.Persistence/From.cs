@@ -6,7 +6,7 @@
 
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
 	public class From<TSourceResultType, TSourceType, TTargetType> :
 		IMapperStep<TSourceType, TTargetType>

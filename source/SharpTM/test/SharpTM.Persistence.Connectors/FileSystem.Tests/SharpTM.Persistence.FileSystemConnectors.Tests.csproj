@@ -66,9 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\app\SharpTM.Persistence.Connectors\FileSystem\SharpTM.Persistence.FileSystemConnector.csproj">
+    <ProjectReference Include="..\..\..\app\SharpTM.DataInterchange.XTM2\SharpTM.DataInterchange.XTM2.csproj">
       <Project>{B5221503-B2E8-4B1C-A1F0-09E28D4E3EC6}</Project>
-      <Name>SharpTM.Persistence.FileSystemConnector</Name>
+      <Name>SharpTM.DataInterchange.XTM2</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>

@@ -9,7 +9,7 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 using TMAPI.Net.Core;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
+namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 {
 	public class TopicMapRepository : IImporter<ITopicMap>, IExporter<ITopicMap>
 	{
@@ -45,10 +45,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 			{
 				topicMapDTO.ItemIdentities.Insert(0, new LocatorDTO() { HRef = baseLocator });
 			}
-            else if(topicMapDTO.ItemIdentities.Count == 0)
-            {
-				throw new RepositoryException(String.Format("Unable to load TopicMap from {0}. At least one item identifier required for a topic map.", id));
-            }
+			else if(topicMapDTO.ItemIdentities.Count == 0)
+			{
+				throw new DataInterchangeException(String.Format("Unable to load TopicMap from {0}. At least one item identifier required for a topic map.", id));
+			}
 
 			try
 			{
@@ -56,7 +56,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories
 			}
 			catch (Exception ex)
 			{
-				throw new RepositoryException(String.Format("Unable to load TopicMap from {0}.", id), ex);
+				throw new DataInterchangeException(String.Format("Unable to load TopicMap from {0}.", id), ex);
 			}
 		}
 

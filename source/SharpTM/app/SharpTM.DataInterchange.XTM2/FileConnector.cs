@@ -9,7 +9,7 @@ using System.IO;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
+namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 {
 	public class FileConnector<TConstruct> : IConnector<TConstruct> where TConstruct : IConstructDTO
 	{

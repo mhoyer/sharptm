@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
+namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 {
 	public class XTMConnector : FileConnector<TopicMapDTO>
 	{
@@ -29,12 +29,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors
 		{
 			SerializeAction =
 				(Stream xtmStream) =>
-				{
-					XmlReader xr = xmlReaderCreationAction.Invoke(xtmStream);
-					XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
-					TopicMapDTO topicMapDTO = (TopicMapDTO)xs.Deserialize(xr);
-					return topicMapDTO;
-				};
+					{
+						XmlReader xr = xmlReaderCreationAction.Invoke(xtmStream);
+						XmlSerializer xs = new XmlSerializer(typeof(TopicMapDTO));
+						TopicMapDTO topicMapDTO = (TopicMapDTO)xs.Deserialize(xr);
+						return topicMapDTO;
+					};
 		}
 	}
 }

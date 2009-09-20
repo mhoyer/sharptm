@@ -1,4 +1,4 @@
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2;
 using Xunit.BDDExtension;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests

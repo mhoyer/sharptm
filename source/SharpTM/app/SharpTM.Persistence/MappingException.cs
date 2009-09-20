@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
 	public class MappingException : Exception
 	{

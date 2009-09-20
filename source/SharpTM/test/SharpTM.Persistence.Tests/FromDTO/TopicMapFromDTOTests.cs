@@ -5,9 +5,8 @@
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
 using System.Reflection;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Connectors;
+using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.DTOs;
-using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper.FromDTO;
 using TMAPI.Net.Core;
 using Xunit;

@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 
-namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Mapper
+namespace Pixelplastic.TopicMaps.SharpTM.Persistence
 {
 	public abstract class Mapper<TSource, TResult> : IMapper<TSource, TResult>
 	{
