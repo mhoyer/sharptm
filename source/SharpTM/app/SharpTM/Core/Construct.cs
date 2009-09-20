@@ -23,16 +23,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			private set;
 		}
 
-		readonly ConstructData _constructData;
 		readonly List<ILocator> _itemIdentifiers;
 
 		// HACK ******  TEMPORARY ******
 		[Obsolete]
 		protected Construct(ConstructData data, IConstruct parent, ITopicMap topicMap)
 			: this(new ConstructEntity(), parent, topicMap)
-		{
-			_constructData = data;
-		}
+		{}
 		// HACK ******  TEMPORARY ******
 
 		/// <summary>
