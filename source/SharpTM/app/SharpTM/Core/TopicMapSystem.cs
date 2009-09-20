@@ -6,6 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Pixelplastic.TopicMaps.SharpTM.Helper;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -21,20 +24,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public class TopicMapSystem : ITopicMapSystem
 	{
 		readonly Dictionary<string, bool> enabledFeatures;
-
-		/// <summary>
-		/// Represents a list of <see cref="ILocator">topic maps</see> for the current <see cref="TopicMapSystem"/>.
-		/// </summary>
-		readonly List<ITopicMap> topicMaps;
+		readonly TopicMapMediator _topicMapMediator;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMapSystem"/> class.
 		/// </summary>
 		/// <param name="features">The list of enabled/disabled features.</param>
-		internal TopicMapSystem(Dictionary<string, bool> features)
+		internal TopicMapSystem(ITopicMapRepository topicMapRepository, Dictionary<string, bool> features)
 		{
+            if (topicMapRepository == null) throw new ArgumentNullException("topicMapRepository");
+
+	    	_topicMapMediator = new TopicMapMediator(topicMapRepository, this);
 			enabledFeatures = features ?? new Dictionary<string, bool>();
-			topicMaps = new List<ITopicMap>();
 		}
 
 		#region ITopicMapSystem properties
@@ -51,10 +52,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				List<ILocator> locators = new List<ILocator>();
-				topicMaps.ForEach((topicMap) => locators.AddRange(topicMap.ItemIdentifiers));
+			    List<ILocator> locators = new List<ILocator>();
 
-				return new ReadOnlyCollection<ILocator>(locators);
+				foreach (TopicMap topicMap in _topicMapMediator.GetAll())
+				{
+					foreach (ILocator identifier in topicMap.ItemIdentifiers)
+					{
+						locators.Add(identifier);
+					}
+				}
+
+				return locators.AsReadOnly();
 			}
 		}
 		#endregion
@@ -101,20 +109,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public ITopicMap CreateTopicMap(ILocator iri)
 		{
-			if (GetTopicMap(iri) != null)
-			{
-				string message = string.Format(
-					"A topic map with locator {0} still exists in this topic map system.",
-					iri.Reference);
-
-				throw new TopicMapExistsException(message);
-			}
-
-			TopicMap topicMap = new TopicMap(this, iri);
-			topicMap.OnRemove += TopicMap_OnRemove;
-			topicMaps.Add(topicMap);
-
-			return topicMap;
+			return CreateTopicMap(iri.Reference);
 		}
 
 		/// <summary>
@@ -130,7 +125,22 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap CreateTopicMap(string iri)
 		{
-			return CreateTopicMap(CreateLocator(iri));
+			if (_topicMapMediator.Exists(entity => entity.ItemIdentifiers.Contains(iri)))
+			{
+				string message = string.Format(
+					"A topic map with locator {0} still exists in this topic map system.",
+					iri);
+
+				throw new TopicMapExistsException(message);
+			}
+			
+			TopicMapEntity topicMapEntity = new TopicMapEntity();
+			topicMapEntity.ItemIdentifiers.Add(iri);
+			TopicMap topicMap = _topicMapMediator.Create(topicMapEntity);
+			
+			topicMap.OnRemove += TopicMap_OnRemove;
+			
+			return topicMap;
 		}
 
 		/// <summary>
@@ -167,17 +177,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap GetTopicMap(string iri)
 		{
-			if (iri == null)
-			{
-				return null;
-			}
+			if (String.IsNullOrEmpty(iri)) return null;
 
-			if (String.IsNullOrEmpty(iri))
-			{
-				return null;
-			}
-
-			return GetTopicMap(CreateLocator(iri));
+			return _topicMapMediator.Find(entity => entity.ItemIdentifiers.Contains(iri));
 		}
 
 		/// <summary>
@@ -194,14 +196,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap GetTopicMap(ILocator iri)
 		{
-			if (iri == null)
-			{
-				return null;
-			}
+			if (iri == null) return null;
 
-			ITopicMap topicMap = topicMaps.Find((tm) => tm.ItemIdentifiers.Contains(iri));
-
-			return topicMap;
+		    return GetTopicMap(iri.Reference);
 		}
 
 		/// <summary>
@@ -231,17 +228,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="locator">The locator of the topic map to be removed.</param>
 		internal void RemoveTopicMap(ILocator locator)
 		{
-			if (locator == null)
-			{
-				return;
-			}
+			if (locator == null) return;
+            RemoveTopicMap(GetTopicMap(locator) as TopicMap);
+		}
 
-			ITopicMap topicMap = GetTopicMap(locator);
-
-			if (topicMap != null)
-			{
-				topicMaps.Remove(topicMap);
-			}
+		internal void RemoveTopicMap(TopicMap topicMap)
+		{
+			if (topicMap == null) return;
+			_topicMapMediator.Delete(topicMap);
 		}
 
 		/// <summary>
@@ -251,12 +245,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void TopicMap_OnRemove(object sender, EventArgs e)
 		{
-			ITopicMap topicMap = sender as ITopicMap;
-
-			if (topicMap != null)
-			{
-				topicMaps.Remove(topicMap);
-			}
+			RemoveTopicMap(sender as TopicMap);
 		}
 	}
 }

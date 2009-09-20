@@ -3,8 +3,11 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+
 using System;
 using System.Collections.Generic;
+using Pixelplastic.TopicMaps.SharpTM.Persistence;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -25,7 +28,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			ReadFeatureSettings(Features.MergingSupportFeatures);
 			ReadFeatureSettings(Features.ReadOnlySystem);
 			ReadFeatureSettings(Features.TopicMapsModelFeatures);
-			ReadFeatureSettings(Features.InMemoryOnly);
 		}
 
 		/// <summary>
@@ -104,7 +106,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="FactoryConfigurationException">
 		///     If instance cannot be instantiated.
 		/// </exception>
-		public override TMAPI.Net.Core.TopicMapSystemFactory NewInstance()
+		public override TopicMapSystemFactory NewInstance()
 		{
 			return new SharpTMSystemFactory();
 		}
@@ -121,8 +123,23 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public override ITopicMapSystem NewTopicMapSystem()
 		{
-			return new TopicMapSystem(enabledFeatures);
+			// if (Properties.Settings.Default.RepositoryFactory)
+			var topicMapRepository = RepositoryFactory.GetInstance<ITopicMapRepository>("SharpTM.Persistence.Repositories.InMemory");
+		    return NewTopicMapSystem(topicMapRepository);
 		}
+
+        public ITopicMapSystem NewTopicMapSystem<TTopicMapSystemRepository>() 
+            where TTopicMapSystemRepository : ITopicMapRepository, new()
+        {
+            return NewTopicMapSystem(new TTopicMapSystemRepository());
+        }
+
+        public ITopicMapSystem NewTopicMapSystem(ITopicMapRepository topicMapRepository)
+        {
+            if (topicMapRepository == null) throw new ArgumentNullException("topicMapRepository");
+				
+            return new TopicMapSystem(topicMapRepository, enabledFeatures);
+        }
 
 		/// <summary>
 		///     Sets a particular feature in the underlying implementation of <see cref="T:TMAPI.Net.Core.ITopicMapSystem"/>.

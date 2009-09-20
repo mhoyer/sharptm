@@ -4,8 +4,10 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -15,23 +17,33 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </summary>
 	public abstract class Construct : IConstruct
 	{
-		readonly ConstructData _constructData;
+		public ConstructEntity Entity
+		{
+			get;
+			private set;
+		}
 
-		// TEMP ***************
+		readonly ConstructData _constructData;
+		readonly List<ILocator> _itemIdentifiers;
+
+		// HACK ******  TEMPORARY ******
 		[Obsolete]
-		protected Construct(IConstruct parent, ITopicMap topicMap)
-			: this (new TopicData(), parent, topicMap) {}
-		// TEMP ***************
+		protected Construct(ConstructData data, IConstruct parent, ITopicMap topicMap)
+			: this(new ConstructEntity(), parent, topicMap)
+		{
+			_constructData = data;
+		}
+		// HACK ******  TEMPORARY ******
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Construct"/> class.
 		/// </summary>
-		/// <param name="data">The DTO for data storage.</param>
+		/// <param name="entity">The domain object entity for data storage.</param>
 		/// <param name="parent">The parent of this instance.</param>
 		/// <param name="topicMap">The topic map this instance is part of.</param>
-		protected Construct(ConstructData data, IConstruct parent, ITopicMap topicMap)
+		protected Construct(ConstructEntity entity, IConstruct parent, ITopicMap topicMap)
 		{
-			if (data == null) throw new ArgumentNullException("dto");
+			if (entity == null) throw new ArgumentNullException("entity");
 
 			if (topicMap == null)
 			{
@@ -45,7 +57,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				}
 			}
 
-			_constructData = data;
+			Entity = entity;
+			_itemIdentifiers = new List<ILocator>();
+			
+			foreach (string locator in entity.ItemIdentifiers)
+			{
+				_itemIdentifiers.Add(new Locator(locator));
+			}
+
+			ItemIdentifiers = _itemIdentifiers.AsReadOnly();
+
 			Parent = parent;
 			TopicMap = topicMap ?? TopicMap;
 		}
@@ -65,7 +86,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public string Id
 		{
-			get { return _constructData.Id; }
+			get { return Entity.Id; }
 		}
 
 		/// <summary>
@@ -76,8 +97,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     An unmodifiable set of <see cref="T:TMAPI.Net.Core.ILocator"/>s representing the item identifiers.
 		/// </returns>
 		public ReadOnlyCollection<ILocator> ItemIdentifiers
-		{
-			get { return _constructData.ItemIdentifiers; }
+		{ 
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -158,7 +180,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			else
 			{
-				_constructData.ItemIdentifiers.Add(itemIdentifier);
+				_itemIdentifiers.Add(itemIdentifier);
+				Entity.ItemIdentifiers.Add(itemIdentifier.Reference);
 			}
 		}
 
@@ -181,7 +204,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </param>
 		public void RemoveItemIdentifier(ILocator itemIdentifier)
 		{
-			_constructData.ItemIdentifiers.Remove(itemIdentifier);
+			_itemIdentifiers.Remove(itemIdentifier);
+			Entity.ItemIdentifiers.Remove(itemIdentifier.Reference);
 		}
 		#endregion
 

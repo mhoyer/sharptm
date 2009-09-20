@@ -17,8 +17,8 @@
     <Setting Name="TopicMapsModelFeatures" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="InMemoryOnly" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+    <Setting Name="RepositoryFactory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Pixelplastic.TopicMaps.SharpTM.Persistence.InMemory, SharpTM.Persistence.InMemory</Value>
     </Setting>
   </Settings>
 </SettingsFile>

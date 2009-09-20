@@ -12,6 +12,7 @@ using log4net;
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Index;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
 using TMAPI.Net.Index;
 
@@ -26,38 +27,37 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
+		internal TopicMapEntity _entity;
 		internal TopicMapData topicMapData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
 		/// </summary>
+		/// <param name="entity">The initial entity for this topic map.</param>
 		/// <param name="topicMapSystem">The topic map system containing this instance.</param>
-		/// <param name="itemIdentifier">The item identifier.</param>
-		internal TopicMap(TopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: this(new TopicMapData(), topicMapSystem, itemIdentifier)
-		{
-		}
-
-		internal TopicMap(TopicMapData data, TopicMapSystem topicMapSystem, ILocator itemIdentifier)
-			: base(data, null, null)
+		internal TopicMap(TopicMapEntity entity, TopicMapSystem topicMapSystem)
+			: base(entity, null, null)
 		{
 #if LOG4NET
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
-			topicMapData = data;
+			_entity = entity;
+			topicMapData = new TopicMapData();
 
-			if (itemIdentifier != null) AddItemIdentifier(itemIdentifier);
-			if (data.ItemIdentifiers.Count == 0)
+			if (_entity.ItemIdentifiers.Count == 0)
 				throw new ArgumentException("At least one item identifier required for a TopicMap.");
 
-			topicMapData.TopicMapSystem = topicMapSystem;
+			TopicMapSystem = topicMapSystem;
 
 			// TODO How to handle enableAutoUpdate parameter? app.config?
-			topicMapData.LiteralIndex = new LiteralIndex(topicMapSystem, false);
-			topicMapData.ScopedIndex = new ScopedIndex(topicMapSystem, false);
-			topicMapData.TypedIndex = new TypedInstanceIndex(topicMapSystem, false);
+			_literalIndex = new LiteralIndex(topicMapSystem, false);
+			_scopedIndex = new ScopedIndex(topicMapSystem, false);
+			_typedIndex = new TypedInstanceIndex(topicMapSystem, false);
 		}
 
+		ILiteralIndex _literalIndex;
+		IScopedIndex _scopedIndex;
+		ITypeInstanceIndex _typedIndex;
 
 		#region ITopicMap properties
 		/// <summary>
@@ -133,10 +133,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <value>The topic map system.</value>
 		public TopicMapSystem TopicMapSystem
 		{
-			get
-			{
-				return topicMapData.TopicMapSystem;
-			}
+			get; private set;
 		}
 
 		#region ITopicMap methods
@@ -148,10 +145,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public void Close()
 		{
-			topicMapData.Associations.Clear();
-			topicMapData.Topics.Clear();
+			_entity.Associations.Clear();
+			_entity.Topics.Clear();
 			topicMapData.Constructs.Clear();
-			topicMapData = null;
+			_entity = null;
 		}
 
 		/// <summary>
@@ -497,17 +494,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (typeof(ILiteralIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T) topicMapData.LiteralIndex;
+				return (T) _literalIndex;
 			}
 
 			if (typeof(IScopedIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T)topicMapData.ScopedIndex;
+				return (T)_scopedIndex;
 			}
 
 			if (typeof(ITypeInstanceIndex).IsAssignableFrom(typeof(T)))
 			{
-				return (T)topicMapData.TypedIndex;
+				return (T)_typedIndex;
 			}
 
 			throw new TMAPIException("Unable to get index.",
