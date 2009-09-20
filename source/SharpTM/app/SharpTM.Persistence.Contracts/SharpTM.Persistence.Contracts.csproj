@@ -115,12 +115,6 @@
     <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TMAPI.Net\TMAPI.Net.csproj">
-      <Project>{EF5BE96A-5C4C-4B08-9D9D-803BC91EFD6F}</Project>
-      <Name>TMAPI.Net</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\assets\SharpTM.ico">
       <Link>SharpTM.ico</Link>
     </Content>

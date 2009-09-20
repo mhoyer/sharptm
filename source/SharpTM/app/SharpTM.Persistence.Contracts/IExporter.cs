@@ -4,11 +4,9 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
-using TMAPI.Net.Core;
-
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts
 {
-	public interface IExporter<TTMAPIEntity> where TTMAPIEntity : IConstruct
+	public interface IExporter<TTMAPIEntity>
 	{
 		void Export(TTMAPIEntity tmapiEntity);
 	}
