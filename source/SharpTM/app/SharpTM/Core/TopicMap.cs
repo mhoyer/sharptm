@@ -28,8 +28,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
+		ILiteralIndex _literalIndex;
+		IScopedIndex _scopedIndex;
+		ITypeInstanceIndex _typedIndex;
+		TopicMediator _topicMediator;
+		AssociationMediator _associationMediator;
 		TopicMapEntity _entity;
-		internal TopicMapData topicMapData;
+		internal TopicMapData topicMapData = new TopicMapData();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
@@ -43,8 +48,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
 			_entity = entity;
-			topicMapData = new TopicMapData();
-		
 			_topicMediator = new TopicMediator(topicMapSystem.Repository.TopicRepository, this);
 			_associationMediator = new AssociationMediator(topicMapSystem.Repository.AssociationRepository, this);
 
@@ -59,12 +62,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			_typedIndex = new TypedInstanceIndex(topicMapSystem, false);
 		}
 
-		ILiteralIndex _literalIndex;
-		IScopedIndex _scopedIndex;
-		ITypeInstanceIndex _typedIndex;
-		TopicMediator _topicMediator;
-		AssociationMediator _associationMediator;
-
 		#region ITopicMap properties
 		/// <summary>
 		///     Gets all <see cref="T:TMAPI.Net.Core.IAssociation"/>s contained in this topic map.
@@ -77,7 +74,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicMapData.Associations;
+				return _associationMediator.GetAll(association => (IAssociation)association).AsReadOnly();
 			}
 		}
 
@@ -109,6 +106,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
+				// return _topicMediator.Get(_entity.Reifier);
 				return topicMapData.Reifier;
 			}
 			set
@@ -224,7 +222,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			
 			association.OnRemove += Association_OnRemove;
-			topicMapData.Associations.Add(association);
+			// topicMapData.Associations.Add(association);
 			topicMapData.Constructs.Add(association);
 
 			return association;
@@ -701,9 +699,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void Association_OnRemove(object sender, EventArgs e)
 		{
-			if (sender is IAssociation)
+			if (sender is Association)
 			{
-				topicMapData.Associations.Remove((IAssociation)sender);
+				_associationMediator.Delete((Association)sender);
 			}
 		}
 
