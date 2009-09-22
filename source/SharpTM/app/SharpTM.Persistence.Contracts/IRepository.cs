@@ -21,9 +21,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts
 		T RemoveById(string id);
 	}
 
-	public interface ITopicMapRepository : IRepository<TopicMapEntity> { }
+	public interface ITopicMapRepository : IRepository<TopicMapEntity>
+	{
+		ITopicRepository TopicRepository { get; }
+		IAssociationRepository AssociationRepository { get; }
+	}
 
-	public interface ITopicRepository : IRepository<TopicEntity> { }
+	public interface ITopicRepository : IRepository<TopicEntity>
+	{
+		// INameRepository NameRepository { get; }
+	}
 
 	public interface IScopedRepository<TEntity> : IRepository<TEntity> { }
 
