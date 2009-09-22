@@ -34,8 +34,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
             if (topicMapRepository == null) throw new ArgumentNullException("topicMapRepository");
 
-	    	_topicMapMediator = new TopicMapMediator(topicMapRepository, this);
+			Repository = topicMapRepository;
+			_topicMapMediator = new TopicMapMediator(topicMapRepository, this);
 			enabledFeatures = features ?? new Dictionary<string, bool>();
+		}
+
+		internal ITopicMapRepository Repository
+		{
+			get; private set;
 		}
 
 		#region ITopicMapSystem properties
