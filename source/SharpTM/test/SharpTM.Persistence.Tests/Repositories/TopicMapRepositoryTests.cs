@@ -21,7 +21,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories
 		Given the_topic_map_bridge = () => bridge = new TopicMapBridge(topicMapSystem);
 
 		Because of_trying_to_create_the_instance =
-			() => exception = Catch.Exception(() => new TopicMapRepository(null, bridge));
+			() => exception = Catch.Exception(() => new XTMImporter(null, bridge));
 
 		It should_throw_an_exception = () => exception.ShouldBeType<ArgumentNullException>();
 	}
@@ -34,7 +34,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories
 		Given a_connector = () => cnx = new XTMConnector();
 
 		Because of_trying_to_create_the_instance =
-			() => exception = Catch.Exception(() => new TopicMapRepository(cnx, null));
+			() => exception = Catch.Exception(() => new XTMImporter(cnx, null));
 
 		It should_throw_an_exception = () => exception.ShouldBeType<ArgumentNullException>();
 	}

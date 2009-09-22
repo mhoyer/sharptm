@@ -1,4 +1,4 @@
-// <copyright file="TopicMapRepository.cs" company="Pixelplastic">
+// <copyright file="XTMImporter.cs" company="Pixelplastic">
 // Copyright (C) Marcel Hoyer 2009. All rights reserved.
 // </copyright>
 // <author>Marcel Hoyer</author>
@@ -11,12 +11,12 @@ using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 {
-	public class TopicMapRepository : IImporter<ITopicMap>, IExporter<ITopicMap>
+	public class XTMImporter : IImporter<ITopicMap>, IExporter<ITopicMap>
 	{
 		readonly IBridge<TopicMapDTO, ITopicMap> _bridge;
 		IConnector<TopicMapDTO> _connector;
 
-		public TopicMapRepository(
+		public XTMImporter(
 			IConnector<TopicMapDTO> connector,
 			IBridge<TopicMapDTO, ITopicMap> bridge)
 		{

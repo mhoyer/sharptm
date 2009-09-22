@@ -8,10 +8,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.Repositories
 	{
 		static TopicMapBridge bridge;
 		static XTMConnector cnx;
-		protected static TopicMapRepository repository;
+		protected static XTMImporter repository;
 
 		Given the_topic_map_bridge = () => bridge = new TopicMapBridge(topicMapSystem);
 		Given a_connector = () => cnx = new XTMConnector();
-		Given an_topic_map_repository = () => repository = new TopicMapRepository(cnx, bridge);
+		Given an_topic_map_repository = () => repository = new XTMImporter(cnx, bridge);
 	}
 }
