@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -17,49 +18,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	public class Association : Construct, IAssociation
 	{
 		internal readonly AssociationData AssociationData;
-
+	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Association"/> class.
 		/// </summary>
+		/// <param name="entity">The underlying domain object.</param>
 		/// <param name="topicMap">The parent <see cref="ITopicMap"/> that contains this instance.</param>
-		/// <param name="associationType">
-		///     The association type, MUST NOT be <c>null</c>.
-		/// </param>
-		/// <param name="initialThemes">
-		///     A collection of themes or <c>null</c> if the association should be in the unconstrained scope.
-		/// </param>
-		/// <exception cref="ModelConstraintException">
-		///     If the <paramref name="associationType"/> is <c>null</c>.
-		/// </exception>
-		internal Association(ITopicMap topicMap, ITopic associationType, IEnumerable<ITopic> initialThemes)
-			: this(new AssociationData(), topicMap, associationType, initialThemes) {}
-
-		internal Association(AssociationData data, ITopicMap topicMap, ITopic associationType, IEnumerable<ITopic> initialThemes)
-			: base(data, topicMap, topicMap)
+		internal Association(AssociationEntity entity, ITopicMap topicMap)
+			: base(entity, topicMap, topicMap)
 		{
-			if (data == null) throw new ArgumentNullException("data");
+			if (entity == null) throw new ArgumentNullException("entity");
 
-			if (associationType == null &&
-				data.Type == null)
-			{
-				throw new ModelConstraintException(
-					"The type of an association MUST NOT be null.",
-					new ArgumentNullException("associationType"));
-			}
-
-			AssociationData = data;
-
-			if (associationType != null) Type = associationType;
-			if (initialThemes != null)
-			{
-				ScopeHelper.AddThemes(AssociationData.Scope, initialThemes);
-			}
-		}
-
-		// HACK
-		public static Association Load(AssociationData data, ITopicMap topicMap)
-		{
-			return new Association(data, topicMap, null, null);
+			AssociationData = new AssociationData();
 		}
 
 		#region IAssociation properties

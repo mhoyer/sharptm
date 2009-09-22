@@ -11,6 +11,7 @@ using log4net;
 #endif
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
@@ -29,17 +30,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Topic"/> class.
 		/// </summary>
+		/// <param name="entity">The underlying domain object.</param>
 		/// <param name="topicMap">The <see cref="ITopicMap"/> containing this instance.</param>
-		internal Topic(ITopicMap topicMap)
-			: this(new TopicData(), topicMap)
+		internal Topic(TopicEntity entity, ITopicMap topicMap)
+			: base(entity, topicMap, topicMap)
 		{
-		}
+			if (entity == null) throw new ArgumentNullException("entity");
 
-		internal Topic(TopicData data, ITopicMap topicMap)
-			: base(data, topicMap, topicMap)
-		{
-			if (data == null) throw new ArgumentNullException("dto");
-			topicData = data;
+			topicData = new TopicData();
 		}
 
 

@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using log4net;
 #endif
 using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
+using Pixelplastic.TopicMaps.SharpTM.Helper;
 using Pixelplastic.TopicMaps.SharpTM.Index;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
@@ -27,7 +28,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
-		internal TopicMapEntity _entity;
+		TopicMapEntity _entity;
 		internal TopicMapData topicMapData;
 
 		/// <summary>
@@ -43,6 +44,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #endif
 			_entity = entity;
 			topicMapData = new TopicMapData();
+		
+			_topicMediator = new TopicMediator(topicMapSystem.Repository.TopicRepository, this);
+			_associationMediator = new AssociationMediator(topicMapSystem.Repository.AssociationRepository, this);
 
 			if (_entity.ItemIdentifiers.Count == 0)
 				throw new ArgumentException("At least one item identifier required for a TopicMap.");
@@ -58,6 +62,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		ILiteralIndex _literalIndex;
 		IScopedIndex _scopedIndex;
 		ITypeInstanceIndex _typedIndex;
+		TopicMediator _topicMediator;
+		AssociationMediator _associationMediator;
 
 		#region ITopicMap properties
 		/// <summary>
@@ -198,7 +204,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public IAssociation CreateAssociation(ITopic associationType, IList<ITopic> initialThemes)
 		{
-			Association association = new Association(this, associationType, initialThemes);
+			if (associationType == null)
+			{
+				throw new ModelConstraintException(
+					"The type of an association MUST NOT be null.",
+					new ArgumentNullException("associationType"));
+			}
+
+			AssociationEntity entity = new AssociationEntity();
+			Association association = _associationMediator.Create(entity);
+			association.Type = associationType;
+			
+			if (initialThemes != null)
+			{
+				foreach (ITopic theme in initialThemes)
+				{
+					association.AddTheme(theme);
+				}
+			}
+			
 			association.OnRemove += Association_OnRemove;
 			topicMapData.Associations.Add(association);
 			topicMapData.Constructs.Add(association);
@@ -307,7 +331,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #endif
 
 			// create new topic with this item identifier
-			Topic topic = new Topic(this);
+			Topic topic = new Topic(new TopicEntity(), this);
 			topic.AddItemIdentifier(itemIdentifier);
 			AddTopic(topic);
 
@@ -364,7 +388,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			// create new topic with this item identifier
-			Topic topic = new Topic(this);
+			Topic topic = new Topic(new TopicEntity(), this);
 			topic.OnRemove += Topic_OnRemove;
 			topic.AddSubjectIdentifier(subjectIdentifier);
 
@@ -406,7 +430,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			// create new topic with this item identifier
-			Topic topic = new Topic(this);
+			Topic topic = new Topic(new TopicEntity(), this);
 			topic.OnRemove += Topic_OnRemove;
 			topic.AddSubjectLocator(subjectLocator);
 
