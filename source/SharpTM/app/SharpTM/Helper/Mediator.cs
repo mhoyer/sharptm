@@ -95,6 +95,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 			return result;
 		}
 
+		public List<TTarget> GetAll<TTarget>(Converter<TConstruct, TTarget> mapper)
+		{
+			List<TTarget> result = new List<TTarget>();
+			
+			foreach (KeyValuePair<TConstruct, TEntity> pair in Index.Values)
+			{
+				result.Add(mapper.Invoke(pair.Key));
+			}
+
+			return result;
+		}
+
 		protected void Add(TConstruct construct)
 		{
 			TEntity entity = (TEntity) construct.Entity;
