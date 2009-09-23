@@ -92,4 +92,31 @@ namespace Pixelplastic.TopicMaps.SharpTM.Tests
 		It should_reference_same_occurrence_list_for_both = () => existingTopic.Occurrences.ShouldEqual(topicToBeMerged.Occurrences);
 		It should_reference_same_roles_played_list_for_both = () => existingTopic.RolesPlayed.ShouldEqual(topicToBeMerged.RolesPlayed);
 	}
+
+	public class When_merging_two_topic_maps : With_TopicMap
+	{
+		static ITopicMap topicMap2;
+
+		Given another_topic_map = () => topicMap2 = topicMapSystem.CreateTopicMap("http://sharptm.de/another_topic_map");
+
+		Because of_merging = () => topicMap.MergeIn(topicMap2);
+
+		It should_move_association_references =
+			() =>
+				{
+					for (int i = 0; i < topicMap.Associations.Count; i++)
+					{
+						topicMap.Associations[i].ShouldEqual(topicMap2.Associations[i]);
+					}
+				};
+
+		It should_move_topic_references =
+			() =>
+			{
+				for (int i = 0; i < topicMap.Topics.Count; i++)
+				{
+					topicMap.Topics[i].ShouldEqual(topicMap2.Topics[i]);
+				}
+			};
+	}
 }
