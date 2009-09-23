@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 #if LOG4NET
 using log4net;
 #endif
-using Pixelplastic.TopicMaps.SharpTM.Core.DTOs;
 using Pixelplastic.TopicMaps.SharpTM.Helper;
 using Pixelplastic.TopicMaps.SharpTM.Index;
 using Pixelplastic.TopicMaps.SharpTM.Merging;
@@ -28,11 +27,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
-		ILiteralIndex _literalIndex;
-		IScopedIndex _scopedIndex;
-		ITypeInstanceIndex _typedIndex;
-		// internal TopicMapData topicMapData = new TopicMapData();
-		List<IConstruct> _constructs;
+		readonly ILiteralIndex _literalIndex;
+		readonly IScopedIndex _scopedIndex;
+		readonly ITypeInstanceIndex _typedIndex;
+		readonly List<IConstruct> _constructs;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
@@ -42,19 +40,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal TopicMap(TopicMapEntity entity, TopicMapSystem topicMapSystem)
 			: base(entity, null, null)
 		{
-#if LOG4NET
-			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
-#endif
-			if (entity.ItemIdentifiers.Count == 0)
-				throw new ArgumentException("At least one item identifier required for a TopicMap.");
+			TopicMapSystem = topicMapSystem;
 
-			_constructs = new List<IConstruct>();
 			TopicMediator = new TopicMediator(topicMapSystem.Repository.TopicRepository, this);
 			AssociationMediator = new AssociationMediator(topicMapSystem.Repository.AssociationRepository, this);
 
-			TopicMapSystem = topicMapSystem;
-
 			// TODO How to handle enableAutoUpdate parameter? app.config?
+			_constructs = new List<IConstruct>();
 			_literalIndex = new LiteralIndex(topicMapSystem, false);
 			_scopedIndex = new ScopedIndex(topicMapSystem, false);
 			_typedIndex = new TypedInstanceIndex(topicMapSystem, false);

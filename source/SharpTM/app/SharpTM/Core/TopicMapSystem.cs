@@ -10,6 +10,9 @@ using Pixelplastic.TopicMaps.SharpTM.Helper;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 using TMAPI.Net.Core;
+#if LOG4NET
+using log4net;
+#endif
 
 namespace Pixelplastic.TopicMaps.SharpTM.Core
 {
@@ -23,6 +26,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 	/// </remarks>
 	public class TopicMapSystem : ITopicMapSystem
 	{
+#if LOG4NET
+		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+#endif
 		readonly Dictionary<string, bool> enabledFeatures;
 		readonly TopicMapMediator _topicMapMediator;
 
@@ -131,6 +137,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap CreateTopicMap(string iri)
 		{
+#if LOG4NET
+			log.InfoFormat("Creating a TopicMap by locator '{0}'.", iri);
+#endif
+
 			if (_topicMapMediator.Exists(entity => entity.ItemIdentifiers.Contains(iri)))
 			{
 				string message = string.Format(
@@ -139,6 +149,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 				throw new TopicMapExistsException(message);
 			}
+
+			if (String.IsNullOrEmpty(iri))
+				throw new ArgumentException("At least one item identifier required for a TopicMap.");
 			
 			TopicMapEntity topicMapEntity = new TopicMapEntity();
 			topicMapEntity.ItemIdentifiers.Add(iri);
