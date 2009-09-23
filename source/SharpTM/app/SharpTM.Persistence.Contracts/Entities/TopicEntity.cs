@@ -10,9 +10,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
 {
 	public class TopicEntity : ConstructEntity
 	{
-		public virtual IList<string> SubjectIdentifiers { get; set; }
-		public virtual IList<string> SubjectLocators { get; set; }
-		public virtual IList<NameEntity> Names { get; set; }
-		public virtual IList<OccurrenceEntity> Occurrences { get; set; }
+		public virtual List<string> SubjectIdentifiers { get; set; }
+		public virtual List<string> SubjectLocators { get; set; }
+		public virtual List<NameEntity> Names { get; set; }
+		public virtual List<OccurrenceEntity> Occurrences { get; set; }
+
+		public TopicEntity()
+		{
+			SubjectIdentifiers = new List<string>();
+			SubjectLocators = new List<string>();
+			Names = new List<NameEntity>();
+			Occurrences = new List<OccurrenceEntity>();
+		}
 	}
 }
