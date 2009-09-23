@@ -18,7 +18,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories.InMemory
 		{
 			get
 			{
-				if (_topicRepository == null)
+				// if (_topicRepository == null)
 				{
 					_topicRepository = new TopicRepository();
 				}
@@ -31,7 +31,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories.InMemory
 		{
 			get
 			{
-				if (_associationRepository == null)
+				// if (_associationRepository == null)
 				{
 					_associationRepository = new AssociationRepository();
 				}
