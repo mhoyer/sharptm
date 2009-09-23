@@ -14,7 +14,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 {
 	public abstract class Mediator<TConstruct, TEntity>
 		where TConstruct : Construct
-		where TEntity : ConstructEntity
+		where TEntity : ConstructEntity, new()
 	{
 		Dictionary<string, KeyValuePair<TConstruct, TEntity>> _index;
 		readonly IRepository<TEntity> _repository;
@@ -34,6 +34,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 		{
 			_repository = repository;
 			_createAction = createAction;
+		}
+
+		public TConstruct Create()
+		{
+			return Create(new TEntity());
 		}
 
 		public TConstruct Create(TEntity entity)
@@ -68,11 +73,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 
 		public TConstruct Get(TEntity entity)
 		{
+			if (entity == null) return null;
 			return Index[entity.Id].Key;
 		}
 
 		public TEntity Get(TConstruct construct)
 		{
+			if (construct == null) return null;
 			return Index[construct.Id].Value;
 		}
 
