@@ -31,10 +31,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		ILiteralIndex _literalIndex;
 		IScopedIndex _scopedIndex;
 		ITypeInstanceIndex _typedIndex;
-		TopicMediator _topicMediator;
-		AssociationMediator _associationMediator;
-		TopicMapEntity _entity;
-		internal TopicMapData topicMapData = new TopicMapData();
+		// internal TopicMapData topicMapData = new TopicMapData();
+		List<IConstruct> _constructs;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicMap"/> class.
@@ -47,12 +45,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 			log.InfoFormat("Creating Topic Map '{0}'.", itemIdentifier);
 #endif
-			_entity = entity;
-			_topicMediator = new TopicMediator(topicMapSystem.Repository.TopicRepository, this);
-			_associationMediator = new AssociationMediator(topicMapSystem.Repository.AssociationRepository, this);
-
-			if (_entity.ItemIdentifiers.Count == 0)
+			if (entity.ItemIdentifiers.Count == 0)
 				throw new ArgumentException("At least one item identifier required for a TopicMap.");
+
+			_constructs = new List<IConstruct>();
+			TopicMediator = new TopicMediator(topicMapSystem.Repository.TopicRepository, this);
+			AssociationMediator = new AssociationMediator(topicMapSystem.Repository.AssociationRepository, this);
 
 			TopicMapSystem = topicMapSystem;
 
@@ -74,7 +72,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return _associationMediator.GetAll(association => (IAssociation)association).AsReadOnly();
+				return AssociationMediator.GetAll(association => (IAssociation)association).AsReadOnly();
 			}
 		}
 
@@ -106,8 +104,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				// return _topicMediator.Get(_entity.Reifier);
-				return topicMapData.Reifier;
+				return TopicMediator.Get(Entity.Reifier);
 			}
 			set
 			{
@@ -126,7 +123,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-				return topicMapData.Topics;
+				return TopicMediator.GetAll(topic => (ITopic)topic).AsReadOnly();
 			}
 		}
 		#endregion
@@ -140,6 +137,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			get; private set;
 		}
 
+		internal new TopicMapEntity Entity
+		{
+			get
+			{
+				return (TopicMapEntity) base.Entity;
+			}
+		}
+
+
+		internal TopicMediator TopicMediator
+		{
+			get;
+			private set;
+		}
+
+		internal AssociationMediator AssociationMediator
+		{
+			get;
+			private set;
+		}
+
 		#region ITopicMap methods
 		/// <summary>
 		///     Closes use of this topic map instance.
@@ -149,10 +167,10 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </summary>
 		public void Close()
 		{
-			_entity.Associations.Clear();
-			_entity.Topics.Clear();
-			topicMapData.Constructs.Clear();
-			_entity = null;
+			Entity.Associations.Clear();
+			Entity.Topics.Clear();
+			_constructs.Clear();
+			
 		}
 
 		/// <summary>
@@ -210,7 +228,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 
 			AssociationEntity entity = new AssociationEntity();
-			Association association = _associationMediator.Create(entity);
+			Association association = AssociationMediator.Create(entity);
 			association.Type = associationType;
 			
 			if (initialThemes != null)
@@ -223,7 +241,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			
 			association.OnRemove += Association_OnRemove;
 			// topicMapData.Associations.Add(association);
-			topicMapData.Constructs.Add(association);
+			AddConstruct(association);
 
 			return association;
 		}
@@ -327,11 +345,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 			log.InfoFormat("Creating Topic by item identifier '{0}'.", itemIdentifier);
 #endif
-
-			// create new topic with this item identifier
-			Topic topic = new Topic(new TopicEntity(), this);
+			Topic topic = CreateEmptyTopic();
 			topic.AddItemIdentifier(itemIdentifier);
-			AddTopic(topic);
 
 			return topic;
 		}
@@ -385,13 +400,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return foundTopicByItemIdentifier;
 			}
 
-			// create new topic with this item identifier
-			Topic topic = new Topic(new TopicEntity(), this);
-			topic.OnRemove += Topic_OnRemove;
+#if LOG4NET
+			log.InfoFormat("Creating Topic by subject identifier '{0}'.", subjectIdentifier);
+#endif
+			Topic topic = CreateEmptyTopic();
 			topic.AddSubjectIdentifier(subjectIdentifier);
-
-			topicMapData.Topics.Add(topic);
-			topicMapData.Constructs.Add(topic);
 
 			return topic;
 		}
@@ -427,14 +440,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return foundTopicBySubjectLocator;
 			}
 
-			// create new topic with this item identifier
-			Topic topic = new Topic(new TopicEntity(), this);
-			topic.OnRemove += Topic_OnRemove;
+#if LOG4NET
+			log.InfoFormat("Creating Topic by subject locator '{0}'.", subjectLocator);
+#endif
+			Topic topic = CreateEmptyTopic();
 			topic.AddSubjectLocator(subjectLocator);
-
-			topicMapData.Topics.Add(topic);
-			topicMapData.Constructs.Add(topic);
-
+			
 			return topic;
 		}
 
@@ -458,7 +469,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return this;
 			}
 
-			foreach (IConstruct construct in topicMapData.Constructs)
+			foreach (IConstruct construct in _constructs)
 			{
 				if (construct.Id == id)
 				{
@@ -489,7 +500,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				return this;
 			}
 
-			foreach (IConstruct construct in topicMapData.Constructs)
+			foreach (IConstruct construct in _constructs)
 			{
 				if (construct.ItemIdentifiers.Contains(itemIdentifier))
 				{
@@ -548,8 +559,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 			log.DebugFormat("Looking up Topic by subject identifier '{0}'.", subjectIdentifier);
 #endif
-
-			foreach (ITopic topic in topicMapData.Topics)
+			//TopicMediator.Find(topicEntity => topicEntity.SubjectIdentifiers.Contains(subjectIdentifier.Reference))
+			foreach (ITopic topic in Topics)
 			{
 				if (topic.SubjectIdentifiers.Contains(subjectIdentifier))
 				{
@@ -575,7 +586,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.DebugFormat("Looking up Topic by subject locator '{0}'.", subjectLocator);
 #endif
 
-			foreach (ITopic topic in topicMapData.Topics)
+			foreach (ITopic topic in Topics)
 			{
 				if (topic.SubjectLocators.Contains(subjectLocator))
 				{
@@ -618,7 +629,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			log.DebugFormat("Looking up Topic by item identifier '{0}'.", itemIdentifier);
 #endif
 
-			foreach (ITopic topic in topicMapData.Topics)
+			foreach (ITopic topic in Topics)
 			{
 				if (topic.ItemIdentifiers.Contains(itemIdentifier))
 				{
@@ -635,24 +646,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="construct">The construct to be added.</param>
 		internal void AddConstruct(IConstruct construct)
 		{
-			topicMapData.Constructs.Add(construct);
+			_constructs.Add(construct);
 		}
 
-		internal void AddTopic(ITopic topic)
+		Topic CreateEmptyTopic()
 		{
-			if (topic is Topic)
-			{
-				((Topic) topic).OnRemove += Topic_OnRemove;
-				((Topic) topic).Parent = this;
-			}
+			Topic topic = TopicMediator.Create(new TopicEntity());
+			AddTopic(topic);
+			return topic;
+		}
 
-			topicMapData.Topics.Add(topic);
-			topicMapData.Constructs.Add(topic);
+		internal void AddTopic(Topic topic)
+		{
+			topic.OnRemove += Topic_OnRemove;
+			topic.Parent = this;
+
+			AddConstruct(topic);
 		}
 
 		internal Topic FindDuplicate(Topic duplicatePattern)
 		{
-			foreach (Topic topic in topicMapData.Topics)
+			foreach (Topic topic in Topics)
 			{
 				if (topic == duplicatePattern)
 				{
@@ -674,7 +688,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="construct">The construct to be removed.</param>
 		internal void RemoveConstruct(IConstruct construct)
 		{
-			topicMapData.Constructs.Remove(construct);
+			_constructs.Remove(construct);
 		}
 
 		internal void RemoveTopic(ITopic topic)
@@ -684,11 +698,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (topic is Topic)
 				{
 					((Topic) topic).OnRemove -= Topic_OnRemove;
-					//((Topic) topic).Parent = null;
+					TopicMediator.Delete((Topic)topic);
 				}
 
-				topicMapData.Topics.Remove(topic);
-				topicMapData.Constructs.Remove(topic);
+				// topicMapData.Topics.Remove(topic);
+				RemoveConstruct(topic);
 			}
 		}
 
@@ -701,7 +715,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (sender is Association)
 			{
-				_associationMediator.Delete((Association)sender);
+				AssociationMediator.Delete((Association)sender);
 			}
 		}
 
