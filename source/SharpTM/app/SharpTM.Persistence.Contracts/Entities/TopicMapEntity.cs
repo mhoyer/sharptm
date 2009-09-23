@@ -13,5 +13,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
 		public virtual IList<AssociationEntity> Associations { get; set; }
 		public virtual IList<TopicEntity> Topics { get; set; }
 		public virtual TopicEntity Reifier { get; set; }
+
+		public TopicMapEntity()
+		{
+			Associations = new List<AssociationEntity>();
+			Topics = new List<TopicEntity>();
+		}
 	}
 }
