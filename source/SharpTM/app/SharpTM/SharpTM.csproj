@@ -115,7 +115,6 @@
     <Compile Include="Core\ScopeHelper.cs" />
     <Compile Include="Core\Topic.cs" />
     <Compile Include="Core\TopicMap.cs" />
-    <Compile Include="Core\DTOs\TopicMapData.cs" />
     <Compile Include="Core\TopicMapSystem.cs" />
     <Compile Include="Core\SharpTMSystemFactory.cs" />
     <Compile Include="Helper\AssociationMediator.cs" />
