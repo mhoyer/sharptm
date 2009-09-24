@@ -127,12 +127,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		    return NewTopicMapSystem(topicMapRepository);
 		}
 
-        public ITopicMapSystem NewTopicMapSystem<TTopicMapSystemRepository>() 
-            where TTopicMapSystemRepository : ITopicMapRepository, new()
-        {
-            return NewTopicMapSystem(new TTopicMapSystemRepository());
-        }
-
         public ITopicMapSystem NewTopicMapSystem(ITopicMapRepository topicMapRepository)
         {
             if (topicMapRepository == null) throw new ArgumentNullException("topicMapRepository");
