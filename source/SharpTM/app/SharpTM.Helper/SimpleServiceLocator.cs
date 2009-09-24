@@ -64,12 +64,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 
 		protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
 		{
+			List<object> result = new List<object>();
+
 			if (_namedInstances.ContainsKey(serviceType))
 			{
-				return _namedInstances[serviceType].Values;
+				result.AddRange(_namedInstances[serviceType].Values);
 			}
 
-			return new Collection<object>();
+			if (_instances.ContainsKey(serviceType))
+			{
+				result.Add(_instances[serviceType]);
+			}
+
+			return result;
 		}
 	}
 }

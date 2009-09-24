@@ -42,7 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="AssociationTests.cs" />
-    <Compile Include="Helper\ServiceLocatorTests.cs" />
+    <Compile Include="Helper\SimpleServiceLocatorTests.cs" />
     <Compile Include="LocatorTests.cs" />
     <Compile Include="TMDM\MergeTests.cs" />
     <Compile Include="TMDM\NameEqualSpecs.cs" />
