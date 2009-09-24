@@ -42,6 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="AssociationTests.cs" />
+    <Compile Include="Helper\ServiceLocatorTests.cs" />
     <Compile Include="LocatorTests.cs" />
     <Compile Include="TMDM\MergeTests.cs" />
     <Compile Include="TMDM\NameEqualSpecs.cs" />
@@ -72,6 +73,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\app\SharpTM.Helper\SharpTM.Helper.csproj">
+      <Project>{763ACFFA-F1A7-47E7-A52D-3F46D2050E6E}</Project>
+      <Name>SharpTM.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
       <Name>SharpTM.Persistence.Contracts</Name>

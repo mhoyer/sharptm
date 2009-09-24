@@ -75,6 +75,7 @@
     <Compile Include="MappingException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\SharedAssemblyInfo.cs" />
+    <Compile Include="ServiceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
