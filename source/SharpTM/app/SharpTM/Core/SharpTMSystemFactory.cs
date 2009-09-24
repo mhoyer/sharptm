@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections.Generic;
-using Pixelplastic.TopicMaps.SharpTM.Persistence;
+using Microsoft.Practices.ServiceLocation;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using TMAPI.Net.Core;
 
@@ -123,8 +123,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public override ITopicMapSystem NewTopicMapSystem()
 		{
-			// if (Properties.Settings.Default.RepositoryFactory)
-			var topicMapRepository = RepositoryFactory.GetInstance<ITopicMapRepository>("SharpTM.Persistence.Repositories.InMemory");
+			var topicMapRepository = ServiceLocator.Current.GetInstance<ITopicMapRepository>();
 		    return NewTopicMapSystem(topicMapRepository);
 		}
 

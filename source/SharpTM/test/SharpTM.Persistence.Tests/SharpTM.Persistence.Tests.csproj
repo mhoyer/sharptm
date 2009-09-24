@@ -45,6 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\xUnit.AssertExtensions\AssertExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\CommonServiceLocator\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -107,6 +111,10 @@
     <ProjectReference Include="..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
       <Name>SharpTM.Persistence.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\app\SharpTM.Persistence.InMemoryRepository\SharpTM.Persistence.InMemoryRepository.csproj">
+      <Project>{96F9F462-4DDD-4A4A-A4BF-D5D94BB2E453}</Project>
+      <Name>SharpTM.Persistence.InMemoryRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\app\SharpTM.Persistence\SharpTM.Persistence.csproj">
       <Project>{D372E1B6-FF57-4E03-A799-02EE65FB497A}</Project>

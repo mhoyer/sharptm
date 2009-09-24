@@ -4,7 +4,11 @@
 // </copyright>
 // <summary>Defines the TMAPITestCase type.</summary>
 //-------------------------------------------------------------------------------------------------
+using Microsoft.Practices.ServiceLocation;
 using Pixelplastic.TopicMaps.SharpTM.Core;
+using Pixelplastic.TopicMaps.SharpTM.Helper;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
+using Pixelplastic.TopicMaps.SharpTM.Persistence.Repositories.InMemory;
 using TMAPI.Net.Core;
 
 namespace TMAPI.Net.Tests
@@ -27,6 +31,7 @@ namespace TMAPI.Net.Tests
 		/// Represents the current <see cref="TopicMapSystemFactory"/> instance for all tests.
 		/// </summary>
 		protected TopicMapSystemFactory topicMapSystemFactory;
+
 		#endregion
 
 		#region constructor logic
@@ -51,6 +56,10 @@ namespace TMAPI.Net.Tests
 		/// <returns>A new instance of <see cref="TopicMapSystemFactory"/>.</returns>
 		public static TopicMapSystemFactory NewTopicMapSystemFactoryInstance()
 		{
+			SimpleServiceLocator ssl = new SimpleServiceLocator();
+			ssl.Register<ITopicMapRepository>(new TopicMapRepository());
+			ServiceLocator.SetLocatorProvider(() => ssl);
+
 			return TopicMapSystemFactory.NewInstance<SharpTMSystemFactory>();
 		}
 		#endregion

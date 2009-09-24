@@ -43,9 +43,17 @@
   </Target>
   -->
   <ItemGroup>
+    <ProjectReference Include="..\..\app\SharpTM.Helper\SharpTM.Helper.csproj">
+      <Project>{763ACFFA-F1A7-47E7-A52D-3F46D2050E6E}</Project>
+      <Name>SharpTM.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\app\SharpTM.Persistence.Contracts\SharpTM.Persistence.Contracts.csproj">
       <Project>{8A73387D-9D62-4468-A349-0ACFBA93FDAA}</Project>
       <Name>SharpTM.Persistence.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\app\SharpTM.Persistence.InMemoryRepository\SharpTM.Persistence.InMemoryRepository.csproj">
+      <Project>{96F9F462-4DDD-4A4A-A4BF-D5D94BB2E453}</Project>
+      <Name>SharpTM.Persistence.InMemoryRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\app\SharpTM\SharpTM.csproj">
       <Project>{ADABAA38-52CD-4B83-8F14-E2E8F94B48DC}</Project>
@@ -83,6 +91,10 @@
     <Compile Include="TMAPITestCase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\CommonServiceLocator\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="xunit, Version=1.1.0.1323, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\tools\xUnit\xunit.dll</HintPath>

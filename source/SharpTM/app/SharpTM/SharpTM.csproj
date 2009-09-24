@@ -119,6 +119,7 @@
     <Compile Include="Core\SharpTMSystemFactory.cs" />
     <Compile Include="Helper\AssociationMediator.cs" />
     <Compile Include="Helper\Mediator.cs" />
+    <Compile Include="Helper\RoleMediator.cs" />
     <Compile Include="Helper\TopicMapMediator.cs" />
     <Compile Include="Helper\TopicMediator.cs" />
     <Compile Include="Merging\AssociationToBeMerged.cs" />
@@ -152,6 +153,10 @@
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\CommonServiceLocator\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
