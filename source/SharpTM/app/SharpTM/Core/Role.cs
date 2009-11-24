@@ -32,14 +32,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (initialPlayer == null && data.Player == null)
 			{
-				throw new ModelConstraintException(
+				throw new ModelConstraintException(this,
 					"The role player MUST NOT be null.",
 					new ArgumentNullException("initialPlayer"));
 			}
 
 			if (roleType == null && data.Type == null)
 			{
-				throw new ModelConstraintException(
+				throw new ModelConstraintException(this,
 					"A role MUST NOT be untyped.",
 					new ArgumentNullException("roleType"));
 			}
@@ -95,7 +95,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (value == null)
 				{
-					throw new ModelConstraintException("The role player MUST NOT be null.");
+					throw new ModelConstraintException(this, "The role player MUST NOT be null.");
 				}
 
 				// notify the player changes event
@@ -153,7 +153,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
-				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				if (value == null) throw new ModelConstraintException(this, "Type MUST NOT be null.");
 				RoleTypeChanges(roleData.Type, value);
 				roleData.Type = value;
 			}

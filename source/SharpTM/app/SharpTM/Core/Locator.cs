@@ -36,7 +36,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			catch (UriFormatException ex)
 			{
-				throw new TMAPIException(String.Format("Referenced IRI '{0}' should be a valid absolute IRI.", absoluteReference), ex);
+				throw new MalformedIRIException(String.Format("Referenced IRI '{0}' should be a valid absolute IRI.", absoluteReference), ex);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (!absoluteReference.IsAbsoluteUri)
 			{
-				throw new TMAPIException("Referenced IRI should be a valid absolute IRI.");
+				throw new MalformedIRIException("Referenced IRI should be a valid absolute IRI.");
 			}
 
 			reference = absoluteReference;

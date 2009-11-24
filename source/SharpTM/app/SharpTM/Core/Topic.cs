@@ -175,6 +175,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (subjectIdentifier == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"A subject identifier MUST NOT be null.",
 					new ArgumentNullException("subjectIdentifier"));
 			}
@@ -194,7 +195,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					return;
 				}
 
-				throw new IdentityConstraintException(String.Format("Topic with subject identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
+				throw new IdentityConstraintException(
+					this,
+					existingTopic,
+					subjectIdentifier,
+					String.Format("Topic with subject identifier {0} already exists in topic map and [automerge] is not enabled.", subjectIdentifier));
 			}
 			
 			IConstruct construct = TopicMap.GetConstructByItemIdentifier(subjectIdentifier);
@@ -210,6 +215,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				else
 				{
 					throw new IdentityConstraintException(
+						this,
+						construct,
+						subjectIdentifier,
 						String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.",
 						              subjectIdentifier));
 				}
@@ -241,6 +249,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (subjectLocator == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"A subject locator MUST NOT be null.",
 					new ArgumentNullException("subjectLocator"));
 			}
@@ -260,7 +269,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					return;
 				}
 
-				throw new IdentityConstraintException(String.Format("Topic with subject locator {0} already exists in topic map and [automerge] is not enabled.", subjectLocator));
+				throw new IdentityConstraintException(
+					this,
+					existingTopic,
+					subjectLocator,
+					String.Format("Topic with subject locator {0} already exists in topic map and [automerge] is not enabled.", subjectLocator));
 			}
 			
 			topicData.SubjectLocators.Add(subjectLocator);
@@ -283,6 +296,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (type == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"A type MUST NOT be null.",
 					new ArgumentNullException("type"));
 			}
@@ -292,7 +306,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="type"/>, 
-		///     <paramref name="value"/>, and <paramref name="themes"/>.
+		///     <paramref name="value"/>, and <paramref name="scope"/>.
 		/// </summary>
 		/// <param name="type">
 		///     The name type; MUST NOT be <c>null</c>.
@@ -300,7 +314,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the name will be in the unconstrained scope.
 		/// </param>
@@ -309,23 +323,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="themes"/> is <c>null</c>.
+		///     or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(ITopic type, string value, params ITopic[] themes)
+		public IName CreateName(ITopic type, string value, params ITopic[] scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scope themes for a name instance MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			return CreateName(type, value, new List<ITopic>(themes));
+			return CreateName(type, value, new List<ITopic>(scope));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="type"/>, 
-		///     <paramref name="value"/>, and <paramref name="themes"/>.
+		///     <paramref name="value"/>, and <paramref name="scope"/>.
 		/// </summary>
 		/// <param name="type">
 		///     The name type; MUST NOT be <c>null</c>.
@@ -333,7 +348,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -342,22 +357,35 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(ITopic type, string value, IList<ITopic> themes)
+		public IName CreateName(ITopic type, string value, IList<ITopic> scope)
 		{
 			if (type == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The type of a Name MUST NOT be null.",
 					new ArgumentNullException("type"));
 			}
 
+			if (value == null)
+			{
+				throw new ModelConstraintException(
+					this,
+					"The value of a Name MUST NOT be null.",
+					new ArgumentNullException("value"));
+			}
+
+			if (scope == null)
+			{
+				throw new ModelConstraintException(
+					this,
+					"The value of a Name MUST NOT be null.",
+					new ArgumentNullException("scope"));
+			}
+
 			Name name = new Name(this, type);
 			name.Value = value;
-
-			if (themes != null)
-			{
-				name.AddThemes(themes);
-			}
+			name.AddThemes(scope);
 
 			AddName(name);
 
@@ -372,7 +400,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="value"/> 
-		///     and <paramref name="themes"/>.
+		///     and <paramref name="scope"/>.
 		///     The created <see cref="T:TMAPI.Net.Core.IName"/> will have the default name type 
 		///     (a <see cref="T:TMAPI.Net.Core.ITopic"/> with the subject identifier 
 		///     <a href="http://psi.topicmaps.org/iso13250/model/topic-name">http://psi.topicmaps.org/iso13250/model/topic-name</a>).
@@ -380,7 +408,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the name will be in the unconstrained scope.
 		/// </param>
@@ -388,23 +416,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		///     The newly created <see cref="T:TMAPI.Net.Core.IName"/>.
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
-		///     If either the <paramref name="value"/> or the <paramref name="themes"/> is <c>null</c>.
+		///     If either the <paramref name="value"/> or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(string value, params ITopic[] themes)
+		public IName CreateName(string value, params ITopic[] scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scopes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			return CreateName(value, new List<ITopic>(themes));
+			return CreateName(value, new List<ITopic>(scope));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IName"/> for this topic with the specified <paramref name="value"/> 
-		///     and <paramref name="themes"/>.
+		///     and <paramref name="scope"/>.
 		///     The created <see cref="T:TMAPI.Net.Core.IName"/> will have the default name type 
 		///     (a <see cref="T:TMAPI.Net.Core.ITopic"/> with the subject identifier 
 		///     <a href="http://psi.topicmaps.org/iso13250/model/topic-name">http://psi.topicmaps.org/iso13250/model/topic-name</a>).
@@ -412,7 +441,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the name; MUST NOT be <c>null</c>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -421,11 +450,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IName CreateName(string value, IList<ITopic> themes)
+		public IName CreateName(string value, IList<ITopic> scope)
 		{
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The value for a name MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
@@ -434,12 +464,12 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				CreateName(
 					Parent.CreateTopicBySubjectIdentifier(Parent.CreateLocator("http://psi.topicmaps.org/iso13250/model/topic-name")),
 					value,
-					themes);
+					scope);
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, and <paramref name="themes"/>.
+		///     string <paramref name="value"/>, and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#string">xsd:string</a>.
 		/// </summary>
@@ -449,7 +479,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the occurrence.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -458,23 +488,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="themes"/> is <c>null</c>.
+		///     or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, params ITopic[] themes)
+		public IOccurrence CreateOccurrence(ITopic type, string value, params ITopic[] scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scopes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			return CreateOccurrence(type, value, new List<ITopic>(themes));
+			return CreateOccurrence(type, value, new List<ITopic>(scope));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, and <paramref name="themes"/>.
+		///     string <paramref name="value"/>, and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#string"><c>xsd:string</c></a>.
 		/// </summary>
@@ -484,7 +515,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     The string value of the occurrence.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -493,23 +524,25 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, IList<ITopic> themes)
+		public IOccurrence CreateOccurrence(ITopic type, string value, IList<ITopic> scope)
 		{
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"An occurrence value MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
 
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The themes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			Occurrence occurrence = CreateOccurrence(type, themes);
+			Occurrence occurrence = CreateOccurrence(type, scope);
 			occurrence.Value = value;
 
 			// HACK should be solved by delegates
@@ -523,7 +556,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     IRI <paramref name="value"/>, and <paramref name="themes"/>.
+		///     IRI <paramref name="value"/>, and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#anyURI">xsd:anyURI</a>.
 		/// </summary>
@@ -533,7 +566,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> which represents an IRI.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -542,23 +575,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="themes"/> is <c>null</c>.
+		///     or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, ILocator value, params ITopic[] themes)
+		public IOccurrence CreateOccurrence(ITopic type, ILocator value, params ITopic[] scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scopes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			return CreateOccurrence(type, value, new List<ITopic>(themes));
+			return CreateOccurrence(type, value, new List<ITopic>(scope));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     IRI <paramref name="value"/>, and <paramref name="themes"/>.
+		///     IRI <paramref name="value"/>, and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the <c>datatype</c> 
 		///     <a href="http://www.w3.org/TR/xmlschema-2/#anyURI"><c>xsd:anyURI</c></a>.
 		/// </summary>
@@ -568,7 +602,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="value">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> which represents an IRI.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained themes.
 		/// </param>
 		/// <returns>
@@ -576,25 +610,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     or the <paramref name="themes"/> is <c>null</c>.
+		///     or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, ILocator value, IList<ITopic> themes)
+		public IOccurrence CreateOccurrence(ITopic type, ILocator value, IList<ITopic> scope)
 		{
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"An occurrence locator value MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
 
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The themes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			Occurrence occurrence = CreateOccurrence(type, themes);
+			Occurrence occurrence = CreateOccurrence(type, scope);
 			occurrence.LocatorValue = value;
 
 			return occurrence;
@@ -602,7 +638,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="themes"/>.
+		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     specified by <paramref name="datatype"/>.
 		/// </summary>
@@ -615,7 +651,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="datatype">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> indicating the datatype of the <paramref name="value"/>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     An optional array of themes, MUST NOT be <c>null</c>.
 		///     If the array's length is <c>0</c>, the occurrence will be in the unconstrained scope.
 		/// </param>
@@ -624,23 +660,24 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     the <paramref name="datatype"/> or the <paramref name="themes"/> is <c>null</c>.
+		///     the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, params ITopic[] themes)
+		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, params ITopic[] scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The themes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			return CreateOccurrence(type, value, datatype, new List<ITopic>(themes));
+			return CreateOccurrence(type, value, datatype, new List<ITopic>(scope));
 		}
 
 		/// <summary>
 		///     Creates a <see cref="T:TMAPI.Net.Core.IOccurrence"/> for this topic with the specified <paramref name="type"/>, 
-		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="themes"/>.
+		///     string <paramref name="value"/>, <paramref name="datatype"/> and <paramref name="scope"/>.
 		///     The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/> will have the datatype 
 		///     specified by <paramref name="datatype"/>.
 		/// </summary>
@@ -653,7 +690,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="datatype">
 		///     A <see cref="T:TMAPI.Net.Core.ILocator"/> indicating the datatype of the <paramref name="value"/>.
 		/// </param>
-		/// <param name="themes">
+		/// <param name="scope">
 		///     A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
 		/// </param>
 		/// <returns>
@@ -661,18 +698,27 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		/// <exception cref="ModelConstraintException">
 		///     If either the <paramref name="type"/>, the <paramref name="value"/>, 
-		///     the <paramref name="datatype"/> or the <paramref name="themes"/> is <c>null</c>.
+		///     the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c>.
 		/// </exception>
-		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, IList<ITopic> themes)
+		public IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, IList<ITopic> scope)
 		{
-			if (themes == null)
+			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The themes can be empty but MUST NOT be null.",
-					new ArgumentNullException("themes"));
+					new ArgumentNullException("scope"));
 			}
 
-			Occurrence occurrence = CreateOccurrence(type, themes);
+			if (datatype == null)
+			{
+				throw new ModelConstraintException(
+					this,
+					"The datatype of an occurrence MUST NOT be null.",
+					new ArgumentNullException("datatype"));
+			}
+
+			Occurrence occurrence = CreateOccurrence(type, scope);
 			occurrence.SetValue(value, datatype);
 
 			return occurrence;
@@ -916,13 +962,13 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			if (Reified != null)
 			{
-				throw new TopicInUseException("Removing a topic used for reification");
+				throw new TopicInUseException(this, "Removing a topic used for reification");
 			}
 
 			// HACK: could be a bottleneck
 			if (RolesPlayed.Count > 0)
 			{
-				throw new TopicInUseException("Removing a topic used as player is not allowed.");
+				throw new TopicInUseException(this, "Removing a topic used as player is not allowed.");
 			}
 
 			foreach (ITopic topic in Parent.Topics)
@@ -931,6 +977,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				{
 					// TODO: ask tmapi mailing list if this is allowed or not
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as type for topic {0} is not allowed.",
 							topic));
@@ -939,6 +986,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (topic.GetOccurrencesByTopicType(this).Count > 0)
 				{
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as type for occurrence of topic {0} is not allowed.",
 							topic));
@@ -947,6 +995,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (topic.GetNamesByTopicType(this).Count > 0)
 				{
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as type for name of topic {0} is not allowed.",
 							topic));
@@ -955,6 +1004,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (topic.GetRolesPlayedByTopicType(this).Count > 0)
 				{
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as type for a role of topic {0} is not allowed.",
 							topic));
@@ -965,6 +1015,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					if (name.Scope.Contains(this))
 					{
 						throw new TopicInUseException(
+							this,
 							String.Format(
 								"Removing a topic used as scope theme for the name {0} of topic {1} is not allowed.",
 								name,
@@ -976,6 +1027,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 						if (variant.Scope.Contains(this))
 						{
 							throw new TopicInUseException(
+								this,
 								String.Format(
 									"Removing a topic used as scope theme for a variant of name {0} of topic {1} is not allowed.",
 									name,
@@ -989,6 +1041,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					if (occurrence.Scope.Contains(this))
 					{
 						throw new TopicInUseException(
+							this,
 							String.Format(
 								"Removing a topic used as scope theme for the occurrence {0} of topic {1} is not allowed.",
 								occurrence,
@@ -1002,6 +1055,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (association.Type == this)
 				{
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as type for association {0} is not allowed.",
 							association));
@@ -1010,6 +1064,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (association.Scope.Contains(this))
 				{
 					throw new TopicInUseException(
+						this,
 						String.Format(
 							"Removing a topic used as scope theme for the association {0} is not allowed.",
 							association));

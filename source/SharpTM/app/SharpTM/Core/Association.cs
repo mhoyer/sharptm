@@ -125,7 +125,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
-				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				if (value == null) throw new ModelConstraintException(this, "Type MUST NOT be null.");
 				AssociationData.Type = value;
 			}
 		}
@@ -143,7 +143,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			ScopeHelper.AddTheme(AssociationData.Scope, theme);
+			ScopeHelper.AddTheme(this, AssociationData.Scope, theme);
 		}
 
 		/// <summary>
@@ -181,6 +181,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					Id);
 
 				throw new ModelConstraintException(
+					this, 
 					message,
 					new ArgumentNullException("roleType"));
 			}
@@ -192,6 +193,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					Id);
 
 				throw new ModelConstraintException(
+					this,
 					message,
 					new ArgumentNullException("player"));
 			}

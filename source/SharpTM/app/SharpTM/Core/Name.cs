@@ -38,6 +38,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				nameData.Type == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The type of a name MUST NOT be null.",
 					new ArgumentNullException("nameType"));
 			}
@@ -116,7 +117,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
-				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				if (value == null) throw new ModelConstraintException(this, "Type MUST NOT be null.");
 				nameData.Type = value;
 			}
 		}
@@ -136,7 +137,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			set
 			{
 				if (value == null)
-					throw new ModelConstraintException("The value of a Name MUST NOT be null.");
+					throw new ModelConstraintException(this, "The value of a Name MUST NOT be null.");
 
 				nameData.Value = value;
 			}
@@ -167,7 +168,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			ScopeHelper.AddTheme(nameData.Scope, theme);
+			ScopeHelper.AddTheme(this, nameData.Scope, theme);
 		}
 
 		/// <summary>
@@ -205,6 +206,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scope for a variant instance MUST NOT be null.",
 					new ArgumentNullException("scope"));
 			}
@@ -236,6 +238,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The value of a variant instance MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
@@ -270,6 +273,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scope for a variant instance MUST NOT be null.",
 					new ArgumentNullException("scope"));
 			}
@@ -301,6 +305,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The value of a variant instance MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
@@ -338,6 +343,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scope for a variant instance MUST NOT be null.",
 					new ArgumentNullException("scope"));
 			}
@@ -372,6 +378,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The value of a variant instance MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
@@ -379,6 +386,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (datatype == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The datatype locator of a variant instance MUST NOT be null.",
 					new ArgumentNullException("datatype"));
 			}
@@ -401,7 +409,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
-			ScopeHelper.AddThemes(nameData.Scope, themes);
+			ScopeHelper.AddThemes(this, nameData.Scope, themes);
 		}
 
 		/// <summary>
@@ -527,6 +535,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (!variantScopeHasDifferentTheme)
 			{
 				throw new ModelConstraintException(
+					this,
 					String.Format(
 						"The scope of a variant MUST be a true super set of its parent name {0}.",
 						this),
@@ -548,6 +557,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (scope == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The scope for a variant instance MUST NOT be null.",
 					new ArgumentNullException("scope"));
 			}
@@ -555,6 +565,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (scope.Count <= 0)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The array size of the scope for a variant instance MUST be >= 1.",
 					new ArgumentException("scope"));
 			}

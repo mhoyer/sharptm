@@ -45,6 +45,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Merging
 			    ToBeMerged.Reified != target.Reified)
 			{
 				throw new ModelConstraintException(
+					target,
 					"Unable to merge Topics. It is an error if A and B both have non-null values in their Reifier properties which are different.");
 			}
 

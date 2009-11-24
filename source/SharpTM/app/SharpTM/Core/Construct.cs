@@ -150,7 +150,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (itemIdentifier == null)
 			{
-				throw new ModelConstraintException("Not allowed to add 'null' item identifier.",
+				throw new ModelConstraintException(this,
+												   "Not allowed to add 'null' item identifier.",
 				                                   new ArgumentNullException("itemIdentifier"));
 			}
 
@@ -242,7 +243,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 						itemIdentifier.Reference,
 						TopicMap.Id);
 
-					throw new IdentityConstraintException(message);
+					throw new IdentityConstraintException(this, construct, itemIdentifier, message);
 				}
 			}
 		}
@@ -261,7 +262,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			else
 			{
-				throw new IdentityConstraintException(
+				throw new IdentityConstraintException(this, existingTopic, itemIdentifier,
 					String.Format("Topic with item identifier {0} already exists in topic map and [automerge] is not enabled.",
 					              itemIdentifier));
 			}

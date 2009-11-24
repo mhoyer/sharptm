@@ -33,6 +33,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (occurrenceType == null && data.Type == null)
 			{
 				throw new ModelConstraintException(
+					parent,
 					"An occurrence type MUST NOT be null.",
 					new ArgumentNullException("occurrenceType"));
 			}
@@ -78,7 +79,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			}
 			set
 			{
-				if (value == null) throw new ModelConstraintException("Type MUST NOT be null.");
+				if (value == null) throw new ModelConstraintException(this, "Type MUST NOT be null.");
 				occurrenceData.Type = value;
 			}
 		}

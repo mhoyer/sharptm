@@ -15,15 +15,17 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Adds a <see cref="T:TMAPI.Net.Core.ITopic"/> to the scope.
 		/// </summary>
+		/// <param name="scopable">The scopeable construct.</param>
 		/// <param name="currentScope">The current scope.</param>
 		/// <param name="theme">The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be added to the scope.</param>
 		/// <exception cref="ModelConstraintException">
 		/// If the <paramref name="theme"/> is <c>null</c>.
 		/// </exception>
-		public static void AddTheme(IList<ITopic> currentScope, ITopic theme)
+		public static void AddTheme(IScoped scopable, IList<ITopic> currentScope, ITopic theme)
 		{
 			if (theme == null)
 				throw new ModelConstraintException(
+					scopable, 
 					"Themes cannot be null when adding to scope.", 
 					new ArgumentNullException("theme"));
 
@@ -35,15 +37,16 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <summary>
 		/// Adds a list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> to the current scope.
 		/// </summary>
+		/// <param name="scopable">The scopeable construct.</param>
 		/// <param name="currentScope">The scope list.</param>
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the currentScope.</param>
-		public static void AddThemes(IList<ITopic> currentScope, IEnumerable<ITopic> themes)
+		public static void AddThemes(IScoped scopable, IList<ITopic> currentScope, IEnumerable<ITopic> themes)
 		{
 			if (themes == null) return;
 
 			foreach (ITopic theme in themes)
 			{
-				AddTheme(currentScope, theme);
+				AddTheme(scopable, currentScope, theme);
 			}
 		}
 

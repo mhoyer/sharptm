@@ -21,6 +21,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 				if (newReifier.Reified != null)
 				{
 					throw new ModelConstraintException(
+						reifiable,
 						"The specified reifier already reifies another construct.");
 				}
 			}

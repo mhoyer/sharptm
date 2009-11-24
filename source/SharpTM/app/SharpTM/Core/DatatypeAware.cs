@@ -146,7 +146,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			set
 			{
 				if (value == null)
-					throw new ModelConstraintException("LocatorValue cannot be set to null.");
+					throw new ModelConstraintException(this, "LocatorValue cannot be set to null.");
 
 				datatypeData.LocatorValue = value;
 				datatypeData.StringValue = value.Reference;
@@ -247,7 +247,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			{
 				if (value == null)
 				{
-					throw new ModelConstraintException("The value MUST NOT be null.");
+					throw new ModelConstraintException(this, "The value MUST NOT be null.");
 				}
 
 				datatypeData.StringValue = value;
@@ -272,7 +272,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </exception>
 		public void AddTheme(ITopic theme)
 		{
-			ScopeHelper.AddTheme(datatypeData.Scope, theme);
+			ScopeHelper.AddTheme(this, datatypeData.Scope, theme);
 		}
 
 		/// <summary>
@@ -306,6 +306,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (value == null)
 			{
 				throw new ModelConstraintException(
+					this, 
 					"An DatatypeAware value MUST NOT be null.",
 					new ArgumentNullException("value"));
 			}
@@ -313,6 +314,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (datatype == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"An DatatypeAware datatype MUST NOT be null.",
 					new ArgumentNullException("datatype"));
 			}
@@ -373,7 +375,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <param name="themes">The list of <see cref="T:TMAPI.Net.Core.ITopic">topics</see> that should be added to the scope.</param>
 		public void AddThemes(IEnumerable<ITopic> themes)
 		{
-			ScopeHelper.AddThemes(datatypeData.Scope, themes);
+			ScopeHelper.AddThemes(this, datatypeData.Scope, themes);
 		}
 	}
 }
