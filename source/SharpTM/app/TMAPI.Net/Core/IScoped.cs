@@ -1,3 +1,23 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IScoped.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Indicates that a statement (Topic Maps construct) has a scope.
+//   <see cref="T:TMAPI.Net.Core.IAssociation" />s, <see cref="T:TMAPI.Net.Core.IOccurrence" />s,
+//   <see cref="T:TMAPI.Net.Core.IName" />s, and <see cref="T:TMAPI.Net.Core.IVariant" />s are scoped.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System.Collections.ObjectModel;
@@ -35,7 +55,8 @@ namespace TMAPI.Net.Core
         /// The <see cref="T:TMAPI.Net.Core.ITopic"/> which should be added to the scope.
         /// </param>
         /// <exception cref="ModelConstraintException">
-        /// If the <paramref name="theme"/> is <c>null</c>.
+        /// If the <paramref name="theme"/> is <c>null</c> or
+        /// if <paramref name="theme"/> belongs to another topic map.
         /// </exception>
         void AddTheme(ITopic theme);
 

@@ -1,3 +1,24 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITopicMapSystem.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   A generic interface to a TMAPI system.
+//   Any TMAPI system must be capable of providing access to one or more
+//   <see cref="T:TMAPI.Net.Core.ITopicMap" />objects. A TMAPI system may be capable of
+//   allowing a client to create new <see cref="T:TMAPI.Net.Core.ITopicMap" /> instances.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System.Collections.ObjectModel;
@@ -49,6 +70,12 @@ namespace TMAPI.Net.Core
         /// <returns>
         /// A <see cref="T:TMAPI.Net.Core.ILocator"/> representing the IRI <paramref name="reference"/>.
         /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// If <paramref name="reference"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="MalformedIRIException">
+        /// If the provided <paramref name="reference"/> cannot be used to create a valid <see cref="ILocator"/>.
+        /// </exception>
         ILocator CreateLocator(string reference);
 
         /// <summary>

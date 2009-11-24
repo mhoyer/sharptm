@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TMAPI.Net")]
-[assembly: AssemblyDescription(".Net version of TMAPI")]
+[assembly: AssemblyTitle("TMAPI.NET")]
+[assembly: AssemblyDescription(".NET version of TMAPI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TMAPI.Net")]
+[assembly: AssemblyProduct("TMAPI.NET")]
 [assembly: AssemblyCopyright("Copyright © Stefan Kesberg, Ralf Eilbracht, Marcel Hoyer 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

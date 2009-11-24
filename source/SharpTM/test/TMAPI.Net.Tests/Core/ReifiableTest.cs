@@ -1,8 +1,26 @@
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReifiableTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the ReifiableTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+
     public class ReifiableTest : TMAPITestCase
     {
         #region Static Constants
@@ -28,30 +46,30 @@ namespace TMAPI.Net.Tests.Core
             Assert.Null(reifiable.Reifier);
             Assert.Null(reifier.Reified);
 
-			TestReificationWithSameReifier(reifiable);
+            TestReificationWithSameReifier(reifiable);
         }
 
-		/// <summary>
-		/// Tests the duplicate reification with same reifier.
-		/// </summary>
-		/// <remarks>
-		/// Assigning the *same* reifier is allowed, the TM processor MUST NOT raise an exception.
-		/// </remarks>
-		/// <param name="reifiable">The reifiable.</param>
-		private static void TestReificationWithSameReifier(IReifiable reifiable)
-		{
-			var topicMap = reifiable.TopicMap;
-			var reifier = topicMap.CreateTopic();
+        /// <summary>
+        /// Tests the duplicate reification with same reifier.
+        /// </summary>
+        /// <remarks>
+        /// Assigning the *same* reifier is allowed, the TM processor MUST NOT raise an exception.
+        /// </remarks>
+        /// <param name="reifiable">The reifiable.</param>
+        private static void TestReificationWithSameReifier(IReifiable reifiable)
+        {
+            var topicMap = reifiable.TopicMap;
+            var reifier = topicMap.CreateTopic();
 
-			reifiable.Reifier = reifier;
+            reifiable.Reifier = reifier;
 
-			Assert.Equal(reifier, reifiable.Reifier);
-			Assert.Equal(reifiable, reifier.Reified);
+            Assert.Equal(reifier, reifiable.Reifier);
+            Assert.Equal(reifiable, reifier.Reified);
 
-			Assert.DoesNotThrow(delegate() { reifiable.Reifier = reifier; });
-		}
+            Assert.DoesNotThrow(delegate() { reifiable.Reifier = reifier; });
+        }
 
-    	private static void TestReificationCollosion(IReifiable reifiable)
+        private static void TestReificationCollosion(IReifiable reifiable)
         {
             var topicMap = reifiable.TopicMap;
             var reifier = topicMap.CreateTopic();
@@ -65,7 +83,8 @@ namespace TMAPI.Net.Tests.Core
             Assert.Equal(reifier, otherReifiable.Reifier);
             Assert.Equal(otherReifiable, reifier.Reified);
 
-            Assert.Throws<ModelConstraintException>("The reifier reifies already another construct.", () => reifiable.Reifier = reifier);
+            var e = Assert.Throws<ModelConstraintException>("The reifier reifies already another construct.", () => reifiable.Reifier = reifier);
+            Assert.Equal(reifiable, e.Reporter);
 
             otherReifiable.Reifier = null;
 
@@ -81,21 +100,21 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestTopicMap()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             TestReification(topicMap);
         }
 
         [Fact]
         public void TestTopicMapReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             TestReificationCollosion(topicMap);
         }
 
         [Fact]
         public void TestAssociation()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var association = topicMap.CreateAssociation(topicMap.CreateTopic());
 
             TestReification(association);
@@ -104,7 +123,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestAssociationReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var association = topicMap.CreateAssociation(topicMap.CreateTopic());
 
             TestReificationCollosion(association);
@@ -113,7 +132,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestRole()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var association = topicMap.CreateAssociation(topicMap.CreateTopic());
             var role = association.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
 
@@ -123,7 +142,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestRoleReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var association = topicMap.CreateAssociation(topicMap.CreateTopic());
             var role = association.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
 
@@ -133,7 +152,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestOccurrence()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var occurrence = topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence");
 
@@ -143,7 +162,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestOccurrenceReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var occurrence = topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence");
 
@@ -153,7 +172,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestName()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var name = topic.CreateName("Name");
 
@@ -163,7 +182,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestNameReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var name = topic.CreateName("Name");
 
@@ -173,7 +192,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestVariant()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var name = topic.CreateName("Name");
             var variant = name.CreateVariant("Variant", topicMap.CreateTopic());
@@ -184,7 +203,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestVariantReifierCollosion()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var name = topic.CreateName("Name");
             var variant = name.CreateVariant("Variant", topicMap.CreateTopic());

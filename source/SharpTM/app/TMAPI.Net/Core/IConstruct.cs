@@ -1,3 +1,21 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IConstruct.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Base interface for all Topic Maps constructs.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System.Collections.ObjectModel;
@@ -12,6 +30,10 @@ namespace TMAPI.Net.Core
         /// <summary>
         /// Gets the identifier of this construct.
         /// This property has no representation in the Topic Maps - Data Model.
+        /// <para>
+        /// The ID can be anything, so long as no other <see cref="T:TMAPI.Net.Core.IConstruct"/> 
+        /// in the same topic map has the same ID.
+        /// </para>
         /// </summary>
         /// <returns>
         /// An identifier which identifies this construct uniquely within a topic map.
@@ -52,7 +74,7 @@ namespace TMAPI.Net.Core
         /// A <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance returns itself. 
         /// </summary>
         /// <returns>
-        /// The <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance to which this constructs belongs.
+        /// The <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance to which this construct belongs.
         /// </returns>
         ITopicMap TopicMap
         {
@@ -112,13 +134,16 @@ namespace TMAPI.Net.Core
         /// <summary>
         /// Deletes this construct from its parent container.
         /// </summary>
+        /// <remarks>
+        /// After invocation of this method, the construct is in an undefined state and must not be used further.
+        /// </remarks>
         void Remove();
 
         /// <summary>
         /// Removes an item identifier.
         /// </summary>
         /// <param name="itemIdentifier">
-        /// The item identifier to be removed.
+        ///  The item identifier to be removed from this construct, if present (<c>null</c> is ignored).
         /// </param>
         void RemoveItemIdentifier(ILocator itemIdentifier);
 

@@ -1,10 +1,28 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITopicMap.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Represents a
+//   <a href="http://www.isotopicmaps.org/sam/sam-model/#d0e657">topic map item</a>.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
-    using TMAPI.Net.Index;
+    using Index;
 
     /// <summary>
     /// Represents a 
@@ -63,7 +81,7 @@ namespace TMAPI.Net.Core
 
         /// <summary>
         /// Creates an <see cref="T:TMAPI.Net.Core.IAssociation"/> in this topic map with the specified 
-        /// <paramref name="associationType"/>and <paramref name="initialThemes"/>.
+        /// <paramref name="associationType"/> and <paramref name="initialThemes"/>.
         /// </summary>
         /// <param name="associationType">
         /// The association type, MUST NOT be <c>null</c>.
@@ -76,13 +94,14 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IAssociation"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="associationType"/> or <paramref name="initialThemes"/> is <c>null</c>.
+        /// If either the <paramref name="associationType"/> or <paramref name="initialThemes"/> is <c>null</c> or 
+        /// if either the <paramref name="associationType"/> or at least one theme of <paramref name="initialThemes"/> belongs to another topic map.
         /// </exception>
         IAssociation CreateAssociation(ITopic associationType, params ITopic[] initialThemes);
 
         /// <summary>
         /// Creates an <see cref="T:TMAPI.Net.Core.IAssociation"/> in this topic map with the specified 
-        /// <paramref name="associationType"/>and <paramref name="initialThemes"/>.
+        /// <paramref name="associationType"/> and <paramref name="initialThemes"/>.
         /// </summary>
         /// <param name="associationType">
         /// The association type, MUST NOT be <c>null</c>.
@@ -94,7 +113,8 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IAssociation"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If the <paramref name="associationType"/> is <c>null</c>.
+        /// If the <paramref name="associationType"/> is <c>null</c> or 
+        /// if either the <paramref name="associationType"/> or at least one theme of <paramref name="initialThemes"/> belongs to another topic map.
         /// </exception>
         IAssociation CreateAssociation(ITopic associationType, IList<ITopic> initialThemes);
 
@@ -109,6 +129,12 @@ namespace TMAPI.Net.Core
         /// <returns>
         /// A <see cref="T:TMAPI.Net.Core.ILocator"/> representing the IRI <paramref name="reference"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="reference"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="MalformedIRIException">
+        /// If the provided <paramref name="reference"/> cannot be used to create a valid <see cref="ILocator"/>.
+        /// </exception>
         ILocator CreateLocator(string reference);
 
         /// <summary>
@@ -249,12 +275,22 @@ namespace TMAPI.Net.Core
         /// All <see cref="T:TMAPI.Net.Core.ITopic"/>s and <see cref="T:TMAPI.Net.Core.IAssociation"/>s and all of 
         /// their contents in <paramref name="other"/> will be added to this topic map.
         /// All information items in <paramref name="other"/> will be merged into this topic map as defined by the 
-        /// <a href="http://www.isotopicmaps.org/sam/sam-model/#d0e1862">Topic Maps - Data Model (TMDM) merging rules</a>.
-        /// The merge process will not modify <paramref name="other"/> in any way.
+        /// <a href="http://www.isotopicmaps.org/sam/sam-model/#sect-merging">Topic Maps - Data Model (TMDM) merging rules</a>.
         /// </summary>
         /// <param name="other">
-        /// The topic map to be merged with this topic map instance.
+        /// The topic map to be merged with this topic map instance, must not be <c>null</c>.
         /// </param>
+        /// <remarks>
+        /// <para>
+        /// The merge process will not modify <paramref name="other"/> in any way.
+        /// </para>
+        /// <para>
+        /// If <tt>this.Equals(other)</tt> no changes are made to the topic map.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ModelConstraintException">
+        /// If <paramref name="other"/> is <c>null</c>.
+        /// </exception>
         void MergeIn(ITopicMap other);
 
         #endregion

@@ -1,11 +1,29 @@
-using TMAPI.Net.Index;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeInstanceIndexTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TypeInstanceIndexTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Index
+namespace TMAPI.Net.UnitTests.Index
 {
+    using Net.Index;
+    using Xunit;
+
     public class TypeInstanceIndexTest : TMAPITestCase
     {
-		#region Static Constants
+        #region Static Constants
         public static readonly string TestTM1 = "mem://localhost/testm1";
         #endregion
 
@@ -21,8 +39,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestTopic()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var index = (ITypeInstanceIndex)topicMap.GetIndex<ITypeInstanceIndex>();
+            var index = TopicMap.GetIndex<ITypeInstanceIndex>();
 
             index.Open();
             UpdateIndex(index);
@@ -30,15 +47,15 @@ namespace TMAPI.Net.Tests.Index
             Assert.Empty(index.GetTopics(null));
             Assert.Empty(index.TopicTypes);
 
-            var topic = topicMap.CreateTopic();
+            var topic = CreateTopic();
             UpdateIndex(index);
 
             Assert.Empty(index.TopicTypes);
             Assert.Equal(1, index.GetTopics(null).Count);
             Assert.True(index.GetTopics(null).Contains(topic));
 
-            var type1 = topicMap.CreateTopic();
-            var type2 = topicMap.CreateTopic();
+            var type1 = CreateTopic();
+            var type2 = CreateTopic();
             UpdateIndex(index);
 
             Assert.Empty(index.TopicTypes);
@@ -46,7 +63,7 @@ namespace TMAPI.Net.Tests.Index
             Assert.True(index.GetTopics(null).Contains(topic));
             Assert.True(index.GetTopics(null).Contains(type1));
             Assert.True(index.GetTopics(null).Contains(type2));
-            Assert.Empty(index.GetTopics(new[] {type1, type2}, false));
+            Assert.Empty(index.GetTopics(new[] { type1, type2 }, false));
             Assert.Empty(index.GetTopics(new[] { type1, type2 }, true));
 
             topic.AddType(type1);
@@ -54,7 +71,16 @@ namespace TMAPI.Net.Tests.Index
 
             Assert.Equal(1, index.TopicTypes.Count);
             Assert.True(index.TopicTypes.Contains(type1));
-            Assert.Equal(2, index.GetTopics(null).Count);
+
+            if (TopicMapSystem.GetFeature(FeatureTypeInstanceAssociations))
+            {
+                Assert.Equal(5, index.GetTopics(null).Count);
+            }
+            else
+            {
+                Assert.Equal(2, index.GetTopics(null).Count);
+            }
+
             Assert.False(index.GetTopics(null).Contains(topic));
             Assert.True(index.GetTopics(null).Contains(type1));
             Assert.True(index.GetTopics(null).Contains(type2));
@@ -64,14 +90,23 @@ namespace TMAPI.Net.Tests.Index
             Assert.True(index.GetTopics(new[] { type1, type2 }, false).Contains(topic));
             Assert.Empty(index.GetTopics(new[] { type1, type2 }, true));
 
-            //  topic now has two types
+            // topic now has two types
             topic.AddType(type2);
             UpdateIndex(index);
 
             Assert.Equal(2, index.TopicTypes.Count);
             Assert.True(index.TopicTypes.Contains(type1));
             Assert.True(index.TopicTypes.Contains(type2));
-            Assert.Equal(2, index.GetTopics(null).Count);
+
+            if (TopicMapSystem.GetFeature(FeatureTypeInstanceAssociations))
+            {
+                Assert.Equal(5, index.GetTopics(null).Count);
+            }
+            else
+            {
+                Assert.Equal(2, index.GetTopics(null).Count);
+            }
+
             Assert.False(index.GetTopics(null).Contains(topic));
             Assert.True(index.GetTopics(null).Contains(type1));
             Assert.True(index.GetTopics(null).Contains(type2));
@@ -88,7 +123,16 @@ namespace TMAPI.Net.Tests.Index
             UpdateIndex(index);
 
             Assert.Empty(index.TopicTypes);
-            Assert.Equal(2, index.GetTopics(null).Count);
+
+            if (TopicMapSystem.GetFeature(FeatureTypeInstanceAssociations))
+            {
+                Assert.Equal(5, index.GetTopics(null).Count);
+            }
+            else
+            {
+                Assert.Equal(2, index.GetTopics(null).Count);
+            }
+
             Assert.True(index.GetTopics(null).Contains(type1));
             Assert.True(index.GetTopics(null).Contains(type2));
             Assert.Empty(index.GetTopics(type1));
@@ -100,7 +144,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestAssociation()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (ITypeInstanceIndex)topicMap.GetIndex<ITypeInstanceIndex>();
             var type = topicMap.CreateTopic();
 
@@ -142,7 +186,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestRole()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (ITypeInstanceIndex)topicMap.GetIndex<ITypeInstanceIndex>();
             var type = topicMap.CreateTopic();
 
@@ -196,7 +240,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestOccurrence()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (ITypeInstanceIndex)topicMap.GetIndex<ITypeInstanceIndex>();
             var type = topicMap.CreateTopic();
 
@@ -240,7 +284,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestName()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (ITypeInstanceIndex)topicMap.GetIndex<ITypeInstanceIndex>();
             var type = topicMap.CreateTopic();
 

@@ -63,6 +63,7 @@
     <Compile Include="Core\ITopicMapSystem.cs" />
     <Compile Include="Core\ITyped.cs" />
     <Compile Include="Core\IVariant.cs" />
+    <Compile Include="Core\MalformedIRIException.cs" />
     <Compile Include="Core\ModelConstraintException.cs" />
     <Compile Include="Core\TMAPIException.cs" />
     <Compile Include="Core\TMAPIRuntimeException.cs" />

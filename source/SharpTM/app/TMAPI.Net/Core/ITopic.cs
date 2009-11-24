@@ -1,3 +1,22 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITopic.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Represents a
+//   <a href="http://www.isotopicmaps.org/sam/sam-model/#d0e739">topic item</a>.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System;
@@ -202,8 +221,8 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IName"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, or the <paramref name="scope"/> is <c>null</c> or 
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IName CreateName(ITopic type, string value, params ITopic[] scope);
 
@@ -218,13 +237,14 @@ namespace TMAPI.Net.Core
         /// The string value of the name; MUST NOT be <c>null</c>.
         /// </param>
         /// <param name="scope">
-        /// A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
+        /// A collection of themes. The collection may be empty if the name should be in the unconstrained scope.
         /// </param>
         /// <returns>
         /// The newly created <see cref="T:TMAPI.Net.Core.IName"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/> or the <paramref name="scope"/> is <c>null</c> or 
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IName CreateName(ITopic type, string value, IList<ITopic> scope);
 
@@ -261,13 +281,13 @@ namespace TMAPI.Net.Core
         /// The string value of the name; MUST NOT be <c>null</c>.
         /// </param>
         /// <param name="scope">
-        /// A collection of themes or <c>null</c> if the name should be in the unconstrained scope.
+        /// A collection of themes. The collection may be empty if the name should be in the unconstrained scope.
         /// </param>
         /// <returns>
         /// The newly created <see cref="T:TMAPI.Net.Core.IName"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If the <paramref name="value"/> is <c>null</c>.
+        /// If the <paramref name="value"/> or the <paramref name="scope"/> is <c>null</c>.
         /// </exception>
         IName CreateName(string value, IList<ITopic> scope);
 
@@ -291,8 +311,8 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, or the <paramref name="scope"/> is <c>null</c> or
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, string value, params ITopic[] scope);
 
@@ -309,13 +329,14 @@ namespace TMAPI.Net.Core
         /// The string value of the occurrence.
         /// </param>
         /// <param name="scope">
-        /// A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
+        /// A collection of themes. The collection may be empty if the occurrence should be in the unconstrained scope.
         /// </param>
         /// <returns>
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/> or the <paramref name="value"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, or the <paramref name="scope"/> is <c>null</c> or 
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, string value, IList<ITopic> scope);
 
@@ -339,8 +360,8 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, or the <paramref name="scope"/> is <c>null</c> or
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, ILocator value, params ITopic[] scope);
 
@@ -357,14 +378,14 @@ namespace TMAPI.Net.Core
         /// A <see cref="T:TMAPI.Net.Core.ILocator"/> which represents an IRI.
         /// </param>
         /// <param name="scope">
-        /// A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
+        /// A collection of themes. The collection may be empty if the occurrence should be in the unconstrained scope.
         /// </param>
         /// <returns>
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, or the <paramref name="scope"/> is <c>null</c> or
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, ILocator value, IList<ITopic> scope);
 
@@ -391,8 +412,8 @@ namespace TMAPI.Net.Core
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c> or
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, params ITopic[] scope);
 
@@ -412,14 +433,14 @@ namespace TMAPI.Net.Core
         /// A <see cref="T:TMAPI.Net.Core.ILocator"/> indicating the datatype of the <paramref name="value"/>.
         /// </param>
         /// <param name="scope">
-        /// A collection of themes or <c>null</c> if the occurrence should be in the unconstrained scope.
+        /// A collection of themes. The collection may be empty if the occurrence should be in the unconstrained scope.
         /// </param>
         /// <returns>
         /// The newly created <see cref="T:TMAPI.Net.Core.IOccurrence"/>.
         /// </returns>
         /// <exception cref="ModelConstraintException">
-        /// If either the <paramref name="type"/>, the <paramref name="value"/>, 
-        /// the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c>.
+        /// If either the <paramref name="type"/>, the <paramref name="value"/>, the <paramref name="datatype"/> or the <paramref name="scope"/> is <c>null</c> or
+        /// if either the <paramref name="type"/> or at least one theme of <paramref name="scope"/> belongs to another topic map.
         /// </exception>
         IOccurrence CreateOccurrence(ITopic type, string value, ILocator datatype, IList<ITopic> scope);
 
@@ -496,11 +517,19 @@ namespace TMAPI.Net.Core
         /// After this method completes, <paramref name="other"/> will have been removed from the <see cref="T:TMAPI.Net.Core.ITopicMap"/>.
         /// </summary>
         /// <param name="other">
-        /// The topic to be merged into this topic.
+        /// The topic to be merged into this topic, must not be <c>null</c>.
         /// </param>
         /// <remarks>
+        /// <para>
         /// The other topic MUST belong to the same <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance as this topic!
+        /// </para>
+        /// <para>
+        /// If <tt>this.Equals(other)</tt> no changes are made to the topic.
+        /// </para>
         /// </remarks>
+        /// <exception cref="ModelConstraintException">
+        /// If <paramref name="other"/> is <c>null</c>.
+        /// </exception>
         void MergeIn(ITopic other);
 
         /// <summary>
@@ -517,7 +546,7 @@ namespace TMAPI.Net.Core
         /// Removes a subject identifier from this topic.
         /// </summary>
         /// <param name="subjectIdentifier">
-        /// The subject identifier to be removed.
+        ///  The subject identifier to be removed from this topic, if present (<c>null</c> is ignored).
         /// </param>
         void RemoveSubjectIdentifier(ILocator subjectIdentifier);
 
@@ -525,7 +554,7 @@ namespace TMAPI.Net.Core
         /// Removes a subject locator from this topic.
         /// </summary>
         /// <param name="subjectLocator">
-        /// The subject locator to be removed.
+        /// The subject locator to be removed from this topic, if present (<c>null</c> is ignored).
         /// </param>
         void RemoveSubjectLocator(ILocator subjectLocator);
 
@@ -533,7 +562,7 @@ namespace TMAPI.Net.Core
         /// Removes a type from this topic.
         /// </summary>
         /// <param name="type">
-        /// The type to remove.
+        /// The type to be removed from this topic, if present (<c>null</c> is ignored).
         /// </param>
         void RemoveType(ITopic type);
 

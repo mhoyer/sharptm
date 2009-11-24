@@ -1,9 +1,27 @@
-﻿using Xunit;
-using TMAPI.Net.Core;
-using Xunit.Extensions;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicMapSystemTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TopicMapSystemTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+    using Xunit.Extensions;
+
     public class TopicMapSystemTest
     {
         #region Static Constants
@@ -14,7 +32,14 @@ namespace TMAPI.Net.Tests.Core
         #endregion
 
         #region Constructor (used for preparations before tests)
-        public void TopicMapSystemsTest() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TopicMapSystemTest"/> class.
+        /// </summary>
+        public TopicMapSystemTest()
+        {
+        }
+
         #endregion
 
         #region Tests
@@ -80,7 +105,7 @@ namespace TMAPI.Net.Tests.Core
 
             system.CreateTopicMap(TestTM1);
             Assert.Throws<TopicMapExistsException>( () => 
-                                      system.CreateTopicMap(TestTM1)
+                                                    system.CreateTopicMap(TestTM1)
                 );      
         }
 
@@ -94,7 +119,7 @@ namespace TMAPI.Net.Tests.Core
             var locator = system.CreateLocator(TestTM1);
             system.CreateTopicMap(locator);
             Assert.Throws<TopicMapExistsException>(() =>
-                                     system.CreateTopicMap(locator)
+                                                   system.CreateTopicMap(locator)
                 );
         }
 
@@ -107,7 +132,7 @@ namespace TMAPI.Net.Tests.Core
             var locator = system.CreateLocator(TestTM1);
             system.CreateTopicMap(locator);
             Assert.Throws<TopicMapExistsException>(() =>
-                                     system.CreateTopicMap(TestTM1)
+                                                   system.CreateTopicMap(TestTM1)
                 );
         }
 
@@ -122,7 +147,7 @@ namespace TMAPI.Net.Tests.Core
             var locator2 = system.CreateLocator(TestTM1);
             system.CreateTopicMap(locator1);
             Assert.Throws<TopicMapExistsException>(() =>
-                                     system.CreateTopicMap(locator2)
+                                                   system.CreateTopicMap(locator2)
                 );
         }
 

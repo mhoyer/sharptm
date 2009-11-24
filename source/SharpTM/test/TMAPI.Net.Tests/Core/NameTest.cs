@@ -1,9 +1,27 @@
-using System.Collections.Generic;
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NameTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the NameTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using System.Collections.Generic;
+    using Net.Core;
+    using Xunit;
+
     public class NameTest : TMAPITestCase
     {
         #region Static Constants
@@ -16,7 +34,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestNameParentRelationship()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
 
             Assert.Empty(parent.Names);
@@ -35,7 +53,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void Value_SettingDiffrentValues()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var value1 = "A name.";
@@ -48,14 +66,15 @@ namespace TMAPI.Net.Tests.Core
             name.Value = value2;
 
             Assert.Equal(value2, name.Value);
-            Assert.Throws<ModelConstraintException>("Using null as string value for name is not allowed.", () => name.Value = null);
+            var e = Assert.Throws<ModelConstraintException>("Using null as string value for name is not allowed.", () => name.Value = null);
+            Assert.Equal(name, e.Reporter);
             Assert.Equal(value2, name.Value);
         }
 
         [Fact]
         public void CreateVariant_CreateVariantWithStringScope()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
@@ -71,7 +90,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateVariant_CreateVariantWithURIScope()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
@@ -89,7 +108,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateVariant_CreateVariantWithStringExplicitDataTypeScope()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
@@ -105,40 +124,43 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateVariant_UsingInvalidStringThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant((string)null, theme));
+            var e = Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant((string)null, theme));
+            Assert.Equal(name, e.Reporter);
         }
 
         [Fact]
         public void CreateVariant_UsingInvalidURIThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant((ILocator)null, theme));
+            var e = Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant((ILocator)null, theme));
+            Assert.Equal(name, e.Reporter);
         }
 
         [Fact]
         public void CreateVariant_UsingInvalidDataTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant("Variant", (ILocator)null, theme));
+            var e = Assert.Throws<ModelConstraintException>("Using null as string value for variants is not allowed.", () => name.CreateVariant("Variant", (ILocator)null, theme));
+            Assert.Equal(name, e.Reporter);
         }
 
         [Fact]
         public void CreateVariant_UsingParentScopeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
             var theme = topicMap.CreateTopic();
@@ -147,27 +169,30 @@ namespace TMAPI.Net.Tests.Core
             Assert.Equal(1, name.Scope.Count);
             Assert.True(name.Scope.Contains(theme));
 
-            Assert.Throws<ModelConstraintException>("The variant would be in the same scope as the parent.", () => name.CreateVariant("Variant", theme));
+            var e = Assert.Throws<ModelConstraintException>("The variant would be in the same scope as the parent.", () => name.CreateVariant("Variant", theme));
+            Assert.Equal(name, e.Reporter);
         }
 
         [Fact]
         public void CreateVariant_UsingEmptyScopeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
 
-            Assert.Throws<ModelConstraintException>("Creation of a variant with empty scope is not allowed.", () => name.CreateVariant("Variant", new List<ITopic>()));
+            var e = Assert.Throws<ModelConstraintException>("Creation of a variant with empty scope is not allowed.", () => name.CreateVariant("Variant", new List<ITopic>()));
+            Assert.Equal(name, e.Reporter);
         }
 
         [Fact]
         public void CreateVariant_UsingNullScopeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var parent = topicMap.CreateTopic();
             var name = parent.CreateName("Name");
 
-            Assert.Throws<ModelConstraintException>("Creation of a variant with a null scope is not allowed.", () => name.CreateVariant("Variant", (ITopic[])null));
+            var e = Assert.Throws<ModelConstraintException>("Creation of a variant with a null scope is not allowed.", () => name.CreateVariant("Variant", (ITopic[])null));
+            Assert.Equal(name, e.Reporter);
         }
         #endregion
     }

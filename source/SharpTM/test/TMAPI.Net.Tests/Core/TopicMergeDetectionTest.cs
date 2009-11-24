@@ -1,13 +1,31 @@
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicMergeDetectionTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TopicMergeDetectionTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+
     public class TopicMergeDetectionTest : TMAPITestCase
     {
         #region constants
         public const string TestTM1 = "mem://localhost/testm1";
-    	public const string AUTOMERGE_FEATURE = "http://tmapi.org/features/automerge";
+        public const string AUTOMERGE_FEATURE = "http://tmapi.org/features/automerge";
         #endregion
 
         #region Tests
@@ -15,7 +33,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void AddSubjectIdentifier_DetectDuplicateSubjectIdentifier()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var subjectIdentifier = topicMap.CreateLocator("http://sf.net/projects/tmapi");
@@ -24,7 +42,7 @@ namespace TMAPI.Net.Tests.Core
 
             Assert.Equal(1, topic1.SubjectIdentifiers.Count);
             Assert.True(topic1.SubjectIdentifiers.Contains(subjectIdentifier));
-            if(topicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
+            if(TopicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
             {
                 topic2.AddSubjectIdentifier(subjectIdentifier);
                 Assert.Equal(1, topicMap.Topics.Count);
@@ -33,14 +51,17 @@ namespace TMAPI.Net.Tests.Core
             }
             else
             {
-                Assert.Throws<IdentityConstraintException>("Detected topic with identical subject identifier.", () => topic2.AddSubjectIdentifier(subjectIdentifier));                
+                var e = Assert.Throws<IdentityConstraintException>("Detected topic with identical subject identifier.", () => topic2.AddSubjectIdentifier(subjectIdentifier));
+                Assert.Equal(topic2, e.Reporter);
+                Assert.Equal(topic1, e.Existing);
+                Assert.Equal(subjectIdentifier, e.Locator);
             }
         }
 
         [Fact]
         public void AddSubjectIdentifier_AddingDuplicateSubjectIdentifierOnSameTopicIsIgnored()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var subjectIdentifier = topicMap.CreateLocator("http://sf.net/projects/tmapi");
 
@@ -58,7 +79,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void AddSubjectLocator_DetectDuplicateSubjectLocator()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var subjectLocator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
@@ -67,7 +88,7 @@ namespace TMAPI.Net.Tests.Core
 
             Assert.Equal(1, topic1.SubjectLocators.Count);
             Assert.True(topic1.SubjectLocators.Contains(subjectLocator));
-			if (topicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
+            if (TopicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
             {
                 topic2.AddSubjectLocator(subjectLocator);
                 Assert.Equal(1, topicMap.Topics.Count);
@@ -76,15 +97,18 @@ namespace TMAPI.Net.Tests.Core
             }
             else
             {
-                Assert.Throws<IdentityConstraintException>("Detected topic with identical subject locator.",
-                                               () => topic2.AddSubjectLocator(subjectLocator));
+                var e = Assert.Throws<IdentityConstraintException>("Detected topic with identical subject locator.",
+                                                           () => topic2.AddSubjectLocator(subjectLocator));
+                Assert.Equal(topic2, e.Reporter);
+                Assert.Equal(topic1, e.Existing);
+                Assert.Equal(subjectLocator, e.Locator);
             }
         }
 
         [Fact]
         public void AddSubjectLocator_AddingDuplicateSubjectLocatorOnSameTopicIsIgnored()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var subjectLocator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
 
@@ -102,7 +126,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void AddItemIdentifier_DetectItemIdentifierEqualToSubjectIdentifier()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var locator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
@@ -111,7 +135,7 @@ namespace TMAPI.Net.Tests.Core
 
             Assert.Equal(1, topic1.SubjectIdentifiers.Count);
             Assert.True(topic1.SubjectIdentifiers.Contains(locator));
-			if (topicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
+            if (TopicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
             {
                 topic2.AddItemIdentifier(locator);
                 Assert.Equal(1, topicMap.Topics.Count);
@@ -123,16 +147,19 @@ namespace TMAPI.Net.Tests.Core
             }
             else
             {
-                Assert.Throws<IdentityConstraintException>(
+                var e = Assert.Throws<IdentityConstraintException>(
                     "Detected topic with subject identifier equal to this item identifier.",
                     () => topic2.AddItemIdentifier(locator));
+                Assert.Equal(topic2, e.Reporter);
+                Assert.Equal(topic1, e.Existing);
+                Assert.Equal(locator, e.Locator);
             }
         }
 
         [Fact]
         public void AddItemIdentifier_AddingItemIdentifierEqualToSubjectIdentifierOnSameTopicIsAccepted()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var locator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
             var topic = topicMap.CreateTopicBySubjectIdentifier(locator);
 
@@ -155,7 +182,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void AddSubjectIdentifier_DetectSubjectIdentifierEqualToItemIdentifier()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var locator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
             var topic1 = topicMap.CreateTopicByItemIdentifier(locator);
             var topic2 = topicMap.CreateTopic();
@@ -163,7 +190,7 @@ namespace TMAPI.Net.Tests.Core
             Assert.Equal(1, topic1.ItemIdentifiers.Count);
             Assert.True(topic1.ItemIdentifiers.Contains(locator));
             Assert.Equal(topic1, topicMap.GetConstructByItemIdentifier(locator));
-			if (topicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
+            if (TopicMapSystemFactory.HasFeature(AUTOMERGE_FEATURE))
             {
                 topic2.AddSubjectIdentifier(locator);
                 Assert.Equal(1, topicMap.Topics.Count);
@@ -174,16 +201,19 @@ namespace TMAPI.Net.Tests.Core
             }
             else
             {
-                Assert.Throws<IdentityConstraintException>(
+                var e = Assert.Throws<IdentityConstraintException>(
                     "Detected topic with item identifier equal to this subject identifier.",
                     () => topic2.AddSubjectIdentifier(locator));
+                Assert.Equal(topic2, e.Reporter);
+                Assert.Equal(topic1, e.Existing);
+                Assert.Equal(locator, e.Locator);
             }
         }
 
         [Fact]
         public void AddSubjectIdentifier_AddingSubjectIdentifierEqualToItemIdentifierOnSameTopicIsAccepted()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var locator = topicMap.CreateLocator("http://sf.net/projects/tmapi");
             var topic = topicMap.CreateTopicByItemIdentifier(locator);
 

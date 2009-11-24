@@ -1,10 +1,28 @@
-using System.Collections.Generic;
-using TMAPI.Net.Core;
-using TMAPI.Net.Index;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ScopedIndexTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the ScopedIndexTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Index
+namespace TMAPI.Net.UnitTests.Index
 {
+    using System.Collections.Generic;
+    using Net.Core;
+    using Net.Index;
+    using Xunit;
+
     public class ScopedIndexTest : TMAPITestCase
     {
         #region Static Constants
@@ -23,7 +41,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestAssociation()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme = topicMap.CreateTopic();
 
@@ -61,7 +79,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestOccurrence()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme = topicMap.CreateTopic();
 
@@ -99,7 +117,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestName()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme = topicMap.CreateTopic();
 
@@ -137,7 +155,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestName_NameCreatedWithScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme = topicMap.CreateTopic();
 
@@ -169,7 +187,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestVariant()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme1 = topicMap.CreateTopic();
             var theme2 = topicMap.CreateTopic();
@@ -264,7 +282,7 @@ namespace TMAPI.Net.Tests.Index
         [Fact]
         public void TestVariant_VariantCreatedWithScopedParent()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var index = (IScopedIndex)topicMap.GetIndex<IScopedIndex>();
             var theme1 = topicMap.CreateTopic();
             var theme2 = topicMap.CreateTopic();

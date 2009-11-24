@@ -1,21 +1,34 @@
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypedTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TypedTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+
     public class TypedTest : TMAPITestCase
     {
-        #region Static Constants
-        public static readonly string TestTM1 = "mem://localhost/testm1";
-        #endregion
-
         #region Tests
-        private static void Type_SetTypeAndUsingInvalidTypeThrowsException(ITyped typed)
+        private void Type_SetTypeAndUsingInvalidTypeThrowsException(ITyped typed)
         {
-            var topicMap = typed.TopicMap;
-            var type = topicMap.CreateTopic();
+            var type = CreateTopic();
 
-            ITopic oldType = typed.Type;
+            var oldType = typed.Type;
 
             Assert.NotNull(oldType);
 
@@ -26,42 +39,40 @@ namespace TMAPI.Net.Tests.Core
             typed.Type = oldType;
 
             Assert.Equal(oldType, typed.Type);
-            Assert.Throws<ModelConstraintException>("Using null for type is not allowed.", () => typed.Type = null);
+            var e = Assert.Throws<ModelConstraintException>("Using null for type is not allowed.", () => typed.Type = null);
+            Assert.Equal(typed, e.Reporter);
         }
 
         [Fact]
         public void TestAssociation()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var association = CreateAssociation();
 
-            Type_SetTypeAndUsingInvalidTypeThrowsException(topicMap.CreateAssociation(topicMap.CreateTopic()));
+            Type_SetTypeAndUsingInvalidTypeThrowsException(association);
         }
 
         [Fact]
         public void TestRole()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var association = topicMap.CreateAssociation(topicMap.CreateTopic());
+            var role = CreateRole();
 
-            Type_SetTypeAndUsingInvalidTypeThrowsException(association.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic())); 
+            Type_SetTypeAndUsingInvalidTypeThrowsException(role);
         }
 
         [Fact]
         public void TestOccurrrence()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var topic = topicMap.CreateTopic();
+            var occurrence = CreateOccurrence();
 
-            Type_SetTypeAndUsingInvalidTypeThrowsException(topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence"));
+            Type_SetTypeAndUsingInvalidTypeThrowsException(occurrence);
         }
 
         [Fact]
         public void TestName()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var topic = topicMap.CreateTopic();
+            var name = CreateName();
 
-            Type_SetTypeAndUsingInvalidTypeThrowsException(topic.CreateName("Name"));
+            Type_SetTypeAndUsingInvalidTypeThrowsException(name);
         }
         #endregion
     }

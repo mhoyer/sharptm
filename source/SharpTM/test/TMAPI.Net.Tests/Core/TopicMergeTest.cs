@@ -1,8 +1,26 @@
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicMergeTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TopicMergeTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+
     public class TopicMergeTest : TMAPITestCase
     {
         #region Static Constants
@@ -13,7 +31,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_TypesAreMergedToo()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
@@ -27,7 +45,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_TopicsReifiingDiffrentTMCsCannotBeMerged()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var association1 = topicMap.CreateAssociation(topicMap.CreateTopic());
@@ -38,13 +56,14 @@ namespace TMAPI.Net.Tests.Core
 
             Assert.Equal(topic1, association1.Reifier);
             Assert.Equal(topic2, association2.Reifier);
-            Assert.Throws<ModelConstraintException>("Topics reifiing diffrent Topic Maps constructs cannot be merged.", () => topic1.MergeIn(topic2));
+            var e = Assert.Throws<ModelConstraintException>("Topics reifiing different Topic Maps constructs cannot be merged.", () => topic1.MergeIn(topic2));
+            Assert.Equal(topic1, e.Reporter);
         }
 
         [Fact]
         public void MergeIn_TopicOvertakesAllRolesPlayedOfTheOtherTopic()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var association = topicMap.CreateAssociation(topicMap.CreateTopic());
@@ -62,7 +81,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_SubjectIdentifiersAreOvertaken()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var subjectIdentifier1 = topicMap.CreateLocator("http://psi.exmaple.org/sid-1");
             var subjectIdentifier2 = topicMap.CreateLocator("http://psi.exmaple.org/sid-2");
             var topic1 = topicMap.CreateTopicBySubjectIdentifier(subjectIdentifier1);
@@ -83,7 +102,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_SubjectLocatorsAreOvertaken()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var subjectLocator1 = topicMap.CreateLocator("http://tinytim.sf.net");
             var subjectLocator2 = topicMap.CreateLocator("http://tinytim.sourceforge.net");
             var topic1 = topicMap.CreateTopicBySubjectLocator(subjectLocator1);
@@ -104,7 +123,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_ItemIdentifiersAreOvertaken()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var itemIdentifier1 = topicMap.CreateLocator("http://tinytim.sf.net/test#1");
             var itemIdentifier2 = topicMap.CreateLocator("http://tinytim.sf.net/test#2");
             var topic1 = topicMap.CreateTopicByItemIdentifier(itemIdentifier1);
@@ -125,7 +144,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicatesAndKeepReifier()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var reifier = topicMap.CreateTopic();
@@ -157,7 +176,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicatesAndMergeReifiers()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var reifier1 = topicMap.CreateTopic();
@@ -203,7 +222,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateAssociations()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var roleType = topicMap.CreateTopic();
@@ -233,7 +252,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateNames()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var name1 = topic1.CreateName("Name");
@@ -254,7 +273,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateNamesAndMoveVariants()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var name1 = topic1.CreateName("Name");
@@ -285,7 +304,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateNamesAndCombineItemIdentifiers()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var itemIdentifier1 = topicMap.CreateLocator("http://example.org/iid-1");
@@ -318,7 +337,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateOccurrences()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var occurrenceType = topicMap.CreateTopic();
@@ -340,7 +359,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void MergeIn_DetectDuplicateOccurrencesAndCombineItemIdentifiers()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic1 = topicMap.CreateTopic();
             var topic2 = topicMap.CreateTopic();
             var itemIdentifier1 = topicMap.CreateLocator("http://example.org/iid-1");

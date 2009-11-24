@@ -1,8 +1,29 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IScopedIndex.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Index for <see cref="T:TMAPI.Net.Core.IScoped" /> statements and their scope.
+//   This index provides access to <see cref="T:TMAPI.Net.Core.IAssociation" />s,
+//   <see cref="T:TMAPI.Net.Core.IOccurrence" />s, <see cref="T:TMAPI.Net.Core.IName" />s,
+//   and <see cref="T:TMAPI.Net.Core.IVariant" />s by their scope property and to
+//   <see cref="T:TMAPI.Net.Core.ITopic" />s which are used as theme in a scope.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Index
 {
     using System.Collections.ObjectModel;
-
-    using TMAPI.Net.Core;
+    using Core;
 
     /// <summary>
     /// Index for <see cref="T:TMAPI.Net.Core.IScoped"/> statements and their scope. 

@@ -1,10 +1,28 @@
-using System;
-using System.Collections.Generic;
-using Xunit;
-using TMAPI.Net.Core;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TopicTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the TopicTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using Net.Core;
+    using Xunit;
+
     public class TopicTest : TMAPITestCase
     {
         #region Static Constants
@@ -17,7 +35,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void TestTopicParentRelationship()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             
             Assert.Empty(topicMap.Topics);
             
@@ -34,27 +52,29 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void AddSubjectIdentifier_UsingInvalidIdentifierThrowsEcxeption()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as subject identifier is not allowed.", () => topic.AddSubjectIdentifier(null));
+            var e = Assert.Throws<ModelConstraintException>("Using null as subject identifier is not allowed.", () => topic.AddSubjectIdentifier(null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void AddSubjectLocator_UsingInvalidIdentifierThrowsEcxeption()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as subject locator is not allowed.", () => topic.AddSubjectLocator(null));
+            var e = Assert.Throws<ModelConstraintException>("Using null as subject locator is not allowed.", () => topic.AddSubjectLocator(null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void SubjectIdentifiers_AddAndDeleteSubjectIdentifiers()
         {
-            var subjectIdentifier1 = topicMapSystem.CreateLocator(TestLocator1);
-            var subjectIdentifier2 = topicMapSystem.CreateLocator(TestLocator2);
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var subjectIdentifier1 = TopicMapSystem.CreateLocator(TestLocator1);
+            var subjectIdentifier2 = TopicMapSystem.CreateLocator(TestLocator2);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopicBySubjectIdentifier(subjectIdentifier1);
 
             Assert.Equal(1, topic.SubjectIdentifiers.Count);
@@ -74,9 +94,9 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void SubjectLocators_AddAndDeleteSubjectLocators()
         {
-            var subjectLocator1 = topicMapSystem.CreateLocator(TestLocator1);
-            var subjectLocator2 = topicMapSystem.CreateLocator(TestLocator2);
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var subjectLocator1 = TopicMapSystem.CreateLocator(TestLocator1);
+            var subjectLocator2 = TopicMapSystem.CreateLocator(TestLocator2);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopicBySubjectLocator(subjectLocator1);
 
             Assert.Equal(1, topic.SubjectLocators.Count);
@@ -96,7 +116,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void Types_AddAndDeleteTypes()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type1 = topicMap.CreateTopic();
             var type2 = topicMap.CreateTopic();
@@ -126,16 +146,17 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void Types_UsingInvalidTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null as type is not allowed.", () => topic.AddType(null));
+            var e = Assert.Throws<ModelConstraintException>("Using null as type is not allowed.", () => topic.AddType(null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void GetRolesPlayed_TestRoleFilter()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var player = topicMap.CreateTopic();
             var type1 = topicMap.CreateTopic();
             var type2 = topicMap.CreateTopic();
@@ -148,31 +169,31 @@ namespace TMAPI.Net.Tests.Core
 
             var role = association.CreateRole(type1, player);
 
-			Assert.Equal(1, player.GetRolesPlayedByTopicType(type1).Count);
-			Assert.True(player.GetRolesPlayedByTopicType(type1).Contains(role));
-			Assert.Empty(player.GetRolesPlayedByTopicType(type2));
-			Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
+            Assert.Equal(1, player.GetRolesPlayedByTopicType(type1).Count);
+            Assert.True(player.GetRolesPlayedByTopicType(type1).Contains(role));
+            Assert.Empty(player.GetRolesPlayedByTopicType(type2));
+            Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
 
             role.Type = type2;
 
-			Assert.Equal(1, player.GetRolesPlayedByTopicType(type2).Count);
-			Assert.True(player.GetRolesPlayedByTopicType(type2).Contains(role));
-			Assert.Empty(player.GetRolesPlayedByTopicType(type1));
-			Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
+            Assert.Equal(1, player.GetRolesPlayedByTopicType(type2).Count);
+            Assert.True(player.GetRolesPlayedByTopicType(type2).Contains(role));
+            Assert.Empty(player.GetRolesPlayedByTopicType(type1));
+            Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
 
             role.Remove();
 
-			Assert.Empty(player.GetRolesPlayedByTopicType(type1));
-			Assert.Empty(player.GetRolesPlayedByTopicType(type2));
-			Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
+            Assert.Empty(player.GetRolesPlayedByTopicType(type1));
+            Assert.Empty(player.GetRolesPlayedByTopicType(type2));
+            Assert.Empty(player.GetRolesPlayedByTopicType(unusedType));
 
-			Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicType(null));
+            Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicType(null));
         }
 
         [Fact]
         public void GetRolesPlayed_TestRoleAssociationFilter()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var player = topicMap.CreateTopic();
             var assocType1 = topicMap.CreateTopic();
             var assocType2 = topicMap.CreateTopic();
@@ -180,10 +201,10 @@ namespace TMAPI.Net.Tests.Core
             var roleType2 = topicMap.CreateTopic();
             var association = topicMap.CreateAssociation(assocType1);
 
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
 
             var role1 = association.CreateRole(roleType1, player);
 
@@ -196,11 +217,11 @@ namespace TMAPI.Net.Tests.Core
             var role2 = association.CreateRole(roleType2, player);
 
             Assert.Equal(1, player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Count);
-			Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Contains(role1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
-			Assert.Equal(1, player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1).Count);
-			Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1).Contains(role2));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
+            Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Contains(role1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
+            Assert.Equal(1, player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1).Count);
+            Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1).Contains(role2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
 
             //role2.Type = roleType1;
 
@@ -214,99 +235,99 @@ namespace TMAPI.Net.Tests.Core
 
             role2.Remove();
 
-			Assert.Equal(1, player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Count);
-			Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Contains(role1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
+            Assert.Equal(1, player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Count);
+            Assert.True(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1).Contains(role1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
 
             association.Remove();
 
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
-			Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, assocType2));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType1));
+            Assert.Empty(player.GetRolesPlayedByTopicTypeAndAssociationType(roleType2, assocType2));
 
-			Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, null));
-			Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicTypeAndAssociationType(null, assocType1));
+            Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicTypeAndAssociationType(roleType1, null));
+            Assert.Throws<ArgumentNullException>("Using null for filtering roles is not allowed.", () => player.GetRolesPlayedByTopicTypeAndAssociationType(null, assocType1));
         }
 
         [Fact]
         public void GetOccurrences_TestOccurrenceFilter()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type1 = topicMap.CreateTopic();
             var type2 = topicMap.CreateTopic();
             var unusedType = topicMap.CreateTopic();
 
             Assert.Empty(topic.GetOccurrencesByTopicType(type1));
-			Assert.Empty(topic.GetOccurrencesByTopicType(type2));
-			Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
+            Assert.Empty(topic.GetOccurrencesByTopicType(type2));
+            Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
 
             var occurrence = topic.CreateOccurrence(type1, "Occurrence");
 
-			Assert.Equal(1, topic.GetOccurrencesByTopicType(type1).Count);
-			Assert.True(topic.GetOccurrencesByTopicType(type1).Contains(occurrence));
-			Assert.Empty(topic.GetOccurrencesByTopicType(type2));
-			Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
+            Assert.Equal(1, topic.GetOccurrencesByTopicType(type1).Count);
+            Assert.True(topic.GetOccurrencesByTopicType(type1).Contains(occurrence));
+            Assert.Empty(topic.GetOccurrencesByTopicType(type2));
+            Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
 
             occurrence.Type = type2;
 
-			Assert.Equal(1, topic.GetOccurrencesByTopicType(type2).Count);
-			Assert.True(topic.GetOccurrencesByTopicType(type2).Contains(occurrence));
-			Assert.Empty(topic.GetOccurrencesByTopicType(type1));
-			Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
+            Assert.Equal(1, topic.GetOccurrencesByTopicType(type2).Count);
+            Assert.True(topic.GetOccurrencesByTopicType(type2).Contains(occurrence));
+            Assert.Empty(topic.GetOccurrencesByTopicType(type1));
+            Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
 
             occurrence.Remove();
 
-			Assert.Empty(topic.GetOccurrencesByTopicType(type1));
-			Assert.Empty(topic.GetOccurrencesByTopicType(type2));
-			Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
+            Assert.Empty(topic.GetOccurrencesByTopicType(type1));
+            Assert.Empty(topic.GetOccurrencesByTopicType(type2));
+            Assert.Empty(topic.GetOccurrencesByTopicType(unusedType));
 
-			Assert.Throws<ArgumentNullException>("Using null for filtering occurrences is not allowed.", () => topic.GetOccurrencesByTopicType(null));
+            Assert.Throws<ArgumentNullException>("Using null for filtering occurrences is not allowed.", () => topic.GetOccurrencesByTopicType(null));
         }
 
         [Fact]
         public void GetNames_TestNameFilter()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type1 = topicMap.CreateTopic();
             var type2 = topicMap.CreateTopic();
             var unusedType = topicMap.CreateTopic();
 
-			Assert.Empty(topic.GetNamesByTopicType(type1));
-			Assert.Empty(topic.GetNamesByTopicType(type2));
-			Assert.Empty(topic.GetNamesByTopicType(unusedType));
+            Assert.Empty(topic.GetNamesByTopicType(type1));
+            Assert.Empty(topic.GetNamesByTopicType(type2));
+            Assert.Empty(topic.GetNamesByTopicType(unusedType));
 
             var name = topic.CreateName(type1, "Name");
 
-			Assert.Equal(1, topic.GetNamesByTopicType(type1).Count);
-			Assert.True(topic.GetNamesByTopicType(type1).Contains(name));
-			Assert.Empty(topic.GetNamesByTopicType(type2));
-			Assert.Empty(topic.GetNamesByTopicType(unusedType));
+            Assert.Equal(1, topic.GetNamesByTopicType(type1).Count);
+            Assert.True(topic.GetNamesByTopicType(type1).Contains(name));
+            Assert.Empty(topic.GetNamesByTopicType(type2));
+            Assert.Empty(topic.GetNamesByTopicType(unusedType));
 
             name.Type = type2;
 
-			Assert.Equal(1, topic.GetNamesByTopicType(type2).Count);
-			Assert.True(topic.GetNamesByTopicType(type2).Contains(name));
-			Assert.Empty(topic.GetNamesByTopicType(type1));
-			Assert.Empty(topic.GetNamesByTopicType(unusedType));
+            Assert.Equal(1, topic.GetNamesByTopicType(type2).Count);
+            Assert.True(topic.GetNamesByTopicType(type2).Contains(name));
+            Assert.Empty(topic.GetNamesByTopicType(type1));
+            Assert.Empty(topic.GetNamesByTopicType(unusedType));
 
             name.Remove();
 
-			Assert.Empty(topic.GetNamesByTopicType(type1));
-			Assert.Empty(topic.GetNamesByTopicType(type2));
-			Assert.Empty(topic.GetNamesByTopicType(unusedType));
+            Assert.Empty(topic.GetNamesByTopicType(type1));
+            Assert.Empty(topic.GetNamesByTopicType(type2));
+            Assert.Empty(topic.GetNamesByTopicType(unusedType));
 
-			Assert.Throws<ArgumentNullException>("Using null for filtering names is not allowed.", () => topic.GetNamesByTopicType(null));
+            Assert.Throws<ArgumentNullException>("Using null for filtering names is not allowed.", () => topic.GetNamesByTopicType(null));
         }
 
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeString()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var value = "Occurrence";
@@ -328,7 +349,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeURI()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var value = topicMap.CreateLocator("http://www.example.org/");
@@ -351,7 +372,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeStringExplicitDatatype()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var value = "Occurrence";
@@ -373,7 +394,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeStringScopeArray()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -399,7 +420,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeURIScopeArray()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -426,7 +447,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeStringExplicitDatatypeScopeArray()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -452,7 +473,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeStringScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -478,7 +499,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeURIScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -505,7 +526,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateOccurrence_CreateOccurrenceWithTypeStringExplicitDatatypeScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -528,66 +549,70 @@ namespace TMAPI.Net.Tests.Core
             Assert.Empty(occurrence.ItemIdentifiers);
         }
 
-        //  TODO: ModelConstraintException unter Vorbehalt, Anfrage an Mailingliste laeuft
         [Fact]
         public void CreateOccurrence_UsingInvalidStringThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), (string)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), (string)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
-        //  TODO: ModelConstraintException unter Vorbehalt, Anfrage an Mailingliste laeuft
         [Fact]
         public void CreateOccurrence_UsingInvalidURIThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for URI locator is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), (ILocator)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for URI locator is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), (ILocator)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateOccurrence_UsingInvalidDatatypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for datatype is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (ILocator)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for datatype is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (ILocator)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateOccurrence_UsingInvalidTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for type is not allowed.", () => topic.CreateOccurrence(null, "Occurrence"));
+            var e = Assert.Throws<ModelConstraintException>("Using null for type is not allowed.", () => topic.CreateOccurrence(null, "Occurrence"));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateOccurrence_UsingInvalidScopeArrayThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (ITopic[])null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (ITopic[])null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateOccurrence_UsingInvalidScopeCollectionThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for scope collection is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (IList<ITopic>)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope collection is not allowed.", () => topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence", (IList<ITopic>)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateName_CreateNameWithType()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var value = "Name";
@@ -607,7 +632,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_CreateNameWithDefaultType()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var value = "Name";
             var defaultType = topicMap.CreateLocator("http://psi.topicmaps.org/iso13250/model/topic-name");
@@ -628,7 +653,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_CreateNameWithTypeScopeArray()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -652,7 +677,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_CreateNameWithDefaultTypeScopeArray()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var value = "Name";
             var theme1 = topicMap.CreateTopic();
@@ -677,7 +702,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_CreateNameWithTypeScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var type = topicMap.CreateTopic();
             var theme1 = topicMap.CreateTopic();
@@ -701,7 +726,7 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_CreateNameWithDefaultTypeScopeCollection()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
             var value = "Name";
             var theme1 = topicMap.CreateTopic();
@@ -726,61 +751,67 @@ namespace TMAPI.Net.Tests.Core
         [Fact]
         public void CreateName_UsingInvalidStringThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateName(topicMap.CreateTopic(), null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateName(topicMap.CreateTopic(), null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateName_UsingInvalidScopeArrayThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateName(topicMap.CreateTopic(), "Name", null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateName(topicMap.CreateTopic(), "Name", null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
-        public void CreateName_UsingInvalidScopeCollectionDoesNotThrowException()
+        public void CreateName_UsingInvalidScopeCollectionThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.DoesNotThrow(() => topic.CreateName(topicMap.CreateTopic(), "Name", (IList<ITopic>)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope collection is not allowed.", () => topic.CreateName(topicMap.CreateTopic(), "Name", (IList<ITopic>)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateName_UsingInvalidStringWithDefaultTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateName(null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for string value is not allowed.", () => topic.CreateName(null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void CreateName_UsingInvalidScopeArrayWithDefaultTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateName("Name", null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope array is not allowed.", () => topic.CreateName("Name", null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
-        public void CreateName_UsingInvalidScopeCollectionWithDefaultTypeDoesNotThrowException()
+        public void CreateName_UsingInvalidScopeCollectionWithDefaultTypeThrowsException()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
-            Assert.DoesNotThrow(() => topic.CreateName("Name", (IList<ITopic>)null));
+            var e = Assert.Throws<ModelConstraintException>("Using null for scope collection is not allowed.", () => topic.CreateName("Name", (IList<ITopic>)null));
+            Assert.Equal(topic, e.Reporter);
         }
 
         [Fact]
         public void Remove_RemoveTopicUsedAsPlayer()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
             var topic = topicMap.CreateTopic();
 
             Assert.Equal(1, topicMap.Topics.Count);
@@ -795,7 +826,9 @@ namespace TMAPI.Net.Tests.Core
 
             Assert.Equal(3, topicMap.Topics.Count);
 
-            Assert.Throws<TopicInUseException>("Removing a topic used as player is not allowed.", topic.Remove);
+            Assert.ThrowsDelegate d = () => topic.Remove();
+            var e = Assert.Throws<TopicInUseException>("Removing a topic used as player is not allowed.", d);
+            Assert.Equal(topic, e.Reporter);
 
             role.Player = topicMap.CreateTopic();
 
@@ -804,212 +837,218 @@ namespace TMAPI.Net.Tests.Core
             Assert.Equal(3, topicMap.Topics.Count);
         }
 
-		#region Remove topic used as type
-		private void RemoveTopicUsedAsType(ITyped typedConstruct)
-		{
-			var topicMap = typedConstruct.TopicMap;
-			var topicToBeRemoved = topicMap.CreateTopic();
+        #region Remove topic used as type
+        private void RemoveTopicUsedAsType(ITyped typedConstruct)
+        {
+            var topicMap = typedConstruct.TopicMap;
+            var topicToBeRemoved = topicMap.CreateTopic();
 
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
 
-			topicToBeRemoved = topicMap.CreateTopic();
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			typedConstruct.Type = topicToBeRemoved;
-			Assert.Throws<TopicInUseException>("Removing a topic used as type is not allowed.", topicToBeRemoved.Remove);
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            topicToBeRemoved = topicMap.CreateTopic();
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            typedConstruct.Type = topicToBeRemoved;
+            Assert.ThrowsDelegate d = () => topicToBeRemoved.Remove();
+            var e = Assert.Throws<TopicInUseException>("Removing a topic used as type is not allowed.", d);
+            Assert.Equal(topicToBeRemoved, e.Reporter);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
 
-			typedConstruct.Type = topicMap.CreateTopic();
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+            typedConstruct.Type = topicMap.CreateTopic();
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
 
-		}
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsTypeForAssociation()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var typedConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsTypeForAssociation()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var typedConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(typedConstruct);
-		}
+            RemoveTopicUsedAsReifier(typedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsTypeForOccurrence()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var typedConstruct = topic.CreateOccurrence(topicMap.CreateTopic(), "MyOccurrence", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsTypeForOccurrence()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var typedConstruct = topic.CreateOccurrence(topicMap.CreateTopic(), "MyOccurrence", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(typedConstruct);
-		}
+            RemoveTopicUsedAsReifier(typedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsTypeForRole()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var associationc = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
-			var typedConstruct = associationc.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsTypeForRole()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var associationc = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
+            var typedConstruct = associationc.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(typedConstruct);
-		}
+            RemoveTopicUsedAsReifier(typedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsTypeForName()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var typedConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsTypeForName()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var typedConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(typedConstruct);
-		}
-		#endregion
+            RemoveTopicUsedAsReifier(typedConstruct);
+        }
+        #endregion
 
-		#region Remove topic used as reifier
-		private void RemoveTopicUsedAsReifier(IReifiable reifiableConstruct)
-		{
-			var topicMap = reifiableConstruct.TopicMap;
-			var topicToBeRemoved = topicMap.CreateTopic();
+        #region Remove topic used as reifier
+        private void RemoveTopicUsedAsReifier(IReifiable reifiableConstruct)
+        {
+            var topicMap = reifiableConstruct.TopicMap;
+            var topicToBeRemoved = topicMap.CreateTopic();
 
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
 
-			topicToBeRemoved = topicMap.CreateTopic();
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			reifiableConstruct.Reifier = topicToBeRemoved;
-			Assert.Throws<TopicInUseException>("Removing a topic used as reifier is not allowed.", topicToBeRemoved.Remove);
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            topicToBeRemoved = topicMap.CreateTopic();
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            reifiableConstruct.Reifier = topicToBeRemoved;
+            Assert.ThrowsDelegate d = () => topicToBeRemoved.Remove();
+            var e = Assert.Throws<TopicInUseException>("Removing a topic used as reifier is not allowed.", d);
+            Assert.Equal(topicToBeRemoved, e.Reporter);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
 
-			reifiableConstruct.Reifier = null;
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
-		}
+            reifiableConstruct.Reifier = null;
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForAssociation()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var reifiableConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForAssociation()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var reifiableConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(reifiableConstruct);
-		}
+            RemoveTopicUsedAsReifier(reifiableConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForOccurrence()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var reifiableConstruct = topic.CreateOccurrence(topicMap.CreateTopic(), "MyOccurrence", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForOccurrence()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var reifiableConstruct = topic.CreateOccurrence(topicMap.CreateTopic(), "MyOccurrence", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(reifiableConstruct);
-		}
+            RemoveTopicUsedAsReifier(reifiableConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForRole()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var association = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
-			var reifiableConstruct = association.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForRole()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var association = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
+            var reifiableConstruct = association.CreateRole(topicMap.CreateTopic(), topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(reifiableConstruct);
-		}
+            RemoveTopicUsedAsReifier(reifiableConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForName()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var reifiableConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForName()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var reifiableConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
 			
-			RemoveTopicUsedAsReifier(reifiableConstruct);
-		}
+            RemoveTopicUsedAsReifier(reifiableConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForTopicMap()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForTopicMap()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
 
-			RemoveTopicUsedAsReifier(topicMap);
-		}
+            RemoveTopicUsedAsReifier(topicMap);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsReifierForVariant()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var name = topic.CreateName("MyName", topicMap.CreateTopic());
-			var reifiableConstruct = name.CreateVariant("MyVariant", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsReifierForVariant()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var name = topic.CreateName("MyName", topicMap.CreateTopic());
+            var reifiableConstruct = name.CreateVariant("MyVariant", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsReifier(reifiableConstruct);
-		}
-		#endregion
+            RemoveTopicUsedAsReifier(reifiableConstruct);
+        }
+        #endregion
 
-		#region Remove topic used as scope theme
-		private void RemoveTopicUsedAsScopeTheme(IScoped scopedConstruct)
-		{
-			var topicMap = scopedConstruct.TopicMap;
-			var topicToBeRemoved = topicMap.CreateTopic();
+        #region Remove topic used as scope theme
+        private void RemoveTopicUsedAsScopeTheme(IScoped scopedConstruct)
+        {
+            var topicMap = scopedConstruct.TopicMap;
+            var topicToBeRemoved = topicMap.CreateTopic();
 
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
 
-			topicToBeRemoved = topicMap.CreateTopic();
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
-			scopedConstruct.AddTheme(topicToBeRemoved);
-			Assert.Throws<TopicInUseException>("Removing a topic used as theme is not allowed.", topicToBeRemoved.Remove);
-			Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            topicToBeRemoved = topicMap.CreateTopic();
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
+            scopedConstruct.AddTheme(topicToBeRemoved);
+            Assert.ThrowsDelegate d = () => topicToBeRemoved.Remove();
+            var e = Assert.Throws<TopicInUseException>("Removing a topic used as theme is not allowed.", d);
+            Assert.Equal(topicToBeRemoved, e.Reporter);
+            Assert.Contains(topicToBeRemoved, topicMap.Topics);
 
-			scopedConstruct.RemoveTheme(topicToBeRemoved);
-			Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
-			Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
-		}
+            scopedConstruct.RemoveTheme(topicToBeRemoved);
+            Assert.DoesNotThrow(() => topicToBeRemoved.Remove());
+            Assert.DoesNotContain(topicToBeRemoved, topicMap.Topics);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsScopeThemeForAssociation()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var scopedConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsScopeThemeForAssociation()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var scopedConstruct = topicMap.CreateAssociation(topicMap.CreateTopic(), topicMap.CreateTopic());
 
-			RemoveTopicUsedAsScopeTheme(scopedConstruct);
-		}
+            RemoveTopicUsedAsScopeTheme(scopedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsScopeThemeForOccurrence()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var scopedConstruct = topic.CreateOccurrence(topicMap.CreateTopic(),
-			                                             "MyOccurrence",
-			                                             topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsScopeThemeForOccurrence()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var scopedConstruct = topic.CreateOccurrence(topicMap.CreateTopic(),
+                                                         "MyOccurrence",
+                                                         topicMap.CreateTopic());
 
-			RemoveTopicUsedAsScopeTheme(scopedConstruct);
-		}
+            RemoveTopicUsedAsScopeTheme(scopedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsScopeThemeForVariant()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var name = topic.CreateName("MyName", topicMap.CreateTopic());
-			var scopedConstruct = name.CreateVariant("MyVariant", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsScopeThemeForVariant()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var name = topic.CreateName("MyName", topicMap.CreateTopic());
+            var scopedConstruct = name.CreateVariant("MyVariant", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsScopeTheme(scopedConstruct);
-		}
+            RemoveTopicUsedAsScopeTheme(scopedConstruct);
+        }
 
-		[Fact]
-		public void Remove_RemoveTopicUsedAsScopeThemeForName()
-		{
-			var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-			var topic = topicMap.CreateTopic();
-			var scopedConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
+        [Fact]
+        public void Remove_RemoveTopicUsedAsScopeThemeForName()
+        {
+            var topicMap = TopicMapSystem.CreateTopicMap(TestTM1);
+            var topic = topicMap.CreateTopic();
+            var scopedConstruct = topic.CreateName("MyName", topicMap.CreateTopic());
 
-			RemoveTopicUsedAsScopeTheme(scopedConstruct);
-		}
-		#endregion
+            RemoveTopicUsedAsScopeTheme(scopedConstruct);
+        }
+        #endregion
 
-		#endregion
-	}
+        #endregion
+    }
 }

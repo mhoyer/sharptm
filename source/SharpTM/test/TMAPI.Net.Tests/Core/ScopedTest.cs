@@ -1,15 +1,30 @@
-using TMAPI.Net.Core;
-using Xunit;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ScopedTest.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Defines the ScopedTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace TMAPI.Net.Tests.Core
+namespace TMAPI.Net.UnitTests.Core
 {
+    using Net.Core;
+    using Xunit;
+
     public class ScopedTest : TMAPITestCase
     {
-        #region Static Constants
-        public static readonly string TestTM1 = "mem://localhost/testm1";
-        #endregion
-
         #region Tests
+
         private static void Scope_AddScopeAndUsingInvalidScopeThrowsException(IScoped scoped)
         {
             var scopeSize = (scoped is IVariant) ? scoped.Scope.Count : 0;
@@ -52,44 +67,34 @@ namespace TMAPI.Net.Tests.Core
             scopeSize--;
 
             Assert.Equal(scopeSize, scoped.Scope.Count);
-            Assert.Throws<ModelConstraintException>("Using null as scope is not allowed.", () => scoped.AddTheme(null));
+            var e = Assert.Throws<ModelConstraintException>("Using null as scope is not allowed.", () => scoped.AddTheme(null));
+            Assert.Equal(scoped, e.Reporter);
         }
 
         [Fact]
         public void TestAssociation()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-
-            Scope_AddScopeAndUsingInvalidScopeThrowsException(topicMap.CreateAssociation(topicMap.CreateTopic()));
+            Scope_AddScopeAndUsingInvalidScopeThrowsException(CreateAssociation());
         }
 
         [Fact]
         public void TestOccurrence()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var topic = topicMap.CreateTopic();
-
-            Scope_AddScopeAndUsingInvalidScopeThrowsException(topic.CreateOccurrence(topicMap.CreateTopic(), "Occurrence"));
+            Scope_AddScopeAndUsingInvalidScopeThrowsException(CreateOccurrence());
         }
 
         [Fact]
         public void TestName()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var topic = topicMap.CreateTopic();
-
-            Scope_AddScopeAndUsingInvalidScopeThrowsException(topic.CreateName("Name"));
+            Scope_AddScopeAndUsingInvalidScopeThrowsException(CreateName());
         }
 
         [Fact]
         public void TestVariant()
         {
-            var topicMap = topicMapSystem.CreateTopicMap(TestTM1);
-            var topic = topicMap.CreateTopic();
-            var name = topic.CreateName("Name");
-
-            Scope_AddScopeAndUsingInvalidScopeThrowsException(name.CreateVariant("Variant", topicMap.CreateTopic()));
+            Scope_AddScopeAndUsingInvalidScopeThrowsException(CreateVariant());
         }
+
         #endregion
     }
 }

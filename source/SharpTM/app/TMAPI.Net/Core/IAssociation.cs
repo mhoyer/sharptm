@@ -1,3 +1,22 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IAssociation.cs">
+//  TMAPI.Net was created collectively by the membership of the tmapinet-discuss mailing list 
+//  (https://lists.sourceforge.net/lists/listinfo/tmapinet-discuss) with support by the 
+//  tmapi-discuss mailing list (http://lists.sourceforge.net/mailman/listinfo/tmapi-discuss),
+//  and is hereby released into the public domain; and comes with NO WARRANTY.
+//  
+//  No one owns TMAPI.Net: you may use it freely in both commercial and
+//  non-commercial applications, bundle it with your software
+//  distribution, include it on a CD-ROM, list the source code in a
+//  book, mirror the documentation at your own web site, or use it in
+//  any other way you see fit.
+// </copyright>
+// <summary>
+//   Represents an <a href="http://www.isotopicmaps.org/sam/sam-model/#sect-association">
+//   association item</a>.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace TMAPI.Net.Core
 {
     using System.Collections.ObjectModel;
@@ -64,7 +83,8 @@ namespace TMAPI.Net.Core
         /// A newly created association role.
         /// </returns>
         /// <exception cref="T:TMAPI.Net.Core.ModelConstraintException">
-        /// If the <paramref name="roleType"/> or <paramref name="player"/> is <c>null</c>.
+        /// If the <paramref name="roleType"/> or <paramref name="player"/> is <c>null</c> or 
+        /// if <paramref name="roleType"/> or <paramref name="player"/> belongs to another topic map.
         /// </exception>
         IRole CreateRole(ITopic roleType, ITopic player);
 
