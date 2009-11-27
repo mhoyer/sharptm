@@ -106,8 +106,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() =>
 				{
 					topicMapDTO =
-						xtmConnector.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
-					topicMapDTO.ItemIdentities.Add(TestHelper.CreateLocator("music.xtm"));
+						xtmConnector.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm), "http://sharptm.de/test/music.xtm/");
 				};
 
 		Because of_mapping_the_music_topic_map_DTO = () => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);

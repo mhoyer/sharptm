@@ -27,6 +27,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 			_bridge = bridge;
 		}
 
+		[Obsolete]
 		public ITopicMap Import(object id)
 		{
 			return Load(id, null);
@@ -40,15 +41,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 		public ITopicMap Load(object id, string baseLocator)
 		{
 			TopicMapDTO topicMapDTO = _connector.Load(id);
-
-			if (baseLocator != null)
-			{
-				topicMapDTO.ItemIdentities.Insert(0, new LocatorDTO() { HRef = baseLocator });
-			}
-			else if(topicMapDTO.ItemIdentities.Count == 0)
-			{
-				throw new DataInterchangeException(String.Format("Unable to load TopicMap from {0}. At least one item identifier required for a topic map.", id));
-			}
+			topicMapDTO.BaseLocator = baseLocator;
 
 			try
 			{

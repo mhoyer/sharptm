@@ -21,7 +21,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 		Given an_XMT_file = () => xtm = typeof(When_loading_the_music_xtm).Namespace + ".music.xtm";
 
 		Because of_loading_the_topic_map_DTO = 
-			() => topicMapDTO = cnx.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+			() => topicMapDTO = cnx.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm), "http://sharptm.de/test/");
 
 		It should_create_a_DTO = () => topicMapDTO.ShouldBeType<TopicMapDTO>();
 		It should_have_read_correct_number_of_associations =
@@ -49,7 +49,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Repositories.XTM.Tests
 
 		Given an_XMT_file = () => xtm = typeof(When_loading_the_opera_xtm).Namespace + ".opera.xtm";
 
-		Because of_mapping_the_topic_map_DTO = () => topicMapDTO = cnx.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm));
+		Because of_mapping_the_topic_map_DTO = () => topicMapDTO = cnx.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(xtm), "http://sharptm.de/test/");
 
 		It should_create_a_DTO = () => topicMapDTO.ShouldBeType<TopicMapDTO>();
 

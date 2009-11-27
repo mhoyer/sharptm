@@ -26,12 +26,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Mapper.FromDTO
 		{
 			if (!Uri.IsWellFormedUriString(locator, UriKind.Absolute))
 			{
+				var baseLocator = TopicMapIndex.GetBaseLocatorByTopicMap(topicMap);
+
 				if (locator[0] == '#')
 				{
 					locator = locator.Remove(0, 1);
 				}
 
-				locator = string.Format("{0}#{1}", topicMap.TopicMap.ItemIdentifiers[0].Reference, locator);
+				locator = string.Format("{0}#{1}", baseLocator, locator);
 			}
 
 			return topicMap.CreateLocator(locator);

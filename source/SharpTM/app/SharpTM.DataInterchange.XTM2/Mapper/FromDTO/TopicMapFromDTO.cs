@@ -3,8 +3,8 @@
 // </copyright>
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
+
 using Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs;
-using Pixelplastic.TopicMaps.SharpTM.Helper;
 using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Mapper.FromDTO
@@ -42,17 +42,8 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.Mapper.FromDTO
 
 		public static ITopicMap Create(ITopicMapSystem topicMapSystem, TopicMapDTO source)
 		{
-			if (source.ItemIdentities.Count == 0)
-			{
-				throw new MappingException("Unable to create Topic Map without identifiers.");
-			}
-
-			return Create(topicMapSystem, source.ItemIdentities[0].HRef, source);
-		}
-
-		public static ITopicMap Create(ITopicMapSystem topicMapSystem, string iri, TopicMapDTO source)
-		{
-			ITopicMap target = topicMapSystem.CreateTopicMap(iri);
+			ITopicMap target = topicMapSystem.CreateTopicMap(source.BaseLocator);
+			TopicMapIndex.Register(target, source.BaseLocator);
 			mapper.Map(source, target);
 			ReifiableFromDTO.Instance.Map(source, target);
 

@@ -30,11 +30,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 				throw new ArgumentNullException("id");
 			}
 
-			if (typeof(Stream).IsAssignableFrom(id.GetType()))
-			{
-				return Load((Stream) id);
-			}
-
 			return Load(id.ToString());
 		}
 
@@ -46,6 +41,19 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2
 		public TConstruct Load(Stream xtmStream)
 		{
 			return SerializeAction.Invoke(xtmStream);
+		}
+
+		public TopicMapDTO Load(Stream xtmStream, string baseLocator)
+		{
+			TopicMapDTO result = SerializeAction.Invoke(xtmStream) as TopicMapDTO;
+			
+			if (result == null)
+			{
+				throw new DataInterchangeException("Unable to convert from stream to topic map.");
+			}
+
+			result.BaseLocator = baseLocator;
+			return result;
 		}
 
 		public void Save(TConstruct dto)
