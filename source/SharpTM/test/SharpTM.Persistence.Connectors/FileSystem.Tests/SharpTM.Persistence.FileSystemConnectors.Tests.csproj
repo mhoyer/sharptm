@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\..\SharedAssemblyInfo.cs" />
+    <Compile Include="With_locators.cs" />
     <Compile Include="XTMConnectorTests.cs" />
     <Compile Include="With_XTMConnector.cs" />
   </ItemGroup>
