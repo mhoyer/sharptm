@@ -100,6 +100,7 @@
     <Compile Include="Mapper\FromDTO\ScopeFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\TopicMapFromDTO.cs" />
+    <Compile Include="TopicMapIndex.cs" />
     <Compile Include="Mapper\FromDTO\TypeFromDTO.cs" />
     <Compile Include="Mapper\FromDTO\VariantFromDTO.cs" />
     <Compile Include="Mapper\ToDTO\AssociationToDTO.cs" />
