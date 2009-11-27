@@ -4,6 +4,7 @@
 // <author>Marcel Hoyer</author>
 // <email>mhoyer AT pixelplastic DOT de</email>
 
+using System;
 using System.Collections.Generic;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
@@ -13,6 +14,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities
 		public virtual IList<AssociationEntity> Associations { get; set; }
 		public virtual IList<TopicEntity> Topics { get; set; }
 		public virtual TopicEntity Reifier { get; set; }
+		public virtual string BaseLocator { get; set; }
 
 		public TopicMapEntity()
 		{

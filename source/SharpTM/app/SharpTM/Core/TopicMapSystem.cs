@@ -30,6 +30,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 		readonly Dictionary<string, bool> enabledFeatures;
+		readonly Dictionary<ILocator, ITopicMap> _locators;
 		readonly TopicMapMediator _topicMapMediator;
 
 		/// <summary>
@@ -42,6 +43,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			Repository = topicMapRepository;
 			_topicMapMediator = new TopicMapMediator(topicMapRepository, this);
+			_locators = new Dictionary<ILocator, ITopicMap>();
 			enabledFeatures = features ?? new Dictionary<string, bool>();
 		}
 
@@ -64,17 +66,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			get
 			{
-			    List<ILocator> locators = new List<ILocator>();
-
-				foreach (TopicMap topicMap in _topicMapMediator.GetAll())
-				{
-					foreach (ILocator identifier in topicMap.ItemIdentifiers)
-					{
-						locators.Add(identifier);
-					}
-				}
-
-				return locators.AsReadOnly();
+				return new ReadOnlyCollection<ILocator>(new List<ILocator>(_locators.Keys));
 			}
 		}
 		#endregion
@@ -109,9 +101,9 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 		/// <summary>
 		/// Creates a new <see cref="T:TMAPI.Net.Core.ITopicMap"/> and stores it within the system under the
-		/// specified <paramref name="iri"/>.
+		/// specified <paramref name="storageAddress"/>.
 		/// </summary>
-		/// <param name="iri">The address which should be used to store the <see cref="T:TMAPI.Net.Core.ITopicMap"/>.
+		/// <param name="storageAddress">The address which should be used to store the <see cref="T:TMAPI.Net.Core.ITopicMap"/>.
 		/// <seealso href="http://www.ietf.org/rfc/rfc3987.txt">RFC: Internationalized Resource Identifiers (IRIs)</seealso></param>
 		/// <returns>
 		/// The newly created <see cref="T:TMAPI.Net.Core.ITopicMap"/> instance.
@@ -119,9 +111,30 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// <exception cref="TopicMapExistsException">
 		/// If this <see cref="ITopicMapSystem"/> already manages a <see cref="ITopicMap"/> under the specified IRI.
 		/// </exception>
-		public ITopicMap CreateTopicMap(ILocator iri)
+		public ITopicMap CreateTopicMap(ILocator storageAddress)
 		{
-			return CreateTopicMap(iri.Reference);
+#if LOG4NET
+			log.InfoFormat("Creating a TopicMap by locator '{0}'.", iri);
+#endif
+			if (storageAddress == null)
+				throw new ArgumentException("At least one locator required for a TopicMap.");
+
+			if (_topicMapMediator.Exists(entity => entity.BaseLocator == storageAddress.Reference))
+			{
+				string message = string.Format(
+					"A topic map with locator {0} still exists in this topic map system.",
+					storageAddress);
+
+				throw new TopicMapExistsException(message);
+			}
+
+			TopicMapEntity topicMapEntity = new TopicMapEntity();
+			TopicMap topicMap = _topicMapMediator.Create(topicMapEntity, storageAddress);
+			_locators.Add(storageAddress, topicMap);
+
+			topicMap.OnRemove += TopicMap_OnRemove;
+
+			return topicMap;
 		}
 
 		/// <summary>
@@ -137,29 +150,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopicMap CreateTopicMap(string iri)
 		{
-#if LOG4NET
-			log.InfoFormat("Creating a TopicMap by locator '{0}'.", iri);
-#endif
-
-			if (_topicMapMediator.Exists(entity => entity.ItemIdentifiers.Contains(iri)))
-			{
-				string message = string.Format(
-					"A topic map with locator {0} still exists in this topic map system.",
-					iri);
-
-				throw new TopicMapExistsException(message);
-			}
-
-			if (String.IsNullOrEmpty(iri))
-				throw new ArgumentException("At least one item identifier required for a TopicMap.");
-			
-			TopicMapEntity topicMapEntity = new TopicMapEntity();
-			topicMapEntity.ItemIdentifiers.Add(iri);
-			TopicMap topicMap = _topicMapMediator.Create(topicMapEntity);
-			
-			topicMap.OnRemove += TopicMap_OnRemove;
-			
-			return topicMap;
+			return CreateTopicMap(CreateLocator(iri));
 		}
 
 		/// <summary>
@@ -198,7 +189,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		{
 			if (String.IsNullOrEmpty(iri)) return null;
 
-			return _topicMapMediator.Find(entity => entity.ItemIdentifiers.Contains(iri));
+			return _topicMapMediator.Find(entity => entity.BaseLocator == iri);
 		}
 
 		/// <summary>
@@ -254,6 +245,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		internal void RemoveTopicMap(TopicMap topicMap)
 		{
 			if (topicMap == null) return;
+			_locators.Remove(topicMap.BaseLocator);
 			_topicMapMediator.Delete(topicMap);
 		}
 

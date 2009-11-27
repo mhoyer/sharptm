@@ -21,7 +21,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 			() =>
 				{
 					topicMapDTO = new TopicMapDTO();
-					topicMapDTO.ItemIdentities.Add(topicMapIdentifier);
+					topicMapDTO.BaseLocator = topicMapIdentifier.HRef;
 				};
 
 	}

@@ -18,11 +18,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.Persistence.Tests.FromDTO
 {
 	public class When_mapping_from_topic_map_DTO_without_identifiers : With_TopicMapDTO
 	{
-		static Exception exception; 
+		static ITopicMap topicMap; 
 
 		Given a_topic_map_DTO_without_ids = () => topicMapDTO.ItemIdentities.Clear();
-		Because of_mapping = () => exception = Catch.Exception(() => TopicMapFromDTO.Create(topicMapSystem, topicMapDTO));
-		It should_throw_an_exception = () => exception.ShouldBeType<MappingException>();
+		Because of_mapping = () => topicMap = TopicMapFromDTO.Create(topicMapSystem, topicMapDTO);
+		It should_create_an_empty_topic_map = () => topicMap.ShouldNotBeNull();
 	}
 
 	public class When_mapping_from_topic_map_DTO : With_TopicMapDTO

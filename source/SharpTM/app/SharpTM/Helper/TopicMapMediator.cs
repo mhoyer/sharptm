@@ -7,6 +7,7 @@
 using Pixelplastic.TopicMaps.SharpTM.Core;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts;
 using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
+using TMAPI.Net.Core;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Helper
 {
@@ -15,6 +16,14 @@ namespace Pixelplastic.TopicMaps.SharpTM.Helper
 		public TopicMapMediator(ITopicMapRepository repository, TopicMapSystem topicMapSystem)
 			: base(repository, entity => new TopicMap(entity, topicMapSystem))
 		{
+		}
+
+		public TopicMap Create(TopicMapEntity entity, ILocator baseLocator)
+		{
+			var topicMap = Create(entity);
+			topicMap.BaseLocator = baseLocator;
+
+			return topicMap;
 		}
 	}
 }

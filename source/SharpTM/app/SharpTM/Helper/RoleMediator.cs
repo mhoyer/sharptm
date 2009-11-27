@@ -10,11 +10,11 @@ using Pixelplastic.TopicMaps.SharpTM.Persistence.Contracts.Entities;
 
 namespace Pixelplastic.TopicMaps.SharpTM.Helper
 {
-	public class RoleMediator : Mediator<Role, RoleEntity>
-	{
-		public RoleMediator(IRoleRepository repository, Association association)
-			: base(repository, entity => new Role(entity, association))
-		{
-		}
-	}
+	//public class RoleMediator : Mediator<Role, RoleEntity>
+	//{
+	//    public RoleMediator(IRoleRepository repository, Association association)
+	//        : base(repository, entity => new Role(entity, association))
+	//    {
+	//    }
+	//}
 }

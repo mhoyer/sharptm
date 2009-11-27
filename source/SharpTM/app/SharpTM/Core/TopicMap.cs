@@ -47,6 +47,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 
 			// TODO How to handle enableAutoUpdate parameter? app.config?
 			_constructs = new List<IConstruct>();
+			_constructs.Add(this);
 			_literalIndex = new LiteralIndex(topicMapSystem, false);
 			_scopedIndex = new ScopedIndex(topicMapSystem, false);
 			_typedIndex = new TypedInstanceIndex(topicMapSystem, false);
@@ -150,6 +151,18 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			private set;
 		}
 
+		public ILocator BaseLocator
+		{
+			get
+			{
+				return CreateLocator(Entity.BaseLocator);
+			} 
+			internal set
+			{
+				Entity.BaseLocator = value.Reference;
+			}
+		}
+
 		#region ITopicMap methods
 		/// <summary>
 		///     Closes use of this topic map instance.
@@ -187,6 +200,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (initialThemes == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The optional initial themes of an association MUST NOT be null.",
 					new ArgumentNullException("initialThemes"));
 			}
@@ -215,6 +229,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (associationType == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"The type of an association MUST NOT be null.",
 					new ArgumentNullException("associationType"));
 			}
@@ -265,8 +280,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 		/// </returns>
 		public ITopic CreateTopic()
 		{
-			ILocator initialTopicMapItemIdentifier = ItemIdentifiers[0];
-			ILocator uniqueTopicItemIdentifier = initialTopicMapItemIdentifier.Resolve(Guid.NewGuid().ToString());
+			ILocator uniqueTopicItemIdentifier = BaseLocator.Resolve(Guid.NewGuid().ToString());
 
 			return CreateTopicByItemIdentifier(uniqueTopicItemIdentifier);
 		}
@@ -301,6 +315,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (itemIdentifier == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"Topics need at least one item identifier, subject identifier or subject locator.",
 					new ArgumentNullException("itemIdentifier"));
 			}
@@ -321,7 +336,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 					itemIdentifier.Reference,
 					Id);
 
-				throw new IdentityConstraintException(message);
+				throw new IdentityConstraintException(this, construct, itemIdentifier, message);
 			}
 
 			// lookup topics by subject identifier
@@ -370,6 +385,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (subjectIdentifier == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"Topics need at least one item identifier, subject identifier or subject locator.",
 					new ArgumentNullException("subjectIdentifier"));
 			}
@@ -420,6 +436,7 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 			if (subjectLocator == null)
 			{
 				throw new ModelConstraintException(
+					this,
 					"Topics need at least one item identifier, subject identifier or subject locator.",
 					new ArgumentNullException("subjectLocator"));
 			}
@@ -486,11 +503,6 @@ namespace Pixelplastic.TopicMaps.SharpTM.Core
 #if LOG4NET
 			log.DebugFormat("Looking up construct by item identifier '{0}'.", itemIdentifier);
 #endif
-
-			if (ItemIdentifiers.Contains(itemIdentifier))
-			{
-				return this;
-			}
 
 			foreach (IConstruct construct in _constructs)
 			{
