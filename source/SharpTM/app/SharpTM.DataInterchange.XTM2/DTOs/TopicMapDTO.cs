@@ -79,5 +79,11 @@ namespace Pixelplastic.TopicMaps.SharpTM.DataInterchange.XTM2.DTOs
 		/// <value>The XTM version.</value>
 		[XmlAttribute("version")]
 		public string Version { get; set; }
+
+		/// <summary>
+		/// Prefix for <see cref="LocatorDTO"/> instances that have a relative <see cref="LocatorDTO.HRef"/> property.
+		/// </summary>
+		[XmlIgnore]
+		public string BaseLocator { get; set;}
 	}
 }
